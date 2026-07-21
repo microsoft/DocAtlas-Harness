@@ -41,7 +41,7 @@ dependencies = [
 # Backends we DON'T pull by default to keep the install lean.
 copilot = []                  # OpenAI-compatible chat.completions client (stdlib only)
 gpu = [                        # heavier CUDA wheels; install on a GPU host
-    "torch>=2.2",
+    "torch>=2.13.0",
 ]
 dev = [
     "pytest>=8.0",
