@@ -18,7 +18,7 @@ dependencies = [
     # ── PDF I/O (Read skill, build-md, build-tree shared helpers) ──
     "PyPDF2>=3.0",
     "pymupdf>=1.23",
-    "pillow>=10.0",
+    "pillow>=12.3.0",
     "pycryptodome>=3.20",   # PyPDF2 dep for encrypted PDFs
 
     # ── PDF → markdown / figures (build-md, Docling backend) ──
