@@ -25,7 +25,10 @@ original copyright notice intact.
 
 ## What was modified
 
-Nothing. The Python source is copied verbatim. The directory contains:
+One local security patch: `PyPDF2` → `pypdf` (its drop-in successor) throughout
+`utils.py`, to drop the deprecated PyPDF2 dependency (CVE-2023-36464 /
+GHSA-4vvm-4w3v-6mr8 — possible infinite loop on crafted PDFs). Otherwise the
+Python source is copied verbatim. The directory contains:
 
 - `__init__.py` — re-exports `page_index_main`, `config`, `utils.*`
 - `page_index.py` — text-mode tree construction
@@ -45,7 +48,7 @@ is a reasonable trade.
 
 PageIndex's `requirements.txt` lists:
 
-- `openai`, `pymupdf`, `PyPDF2`, `python-dotenv`, `tiktoken`, `pyyaml`,
+- `openai`, `pymupdf`, `pypdf`, `python-dotenv`, `tiktoken`, `pyyaml`,
   `azure-identity`, `pycryptodome`
 
 All of these are already pinned in DocAtlas's `pyproject.toml`, so

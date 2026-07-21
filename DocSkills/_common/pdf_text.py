@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import re
 
-import PyPDF2
+import pypdf
 
 
 def get_pages_text(
@@ -25,7 +25,7 @@ def get_pages_text(
     """
     found: dict[int, str] = {}
     missing: list[int] = []
-    reader = PyPDF2.PdfReader(pdf_path)
+    reader = pypdf.PdfReader(pdf_path)
     n_pages = len(reader.pages)
     for p in page_nums:
         try:
@@ -49,4 +49,4 @@ def has_real_text(pages: dict[int, str]) -> bool:
 
 
 def page_count(pdf_path: str) -> int:
-    return len(PyPDF2.PdfReader(pdf_path).pages)
+    return len(pypdf.PdfReader(pdf_path).pages)
