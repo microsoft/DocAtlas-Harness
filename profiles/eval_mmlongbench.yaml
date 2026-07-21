@@ -1,0 +1,23 @@
+# Profile for MMLongBench-Doc batch evaluation.
+#
+# Usage:
+#   bash scripts/run_eval.sh --profile profiles/eval_mmlongbench.yaml
+
+skills:
+  - Read
+  - Note
+  - Review
+  - Search
+
+max_turns: 50
+memory: true
+tree_annotate: true
+figure_min_size: 100
+figure_min_bytes: 2048
+
+# ── Eval-specific ──
+n_jobs: 8
+vision: true
+use_markdown: true
+reasoning_effort: high
+reasoning_summary: detailed

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Note",
+  "description": "Append a progress-analysis note to the session timeline. Use after any non-trivial observation so it is not lost across turns. Each note captures what you found, what you plan next, and the evidence backing the finding.",
+  "type": "object",
+  "properties": {
+    "found": {
+      "type": "string",
+      "description": "1-3 sentence summary of what you just learned. Anchor to specific pages when possible."
+    },
+    "plan": {
+      "type": "string",
+      "description": "What you intend to do next (which page to read, which query to search, etc.)."
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Supporting evidence entries. Each ties a claim to a page.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["text", "table", "image"],
+            "default": "text"
+          },
+          "source": {
+            "type": "string",
+            "description": "Page reference string, e.g. 'Page 5' or 'Page 5, Revenue table'."
+          },
+          "content": {
+            "type": "string",
+            "description": "The quoted excerpt or caption."
+          },
+          "filename": {
+            "type": "string",
+            "description": "Only for type='image': the image filename from a figure ref."
+          }
+        },
+        "required": ["source"],
+        "additionalProperties": false
+      }
+    },
+    "side_effect_policy": {
+      "type": "string",
+      "enum": ["auto", "save_note_only", "save_and_archive", "save_and_enrich", "save_archive_and_enrich"],
+      "default": "auto",
+      "description": "Optional override for what happens after the note is saved. 'auto' uses the harness defaults (archive earlier Read outputs if memory is enabled, and write tree page_findings if tree-annotate is enabled). Use 'save_note_only' for checkpoints you don't want to trigger archive/enrich; use the others to force a specific side effect."
+    }
+  },
+  "required": ["found"],
+  "additionalProperties": false
+}

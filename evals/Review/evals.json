@@ -1,0 +1,17 @@
+{
+  "skill_name": "Review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "With a session.json containing 3 analysis notes (1: 'sky is blue on page 3', 2: 'grass is green on page 5', 3: 'sky is gray on page 7'), call Review with query 'sky color'. Expect selected_note_ids contains 1 and 3 but not 2.",
+      "expected_output": "selected_note_ids includes 1 and 3; may or may not include 2 depending on strictness.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "With zero saved notes, call Review. Expect a non-error payload saying nothing is saved yet.",
+      "expected_output": "text contains 'No analysis notes'; selected_note_ids is [].",
+      "files": []
+    }
+  ]
+}

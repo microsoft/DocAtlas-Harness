@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docatlas"
+version = "0.3.0"
+description = "DocAtlas — a document-understanding harness with portable DocSkills."
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    # ── LLM / runtime core ──
+    "openai>=1.40",
+    "azure-identity>=1.15",
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+
+    # ── PDF I/O (Read skill, build-md, build-tree shared helpers) ──
+    "PyPDF2>=3.0",
+    "pymupdf>=1.23",
+    "pillow>=10.0",
+    "pycryptodome>=3.20",   # PyPDF2 dep for encrypted PDFs
+
+    # ── PDF → markdown / figures (build-md, Docling backend) ──
+    # Heron layout + TableFormer + EasyOCR; CPU-only by default,
+    # uses GPU automatically if torch sees one. ~2 GB of model weights
+    # downloaded from HuggingFace on first run.
+    "docling>=2.50,<3",
+    "docling-core>=2.0",
+
+    # ── Tree construction (build-tree wraps PageIndex) ──
+    # The `pageindex` package is **vendored** at vendor/pageindex/ — see
+    # vendor/pageindex/UPSTREAM.md for provenance. No PyPI install needed;
+    # `tasks/preprocess/build_tree.py` adds vendor/ to sys.path at runtime.
+    # We list pageindex's only non-trivial dep (tiktoken) here so it lands
+    # in our uv.lock.
+    "tiktoken>=0.7",
+]
+
+[project.optional-dependencies]
+# Backends we DON'T pull by default to keep the install lean.
+copilot = []                  # OpenAI-compatible chat.completions client (stdlib only)
+gpu = [                        # heavier CUDA wheels; install on a GPU host
+    "torch>=2.2",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[project.scripts]
+harness = "harness.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["harness*", "tasks*", "scoring*", "vendor*"]

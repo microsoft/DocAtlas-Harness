@@ -1,0 +1,49 @@
+# ── runtime artifacts ──
+outputs/
+logs/
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── venv ──
+.venv/
+venv/
+env/
+
+# ── secrets ──
+.env
+.env.local
+
+# ── editor / OS ──
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# ── runtime / dev artifacts not for upstream ──
+# (all session/tree/demo outputs live under outputs/, ignored above)
+# Benchmark corpora are not redistributed here — see README "Data & benchmarks".
+data/MMLongBench/
+
+# ── XL-DocBench: unpublished internal benchmark, not part of this release ──
+XL-DocBench/
+scoring/score_xldocbench.py
+
+# ── paper sources / archives (not shipped) ──
+*.zip
+
+# ── agent/session runtime (not for upstream) ──
+.claude/
+latest_version.txt
+
+# also-local
+*.bak
