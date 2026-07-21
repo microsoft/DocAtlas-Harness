@@ -6,7 +6,7 @@ images. Also provides figure metadata catalogs and sub-image pixel fetch —
 the unified content tool for pages, images, and figures.
 
 Text modes:
-  * ``text`` (default)   — raw text via PyPDF2
+  * ``text`` (default)   — raw text via pypdf
   * ``markdown``         — MinerU per-page markdown (auto when --markdown-dir
                            supplied AND that doc has markdown available)
 

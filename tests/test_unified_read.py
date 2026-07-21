@@ -22,12 +22,12 @@ _MINI_DOC = _FIXTURE_DIR / "mini_doc"
 
 
 def _find_python() -> str:
-    """Find a Python with PyPDF2 + PIL available."""
+    """Find a Python with pypdf + PIL available."""
     # Try conda pageindex env first
     try:
         r = subprocess.run(
             ["conda", "run", "-n", "pageindex", "python", "-c",
-             "import PyPDF2; import PIL; print('ok')"],
+             "import pypdf; import PIL; print('ok')"],
             capture_output=True, text=True, timeout=15,
         )
         if r.returncode == 0 and "ok" in r.stdout:
@@ -37,7 +37,7 @@ def _find_python() -> str:
     # Try sys.executable
     try:
         r = subprocess.run(
-            [sys.executable, "-c", "import PyPDF2; import PIL; print('ok')"],
+            [sys.executable, "-c", "import pypdf; import PIL; print('ok')"],
             capture_output=True, text=True, timeout=10,
         )
         if r.returncode == 0 and "ok" in r.stdout:
@@ -61,7 +61,7 @@ def _run_read(extra_args: list[str], env_override: dict[str, str] | None = None)
     elif _PYTHON_MODE == "sys":
         cmd = [sys.executable, str(_READ_SCRIPT)] + extra_args
     else:
-        pytest.skip("No Python with PyPDF2+PIL found")
+        pytest.skip("No Python with pypdf+PIL found")
 
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=60, env=env)
     assert r.returncode in (0, 2), f"Read CLI failed: {r.stderr}"
@@ -75,7 +75,7 @@ needs_fixtures = pytest.mark.skipif(
 
 needs_python = pytest.mark.skipif(
     not _PYTHON_MODE,
-    reason="No Python environment with PyPDF2+PIL available",
+    reason="No Python environment with pypdf+PIL available",
 )
 
 
@@ -139,7 +139,7 @@ def test_text_mode_returns_empty_figure_meta():
     import tempfile
     # Create minimal PDF via the available Python
     pdf_script = (
-        "import sys; from PyPDF2 import PdfWriter; "
+        "import sys; from pypdf import PdfWriter; "
         "w = PdfWriter(); w.add_blank_page(72,72); "
         "w.write(open(sys.argv[1], 'wb'))"
     )
