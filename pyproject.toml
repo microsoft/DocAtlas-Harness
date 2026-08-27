@@ -16,7 +16,7 @@ dependencies = [
     "tqdm>=4.66",
 
     # ── PDF I/O (Read skill, build-md, build-tree shared helpers) ──
-    "pypdf>=5.0",
+    "pypdf>=6.15.0",
     "pymupdf>=1.23",
     "pillow>=12.3.0",
     "pycryptodome>=3.20",   # optional crypto backend for encrypted PDFs
