@@ -22,12 +22,8 @@ from typing import Any, Protocol
 import yaml
 
 from . import __version__
-from .agent.dispatch import SkillDispatcher
-from .agent.loop import AgentLoop
-from .agent.post_note import PostNoteHooks
 from .config import HarnessConfig
-from .llm.factory import make_backend
-from .prompt_composer import build_tool_schemas, compose_system_prompt
+from .runtime import create_agent_runtime
 from .session import DocEnv, SessionStore
 from .skill_loader import load_skills
 
@@ -175,6 +171,26 @@ def cmd_init_session(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_tui(args: argparse.Namespace) -> int:
+    """Launch the interactive document workbench."""
+    from .ui.app import TUIOptions, run_tui
+
+    options = TUIOptions(
+        paths=list(getattr(args, "paths", None) or []),
+        recursive=bool(getattr(args, "recursive", False)),
+        force=bool(getattr(args, "force", False)),
+        assume_yes=bool(getattr(args, "assume_yes", False)),
+        workspace_root=getattr(args, "workspace_root", None),
+        model=getattr(args, "model", None),
+        max_turns=getattr(args, "max_turns", None),
+        max_documents=int(getattr(args, "max_documents", 100)),
+        show_reasoning=bool(getattr(args, "show_reasoning", False)),
+        memory=bool(getattr(args, "memory", True)),
+        tree_annotate=bool(getattr(args, "tree_annotate", True)),
+    )
+    return run_tui(options)
+
+
 def cmd_chat(args: argparse.Namespace) -> int:
     # Apply profile defaults (CLI flags override profile values)
     if getattr(args, "profile", None):
@@ -288,7 +304,16 @@ def cmd_chat(args: argparse.Namespace) -> int:
         tree_json_path=args.tree_json,
         doc_map=doc_map,
     )
-    session = SessionStore.new(doc_env, question=args.message)
+    runtime = create_agent_runtime(
+        doc_env=doc_env,
+        question=args.message,
+        skills=skills,
+        config=cfg,
+        figure_min_size=args.figure_min_size,
+        figure_min_bytes=args.figure_min_bytes,
+        max_input_images=max_input_images,
+    )
+    session = runtime.session
     renderer = None
     output_format = args.output_format or "text"
     if not args.quiet and output_format == "text":
@@ -300,55 +325,7 @@ def cmd_chat(args: argparse.Namespace) -> int:
             show_reasoning=bool(args.show_reasoning),
         )
         renderer.print_session()
-
-    backend = make_backend(cfg)
-
-    # Pass aux-LLM settings to every skill subprocess so Review (and future
-    # llm-using skills) pick up the right endpoint/model.
-    aux_env: dict[str, str] = {}
-    if cfg.aux_endpoint:
-        aux_env["HARNESS_AUX_LLM_ENDPOINT"] = cfg.aux_endpoint
-    if cfg.aux_api_version:
-        aux_env["HARNESS_AUX_LLM_API_VERSION"] = cfg.aux_api_version
-    if cfg.aux_model:
-        aux_env["HARNESS_AUX_LLM_MODEL"] = cfg.aux_model
-    aux_env["HARNESS_ENABLE_MEMORY"] = "1" if cfg.enable_memory else "0"
-    aux_env["HARNESS_ENABLE_TREE_ANNOTATE"] = "1" if cfg.enable_tree_annotate else "0"
-    aux_env["HARNESS_FIGURE_MIN_SIZE"] = str(args.figure_min_size)
-    aux_env["HARNESS_FIGURE_MIN_BYTES"] = str(args.figure_min_bytes)
-
-    dispatcher = SkillDispatcher(
-        skills,
-        session_args={
-            "pdf": doc_env.pdf_path,
-            "markdown_dir": doc_env.markdown_dir,
-            "doc_id": doc_env.doc_id,
-            "doc_map": doc_env.doc_map,
-        },
-        python_executable=cfg.skill_python,
-        session_file=session.path,
-        extra_env=aux_env,
-    )
-
-    loop = AgentLoop(
-        backend=backend,
-        dispatcher=dispatcher,
-        tool_schemas=build_tool_schemas(skills),
-        system_prompt=compose_system_prompt(
-            skills, memory_enabled=cfg.enable_memory, tree_annotate_enabled=cfg.enable_tree_annotate
-        ),
-        max_turns=cfg.max_turns,
-        image_detail=cfg.image_detail,
-        post_note_hooks=PostNoteHooks(
-            archive_enabled=cfg.enable_memory,
-            tree_annotate_enabled=cfg.enable_tree_annotate,
-        )
-        if (cfg.enable_memory or cfg.enable_tree_annotate)
-        else None,
-        session_store=session,
-        callbacks=renderer.as_callbacks() if renderer else None,
-        max_input_images=max_input_images,
-    )
+    runtime.loop.callbacks = renderer.as_callbacks() if renderer else None
 
     # In multi-doc chats, prepend a one-shot preamble listing the doc_ids
     # so the model knows what values it can pass to Read/Search's `doc_id`.
@@ -366,7 +343,7 @@ def cmd_chat(args: argparse.Namespace) -> int:
         user_message = "\n".join(bits)
 
     try:
-        result = loop.run(user_message)
+        result = runtime.loop.run(user_message)
     except KeyboardInterrupt:
         if renderer:
             renderer.abort()
@@ -399,7 +376,61 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Show informational SDK and HTTP logs (may include endpoint hostnames).",
     )
-    sub = p.add_subparsers(dest="cmd", required=True)
+    p.set_defaults(func=cmd_tui)
+    sub = p.add_subparsers(dest="cmd")
+
+    tui = sub.add_parser("tui", help="Open the interactive document workbench (default).")
+    tui.add_argument(
+        "paths",
+        nargs="*",
+        help="Optional PDF files or folders; prefix with @ for TUI-style selection.",
+    )
+    tui.add_argument(
+        "--recursive", action="store_true", help="Search selected folders recursively."
+    )
+    tui.add_argument("--force", action="store_true", help="Rebuild cached Markdown and trees.")
+    tui.add_argument(
+        "-y",
+        "--yes",
+        dest="assume_yes",
+        action="store_true",
+        help="Accept the initial document selection without confirmation.",
+    )
+    tui.add_argument("--workspace-root", help="Override the outputs/tui cache directory.")
+    tui.add_argument("--model", help="Override AZURE_OPENAI_DEPLOYMENT for this workbench.")
+    tui.add_argument("--max-turns", type=int, help="Maximum tool/model turns per question.")
+    tui.add_argument(
+        "--max-documents",
+        type=int,
+        default=100,
+        help="Maximum PDFs accepted from one selection (default: 100).",
+    )
+    tui.add_argument(
+        "--show-reasoning",
+        action="store_true",
+        help="Show API-provided reasoning summaries.",
+    )
+    tui.add_argument(
+        "--no-memory",
+        dest="memory",
+        action="store_false",
+        default=True,
+        help="Disable post-Note context archival.",
+    )
+    tui.add_argument(
+        "--no-tree-annotate",
+        dest="tree_annotate",
+        action="store_false",
+        default=True,
+        help="Disable session-local tree enrichment after Note calls.",
+    )
+    tui.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=argparse.SUPPRESS,
+        help="Show informational SDK and HTTP logs (may include endpoint hostnames).",
+    )
 
     init_session = sub.add_parser(
         "init-session",

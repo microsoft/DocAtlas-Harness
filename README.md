@@ -67,7 +67,7 @@ standard pipeline brings Torch and platform acceleration libraries. The first
 `build-md` run also downloads approximately 2 GB of document-layout models to
 the Hugging Face cache.
 
-## Run the Harness
+## Interactive TUI
 
 Copy the environment template and configure an Azure OpenAI deployment:
 
@@ -80,7 +80,46 @@ uv run --locked docatlas --help
 `harness` remains available as a compatibility alias, but new integrations
 should use the canonical `docatlas` command.
 
-Run the complete sample pipeline:
+Start the workbench with one command:
+
+```bash
+bash scripts/start_tui.sh
+# equivalent: uv run --locked docatlas
+```
+
+The opening screen accepts one PDF, multiple PDFs, or a directory. Type `@`
+and press Tab for path completion, or launch with documents already selected:
+
+```bash
+# One document
+bash scripts/start_tui.sh @report.pdf
+
+# Multiple documents (quote paths containing spaces)
+bash scripts/start_tui.sh @report.pdf @"annual report.pdf"
+
+# Every PDF in a folder; add --recursive to include subfolders
+bash scripts/start_tui.sh @reports/ --recursive
+```
+
+Selections are capped at 100 PDFs by default; use `--max-documents N` to
+increase the limit explicitly for a larger corpus.
+
+DocAtlas builds or reuses a content-aware workspace under `outputs/tui/`, then
+stays open for follow-up questions. Available commands are:
+
+| Command | Action |
+|---|---|
+| `@path.pdf` | Add a document using the short form. |
+| `/add @path...` | Add files or a directory and begin a new document conversation. |
+| `/new [@path...]` | Replace the active document set. |
+| `/files` | Show active documents. |
+| `/clear` | Clear conversation history but keep documents and cached preprocessing. |
+| `/rebuild` | Force Markdown and PageIndex regeneration. |
+| `/quit` | Exit; cached work remains available. |
+
+## Command-line workflows
+
+Run the complete non-interactive sample pipeline:
 
 ```bash
 bash scripts/demo_end_to_end.sh

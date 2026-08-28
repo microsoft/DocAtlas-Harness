@@ -1,25 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650" role="img" aria-labelledby="title desc">
   <title id="title">DocAtlas terminal interface</title>
-  <desc id="desc">A dark terminal showing the DocAtlas session, Search and Read tool calls, an evidence-grounded answer, and run statistics.</desc>
+  <desc id="desc">A dark terminal showing at-sign document selection, Search and Read tool calls, an evidence-grounded answer, and run statistics.</desc>
   <rect width="1100" height="650" rx="18" fill="#0d1117"/>
   <rect x="1" y="1" width="1098" height="648" rx="17" fill="none" stroke="#30363d" stroke-width="2"/>
   <circle cx="32" cy="29" r="7" fill="#ff5f56"/>
   <circle cx="56" cy="29" r="7" fill="#ffbd2e"/>
   <circle cx="80" cy="29" r="7" fill="#27c93f"/>
-  <text x="550" y="35" text-anchor="middle" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="15">docatlas chat</text>
+  <text x="550" y="35" text-anchor="middle" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="15">docatlas tui</text>
   <line x1="0" y1="52" x2="1100" y2="52" stroke="#30363d"/>
 
   <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18">
     <text x="34" y="88" fill="#58a6ff">╭─</text>
-    <text x="66" y="88" fill="#f0f6fc" font-weight="700">DocAtlas</text>
+    <text x="66" y="88" fill="#f0f6fc" font-weight="700">Open documents</text>
     <text x="34" y="119" fill="#8b949e">│</text>
-    <text x="66" y="119" fill="#8b949e">session</text>
-    <text x="185" y="119" fill="#c9d1d9">7a71c003...</text>
+    <text x="66" y="119" fill="#58a6ff">@report.pdf</text>
+    <text x="220" y="119" fill="#58a6ff">@annual_report.pdf</text>
     <text x="34" y="150" fill="#8b949e">│</text>
-    <text x="66" y="150" fill="#8b949e">document</text>
-    <text x="185" y="150" fill="#c9d1d9">sample_report</text>
+    <text x="66" y="150" fill="#8b949e">[1] One PDF   [2] Multiple PDFs   [3] Entire folder</text>
     <text x="34" y="181" fill="#58a6ff">╰─</text>
-    <text x="66" y="181" fill="#3fb950">Ready</text>
+    <text x="66" y="181" fill="#3fb950">Selected · 2 PDFs</text>
 
     <text x="34" y="229" fill="#58a6ff">╭─</text>
     <text x="66" y="229" fill="#f0f6fc" font-weight="700">Turn 1</text>

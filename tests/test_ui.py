@@ -6,7 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import TextIO, cast
 
-from docatlas.__main__ import _chat_result_payload, _read_message, build_parser
+from docatlas.__main__ import _chat_result_payload, _read_message, build_parser, cmd_tui
 from docatlas.agent.trace import AgentResult, ToolCallEvent, TurnEvent
 from docatlas.ui.plain_renderer import PlainRenderer, safe_display_path
 
@@ -174,6 +174,19 @@ def test_safe_display_path_never_exposes_external_prefix(tmp_path) -> None:
     assert "private-user" not in displayed
 
 
+def test_session_header_lists_all_documents(tmp_path, monkeypatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("TERM", "xterm-256color")
+    stream = _TTYBuffer()
+    session = _Session(tmp_path / "session.json")
+    session.doc_env.doc_map = {"report_2024": {}, "report_2025": {}}
+    renderer = PlainRenderer(session, stream=stream)
+
+    renderer.print_session()
+
+    assert "documents 2 · report_2024, report_2025" in stream.getvalue()
+
+
 def test_json_payload_has_stable_execution_metadata(tmp_path, monkeypatch) -> None:
     monkeypatch.chdir(tmp_path)
     session = _Session(tmp_path / "outputs/sessions/session-test/session.json")
@@ -198,6 +211,14 @@ def test_json_payload_has_stable_execution_metadata(tmp_path, monkeypatch) -> No
 def test_cli_branding_and_stdin_message(monkeypatch) -> None:
     parser = build_parser()
     assert parser.prog == "docatlas"
+    assert parser.parse_args([]).func is cmd_tui
+    tui_args = parser.parse_args(
+        ["tui", "@report.pdf", "--recursive", "--yes", "--max-documents", "250"]
+    )
+    assert tui_args.paths == ["@report.pdf"]
+    assert tui_args.recursive is True
+    assert tui_args.assume_yes is True
+    assert tui_args.max_documents == 250
     args = parser.parse_args(["chat", "--verbose", "--format", "json"])
     assert args.verbose is True
     assert args.output_format == "json"

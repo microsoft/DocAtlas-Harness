@@ -138,3 +138,38 @@ def test_callback_failure_does_not_abort_agent() -> None:
 
     assert result.error is None
     assert result.answer == "The answer is supported by page 1."
+
+
+def test_continuation_reuses_response_chain_and_reset_starts_fresh() -> None:
+    class ConversationBackend:
+        def __init__(self) -> None:
+            self.calls: list[dict] = []
+
+        def create_response(self, **kwargs):
+            self.calls.append(kwargs)
+            number = len(self.calls)
+            return NormalizedResponse(response_id=f"response-{number}", text=f"answer-{number}")
+
+    backend = ConversationBackend()
+    loop = AgentLoop(
+        backend=backend,
+        dispatcher=_Dispatcher(),
+        tool_schemas=[],
+        system_prompt="Use evidence.",
+    )
+
+    first = loop.run("first question", continue_conversation=True)
+    second = loop.run("follow-up question", continue_conversation=True)
+
+    assert first.answer == "answer-1"
+    assert second.answer == "answer-2"
+    assert backend.calls[0]["previous_response_id"] is None
+    assert backend.calls[0]["input_items"][0]["role"] == "developer"
+    assert backend.calls[1]["previous_response_id"] == "response-1"
+    assert backend.calls[1]["input_items"] == [{"role": "user", "content": "follow-up question"}]
+
+    loop.reset_conversation()
+    loop.run("fresh question", continue_conversation=True)
+
+    assert backend.calls[2]["previous_response_id"] is None
+    assert backend.calls[2]["input_items"][0]["role"] == "developer"

@@ -9,10 +9,12 @@ state, multimodal transport, and limits.
 
 ```text
 docatlas/                  Single Python package namespace
+  runtime.py               Shared session/dispatcher/AgentLoop construction
+  workspace.py             Document discovery and preprocessing cache plans
   agent/                   Loop, dispatch, hooks, and trace events
   llm/                     Provider protocol and Azure Responses backend
   session/                 Atomic session state
-  ui/                      Pipe-friendly progress rendering
+  ui/                      Interactive workbench and pipe-friendly rendering
   skills/                  Portable Agent Skills and shared runtime
     search/                Tree-guided candidate-page discovery
     read/                  Text, page-image, and figure retrieval
@@ -71,6 +73,23 @@ search/read history. Writes use a temporary file followed by an atomic replace.
 The harness passes the path through `HARNESS_SESSION_FILE`. Direct callers can
 create a compatible file with `docatlas init-session` and then invoke a skill
 CLI themselves.
+
+### Interactive workspaces
+
+`docatlas` with no subcommand launches the terminal workbench. A selection of
+one or more PDFs maps to a content-aware cache key derived from each resolved
+path, size, and modification time. Cache metadata also records the PageIndex
+deployment so a model change cannot silently reuse an incompatible tree.
+Docling Markdown, per-document PageIndex trees, and a merged tree for
+multi-document selections live under
+`outputs/tui/<key>/`; the directory is private to the local user where the
+platform supports POSIX permissions.
+
+The workbench keeps the Responses API chain alive across questions, so
+follow-ups inherit prior user and assistant turns. `/clear` creates a fresh
+session without discarding preprocessing, while changing the document set
+creates a new workspace/runtime so stale document bindings cannot leak into
+the next conversation.
 
 ## Multimodal reads
 

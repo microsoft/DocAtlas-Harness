@@ -29,7 +29,7 @@ from __future__ import annotations
 import json
 import logging
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 from ..llm.base import LLMBackend
@@ -59,6 +59,15 @@ class AgentLoop:
     session_store: Any | None = None
     callbacks: LoopCallbacks | None = None
     max_input_images: int = 50
+    _conversation_items: list[dict] = field(default_factory=list, init=False, repr=False)
+    _previous_response_id: str | None = field(default=None, init=False, repr=False)
+    _conversation_rechain_pending: bool = field(default=False, init=False, repr=False)
+
+    def reset_conversation(self) -> None:
+        """Clear in-process model history while keeping the document runtime intact."""
+        self._conversation_items.clear()
+        self._previous_response_id = None
+        self._conversation_rechain_pending = False
 
     def _cb(self, name: str, *args) -> None:
         """Fire a callback hook if callbacks are registered."""
@@ -178,21 +187,29 @@ class AgentLoop:
             return []
         return [{"role": "user", "content": parts}]
 
-    def run(self, user_message: str) -> AgentResult:
+    def run(self, user_message: str, *, continue_conversation: bool = False) -> AgentResult:
         result = AgentResult()
         t_start = time.time()
 
-        # Local mirror of every item the server has ever seen in this run.
-        # Seeded with developer + user. Appended-to as the turns progress.
-        all_items: list[dict] = [
-            {"role": "developer", "content": self.system_prompt},
-            {"role": "user", "content": user_message},
-        ]
-        # What we send on the NEXT API call. On the first call it's the full
-        # seed; on subsequent chained calls it's just the new items.
-        input_items: list[dict] = list(all_items)
-        previous_response_id: str | None = None
-        rechain_pending: bool = False  # set after archival; next call resends mirror
+        if continue_conversation and self._conversation_items:
+            # Continue the server-side response chain with only the new user
+            # item. The full local mirror remains available if archival or an
+            # earlier transport error requires rebuilding the chain.
+            all_items = list(self._conversation_items)
+            user_item = {"role": "user", "content": user_message}
+            all_items.append(user_item)
+            input_items: list[dict] = [user_item]
+            previous_response_id = self._previous_response_id
+            rechain_pending = self._conversation_rechain_pending
+        else:
+            # Fresh standalone run (the historical AgentLoop behaviour).
+            all_items = [
+                {"role": "developer", "content": self.system_prompt},
+                {"role": "user", "content": user_message},
+            ]
+            input_items = list(all_items)
+            previous_response_id = None
+            rechain_pending = False
 
         for turn_num in range(1, self.max_turns + 1):
             turn = TurnEvent(turn_num=turn_num)
@@ -277,6 +294,7 @@ class AgentLoop:
                         }
                     )
                 result.answer = response.text
+                previous_response_id = response.response_id
                 if result.answer:
                     self._cb("on_answer", result.answer)
                 result.turns.append(turn)
@@ -413,6 +431,13 @@ class AgentLoop:
             result.error = f"max_turns ({self.max_turns}) exceeded"
             if not result.answer:
                 result.answer = "[max turns exceeded without final answer]"
+
+        if continue_conversation:
+            self._conversation_items = list(all_items)
+            self._previous_response_id = previous_response_id
+            # If the backend failed after receiving a new user item, its
+            # server-side state is uncertain. Re-send the local mirror next.
+            self._conversation_rechain_pending = rechain_pending or result.error is not None
 
         result.total_elapsed_s = time.time() - t_start
         return result

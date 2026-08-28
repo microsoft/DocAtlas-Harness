@@ -45,6 +45,9 @@ def _sanitize_text(value: Any, *, multiline: bool = False) -> str:
     return " ".join(text.split())
 
 
+sanitize_terminal_text = _sanitize_text
+
+
 def _format_value(key: str, value: Any, *, limit: int = 72) -> str:
     if _SENSITIVE_ARG_RE.search(key):
         return "<redacted>"
@@ -178,9 +181,16 @@ class PlainRenderer:
         if getattr(self.session, "doc_env", None) is not None:
             doc_id = getattr(self.session.doc_env, "doc_id", None)
             pdf_path = getattr(self.session.doc_env, "pdf_path", None)
-            document = doc_id or (Path(pdf_path).name if pdf_path else None)
-            if document:
-                self._write(f"{self.pipe}  document  {_sanitize_text(document)}\n")
+            doc_map = getattr(self.session.doc_env, "doc_map", None)
+            if isinstance(doc_map, dict) and len(doc_map) > 1:
+                names = ", ".join(str(name) for name in doc_map)
+                self._write(
+                    f"{self.pipe}  documents {len(doc_map)} {self.dot} {_sanitize_text(names)}\n"
+                )
+            else:
+                document = doc_id or (Path(pdf_path).name if pdf_path else None)
+                if document:
+                    self._write(f"{self.pipe}  document  {_sanitize_text(document)}\n")
         if self.skills:
             skill_names = " ".join(_sanitize_text(skill) for skill in self.skills)
             self._write(f"{self.pipe}  skills    {skill_names}\n")
@@ -354,4 +364,4 @@ class PlainRenderer:
         self._write(f"{self._style(self.bottom, title_color)}\n")
 
 
-__all__ = ["PlainRenderer", "safe_display_path"]
+__all__ = ["PlainRenderer", "safe_display_path", "sanitize_terminal_text"]
