@@ -23,7 +23,7 @@ done
 The harness creates and maintains session state automatically:
 
 ```bash
-uv run --locked harness chat \
+uv run --locked docatlas chat \
   --skill search --skill read --skill note --skill review \
   --pdf document.pdf \
   --tree-json document_structure.json \
@@ -50,7 +50,7 @@ uv run --locked python docatlas/skills/read/scripts/run.py \
 Create a session before calling the stateful skills directly:
 
 ```bash
-export HARNESS_SESSION_FILE="$(uv run --locked harness init-session \
+export HARNESS_SESSION_FILE="$(uv run --locked docatlas init-session \
   --pdf document.pdf --tree-json document_structure.json \
   --question 'What are the main conclusions?')"
 

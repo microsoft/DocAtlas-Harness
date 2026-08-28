@@ -41,15 +41,15 @@ any changes downstream.
 Usage::
 
     # Single PDF
-    uv run --locked harness build-md --pdf doc.pdf --output-dir markdown/
+    uv run --locked docatlas build-md --pdf doc.pdf --output-dir markdown/
 
     # Batch over a directory
-    uv run --locked harness build-md --pdf-dir data/MMLongBench/documents \\
+    uv run --locked docatlas build-md --pdf-dir data/MMLongBench/documents \\
                                --output-dir data/MMLongBench/markdown \\
                                --limit 5
 
     # With image extraction off (text-only fast path)
-    uv run --locked harness build-md --pdf doc.pdf --output-dir markdown/ \\
+    uv run --locked docatlas build-md --pdf doc.pdf --output-dir markdown/ \\
                                --no-images
 """
 
@@ -74,7 +74,7 @@ from ._io import atomic_write_json
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Docling import is lazy so `harness --help` works before the environment is synced.
+# Docling import is lazy so `docatlas --help` works before the environment is synced.
 # on a fresh checkout that hasn't installed docling yet.
 # ---------------------------------------------------------------------------
 

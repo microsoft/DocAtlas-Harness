@@ -43,7 +43,7 @@ def require_session_file() -> Path:
     if p is None:
         raise RuntimeError(
             f"{_ENV_KEY} is not set. This skill needs a session file; "
-            f"launch via `uv run --locked harness chat ...` or set {_ENV_KEY} manually."
+            f"launch via `uv run --locked docatlas chat ...` or set {_ENV_KEY} manually."
         )
     if not p.is_file():
         raise FileNotFoundError(f"Session file does not exist: {p}")

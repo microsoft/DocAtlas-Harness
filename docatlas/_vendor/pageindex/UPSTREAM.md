@@ -1,7 +1,7 @@
 # Vendored: pageindex
 
 This directory contains a vendored copy of the [PageIndex](https://github.com/VectifyAI/PageIndex)
-Python package by Vectify AI, used by DocAtlas's `uv run --locked harness build-tree`
+Python package by Vectify AI, used by DocAtlas's `uv run --locked docatlas build-tree`
 command to construct PageIndex `*_structure.json` files from PDFs.
 
 It is vendored (not installed via pip) because the upstream is not on PyPI

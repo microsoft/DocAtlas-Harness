@@ -1,4 +1,4 @@
-"""Load a DocSkill from disk into a normalized in-memory representation.
+"""Load an Agent Skill from disk into a normalized in-memory representation.
 
 A SKILL directory is expected to contain:
 

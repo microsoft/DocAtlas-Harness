@@ -46,7 +46,7 @@ class HarnessConfig:
     azure_deployment: str = ""  # used as the `model` name in Responses calls
     skill_python: str | None = None
     reasoning_effort: str = "high"
-    reasoning_summary: str = "detailed"
+    reasoning_summary: str = "auto"
     image_detail: str = "auto"
     max_turns: int = 20
     parallel_tool_calls: bool = False

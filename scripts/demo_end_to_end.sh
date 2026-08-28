@@ -133,7 +133,7 @@ else
     echo "[1/3] build-md ..."
     BUILD_MD_ARGS=()
     [ ${FORCE} -eq 1 ] && BUILD_MD_ARGS+=(--force)
-    uv run --locked harness build-md \
+    uv run --locked docatlas build-md \
         --pdf "${PDF}" \
         --output-dir "${MD_DIR}" \
         "${BUILD_MD_ARGS[@]}"
@@ -148,7 +148,7 @@ else
     echo "[2/3] build-tree (model=${MODEL}) ..."
     BUILD_TREE_ARGS=()
     [ ${FORCE} -eq 1 ] && BUILD_TREE_ARGS+=(--force)
-    uv run --locked harness build-tree \
+    uv run --locked docatlas build-tree \
         --pdf "${PDF}" \
         --output-dir "${TREE_DIR}" \
         --model "${MODEL}" \
@@ -169,7 +169,7 @@ fi
 echo "[3/3] chat ..."
 echo "------------------------------------------------------------"
 AZURE_OPENAI_DEPLOYMENT="${MODEL}" \
-uv run --locked harness chat \
+uv run --locked docatlas chat \
     --skill search --skill read --skill note --skill review \
     --pdf "${PDF}" \
     --markdown-dir "${MD_DIR}" \
@@ -182,4 +182,4 @@ echo "------------------------------------------------------------"
 echo "Done. Artifacts:"
 echo "  - markdown:  ${MD_DIR}/${DOC_STEM}/"
 echo "  - tree json: ${TREE_JSON}"
-echo "  - session:   outputs/sessions/<latest>/  (see trace above)"
+echo "  - sessions:  ${PROJECT_ROOT}/outputs/sessions/"

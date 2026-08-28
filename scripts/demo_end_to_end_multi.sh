@@ -148,7 +148,7 @@ else
         echo "[1/3] build-md ${STEM} ..."
         BUILD_MD_ARGS=()
         [ ${FORCE} -eq 1 ] && BUILD_MD_ARGS+=(--force)
-        uv run --locked harness build-md \
+        uv run --locked docatlas build-md \
             --pdf "$p" --output-dir "${MD_DIR}" "${BUILD_MD_ARGS[@]}"
     done
 fi
@@ -164,7 +164,7 @@ else
     [ ${FORCE} -eq 1 ] && BUILD_TREE_ARGS+=(--force-trees)
     PDF_FLAGS=()
     for p in "${PDFS[@]}"; do PDF_FLAGS+=(--pdf "$p"); done
-    uv run --locked harness build-series-tree \
+    uv run --locked docatlas build-series-tree \
         "${PDF_FLAGS[@]}" \
         --output "${MERGED_TREE}" \
         --trees-dir "${TREES_CACHE}" \
@@ -182,7 +182,7 @@ echo "------------------------------------------------------------"
 PDF_FLAGS=()
 for p in "${PDFS[@]}"; do PDF_FLAGS+=(--pdf "$p"); done
 AZURE_OPENAI_DEPLOYMENT="${MODEL}" \
-uv run --locked harness chat \
+uv run --locked docatlas chat \
     --skill search --skill read --skill note --skill review \
     "${PDF_FLAGS[@]}" \
     --markdown-dir "${MD_DIR}" \
@@ -195,4 +195,4 @@ echo "Done. Artifacts:"
 echo "  - per-doc md:  ${MD_DIR}/"
 echo "  - per-doc trees: ${TREES_CACHE}/"
 echo "  - series tree: ${MERGED_TREE}"
-echo "  - session:     outputs/sessions/<latest>/"
+echo "  - sessions:    ${PROJECT_ROOT}/outputs/sessions/"

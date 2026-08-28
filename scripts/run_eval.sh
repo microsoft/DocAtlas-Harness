@@ -2,7 +2,7 @@
 # ============================================================
 #  MMLongBench-Doc Evaluation — DocAtlas edition
 #
-#  Drives `uv run --locked harness eval-mmlongbench` over MMLongBench-Doc
+#  Drives `uv run --locked docatlas eval-mmlongbench` over MMLongBench-Doc
 #  corpus. Output JSON is shape-compatible with
 #  docatlas/scoring/score_mmlongbench_hybrid.py.
 #
@@ -18,7 +18,7 @@
 #    HARNESS_MMLB_PDF_DIR      override the documents/ dir
 #    HARNESS_MMLB_MARKDOWN_DIR override the markdown/ dir
 #
-#  Additional arguments flow through to `harness eval-mmlongbench`
+#  Additional arguments flow through to `docatlas eval-mmlongbench`
 #  via "$@".
 #
 #  Usage:
@@ -61,7 +61,7 @@ command -v uv >/dev/null 2>&1 || { echo "uv is required" >&2; exit 1; }
 # the paper's model + MinerU markdown): 4 skills, --detail high, high reasoning,
 # vision-zoom 1.0, max-turns 50, figure metadata, memory OFF, tree-annotate
 # ON (the eval runner enables tree-annotate automatically).
-uv run --locked harness eval-mmlongbench \
+uv run --locked docatlas eval-mmlongbench \
     --skill search \
     --skill read \
     --skill note \

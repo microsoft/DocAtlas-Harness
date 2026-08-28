@@ -30,21 +30,27 @@ import json
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Protocol
 
 from ..llm.base import LLMBackend
 from ..ui.callbacks import LoopCallbacks
-from .dispatch import SkillDispatcher, SkillResult
+from .dispatch import SkillResult
 from .post_note import PostNoteHooks
 from .trace import AgentResult, ToolCallEvent, TurnEvent
 
 logger = logging.getLogger(__name__)
 
 
+class SkillCaller(Protocol):
+    """Minimal dispatcher contract required by AgentLoop."""
+
+    def call(self, skill_name: str, args: dict[str, Any]) -> SkillResult: ...
+
+
 @dataclass
 class AgentLoop:
     backend: LLMBackend
-    dispatcher: SkillDispatcher
+    dispatcher: SkillCaller
     tool_schemas: list[dict]
     system_prompt: str
     max_turns: int = 20
@@ -57,7 +63,11 @@ class AgentLoop:
     def _cb(self, name: str, *args) -> None:
         """Fire a callback hook if callbacks are registered."""
         if self.callbacks is not None:
-            getattr(self.callbacks, name)(*args)
+            try:
+                getattr(self.callbacks, name)(*args)
+            except Exception:  # noqa: BLE001
+                # Observability must never take down the document workflow.
+                logger.warning("Callback %s failed", name, exc_info=True)
 
     @staticmethod
     def _trim_input_images(items: list[dict], *, max_images: int) -> tuple[list[dict], int]:
@@ -229,6 +239,7 @@ class AgentLoop:
                 result.error = f"backend error on turn {turn_num}: {e}"
                 result.turns.append(turn)
                 logger.exception("LLM backend failed on turn %s", turn_num)
+                self._cb("on_turn_end", turn)
                 break
 
             turn.elapsed_s = time.time() - t0
@@ -293,7 +304,17 @@ class AgentLoop:
                         self._snapshot_recent_messages(all_items)
                     except Exception:  # noqa: BLE001
                         logger.warning("Could not snapshot recent messages", exc_info=True)
-                skill_result = self.dispatcher.call(fc.name, args)
+                try:
+                    skill_result = self.dispatcher.call(fc.name, args)
+                except Exception as exc:  # noqa: BLE001
+                    # A malformed custom Skill must be visible to the model as
+                    # a failed tool call, not crash the entire agent process.
+                    logger.warning("Skill dispatch failed for %s", fc.name, exc_info=True)
+                    skill_result = SkillResult(
+                        skill_name=fc.name,
+                        ok=False,
+                        text_output=f"[error] skill dispatch failed: {exc}",
+                    )
                 tc_elapsed = time.time() - tc_t0
                 skill_results.append(skill_result)
                 skill_calls_this_turn.append((fc.name, args))
@@ -311,6 +332,15 @@ class AgentLoop:
                     "on_tool_result",
                     fc.call_id,
                     fc.name,
+                    skill_result.text_output[:2000],
+                    tc_elapsed,
+                    len(skill_result.image_uris),
+                )
+                self._cb(
+                    "on_tool_status",
+                    fc.call_id,
+                    fc.name,
+                    skill_result.ok,
                     skill_result.text_output[:2000],
                     tc_elapsed,
                     len(skill_result.image_uris),

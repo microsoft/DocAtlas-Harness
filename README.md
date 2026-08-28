@@ -74,8 +74,11 @@ Copy the environment template and configure an Azure OpenAI deployment:
 ```bash
 cp .env.example .env
 az login                              # omit when using AZURE_OPENAI_API_KEY
-uv run --locked harness --help
+uv run --locked docatlas --help
 ```
+
+`harness` remains available as a compatibility alias, but new integrations
+should use the canonical `docatlas` command.
 
 Run the complete sample pipeline:
 
@@ -83,10 +86,38 @@ Run the complete sample pipeline:
 bash scripts/demo_end_to_end.sh
 ```
 
+Interactive terminals get a dependency-free, Codex-style execution view:
+
+<p align="center">
+  <img src="assets/tui-preview.svg" alt="DocAtlas terminal interface showing Search and Read tool calls" width="92%">
+</p>
+
+```text
+╭─ DocAtlas
+│  session   7a71c003...
+│  document  sample_report
+│  skills    search read note review
+│  state     outputs/sessions/7a71c003.../session.json
+╰─ Ready
+
+╭─ Turn 1
+│  ◌ Waiting for model...
+├─ Search
+│  query  Find the financial highlights and roadmap
+│  ◌ Running...
+│  ✓ Completed · 6.9s
+╰─ Turn 1 complete · 12.4s
+```
+
+Reasoning summaries are hidden by default. Use `--show-reasoning` to display
+API-provided summaries, `--verbose` for SDK logs, or `--quiet` for only the
+answer. Colour is disabled automatically outside a TTY and when `NO_COLOR` is
+set.
+
 For an already preprocessed document:
 
 ```bash
-uv run --locked harness chat \
+uv run --locked docatlas chat \
   --skill search --skill read --skill note --skill review \
   --pdf document.pdf \
   --markdown-dir markdown/ \
@@ -96,6 +127,15 @@ uv run --locked harness chat \
 
 The final answer is written to stdout. Progress, tool calls, token usage, and
 the session path are written to stderr, so the command remains pipe-friendly.
+For structured integrations, use JSON mode:
+
+```bash
+uv run --locked docatlas chat \
+  --pdf document.pdf --markdown-dir markdown/ \
+  --tree-json trees/document_structure.json \
+  --message "Summarize the principal risks with page citations." \
+  --format json | jq -r .answer
+```
 
 ## The four Skills
 
@@ -118,7 +158,7 @@ done
 for direct CLI use with:
 
 ```bash
-export HARNESS_SESSION_FILE="$(uv run --locked harness init-session \
+export HARNESS_SESSION_FILE="$(uv run --locked docatlas init-session \
   --pdf document.pdf --tree-json trees/document_structure.json \
   --question 'What are the report conclusions?')"
 ```
@@ -131,7 +171,7 @@ and [ARCHITECTURE.md](ARCHITECTURE.md) for the Skill and session contracts.
 Build the hierarchical PageIndex tree used by `search`:
 
 ```bash
-uv run --locked harness build-tree \
+uv run --locked docatlas build-tree \
   --pdf document.pdf \
   --output-dir trees/ \
   --model "$AZURE_OPENAI_DEPLOYMENT"
@@ -140,7 +180,7 @@ uv run --locked harness build-tree \
 Build per-page Markdown and extracted figures with Docling:
 
 ```bash
-uv run --locked harness build-md \
+uv run --locked docatlas build-md \
   --pdf document.pdf \
   --output-dir markdown/
 ```
@@ -156,13 +196,13 @@ the same per-page directory contract documented in
 Build a merged tree, then pass each PDF to the chat command:
 
 ```bash
-uv run --locked harness build-series-tree \
+uv run --locked docatlas build-series-tree \
   --pdf reports/2024.pdf --pdf reports/2025.pdf \
   --output trees/annual_reports.json \
   --doc-name "Annual reports" \
   --model "$AZURE_OPENAI_DEPLOYMENT"
 
-uv run --locked harness chat \
+uv run --locked docatlas chat \
   --skill search --skill read --skill note --skill review \
   --pdf reports/2024.pdf --pdf reports/2025.pdf \
   --markdown-dir markdown/ \
@@ -176,7 +216,7 @@ Markdown paths. `scripts/demo_end_to_end_multi.sh` provides a complete example.
 ## Evaluation
 
 The MMLongBench runner uses a benchmark-specific response policy while normal
-`harness chat` uses natural evidence-grounded answers.
+`docatlas chat` uses natural evidence-grounded answers.
 
 ```bash
 bash scripts/run_eval.sh --limit 20 --n-jobs 4

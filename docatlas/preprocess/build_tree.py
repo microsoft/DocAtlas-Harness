@@ -5,10 +5,10 @@ construction into DocAtlas's CLI and configuration system.
 
 Usage:
     # Single PDF
-    uv run --locked harness build-tree --pdf doc.pdf --output-dir trees/
+    uv run --locked docatlas build-tree --pdf doc.pdf --output-dir trees/
 
     # Batch (all PDFs in a directory)
-    uv run --locked harness build-tree --pdf-dir documents/ --output-dir trees/ --limit 5
+    uv run --locked docatlas build-tree --pdf-dir documents/ --output-dir trees/ --limit 5
 
     # MMLongBench convenience
     bash scripts/run_build_tree.sh --only-sampled

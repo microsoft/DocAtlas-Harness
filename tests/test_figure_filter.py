@@ -18,10 +18,10 @@ def test_keep_when_above_thresholds(tmp_path: Path):
     p = tmp_path / "ok.png"
     _write_png(p, 200, 200)
     # padding bytes large enough to clear min_bytes=2048
-    with open(p, "ab") as f:
-        f.write(b"\x00" * 4096)
-    f = FigureFilter(min_size=100, min_bytes=2048)
-    keep, info = f.evaluate(str(p))
+    with open(p, "ab") as handle:
+        handle.write(b"\x00" * 4096)
+    figure_filter = FigureFilter(min_size=100, min_bytes=2048)
+    keep, info = figure_filter.evaluate(str(p))
     assert keep is True
     assert info["size_px"] == [200, 200]
     assert info["bytes"] >= 2048

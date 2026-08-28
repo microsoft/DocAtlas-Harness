@@ -16,7 +16,7 @@ times then merge-trees.
 
 Example::
 
-    uv run --locked harness build-series-tree \\
+    uv run --locked docatlas build-series-tree \\
         --pdf docs/ar2018.pdf --pdf docs/ar2019.pdf --pdf docs/ar2020.pdf \\
         --output trees/series/bis_2018_2020.json \\
         --doc-name "BIS AR 2018-2020" \\
@@ -24,7 +24,7 @@ Example::
 
 A manifest is also accepted (lets you override title/summary per doc)::
 
-    uv run --locked harness build-series-tree \\
+    uv run --locked docatlas build-series-tree \\
         --manifest series_manifest.json \\
         --output trees/series/foo.json \\
         --doc-name "Foo series"

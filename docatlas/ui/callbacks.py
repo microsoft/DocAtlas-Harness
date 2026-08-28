@@ -16,6 +16,7 @@ class LoopCallbacks:
     on_turn_start: Callable[[int], None] = field(default=_noop)
     on_tool_call: Callable[[str, str, dict], None] = field(default=_noop)
     on_tool_result: Callable[[str, str, str, float, int], None] = field(default=_noop)
+    on_tool_status: Callable[[str, str, bool, str, float, int], None] = field(default=_noop)
     on_turn_end: Callable[[Any], None] = field(default=_noop)
     on_answer: Callable[[str], None] = field(default=_noop)
     on_reasoning: Callable[[str], None] = field(default=_noop)

@@ -1,11 +1,11 @@
-"""DocAtlas CLI entry point — `harness ...` or `python -m docatlas ...`.
+"""DocAtlas CLI entry point — `docatlas ...` or `python -m docatlas ...`.
 
 The `chat` subcommand runs one user message through the agent loop and prints
 the final answer plus a compact trace.
 
 Example:
 
-    uv run --locked harness chat --skill read \\
+    uv run --locked docatlas chat --skill read \\
         --pdf /path/to/doc.pdf \\
         --message "What's on page 4?"
 """
@@ -17,7 +17,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 import yaml
 
@@ -33,7 +33,57 @@ from .skill_loader import load_skills
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _DEFAULT_SKILLS_ROOT = Path(__file__).resolve().parent / "skills"
+_DEFAULT_SKILLS = ["search", "read", "note", "review"]
 logger = logging.getLogger(__name__)
+
+
+class _ResultSession(Protocol):
+    session_id: str
+    path: Path
+
+
+def _read_message(value: str | None) -> str:
+    """Resolve a message from --message, a terminal prompt, or piped stdin."""
+    if value is not None and value.strip():
+        return value.strip()
+    if sys.stdin.isatty():
+        try:
+            value = input("DocAtlas question › ").strip()
+        except EOFError:
+            value = ""
+    else:
+        value = sys.stdin.read().strip()
+    if not value:
+        raise ValueError("a question is required via --message or stdin")
+    return value
+
+
+def _chat_result_payload(result: Any, session: _ResultSession) -> dict[str, Any]:
+    """Build the stable, machine-readable chat result envelope."""
+    from .ui.plain_renderer import safe_display_path
+
+    turns = getattr(result, "turns", [])
+    tools = [tool for turn in turns for tool in getattr(turn, "tool_calls", [])]
+    return {
+        "schema_version": "1",
+        "answer": getattr(result, "answer", ""),
+        "error": getattr(result, "error", None),
+        "session": {
+            "id": session.session_id,
+            "path": safe_display_path(session.path),
+        },
+        "execution": {
+            "turns": len(turns),
+            "tool_calls": len(tools),
+            "failed_tool_calls": sum(not getattr(tool, "ok", True) for tool in tools),
+            "elapsed_seconds": round(float(getattr(result, "total_elapsed_s", 0.0)), 3),
+        },
+        "usage": {
+            "input_tokens": int(getattr(result, "total_input_tokens", 0)),
+            "output_tokens": int(getattr(result, "total_output_tokens", 0)),
+            "reasoning_tokens": int(getattr(result, "total_reasoning_tokens", 0)),
+        },
+    }
 
 
 def _resolve_skill_dir(name_or_path: str) -> Path:
@@ -95,7 +145,7 @@ def _apply_profile(args: argparse.Namespace, profile: dict[str, Any]) -> None:
 
 
 def cmd_init_session(args: argparse.Namespace) -> int:
-    """Create a reusable session file for direct DocSkill CLI calls."""
+    """Create a reusable session file for direct Agent Skill CLI calls."""
     pdf = None
     if args.pdf:
         pdf_path = Path(args.pdf).expanduser().resolve()
@@ -131,13 +181,10 @@ def cmd_chat(args: argparse.Namespace) -> int:
         profile = _load_profile(args.profile)
         _apply_profile(args, profile)
 
-    # Validate required fields (may come from CLI or profile)
+    # Resolve ergonomic defaults after profile/CLI precedence is known.
     if not args.skill:
-        print("error: --skill is required (via CLI or profile)", file=sys.stderr)
-        return 2
-    if not args.message:
-        print("error: --message is required (via CLI or profile)", file=sys.stderr)
-        return 2
+        args.skill = list(_DEFAULT_SKILLS)
+    args.message = _read_message(args.message)
 
     skills = load_skills([_resolve_skill_dir(name) for name in args.skill])
     skill_names = {skill.name for skill in skills}
@@ -242,12 +289,17 @@ def cmd_chat(args: argparse.Namespace) -> int:
         doc_map=doc_map,
     )
     session = SessionStore.new(doc_env, question=args.message)
-    sys.stderr.write(f"[session] {session.summary()} → {session.path}\n")
     renderer = None
-    if not args.quiet:
+    output_format = args.output_format or "text"
+    if not args.quiet and output_format == "text":
         from .ui.plain_renderer import PlainRenderer
 
-        renderer = PlainRenderer(session)
+        renderer = PlainRenderer(
+            session,
+            skills=[skill.name for skill in skills],
+            show_reasoning=bool(args.show_reasoning),
+        )
+        renderer.print_session()
 
     backend = make_backend(cfg)
 
@@ -313,27 +365,45 @@ def cmd_chat(args: argparse.Namespace) -> int:
         bits.append(args.message)
         user_message = "\n".join(bits)
 
-    result = loop.run(user_message)
+    try:
+        result = loop.run(user_message)
+    except KeyboardInterrupt:
+        if renderer:
+            renderer.abort()
+        raise
 
-    sys.stdout.write(result.answer.rstrip() + "\n")
+    if output_format == "json":
+        json.dump(_chat_result_payload(result, session), sys.stdout, ensure_ascii=False, indent=2)
+        sys.stdout.write("\n")
+    else:
+        rendered_answer = renderer.print_answer(result.answer) if renderer else False
+        if not rendered_answer:
+            sys.stdout.write(result.answer.rstrip() + "\n")
+            sys.stdout.flush()
+        if renderer:
+            renderer.print_stats(result)
     if renderer:
-        renderer.print_stats(result)
         try:
             session.refresh_from_disk()
-            sys.stderr.write(f"[session-final] {session.summary()}\n")
         except Exception:  # noqa: BLE001
             logger.warning("Could not refresh final session summary", exc_info=True)
     return 0 if not result.error else 1
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="harness", description="DocAtlas CLI")
+    p = argparse.ArgumentParser(prog="docatlas", description="DocAtlas CLI")
     p.add_argument("--version", action="version", version=f"DocAtlas {__version__}")
+    p.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Show informational SDK and HTTP logs (may include endpoint hostnames).",
+    )
     sub = p.add_subparsers(dest="cmd", required=True)
 
     init_session = sub.add_parser(
         "init-session",
-        help="Create a session file for direct DocSkill CLI calls.",
+        help="Create a session file for direct Agent Skill CLI calls.",
     )
     init_session.add_argument("--pdf", help="Optional PDF path.")
     init_session.add_argument("--markdown-dir", help="Optional per-page Markdown root.")
@@ -344,7 +414,14 @@ def build_parser() -> argparse.ArgumentParser:
     init_session.add_argument("--session-id", help="Explicit unique session directory name.")
     init_session.set_defaults(func=cmd_init_session)
 
-    chat = sub.add_parser("chat", help="Run a single user message through the agent.")
+    chat = sub.add_parser("chat", help="Run a question through the document agent.")
+    chat.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=argparse.SUPPRESS,
+        help="Show informational SDK and HTTP logs (may include endpoint hostnames).",
+    )
     chat.add_argument(
         "--profile",
         help="Built-in profile name or YAML path (defaults for all flags).",
@@ -353,18 +430,23 @@ def build_parser() -> argparse.ArgumentParser:
         "--skill",
         action="append",
         default=None,
-        help="Skill name (looked up under docatlas/skills/) or path. Repeatable.",
+        help="Skill name (looked up under docatlas/skills/) or path. Repeatable; "
+        "defaults to search, read, note, and review.",
     )
-    chat.add_argument("--message", default=None, help="The user message.")
+    chat.add_argument(
+        "--message",
+        default=None,
+        help="The question. When omitted, read it from the terminal or stdin.",
+    )
     chat.add_argument(
         "--pdf",
         action="append",
         default=None,
         help="Path to the PDF for skills that need it (read). Repeat for "
         "multi-doc QA — when 2+ PDFs are given (or a --manifest is used) "
-        "the harness builds a doc_map and read/search route by `doc_id` "
+        "DocAtlas builds a doc_map and read/search route by `doc_id` "
         "(the PDF stem). The search tree should typically be a merged "
-        "series tree (see `harness merge-trees` / `harness build-series-tree`).",
+        "series tree (see `docatlas merge-trees` / `docatlas build-series-tree`).",
     )
     chat.add_argument(
         "--manifest",
@@ -389,7 +471,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--reasoning-summary",
         choices=["auto", "concise", "detailed"],
         default=None,
-        help="Reasoning-summary detail emitted in the progress trace.",
+        help="Reasoning-summary detail requested from the API. Display it with --show-reasoning.",
+    )
+    chat.add_argument(
+        "--show-reasoning",
+        action="store_true",
+        default=None,
+        help="Show API-provided reasoning summaries in the terminal trace.",
     )
     chat.add_argument(
         "--image-detail",
@@ -453,6 +541,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Suppress the trace on stderr.",
     )
+    chat.add_argument(
+        "--format",
+        dest="output_format",
+        choices=["text", "json"],
+        default=None,
+        help="Final-answer output format; JSON mode suppresses the terminal trace.",
+    )
     chat.set_defaults(func=cmd_chat)
 
     # ── eval-mmlongbench batch task ──
@@ -513,13 +608,19 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    )
     args = build_parser().parse_args(argv)
+    logging.basicConfig(
+        level=logging.INFO if getattr(args, "verbose", False) else logging.WARNING,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        force=True,
+    )
     try:
         return args.func(args)
+    except BrokenPipeError:
+        return 0
+    except KeyboardInterrupt:
+        print("\nInterrupted.", file=sys.stderr)
+        return 130
     except (
         FileNotFoundError,
         json.JSONDecodeError,
@@ -527,7 +628,15 @@ def main(argv: list[str] | None = None) -> int:
         ValueError,
         yaml.YAMLError,
     ) as exc:
-        print(f"error: {exc}", file=sys.stderr)
+        if getattr(args, "output_format", None) == "json":
+            json.dump(
+                {"schema_version": "1", "answer": "", "error": str(exc)},
+                sys.stdout,
+                ensure_ascii=False,
+            )
+            sys.stdout.write("\n")
+        else:
+            print(f"error: {exc}", file=sys.stderr)
         return 2
 
 

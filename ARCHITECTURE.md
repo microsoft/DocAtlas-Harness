@@ -69,7 +69,7 @@ It stores the document environment, notes, a session-local tree, and bounded
 search/read history. Writes use a temporary file followed by an atomic replace.
 
 The harness passes the path through `HARNESS_SESSION_FILE`. Direct callers can
-create a compatible file with `harness init-session` and then invoke a skill
+create a compatible file with `docatlas init-session` and then invoke a skill
 CLI themselves.
 
 ## Multimodal reads

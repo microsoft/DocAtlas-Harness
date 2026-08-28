@@ -35,7 +35,7 @@ MODEL="${AZURE_OPENAI_DEPLOYMENT:?set AZURE_OPENAI_DEPLOYMENT in .env (your Azur
 
 command -v uv >/dev/null 2>&1 || { echo "uv is required" >&2; exit 1; }
 
-uv run --locked harness build-tree \
+uv run --locked docatlas build-tree \
     --pdf-dir "${PDF_DIR}" \
     --output-dir "${OUTPUT_DIR}" \
     --model "${MODEL}" \

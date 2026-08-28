@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Note — DocSkill CLI.
+"""Note — Agent Skill CLI.
 
 Append a single "analysis" note entry to the session's note timeline.
 The session file is located via the `HARNESS_SESSION_FILE` env var.

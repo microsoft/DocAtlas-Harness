@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read — Unified DocSkill CLI.
+"""Read — unified Agent Skill CLI.
 
 Read one or more pages from a PDF, returning text and (optionally) page
 images. Also provides figure metadata catalogs and sub-image pixel fetch —

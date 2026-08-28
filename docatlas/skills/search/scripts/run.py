@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Search — DocSkill CLI.
+"""Search — Agent Skill CLI.
 
 Coarse filter over the document's PageIndex tree. Asks an auxiliary LLM
 to select the nodes most likely to answer the query, expands them to
@@ -318,7 +318,7 @@ def main(argv: list[str] | None = None) -> int:
             {
                 "error": (
                     "Search requires a PageIndex tree in the session. "
-                    "Pass --tree-json when launching `uv run --locked harness chat ...`."
+                    "Pass --tree-json when launching `uv run --locked docatlas chat ...`."
                 )
             },
             sys.stdout,

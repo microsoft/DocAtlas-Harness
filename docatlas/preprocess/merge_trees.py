@@ -34,20 +34,20 @@ prefix so node ids stay globally unique across the merged tree.
 The two CLI shapes are:
 
     # 1) explicit list of tree files
-    uv run --locked harness merge-trees \\
+    uv run --locked docatlas merge-trees \\
         --tree-files tree1.json tree2.json tree3.json \\
         --output trees/series/foo.json \\
         --doc-name "Foo series"
 
     # 2) directory + glob filter
-    uv run --locked harness merge-trees \\
+    uv run --locked docatlas merge-trees \\
         --tree-dir results/trees \\
         --include "*ar20*" \\
         --output trees/series/bis_ar.json \\
         --doc-name "BIS AR 2018-2024"
 
     # 3) manifest (JSON list of {tree, pdf?, title?, summary?})
-    uv run --locked harness merge-trees \\
+    uv run --locked docatlas merge-trees \\
         --manifest series_manifest.json \\
         --output trees/series/foo.json \\
         --doc-name "Foo series"

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Review — DocSkill CLI.
+"""Review — Agent Skill CLI.
 
 Given a natural-language query, ask an auxiliary LLM to select which of
 the session's saved analysis notes are relevant, and return the full

@@ -12,7 +12,7 @@ consumes our results unmodified. We deliberately do **not** fill
 
 The agent core is `docatlas.agent.loop.AgentLoop`; the dispatcher and
 session machinery come from the kernel. We pick which SKILLs to load via
-repeated `--skill` flags (same as `harness chat`).
+repeated `--skill` flags (same as `docatlas chat`).
 """
 
 from __future__ import annotations
