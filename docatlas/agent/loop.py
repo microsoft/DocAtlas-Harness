@@ -255,7 +255,8 @@ class AgentLoop:
                 turn.elapsed_s = time.time() - t0
                 result.error = f"backend error on turn {turn_num}: {e}"
                 result.turns.append(turn)
-                logger.exception("LLM backend failed on turn %s", turn_num)
+                logger.error("LLM backend failed on turn %s: %s", turn_num, e)
+                logger.info("LLM backend traceback", exc_info=True)
                 self._cb("on_turn_end", turn)
                 break
 

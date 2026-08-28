@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from docatlas.agent.dispatch import SkillResult
 from docatlas.agent.loop import AgentLoop
 from docatlas.agent.trace import TurnEvent
@@ -101,7 +103,7 @@ def test_dispatch_exception_becomes_failed_tool_result() -> None:
     assert "skill dispatch failed" in backend.calls[1]["input_items"][0]["output"]
 
 
-def test_backend_error_closes_turn_callback() -> None:
+def test_backend_error_closes_turn_callback(caplog) -> None:
     class BrokenBackend:
         def create_response(self, **kwargs):
             raise RuntimeError("endpoint unavailable")
@@ -115,10 +117,14 @@ def test_backend_error_closes_turn_callback() -> None:
         callbacks=LoopCallbacks(on_turn_end=ended.append),
     )
 
-    result = loop.run("Question")
+    with caplog.at_level(logging.ERROR):
+        result = loop.run("Question")
 
     assert result.error == "backend error on turn 1: endpoint unavailable"
     assert len(ended) == 1
+    error_records = [record for record in caplog.records if record.levelno >= logging.ERROR]
+    assert error_records
+    assert all(record.exc_info is None for record in error_records)
 
 
 def test_callback_failure_does_not_abort_agent() -> None:

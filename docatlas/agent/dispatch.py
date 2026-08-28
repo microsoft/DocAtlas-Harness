@@ -36,6 +36,21 @@ SessionArgInjector = Callable[[dict[str, Any], dict[str, Any] | None], list[str]
 _SESSION_ARG_INJECTORS: dict[str, SessionArgInjector] = {}
 
 
+def _stop_process(process: subprocess.Popen[str], *, force: bool = False) -> None:
+    """Reap an interrupted Skill process so cancellation cannot orphan it."""
+    if process.poll() is not None:
+        return
+    if force:
+        process.kill()
+    else:
+        process.terminate()
+    try:
+        process.wait(timeout=2)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        process.wait()
+
+
 def _resolve_doc_in_map(
     session: dict[str, Any], requested_doc_id: str | None
 ) -> dict[str, Any] | None:
@@ -306,11 +321,14 @@ class SkillDispatcher:
         env = {key: value for key, value in os.environ.items() if key in safe_keys}
         env.update((key, value) for key, value in os.environ.items() if key.startswith("HARNESS_"))
         if skill_name in {"search", "review"}:
-            env.update(
-                (key, value)
-                for key, value in os.environ.items()
-                if key.startswith(("AZURE_", "OPENAI_"))
-            )
+            azure_keys = {
+                "AZURE_API_VERSION",
+                "AZURE_OPENAI_API_KEY",
+                "AZURE_OPENAI_API_VERSION",
+                "AZURE_OPENAI_DEPLOYMENT",
+                "AZURE_OPENAI_ENDPOINT",
+            }
+            env.update((key, value) for key, value in os.environ.items() if key in azure_keys)
         if self.session_file:
             env["HARNESS_SESSION_FILE"] = self.session_file
         for k, v in self.extra_env.items():
@@ -357,23 +375,33 @@ class SkillDispatcher:
         model_args_for_cli = {k: v for k, v in args.items() if k not in consumed_model_keys}
         argv.extend(_model_args_to_argv(model_args_for_cli, skill.parameters_schema))
 
+        process: subprocess.Popen[str] | None = None
         try:
             # No shell is used; the script path and flags were validated above.
-            proc = subprocess.run(  # nosec B603
+            process = subprocess.Popen(  # nosec B603
                 argv,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=False,
                 env=self._subprocess_env(skill_name),
-                timeout=300,  # 5-minute hard limit per skill call
             )
+            stdout, stderr = process.communicate(timeout=300)
+            proc = subprocess.CompletedProcess(argv, process.returncode, stdout, stderr)
         except subprocess.TimeoutExpired:
+            if process is not None:
+                _stop_process(process, force=True)
             return SkillResult(
                 skill_name=skill_name,
                 ok=False,
                 text_output="[error] skill timed out after 300s",
             )
+        except KeyboardInterrupt:
+            if process is not None:
+                _stop_process(process)
+            raise
         except Exception as e:  # noqa: BLE001
+            if process is not None:
+                _stop_process(process)
             return SkillResult(
                 skill_name=skill_name,
                 ok=False,

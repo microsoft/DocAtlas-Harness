@@ -125,10 +125,13 @@ class TUIConsole:
         self,
         *,
         stream: TextIO | None = None,
-        input_fn: Callable[[str], str] = input,
+        input_stream: TextIO | None = None,
+        input_fn: Callable[[str], str] | None = None,
     ) -> None:
         self.stream = stream or sys.stderr
+        self.input_stream = input_stream or sys.stdin
         self.input_fn = input_fn
+        self.history: list[str] = []
         self.is_tty = bool(getattr(self.stream, "isatty", lambda: False)())
         encoding = getattr(self.stream, "encoding", None) or "utf-8"
         try:
@@ -167,10 +170,35 @@ class TUIConsole:
             self.write(f"{self.pipe}  {safe_line}")
         self.write(self._style(self.bottom, colour))
 
-    def prompt(self, label: str) -> str:
-        self.stream.write(f"{self._style('›', self._GREEN)} {label} ")
-        self.stream.flush()
+    def prompt(self, label: str, *, use_history: bool = False) -> str:
+        prompt = f"{self._style('›', self._GREEN)} {label} "
+        if (
+            self.input_fn is None
+            and os.name == "posix"
+            and self.input_stream.isatty()
+            and self.is_tty
+            and os.getenv("DOCATLAS_SIMPLE_INPUT") != "1"
+        ):
+            from .path_picker import read_line_with_at_picker
+
+            try:
+                return read_line_with_at_picker(
+                    prompt,
+                    input_stream=self.input_stream,
+                    output_stream=self.stream,
+                    use_unicode=self.use_unicode,
+                    use_color=self.use_color,
+                    history=self.history if use_history else None,
+                )
+            except EOFError as exc:
+                raise TUIExit from exc
         try:
+            if self.input_fn is None:
+                # Let readline own the prompt in fallback mode so Backspace
+                # cannot move into and erase a separately printed prefix.
+                return input(f"› {label} ").strip()
+            self.stream.write(prompt)
+            self.stream.flush()
             return self.input_fn("").strip()
         except EOFError as exc:
             raise TUIExit from exc
@@ -240,7 +268,10 @@ class TUIConsole:
             self.stream.flush()
 
         try:
-            output, _ = process.communicate()
+            from .path_picker import terminal_interrupt_monitor
+
+            with terminal_interrupt_monitor(self.input_stream):
+                output, _ = process.communicate()
         except KeyboardInterrupt:
             stop_spinner()
             process.terminate()
@@ -326,8 +357,8 @@ class DocAtlasTUI:
                 self.console.panel(
                     "Open documents",
                     [
-                        'Type @report.pdf, @"annual report.pdf", or @folder/.',
-                        "Press Tab after @ for path completion.",
+                        "Press @ to open the navigable PDF and folder picker.",
+                        "You can also paste a plain PDF or folder path.",
                         "[1] One PDF   [2] Multiple PDFs   [3] Entire folder   [q] Quit",
                     ],
                 )
@@ -335,7 +366,7 @@ class DocAtlasTUI:
                 if choice.casefold() in {"q", "quit", "/quit", "/exit"}:
                     raise TUIExit
                 if choice == "1":
-                    pending = self._paths_from_line(self.console.prompt("PDF path or @path"))
+                    pending = self._paths_from_line(self.console.prompt("PDF path or press @"))
                 elif choice == "2":
                     self.console.write("Add one @path per line; submit an empty line when done.")
                     while True:
@@ -344,7 +375,7 @@ class DocAtlasTUI:
                             break
                         pending.extend(self._paths_from_line(line))
                 elif choice == "3":
-                    pending = self._paths_from_line(self.console.prompt("Folder path or @folder"))
+                    pending = self._paths_from_line(self.console.prompt("Folder path or press @"))
                     recursive = self._confirm("Include subfolders?", default=False)
                 else:
                     pending = self._paths_from_line(choice)
@@ -462,12 +493,14 @@ class DocAtlasTUI:
         self.console.panel(
             "Commands",
             [
-                "@path.pdf           add a PDF (Tab completes paths)",
-                "/add @path...       add files or a folder and start a new conversation",
-                "/new [@path...]     replace the current document set",
+                "@                   open the navigable file/folder picker",
+                "/add then @         add documents and start a new conversation",
+                "/new then @         replace the current document set",
                 "/files              show active documents",
                 "/clear              clear chat history; keep documents and cache",
                 "/rebuild            force preprocessing for the active documents",
+                "Esc / Ctrl+C        cancel input or interrupt the active turn",
+                "Up / Down           browse previous questions",
                 "/help               show this list",
                 "/quit               exit DocAtlas",
             ],
@@ -483,10 +516,10 @@ class DocAtlasTUI:
         self._help()
         while True:
             try:
-                value = self.console.prompt(f"Ask #{question_number}")
+                value = self.console.prompt(f"Ask #{question_number}", use_history=True)
             except KeyboardInterrupt:
-                self.console.write()
-                return "quit", None, False
+                self.console.write(self.console._style("Input cancelled", self.console._DIM))
+                continue
             if not value:
                 continue
             command, _, remainder = value.partition(" ")
@@ -537,10 +570,15 @@ class DocAtlasTUI:
                     f"selecting a document.\n\n{value}"
                 )
             try:
-                result = runtime.loop.run(user_message, continue_conversation=True)
+                from .path_picker import terminal_interrupt_monitor
+
+                self.console.write(
+                    self.console._style("  Esc or Ctrl+C interrupts this turn", self.console._DIM)
+                )
+                with terminal_interrupt_monitor(self.console.input_stream):
+                    result = runtime.loop.run(user_message, continue_conversation=True)
             except KeyboardInterrupt:
-                renderer.abort()
-                self.console.write()
+                renderer.abort("Turn interrupted")
                 continue
             if not renderer.print_answer(result.answer):
                 sys.stdout.write(result.answer.rstrip() + "\n")
@@ -550,14 +588,14 @@ class DocAtlasTUI:
             question_number += 1
 
     def run(self) -> int:
-        if not sys.stdin.isatty() or not self.console.is_tty:
+        if not self.console.input_stream.isatty() or not self.console.is_tty:
             raise RuntimeError("the interactive TUI requires a terminal; use `docatlas chat` in CI")
         install_at_completion()
         self.console.panel(
             "DocAtlas",
             [
                 "Select PDFs, let DocAtlas prepare them, then ask follow-up questions.",
-                "Start with @path.pdf or choose one of the document modes.",
+                "Press @ for the path picker, or choose one of the document modes.",
             ],
             color=self.console._GREEN,
         )
@@ -575,7 +613,20 @@ class DocAtlasTUI:
         documents = self._select_documents(self.options.paths)
         force = self.options.force
         while True:
-            workspace = self._prepare_workspace(documents, config, force=force)
+            try:
+                workspace = self._prepare_workspace(documents, config, force=force)
+            except KeyboardInterrupt:
+                self.console.panel(
+                    "Preparation cancelled",
+                    [
+                        "The active child process was stopped and reaped.",
+                        "Completed cache artifacts remain available; choose documents to continue.",
+                    ],
+                    color=self.console._YELLOW,
+                )
+                documents = self._select_documents()
+                force = False
+                continue
             action, replacement, force = self._chat(workspace, config)
             if action == "quit":
                 self.console.panel(

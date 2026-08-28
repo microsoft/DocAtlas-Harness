@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 import io
+import os
+import pty
 import sys
+import termios
+import threading
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -102,6 +107,38 @@ def test_preprocess_stage_reports_success_and_sanitizes_failure() -> None:
     assert "bad\x1b[31m" not in stream.getvalue()
 
 
+def test_preprocess_stage_escape_interrupts_child_and_restores_terminal() -> None:
+    master, slave = pty.openpty()
+    input_stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
+    output = io.StringIO()
+    console = TUIConsole(stream=output, input_stream=input_stream)
+    stage = PreprocessStage(
+        title="Slow stage",
+        argv=(sys.executable, "-c", "import time; time.sleep(30)"),
+    )
+    before = termios.tcgetattr(input_stream.fileno())
+
+    def interrupt() -> None:
+        time.sleep(0.15)
+        os.write(master, b"\x1b")
+
+    sender = threading.Thread(target=interrupt)
+    sender.start()
+    started = time.monotonic()
+    try:
+        with pytest.raises(KeyboardInterrupt):
+            console.run_stage(stage)
+        after = termios.tcgetattr(input_stream.fileno())
+    finally:
+        sender.join(timeout=1)
+        input_stream.close()
+        os.close(master)
+
+    assert time.monotonic() - started < 5
+    assert after == before
+    assert "Interrupted" in output.getvalue()
+
+
 def test_chat_loop_reuses_agent_conversation(tmp_path: Path, monkeypatch) -> None:
     document = _pdf(tmp_path / "report.pdf")
     workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
@@ -186,3 +223,41 @@ def test_chat_document_commands_replace_runtime(
     assert replacement is not None
     assert [path.name for path in replacement] == expected
     assert force is False
+
+
+def test_interrupted_turn_returns_to_question_prompt(tmp_path: Path, monkeypatch) -> None:
+    document = _pdf(tmp_path / "report.pdf")
+    workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
+    console, _ = _console("question to cancel", "/quit")
+    app = DocAtlasTUI(TUIOptions(), console=console)
+
+    class FakeSession:
+        def __init__(self) -> None:
+            self.notes = SimpleNamespace(question="")
+            self.workspace: dict = {}
+
+        def refresh_from_disk(self) -> None:
+            return None
+
+        def save(self) -> None:
+            return None
+
+    class InterruptedLoop:
+        def run(self, message: str, *, continue_conversation: bool = False) -> AgentResult:
+            raise KeyboardInterrupt
+
+    class TrackingRenderer:
+        def __init__(self) -> None:
+            self.aborted: list[str] = []
+
+        def abort(self, message: str = "Interrupted") -> None:
+            self.aborted.append(message)
+
+    renderer = TrackingRenderer()
+    runtime = SimpleNamespace(session=FakeSession(), loop=InterruptedLoop())
+    monkeypatch.setattr(app, "_create_runtime", lambda workspace, config: (runtime, renderer))
+
+    action, replacement, force = app._chat(workspace, HarnessConfig())
+
+    assert (action, replacement, force) == ("quit", None, False)
+    assert renderer.aborted == ["Turn interrupted"]

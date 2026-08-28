@@ -7,6 +7,7 @@ import json
 import os
 import shlex
 import sys
+import unicodedata
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
@@ -16,6 +17,10 @@ from .preprocess._io import atomic_write_json
 from .session import DocEnv
 
 _WORKSPACE_SCHEMA_VERSION = 1
+
+
+def _path_text_is_safe(value: str) -> bool:
+    return all(unicodedata.category(char) not in {"Cc", "Cf", "Cs"} for char in value)
 
 
 def parse_at_paths(value: str) -> list[str]:
@@ -51,6 +56,10 @@ def normalize_document_paths(
             raw_text = raw_text[1:]
         if not raw_text:
             continue
+        if not _path_text_is_safe(raw_text):
+            raise ValueError(
+                "document paths containing terminal control characters are unsupported"
+            )
         path = Path(raw_text).expanduser().resolve()
         if path.is_file():
             if path.suffix.lower() != ".pdf":
@@ -61,6 +70,8 @@ def normalize_document_paths(
             candidates = path.rglob("*") if recursive else path.iterdir()
             try:
                 for candidate in sorted(candidates, key=lambda item: str(item).casefold()):
+                    if not _path_text_is_safe(str(candidate)):
+                        continue
                     if candidate.is_file() and candidate.suffix.lower() == ".pdf":
                         resolved = candidate.resolve()
                         discovered[str(resolved)] = resolved

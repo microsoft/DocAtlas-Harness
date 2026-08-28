@@ -13,7 +13,7 @@ Fallbacks (so a standard Azure `.env` works):
     AZURE_OPENAI_ENDPOINT
     AZURE_OPENAI_API_VERSION / AZURE_API_VERSION
     AZURE_OPENAI_DEPLOYMENT
-    AZURE_OPENAI_API_KEY / OPENAI_API_KEY
+    AZURE_OPENAI_API_KEY
 """
 
 from __future__ import annotations
@@ -57,7 +57,7 @@ def load_aux_llm_config() -> AuxLLMConfig:
         "HARNESS_AUX_LLM_MODEL",
         "AZURE_OPENAI_DEPLOYMENT",
     )
-    api_key = _env_first("HARNESS_AUX_LLM_API_KEY", "AZURE_OPENAI_API_KEY", "OPENAI_API_KEY")
+    api_key = _env_first("HARNESS_AUX_LLM_API_KEY", "AZURE_OPENAI_API_KEY")
     if not endpoint:
         raise RuntimeError(
             "No Azure endpoint configured. Set HARNESS_AUX_LLM_ENDPOINT or AZURE_OPENAI_ENDPOINT."

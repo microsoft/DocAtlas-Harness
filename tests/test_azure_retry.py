@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from docatlas.llm.azure_responses import AzureResponsesBackend, _is_retryable
+from docatlas.llm.azure_responses import AzureResponsesBackend, _build_azure_client, _is_retryable
+from docatlas.skills._common.llm_client import load_aux_llm_config
 
 
 class _StatusError(RuntimeError):
@@ -38,3 +39,39 @@ def test_non_retryable_error_fails_immediately() -> None:
         backend._call_with_retry({})
 
     assert responses.calls == 1
+
+
+def test_generic_openai_key_is_never_sent_to_azure(monkeypatch) -> None:
+    import azure.identity
+    import openai
+
+    captured: dict = {}
+
+    def fake_client(**kwargs):
+        captured.update(kwargs)
+        return object()
+
+    monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "generic-key")  # pragma: allowlist secret
+    monkeypatch.setattr(openai, "AzureOpenAI", fake_client)
+    monkeypatch.setattr(azure.identity, "AzureCliCredential", lambda: object())
+    monkeypatch.setattr(
+        azure.identity,
+        "get_bearer_token_provider",
+        lambda credential, scope: "token-provider",
+    )
+
+    _build_azure_client("https://example.openai.azure.com", "test-version", 10)
+
+    assert "api_key" not in captured
+    assert captured["azure_ad_token_provider"] == "token-provider"
+
+
+def test_aux_config_ignores_generic_openai_key(monkeypatch) -> None:
+    monkeypatch.setenv("HARNESS_AUX_LLM_ENDPOINT", "https://example.openai.azure.com")
+    monkeypatch.setenv("HARNESS_AUX_LLM_MODEL", "model")
+    monkeypatch.delenv("HARNESS_AUX_LLM_API_KEY", raising=False)
+    monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "generic-key")  # pragma: allowlist secret
+
+    assert load_aux_llm_config().api_key is None

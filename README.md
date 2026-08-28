@@ -87,8 +87,13 @@ bash scripts/start_tui.sh
 # equivalent: uv run --locked docatlas
 ```
 
-The opening screen accepts one PDF, multiple PDFs, or a directory. Type `@`
-and press Tab for path completion, or launch with documents already selected:
+The opening screen accepts one PDF, multiple PDFs, or a directory. Typing `@`
+immediately opens a navigable picker: use `↑`/`↓`, Enter to open/select,
+Backspace or `←` for the parent directory, Space for multi-select, `d` to
+finish a multi-selection, and `f` to select the current folder. On terminals
+without raw-input support, `@` + Tab remains available as a fallback.
+
+You can also launch with documents already selected:
 
 ```bash
 # One document
@@ -109,13 +114,19 @@ stays open for follow-up questions. Available commands are:
 
 | Command | Action |
 |---|---|
-| `@path.pdf` | Add a document using the short form. |
-| `/add @path...` | Add files or a directory and begin a new document conversation. |
-| `/new [@path...]` | Replace the active document set. |
+| `@` | Open the navigable PDF/folder picker. |
+| `/add`, then `@` | Add files or a directory and begin a new document conversation. |
+| `/new`, then `@` | Replace the active document set. |
 | `/files` | Show active documents. |
 | `/clear` | Clear conversation history but keep documents and cached preprocessing. |
 | `/rebuild` | Force Markdown and PageIndex regeneration. |
 | `/quit` | Exit; cached work remains available. |
+
+Press Esc or Ctrl+C to cancel the current input or interrupt an active model,
+Skill, or preprocessing turn. The prompt uses a protected single-line editor:
+long questions scroll horizontally, and Backspace, Delete, `←`/`→`, Home/End,
+Ctrl+U, and Ctrl+W cannot erase the `› Ask #N` prefix. Use `↑`/`↓` to browse
+question history.
 
 ## Command-line workflows
 

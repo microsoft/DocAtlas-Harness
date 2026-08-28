@@ -47,6 +47,13 @@ def test_normalize_documents_rejects_duplicate_stems(tmp_path: Path) -> None:
         normalize_document_paths([first, second])
 
 
+def test_normalize_documents_rejects_terminal_control_paths(tmp_path: Path) -> None:
+    malicious = _pdf(tmp_path / "report\x1b[31m.pdf")
+
+    with pytest.raises(ValueError, match="control characters"):
+        normalize_document_paths([malicious])
+
+
 def test_workspace_builds_single_document_plan(tmp_path: Path) -> None:
     document = _pdf(tmp_path / "report.pdf")
     workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")

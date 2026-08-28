@@ -47,7 +47,9 @@ def _build_azure_client(endpoint: str, api_version: str, timeout: float):
     # Imported lazily so importing this module doesn't require openai/azure-identity.
     from openai import AzureOpenAI
 
-    api_key = os.getenv("AZURE_OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+    # A generic OPENAI_API_KEY may target api.openai.com and is not a valid
+    # Azure subscription key. Never send it to an Azure endpoint implicitly.
+    api_key = os.getenv("AZURE_OPENAI_API_KEY")
     if api_key:
         return AzureOpenAI(
             azure_endpoint=endpoint,

@@ -150,7 +150,7 @@ class PlainRenderer:
         self.stream.flush()
 
     def _width(self) -> int:
-        return max(50, min(120, shutil.get_terminal_size(fallback=(92, 24)).columns))
+        return max(30, min(120, shutil.get_terminal_size(fallback=(92, 24)).columns))
 
     def _wrapped_rows(self, text: str, *, indent: int = 3) -> list[str]:
         width = max(24, self._width() - indent - 3)

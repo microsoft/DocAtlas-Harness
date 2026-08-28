@@ -85,6 +85,11 @@ multi-document selections live under
 `outputs/tui/<key>/`; the directory is private to the local user where the
 platform supports POSIX permissions.
 
+On POSIX terminals, the prompt enters cbreak mode only while reading a line so
+an `@` keystroke can open the in-place path picker immediately. Terminal state
+is restored in a `finally` block. Other terminals retain readline path
+completion and the numbered selection modes.
+
 The workbench keeps the Responses API chain alive across questions, so
 follow-ups inherit prior user and assistant turns. `/clear` creates a fresh
 session without discarding preprocessing, while changing the document set
