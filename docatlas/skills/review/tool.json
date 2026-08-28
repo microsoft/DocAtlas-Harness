@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "review",
+  "description": "Recall saved analysis notes by natural-language query. An auxiliary LLM selects the relevant ones and the skill returns their full content. Use before answering, or whenever earlier saved evidence might contain information you need now.",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "description": "Focused natural-language description of what you want to recall from saved notes."
+    }
+  },
+  "required": ["query"],
+  "additionalProperties": false
+}

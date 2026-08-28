@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - run: uv lock --check
+      - run: uv sync --locked --extra dev
+      - run: uv run --locked pytest
+
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uvx ruff==0.16.5 format --check .
+      - run: uvx ruff==0.16.5 check .
+      - run: uv run --locked --with mypy==2.3.1 mypy docatlas
+      - run: uvx bandit==1.9.4 -q -r docatlas -x docatlas/_vendor
+      - run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/*.sh
+      - run: uvx cffconvert==2.0.0 --validate -i CITATION.cff
+      - run: uvx check-jsonschema==0.38.0 --builtin-schema vendor.github-workflows .github/workflows/ci.yml
+      - name: Audit locked dependencies
+        run: |
+          uv export --locked --no-dev --no-emit-project --format requirements-txt --output-file /tmp/docatlas-requirements.txt
+          uvx pip-audit==2.10.1 --progress-spinner off -r /tmp/docatlas-requirements.txt
+      - name: Scan tracked files
+        run: | # pragma: allowlist secret
+          uvx detect-secrets==1.5.0 scan --exclude-files '(^docatlas/_vendor/|\.(png|pdf)$)' $(git ls-files) > /tmp/detect-results.json
+          jq -e '.results == {}' /tmp/detect-results.json
+      - run: >-
+          uv run --locked --with pytest-cov==7.0.0 pytest -q
+          --cov=docatlas
+          --cov-fail-under=25 --cov-report=term
+      - name: Validate Agent Skills
+        run: |
+          for skill in search read note review; do
+            uvx --from skills-ref==0.1.1 agentskills validate "docatlas/skills/$skill"
+          done
+      - run: uv build
+      - name: Smoke-test the wheel
+        run: |
+          wheel=$(find dist -name '*.whl' -print -quit)
+          uv venv --python 3.12 /tmp/docatlas-wheel-test
+          uv pip install --python /tmp/docatlas-wheel-test/bin/python --no-deps "$wheel"
+          uv pip install --python /tmp/docatlas-wheel-test/bin/python pyyaml==6.0.3
+          uv run --no-project --python /tmp/docatlas-wheel-test/bin/python python -c "from pathlib import Path; import docatlas; from docatlas.skill_loader import load_skill; root = Path(docatlas.__file__).resolve().parent; assert load_skill(root / 'skills/read').name == 'read'; assert (root / '_vendor/pageindex/config.yaml').is_file()"

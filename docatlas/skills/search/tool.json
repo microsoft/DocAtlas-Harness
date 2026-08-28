@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "search",
+  "description": "Locate relevant sections in a long document by asking an auxiliary LLM to navigate the PageIndex tree. Returns a list of suggested page numbers (derived from matched tree nodes) plus a short rationale. Use as a coarse filter BEFORE Read whenever you don't already know which pages carry the evidence you need.",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "description": "A detailed natural-language query describing what to find. Short keyword phrases are NOT enough — this is LLM-driven tree search, not keyword matching. Write a complete sentence or question that names the specific entity/topic, the aspect you need (definition, value, comparison, trend...), and any constraints (time period, demographic group, unit). Good: 'Find sections discussing the median household income for Latino families and how it compares to other racial groups.' Bad: 'income Latino'."
+    },
+    "doc_id": {
+      "type": "string",
+      "description": "(Multi-doc only) Restrict the search to the named document. Use one of the doc_ids listed in the user message. Omit to search across all documents in a merged series tree."
+    }
+  },
+  "required": ["query"],
+  "additionalProperties": false
+}

@@ -36,9 +36,14 @@ cd "${PROJECT_ROOT}"
 # ── Load .env if present ─────────────────────────────────────────────
 if [ -f "${PROJECT_ROOT}/.env" ]; then
     set -a
+    # shellcheck source=/dev/null
     source "${PROJECT_ROOT}/.env"
     set +a
 fi
+
+# Always let uv select this repository's locked environment. An unrelated
+# activated virtualenv otherwise produces a warning and can confuse users.
+unset VIRTUAL_ENV
 
 # ── Defaults ────────────────────────────────────────────────────────
 # By default we look under data/sample_pdfs/ and use the first 2 PDFs
@@ -53,12 +58,10 @@ if [ -n "${HARNESS_DEMO_PDFS:-}" ]; then
 else
     while IFS= read -r p; do
         DEFAULT_PDFS+=("$p")
-    done < <(ls "${PROJECT_ROOT}/data/sample_pdfs/"*.pdf 2>/dev/null | head -2 || true)
+    done < <(find "${PROJECT_ROOT}/data/sample_pdfs" -maxdepth 1 -type f -name '*.pdf' -print | sort | head -2)
 fi
 DEFAULT_Q="${HARNESS_DEMO_QUESTION:-Compare the main themes of these documents and note one substantive difference.}"
 DEFAULT_SERIES_NAME="${HARNESS_DEMO_SERIES_NAME:-Demo series}"
-DEFAULT_SERIES_SLUG=""
-
 PDFS=()
 QUESTION="${DEFAULT_Q}"
 SERIES_NAME="${DEFAULT_SERIES_NAME}"
@@ -69,15 +72,7 @@ FORCE=0
 CHAT_ONLY=0
 MODEL="${AZURE_OPENAI_DEPLOYMENT:-}"
 
-if [ -n "${HARNESS_DRIVER_PYTHON:-}" ]; then
-    PY="${HARNESS_DRIVER_PYTHON}"
-elif [ -n "${HARNESS_SKILL_PYTHON:-}" ]; then
-    PY="${HARNESS_SKILL_PYTHON}"
-elif [ -x "${PROJECT_ROOT}/.venv/bin/python" ]; then
-    PY="${PROJECT_ROOT}/.venv/bin/python"
-else
-    PY="python3"
-fi
+command -v uv >/dev/null 2>&1 || { echo "uv is required" >&2; exit 1; }
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -90,7 +85,6 @@ while [[ $# -gt 0 ]]; do
         --max-turns)   MAX_TURNS="$2"; shift 2 ;;
         --force)       FORCE=1; shift ;;
         --chat-only)   CHAT_ONLY=1; shift ;;
-        --python)      PY="$2"; shift 2 ;;
         -h|--help)
             sed -n '4,30p' "${BASH_SOURCE[0]}"
             exit 0 ;;
@@ -152,9 +146,10 @@ else
             continue
         fi
         echo "[1/3] build-md ${STEM} ..."
-        BUILD_MD_FORCE=""
-        [ ${FORCE} -eq 1 ] && BUILD_MD_FORCE="--force"
-        "${PY}" -m harness build-md --pdf "$p" --output-dir "${MD_DIR}" ${BUILD_MD_FORCE}
+        BUILD_MD_ARGS=()
+        [ ${FORCE} -eq 1 ] && BUILD_MD_ARGS+=(--force)
+        uv run --locked harness build-md \
+            --pdf "$p" --output-dir "${MD_DIR}" "${BUILD_MD_ARGS[@]}"
     done
 fi
 
@@ -165,18 +160,18 @@ elif [ ${FORCE} -eq 0 ] && [ -f "${MERGED_TREE}" ]; then
     echo "[2/3] build-series-tree CACHED  (${MERGED_TREE})"
 else
     echo "[2/3] build-series-tree (model=${MODEL}) ..."
-    BUILD_TREE_FORCE=""
-    [ ${FORCE} -eq 1 ] && BUILD_TREE_FORCE="--force-trees"
+    BUILD_TREE_ARGS=()
+    [ ${FORCE} -eq 1 ] && BUILD_TREE_ARGS+=(--force-trees)
     PDF_FLAGS=()
     for p in "${PDFS[@]}"; do PDF_FLAGS+=(--pdf "$p"); done
-    "${PY}" -m harness build-series-tree \
+    uv run --locked harness build-series-tree \
         "${PDF_FLAGS[@]}" \
         --output "${MERGED_TREE}" \
         --trees-dir "${TREES_CACHE}" \
         --doc-name "${SERIES_NAME}" \
         --model "${MODEL}" \
         --node-summary \
-        ${BUILD_TREE_FORCE}
+        "${BUILD_TREE_ARGS[@]}"
 fi
 
 [ -f "${MERGED_TREE}" ] || { echo "ERROR: merged tree not produced: ${MERGED_TREE}" >&2; exit 1; }
@@ -187,8 +182,8 @@ echo "------------------------------------------------------------"
 PDF_FLAGS=()
 for p in "${PDFS[@]}"; do PDF_FLAGS+=(--pdf "$p"); done
 AZURE_OPENAI_DEPLOYMENT="${MODEL}" \
-"${PY}" -m harness chat \
-    --skill Search --skill Read --skill Note --skill Review \
+uv run --locked harness chat \
+    --skill search --skill read --skill note --skill review \
     "${PDF_FLAGS[@]}" \
     --markdown-dir "${MD_DIR}" \
     --tree-json "${MERGED_TREE}" \

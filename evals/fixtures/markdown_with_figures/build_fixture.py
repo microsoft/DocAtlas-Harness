@@ -11,13 +11,14 @@ Layout produced (matches MinerU's per-page output):
       mini_doc_page2/vlm/mini_doc_page2.md     (1 logo)
       mini_doc_page2/vlm/images/logo.png       (60x60 → filtered by min_size)
 """
+
 from __future__ import annotations
 
 import random
 import shutil
 from pathlib import Path
-from PIL import Image
 
+from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 DOC = HERE / "mini_doc"

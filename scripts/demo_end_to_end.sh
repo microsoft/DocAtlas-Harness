@@ -44,16 +44,21 @@ cd "${PROJECT_ROOT}"
 # ── Load .env if present (Azure endpoint / api version / deployment) ──
 if [ -f "${PROJECT_ROOT}/.env" ]; then
     set -a
+    # shellcheck source=/dev/null
     source "${PROJECT_ROOT}/.env"
     set +a
 fi
+
+# Always let uv select this repository's locked environment. An unrelated
+# activated virtualenv otherwise produces a warning and can confuse users.
+unset VIRTUAL_ENV
 
 # ── Defaults ─────────────────────────────────────────────────────────
 # Default PDF: first .pdf found under data/sample_pdfs/ (a place you can
 # drop a small PDF for the demo). Override with --pdf or set HARNESS_DEMO_PDF.
 DEFAULT_PDF="${HARNESS_DEMO_PDF:-}"
 if [ -z "${DEFAULT_PDF}" ]; then
-    DEFAULT_PDF="$(ls "${PROJECT_ROOT}/data/sample_pdfs/"*.pdf 2>/dev/null | head -1 || true)"
+    DEFAULT_PDF="$(find "${PROJECT_ROOT}/data/sample_pdfs" -maxdepth 1 -type f -name '*.pdf' -print | sort | head -1)"
 fi
 DEFAULT_Q="${HARNESS_DEMO_QUESTION:-Summarize the main contribution of this document in one sentence.}"
 
@@ -65,17 +70,7 @@ FORCE=0
 CHAT_ONLY=0
 MODEL="${AZURE_OPENAI_DEPLOYMENT:-}"
 
-# Python: prefer HARNESS_DRIVER_PYTHON → HARNESS_SKILL_PYTHON → local
-# uv venv → plain python3.
-if [ -n "${HARNESS_DRIVER_PYTHON:-}" ]; then
-    PY="${HARNESS_DRIVER_PYTHON}"
-elif [ -n "${HARNESS_SKILL_PYTHON:-}" ]; then
-    PY="${HARNESS_SKILL_PYTHON}"
-elif [ -x "${PROJECT_ROOT}/.venv/bin/python" ]; then
-    PY="${PROJECT_ROOT}/.venv/bin/python"
-else
-    PY="python3"
-fi
+command -v uv >/dev/null 2>&1 || { echo "uv is required" >&2; exit 1; }
 
 # ── Parse CLI ────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
@@ -87,7 +82,6 @@ while [[ $# -gt 0 ]]; do
         --max-turns)   MAX_TURNS="$2"; shift 2 ;;
         --force)       FORCE=1; shift ;;
         --chat-only)   CHAT_ONLY=1; shift ;;
-        --python)      PY="$2"; shift 2 ;;
         -h|--help)
             sed -n '4,30p' "${BASH_SOURCE[0]}"
             exit 0 ;;
@@ -137,12 +131,12 @@ elif [ ${FORCE} -eq 0 ] && [ -f "${PAGE_MD_GLOB}" ]; then
     echo "[1/3] build-md CACHED  ($(find "${MD_DIR}/${DOC_STEM}" -name "*.md" | wc -l) page md files exist)"
 else
     echo "[1/3] build-md ..."
-    BUILD_MD_FORCE=""
-    [ ${FORCE} -eq 1 ] && BUILD_MD_FORCE="--force"
-    "${PY}" -m harness build-md \
+    BUILD_MD_ARGS=()
+    [ ${FORCE} -eq 1 ] && BUILD_MD_ARGS+=(--force)
+    uv run --locked harness build-md \
         --pdf "${PDF}" \
         --output-dir "${MD_DIR}" \
-        ${BUILD_MD_FORCE}
+        "${BUILD_MD_ARGS[@]}"
 fi
 
 # ── Stage 2: build-tree (Azure OpenAI, PageIndex structure JSON) ──
@@ -152,14 +146,14 @@ elif [ ${FORCE} -eq 0 ] && [ -f "${TREE_JSON}" ]; then
     echo "[2/3] build-tree CACHED  (${TREE_JSON})"
 else
     echo "[2/3] build-tree (model=${MODEL}) ..."
-    BUILD_TREE_FORCE=""
-    [ ${FORCE} -eq 1 ] && BUILD_TREE_FORCE="--force"
-    "${PY}" -m harness build-tree \
+    BUILD_TREE_ARGS=()
+    [ ${FORCE} -eq 1 ] && BUILD_TREE_ARGS+=(--force)
+    uv run --locked harness build-tree \
         --pdf "${PDF}" \
         --output-dir "${TREE_DIR}" \
         --model "${MODEL}" \
         --node-summary \
-        ${BUILD_TREE_FORCE}
+        "${BUILD_TREE_ARGS[@]}"
 fi
 
 if [ ! -f "${TREE_JSON}" ]; then
@@ -175,8 +169,8 @@ fi
 echo "[3/3] chat ..."
 echo "------------------------------------------------------------"
 AZURE_OPENAI_DEPLOYMENT="${MODEL}" \
-"${PY}" -m harness chat \
-    --skill Search --skill Read --skill Note --skill Review \
+uv run --locked harness chat \
+    --skill search --skill read --skill note --skill review \
     --pdf "${PDF}" \
     --markdown-dir "${MD_DIR}" \
     --doc-id "${DOC_STEM}" \

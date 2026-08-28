@@ -5,8 +5,24 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "docatlas"
 version = "0.3.0"
-description = "DocAtlas — a document-understanding harness with portable DocSkills."
+description = "DocAtlas — a document-understanding harness with portable Agent Skills."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Microsoft Research" }]
+keywords = ["agents", "document-understanding", "multimodal", "pdf", "retrieval"]
 requires-python = ">=3.10,<3.14"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     # ── LLM / runtime core ──
     "openai>=1.40",
@@ -29,18 +45,15 @@ dependencies = [
     "docling-core>=2.0",
 
     # ── Tree construction (build-tree wraps PageIndex) ──
-    # The `pageindex` package is **vendored** at vendor/pageindex/ — see
-    # vendor/pageindex/UPSTREAM.md for provenance. No PyPI install needed;
-    # `tasks/preprocess/build_tree.py` adds vendor/ to sys.path at runtime.
+    # PageIndex is vendored under docatlas/_vendor/pageindex; see its
+    # UPSTREAM.md for provenance. No separate PyPI install is needed.
     # We list pageindex's only non-trivial dep (tiktoken) here so it lands
     # in our uv.lock.
     "tiktoken>=0.7",
 ]
 
 [project.optional-dependencies]
-# Backends we DON'T pull by default to keep the install lean.
-copilot = []                  # OpenAI-compatible chat.completions client (stdlib only)
-gpu = [                        # heavier CUDA wheels; install on a GPU host
+gpu = [                        # explicit Torch floor for GPU deployments
     "torch>=2.13.0",
 ]
 dev = [
@@ -49,8 +62,52 @@ dev = [
 ]
 
 [project.scripts]
-harness = "harness.__main__:main"
+docatlas = "docatlas.__main__:main"
+harness = "docatlas.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/microsoft/DocAtlas-Harness"
+Repository = "https://github.com/microsoft/DocAtlas-Harness"
+Issues = "https://github.com/microsoft/DocAtlas-Harness/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["harness*", "tasks*", "scoring*", "vendor*"]
+include = ["docatlas*"]
+
+[tool.setuptools.package-data]
+"docatlas.profiles" = ["*.yaml"]
+"docatlas.skills" = ["README.md"]
+"docatlas.skills._common" = ["README.md"]
+"docatlas.skills.note" = ["SKILL.md", "tool.json"]
+"docatlas.skills.read" = ["SKILL.md", "tool.json"]
+"docatlas.skills.review" = ["SKILL.md", "tool.json"]
+"docatlas.skills.search" = ["SKILL.md", "tool.json"]
+"docatlas._vendor.pageindex" = ["config.yaml", "LICENSE", "UPSTREAM.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+extend-exclude = ["docatlas/_vendor"]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+check_untyped_defs = true
+exclude = "^docatlas/_vendor/"
+ignore_missing_imports = true
+python_version = "3.10"
+
+[[tool.mypy.overrides]]
+module = "docatlas._vendor.*"
+ignore_errors = true
+
+[tool.coverage.run]
+omit = ["docatlas/_vendor/*"]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:", "if __name__ == .__main__.:"]

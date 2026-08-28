@@ -1,0 +1,32 @@
+# DocAtlas profile — default configuration for interactive chat.
+#
+# Usage:
+#   uv run --locked harness chat --profile default --message "..."
+#
+# Every key maps to a CLI flag (hyphens become underscores).
+# CLI flags always override profile values.
+
+# ── Document paths ──
+# pdf: /path/to/doc.pdf
+# markdown_dir: /path/to/mineru/output
+# doc_id: null                    # defaults to PDF stem
+# tree_json: null
+
+# ── Skills ──
+skills:
+  - search
+  - read
+  - note
+  - review
+
+# ── Agent loop ──
+max_turns: 30
+memory: true
+tree_annotate: true
+
+# ── Figure filter ──
+figure_min_size: 100
+figure_min_bytes: 2048
+
+# ── Display ──
+quiet: false

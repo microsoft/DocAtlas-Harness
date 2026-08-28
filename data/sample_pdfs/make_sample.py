@@ -13,7 +13,7 @@ Produces artifacts under this directory:
                                             multi-doc demo has a default pair
 
 The markdown layout mirrors the on-disk shape that `harness build-md`
-emits and that `DocSkills/_common/markdown_reader.py` consumes, so the
+emits and that `docatlas/skills/_common/markdown_reader.py` consumes, so the
 sample exercises Read's markdown mode (page 2 has a real table) and its
 figure path (page 4 has a chart) without needing Docling/MinerU.
 
@@ -27,7 +27,7 @@ Requires PyMuPDF (installed via the project's deps).
 
 from __future__ import annotations
 
-import os
+import argparse
 from pathlib import Path
 
 import fitz  # PyMuPDF
@@ -39,35 +39,53 @@ MD_ROOT = HERE / f"{DOC_ID}_markdown" / DOC_ID
 
 # (heading, body-lines) per physical page (1-based order).
 PAGES = [
-    ("Executive Summary", [
-        "Annual Widget Report 2025",
-        "",
-        "This report summarizes the annual performance of the Widget",
-        "division. It covers financial highlights, regional performance,",
-        "market share, the product roadmap, and the outlook for 2026.",
-    ]),
-    ("Financial Highlights", [
-        "Quarterly revenue grew steadily through 2025, as shown below.",
-    ]),  # table drawn separately
-    ("Regional Performance", [
-        "The North region contributed the largest share of revenue,",
-        "followed by the East and South regions. The West region grew",
-        "fastest year over year, driven by new distribution partners.",
-    ]),
-    ("Market Share", [
-        "Estimated 2025 market share by segment is shown in the chart.",
-    ]),  # figure drawn separately
-    ("Product Roadmap", [
-        "Planned 2026 milestones:",
-        "  - Widget Pro launch in Q1",
-        "  - Expanded API access in Q2",
-        "  - Regional data centers in Q3",
-    ]),
-    ("Outlook and Conclusion", [
-        "The division expects continued growth in 2026, supported by the",
-        "product roadmap and stronger regional coverage. Risks include",
-        "supply variability and competitive pricing pressure.",
-    ]),
+    (
+        "Executive Summary",
+        [
+            "Annual Widget Report 2025",
+            "",
+            "This report summarizes the annual performance of the Widget",
+            "division. It covers financial highlights, regional performance,",
+            "market share, the product roadmap, and the outlook for 2026.",
+        ],
+    ),
+    (
+        "Financial Highlights",
+        [
+            "Quarterly revenue grew steadily through 2025, as shown below.",
+        ],
+    ),  # table drawn separately
+    (
+        "Regional Performance",
+        [
+            "The North region contributed the largest share of revenue,",
+            "followed by the East and South regions. The West region grew",
+            "fastest year over year, driven by new distribution partners.",
+        ],
+    ),
+    (
+        "Market Share",
+        [
+            "Estimated 2025 market share by segment is shown in the chart.",
+        ],
+    ),  # figure drawn separately
+    (
+        "Product Roadmap",
+        [
+            "Planned 2026 milestones:",
+            "  - Widget Pro launch in Q1",
+            "  - Expanded API access in Q2",
+            "  - Regional data centers in Q3",
+        ],
+    ),
+    (
+        "Outlook and Conclusion",
+        [
+            "The division expects continued growth in 2026, supported by the",
+            "product roadmap and stronger regional coverage. Risks include",
+            "supply variability and competitive pricing pressure.",
+        ],
+    ),
 ]
 
 TABLE_ROWS = [
@@ -85,11 +103,9 @@ def _draw_table(page: fitz.Page, x: float, y: float, rows) -> None:
     row_h, col_w = 26, 150
     for r, row in enumerate(rows):
         for c, cell in enumerate(row):
-            rect = fitz.Rect(x + c * col_w, y + r * row_h,
-                             x + (c + 1) * col_w, y + (r + 1) * row_h)
+            rect = fitz.Rect(x + c * col_w, y + r * row_h, x + (c + 1) * col_w, y + (r + 1) * row_h)
             page.draw_rect(rect, color=(0.4, 0.4, 0.4), width=0.8)
-            page.insert_text((rect.x0 + 6, rect.y0 + 17), cell,
-                             fontsize=11, fontname="helv")
+            page.insert_text((rect.x0 + 6, rect.y0 + 17), cell, fontsize=11, fontname="helv")
 
 
 def _draw_chart(page: fitz.Page, x: float, y: float) -> None:
@@ -100,8 +116,7 @@ def _draw_chart(page: fitz.Page, x: float, y: float) -> None:
         rect = fitz.Rect(x + 90, top, x + 90 + val * scale, top + bar_h)
         page.draw_rect(rect, color=(0.15, 0.3, 0.55), fill=(0.2, 0.45, 0.75))
         page.insert_text((x, top + 16), label, fontsize=11, fontname="helv")
-        page.insert_text((rect.x1 + 6, top + 16), f"{val}%",
-                         fontsize=11, fontname="helv")
+        page.insert_text((rect.x1 + 6, top + 16), f"{val}%", fontsize=11, fontname="helv")
 
 
 def _save_chart_png(path: Path) -> None:
@@ -151,19 +166,33 @@ def build_markdown() -> None:
         body = [f"# {heading}", ""]
         body += [ln for ln in lines if ln and not ln.startswith("Annual Widget")]
         if heading == "Financial Highlights":
-            body += ["", "| Quarter | Revenue (USD M) | Growth |",
-                     "|---|---|---|"]
+            body += ["", "| Quarter | Revenue (USD M) | Growth |", "|---|---|---|"]
             body += [f"| {q} | {rev} | {g} |" for q, rev, g in TABLE_ROWS[1:]]
         if heading == "Market Share":
             _save_chart_png(vlm / "images" / "market_share.png")
-            body += ["", "![](images/market_share.png)", "",
-                     "The Widget segment leads at 45%."]
-        (vlm / f"{DOC_ID}_page{idx}.md").write_text("\n".join(body) + "\n",
-                                                    encoding="utf-8")
+            body += ["", "![](images/market_share.png)", "", "The Widget segment leads at 45%."]
+        (vlm / f"{DOC_ID}_page{idx}.md").write_text("\n".join(body) + "\n", encoding="utf-8")
     print(f"wrote {MD_ROOT}")
 
 
-if __name__ == "__main__":
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Regenerate DocAtlas's sample PDF fixtures.")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Overwrite the checked-in PDF and Markdown fixtures.",
+    )
+    args = parser.parse_args(argv)
+    outputs = [PDF_PATH, HERE / f"{DOC_ID}_prior.pdf", MD_ROOT]
+    if not args.force and any(path.exists() for path in outputs):
+        print("Sample fixtures already exist; pass --force to regenerate them.")
+        return 0
+
     build_pdf(PDF_PATH, PAGES, TABLE_ROWS, "2025")
     build_markdown()
     build_pdf(HERE / f"{DOC_ID}_prior.pdf", PAGES, TABLE_ROWS_PRIOR, "2024")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

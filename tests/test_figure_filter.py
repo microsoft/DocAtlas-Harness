@@ -1,13 +1,12 @@
 """Unit tests for FigureFilter — pure module, no I/O of its own beyond stat+PIL.open."""
+
 from __future__ import annotations
+
 from pathlib import Path
 
-import pytest
 from PIL import Image
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "DocSkills"))
-from _common.figure_filter import FigureFilter
+from docatlas.skills._common.figure_filter import FigureFilter
 
 
 def _write_png(path: Path, w: int, h: int, color=(255, 0, 0)) -> None:

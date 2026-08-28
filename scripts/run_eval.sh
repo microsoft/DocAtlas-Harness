@@ -2,12 +2,11 @@
 # ============================================================
 #  MMLongBench-Doc Evaluation — DocAtlas edition
 #
-#  Drives `python -m harness eval-mmlongbench` over the MMLongBench-Doc
+#  Drives `uv run --locked harness eval-mmlongbench` over MMLongBench-Doc
 #  corpus. Output JSON is shape-compatible with
-#  scoring/score_mmlongbench_hybrid.py.
+#  docatlas/scoring/score_mmlongbench_hybrid.py.
 #
-#  MMLongBench-Doc is not redistributed with this repo — see the README
-#  "Data & benchmarks" section for how to obtain it, then drop it under
+#  See the README Evaluation section for setup, then place the corpus under
 #  data/MMLongBench/ (gitignored) or point the env vars below elsewhere:
 #
 #    HARNESS_MMLB_DATA_ROOT    base dir holding samples.json + documents/
@@ -19,7 +18,7 @@
 #    HARNESS_MMLB_PDF_DIR      override the documents/ dir
 #    HARNESS_MMLB_MARKDOWN_DIR override the markdown/ dir
 #
-#  Anything else flows through to `python -m harness eval-mmlongbench`
+#  Additional arguments flow through to `harness eval-mmlongbench`
 #  via "$@".
 #
 #  Usage:
@@ -36,6 +35,7 @@ cd "${PROJECT_ROOT}"
 # ── Load .env if present ──
 if [ -f "${PROJECT_ROOT}/.env" ]; then
     set -a
+    # shellcheck source=/dev/null
     source "${PROJECT_ROOT}/.env"
     set +a
 fi
@@ -55,28 +55,17 @@ mkdir -p "${OUTPUT_DIR}"
 N_JOBS=8
 MAX_TURNS=50
 
-# ── Python interpreter ──
-# Prefer HARNESS_DRIVER_PYTHON → HARNESS_SKILL_PYTHON → local uv venv
-# → plain python3 (last-resort, system).
-if [ -n "${HARNESS_DRIVER_PYTHON:-}" ]; then
-    DRIVER_PY="${HARNESS_DRIVER_PYTHON}"
-elif [ -n "${HARNESS_SKILL_PYTHON:-}" ]; then
-    DRIVER_PY="${HARNESS_SKILL_PYTHON}"
-elif [ -x "${PROJECT_ROOT}/.venv/bin/python" ]; then
-    DRIVER_PY="${PROJECT_ROOT}/.venv/bin/python"
-else
-    DRIVER_PY="python3"
-fi
+command -v uv >/dev/null 2>&1 || { echo "uv is required" >&2; exit 1; }
 
 # Best config (reproduces the paper's headline MMLongBench-Doc number with
 # the paper's model + MinerU markdown): 4 skills, --detail high, high reasoning,
 # vision-zoom 1.0, max-turns 50, figure metadata, memory OFF, tree-annotate
 # ON (the eval runner enables tree-annotate automatically).
-"${DRIVER_PY}" -m harness eval-mmlongbench \
-    --skill Search \
-    --skill Read \
-    --skill Note \
-    --skill Review \
+uv run --locked harness eval-mmlongbench \
+    --skill search \
+    --skill read \
+    --skill note \
+    --skill review \
     \
     --vision \
     --vision-zoom 1.0 \

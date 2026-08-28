@@ -19,6 +19,7 @@ cd "${PROJECT_ROOT}"
 # ── Load .env if present ──
 if [ -f "${PROJECT_ROOT}/.env" ]; then
     set -a
+    # shellcheck source=/dev/null
     source "${PROJECT_ROOT}/.env"
     set +a
 fi
@@ -32,18 +33,9 @@ OUTPUT_DIR="${HARNESS_MMLB_TREES_DIR:-${DATA_ROOT}/trees}"
 # ── Model (required): your Azure deployment name, e.g. gpt-4o ──
 MODEL="${AZURE_OPENAI_DEPLOYMENT:?set AZURE_OPENAI_DEPLOYMENT in .env (your Azure deployment name)}"
 
-# ── Python interpreter ──
-if [ -n "${HARNESS_DRIVER_PYTHON:-}" ]; then
-    DRIVER_PY="${HARNESS_DRIVER_PYTHON}"
-elif [ -n "${HARNESS_SKILL_PYTHON:-}" ]; then
-    DRIVER_PY="${HARNESS_SKILL_PYTHON}"
-elif [ -x "${PROJECT_ROOT}/.venv/bin/python" ]; then
-    DRIVER_PY="${PROJECT_ROOT}/.venv/bin/python"
-else
-    DRIVER_PY="python3"
-fi
+command -v uv >/dev/null 2>&1 || { echo "uv is required" >&2; exit 1; }
 
-"${DRIVER_PY}" -m harness build-tree \
+uv run --locked harness build-tree \
     --pdf-dir "${PDF_DIR}" \
     --output-dir "${OUTPUT_DIR}" \
     --model "${MODEL}" \

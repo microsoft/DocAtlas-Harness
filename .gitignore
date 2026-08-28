@@ -1,49 +1,94 @@
-# ── runtime artifacts ──
-outputs/
-logs/
+# Runtime output and document-derived state
+/outputs/
+/logs/
+/sessions/
+/artifacts/
+*.log
 
-# ── Python ──
+# Local documents, datasets, model files, and internal evaluations
+# Only the small, generated public demo corpus is allowlisted under data/.
+/data/*
+!/data/sample_pdfs/
+/data/sample_pdfs/*
+!/data/sample_pdfs/make_sample.py
+!/data/sample_pdfs/sample_report.pdf
+!/data/sample_pdfs/sample_report_prior.pdf
+!/data/sample_pdfs/sample_report_markdown/
+!/data/sample_pdfs/sample_report_markdown/**
+/inputs/
+/documents/
+/checkpoints/
+/models/
+/XL-DocBench/
+/scoring/score_xldocbench.py
+/latest_version.txt
+
+# Python build and test artifacts
 __pycache__/
 *.py[cod]
-*$py.class
 *.egg-info/
 .eggs/
 build/
 dist/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.cache/
+.ipynb_checkpoints/
 
-# ── venv ──
+# Virtual environments
 .venv/
 venv/
 env/
 
-# ── secrets ──
+# Local credentials, authentication state, and agent state
 .env
-.env.local
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials*.json
+client_secret*.json
+service-account*.json
+secrets*.json
+secrets*.yaml
+secrets*.yml
+token*.json
+id_rsa
+id_ed25519
+/.azure/
+/.aws/
+/.kube/
+/.ssh/
+/.gnupg/
+.claude/
+.codex/
+.cursor/
 
-# ── editor / OS ──
+# Editors and operating systems
 .idea/
 .vscode/
 .DS_Store
+Thumbs.db
 *.swp
-
-# ── runtime / dev artifacts not for upstream ──
-# (all session/tree/demo outputs live under outputs/, ignored above)
-# Benchmark corpora are not redistributed here — see README "Data & benchmarks".
-data/MMLongBench/
-
-# ── XL-DocBench: unpublished internal benchmark, not part of this release ──
-XL-DocBench/
-scoring/score_xldocbench.py
-
-# ── paper sources / archives (not shipped) ──
-*.zip
-
-# ── agent/session runtime (not for upstream) ──
-.claude/
-latest_version.txt
-
-# also-local
+*.swo
 *.bak
+
+# Local archives
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+*.whl

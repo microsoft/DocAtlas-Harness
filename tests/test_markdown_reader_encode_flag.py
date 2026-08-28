@@ -1,13 +1,12 @@
 """linearize_page_with_image_refs(encode_images=False) returns paths-only refs."""
+
 from __future__ import annotations
 
 from pathlib import Path
 
 from PIL import Image
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "DocSkills"))
-from _common.markdown_reader import MarkdownReader, PageMarkdown
+from docatlas.skills._common.markdown_reader import MarkdownReader, PageMarkdown
 
 
 def _make_page(tmp_path: Path) -> PageMarkdown:

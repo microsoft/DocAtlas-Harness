@@ -2,11 +2,11 @@
 #
 # Referenced by GitHub "advanced setup" for code scanning. If you use the
 # one-click "default setup" instead, this file is ignored — in that case
-# simply dismiss any alerts raised inside vendor/ (third-party code we do
+# simply dismiss any alerts raised inside docatlas/_vendor/ (third-party code we do
 # not maintain) from the Security tab.
 name: "DocAtlas CodeQL config"
 
 # Exclude vendored third-party code (kept verbatim from upstream, MIT) from
 # analysis so scan results only cover code we own.
 paths-ignore:
-  - vendor
+  - docatlas/_vendor

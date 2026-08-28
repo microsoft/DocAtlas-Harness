@@ -494,7 +494,7 @@ requires-dist = [
     { name = "torch", marker = "extra == 'gpu'", specifier = ">=2.13.0" },
     { name = "tqdm", specifier = ">=4.66" },
 ]
-provides-extras = ["copilot", "gpu", "dev"]
+provides-extras = ["gpu", "dev"]
 
 [[package]]
 name = "docling"

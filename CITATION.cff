@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+message: If you use DocAtlas, please cite the software and associated preprint.
+title: "DocAtlas: Long-Document Understanding as Mutable-State Interaction"
+type: software
+version: 0.3.0
+license: MIT
+repository-code: "https://github.com/microsoft/DocAtlas-Harness"
+authors:
+  - family-names: Wei
+    given-names: Hongchen
+  - family-names: Wang
+    given-names: Yuanzhe
+  - family-names: Liu
+    given-names: Bei
+  - family-names: Yang
+    given-names: Yifan
+  - family-names: Dai
+    given-names: Qi
+  - family-names: Qiu
+    given-names: Kai
+  - family-names: Li
+    given-names: Yunsheng
+  - family-names: Chen
+    given-names: Dongdong
+  - family-names: Luo
+    given-names: Chong
+  - family-names: Chen
+    given-names: Zhenzhong
+  - family-names: Guo
+    given-names: Baining
+preferred-citation:
+  type: article
+  title: "DocAtlas: Long-Document Understanding as Mutable-State Interaction"
+  year: 2026
+  authors:
+    - family-names: Wei
+      given-names: Hongchen
+    - family-names: Wang
+      given-names: Yuanzhe
+    - family-names: Liu
+      given-names: Bei
+    - family-names: Yang
+      given-names: Yifan
+    - family-names: Dai
+      given-names: Qi
+    - family-names: Qiu
+      given-names: Kai
+    - family-names: Li
+      given-names: Yunsheng
+    - family-names: Chen
+      given-names: Dongdong
+    - family-names: Luo
+      given-names: Chong
+    - family-names: Chen
+      given-names: Zhenzhong
+    - family-names: Guo
+      given-names: Baining

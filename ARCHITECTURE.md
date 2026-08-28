@@ -1,132 +1,108 @@
-# DocAtlas — Architecture
+# DocAtlas architecture
 
-DocAtlas is a **document-understanding counterpart to Claude Code**: a
-model-agnostic agent harness specialized for long-document, multimodal,
-tree-structured PDFs. You control the agent loop, tool semantics, multimodal
-returns, session state, and UI. Benchmark evaluation (MMLongBench-Doc,
-FinRAG) is a *derived capability*, not the reason the harness
-exists.
+DocAtlas is a long-document agent harness built around explicit, inspectable
+tool calls. The model locates evidence, reads only the required pages, records
+grounded findings, and recalls those findings while the harness owns execution,
+state, multimodal transport, and limits.
 
-## Three layers
+## Components
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  DocSkills/   (portable, model- and harness-agnostic)        │
-│  Search · Read · Note · Review   +   _common/ shared libs    │
-│  Each skill = SKILL.md (LLM prose) + tool.json (schema)      │
-│               + scripts/run.py (CLI, JSON over stdio)         │
-└───────────────┬──────────────────────────────────────────────┘
-                │  loaded by
-                ▼
-┌──────────────────────────────────────────────────────────────┐
-│  harness/     (the kernel)                                    │
-│  skill_loader → prompt_composer → agent/loop → llm backend    │
-│  + session/ (shared session.json)  + ui/ (rich renderer)      │
-└───────────────┬──────────────────────────────────────────────┘
-                │  driven by
-                ▼
-┌──────────────────────────────────────────────────────────────┐
-│  tasks/ · profiles/ · scripts/ · scoring/                     │
-│  preprocessing (build-md / build-tree), batch eval, configs   │
-└──────────────────────────────────────────────────────────────┘
+```text
+docatlas/                  Single Python package namespace
+  agent/                   Loop, dispatch, hooks, and trace events
+  llm/                     Provider protocol and Azure Responses backend
+  session/                 Atomic session state
+  ui/                      Pipe-friendly progress rendering
+  skills/                  Portable Agent Skills and shared runtime
+    search/                Tree-guided candidate-page discovery
+    read/                  Text, page-image, and figure retrieval
+    note/                  Structured evidence checkpoints
+    review/                Note retrieval
+    _common/               Shared skill runtime
+  preprocess/              PDF preprocessing and tree utilities
+  benchmarks/mmlongbench/  Batch evaluation runner
+  scoring/                 Benchmark scoring utilities
+  _vendor/pageindex/       Frozen PageIndex snapshot
 ```
 
-Invariants:
+The dependency direction is deliberate: the runtime may consume Skills, but
+portable code under `docatlas/skills` does not import agent-runtime modules.
 
-- **DocSkills must not import from `harness/`.** That is what keeps them usable
-  from Claude Code (via Bash), DocAtlas, or any other runtime. Shared code that
-  a skill needs lives in `DocSkills/_common/`.
-- **`harness/` depends on `DocSkills/`** through `skill_loader.py`.
-- **`profiles/` and `tasks/` are harness-side only**; skills don't know about them.
+## Skill contract
 
-## The SKILL contract
+Each model-visible skill contains:
 
-A skill directory has three parts:
-
-```
-DocSkills/<Name>/
-├── SKILL.md      # YAML frontmatter (name, description) + free-form LLM prose
-├── tool.json     # JSON Schema for the LLM-facing parameters
-└── scripts/run.py  # the only CLI entry; reads args, writes one JSON object to stdout
+```text
+docatlas/skills/<skill>/
+├── SKILL.md               Agent Skills metadata and instructions
+├── tool.json              JSON Schema for model-selected arguments
+└── scripts/run.py         JSON-over-stdio CLI
 ```
 
-- `SKILL.md`'s prose is handed to the model verbatim as part of the system
-  prompt; its `description` and `tool.json` become the LLM tool schema.
-- The CLI is the single execution path. Base output is `{"text": "...", ...}`.
-  DocAtlas-only extensions are namespaced under `_harness_extras` (e.g.
-  base64 `images`, a `session_patch`) so other runtimes can ignore them.
-- **Session-level args** (the PDF path, the markdown dir) are bound once at
-  launch and injected by the dispatcher — they are *not* in the LLM tool
-  schema. **Per-call args** (pages, with_image, doc_id, …) are what the model
-  chooses.
+The harness binds document and session context at launch. The model selects
+only per-call arguments such as pages, query, figures, or evidence. Skill CLIs
+write one JSON object to stdout. Harness-specific metadata is namespaced under
+`_harness_extras` so another runtime can ignore it safely.
 
-## The agent loop
+## Agent loop
 
-`harness/agent/loop.py` runs the multi-turn loop:
+For each model turn, `docatlas/agent/loop.py`:
 
-1. **Compose** the system prompt (`prompt_composer.py`) from modular blocks
-   plus each loaded skill's `SKILL.md` body; build tool schemas from each
-   `tool.json`.
-2. **Call** the LLM backend. On tool calls, the **dispatcher**
-   (`agent/dispatch.py`) spawns each skill's `run.py` as a subprocess, injects
-   session args + `HARNESS_SESSION_FILE`, and parses its JSON stdout.
-3. **Multimodal returns** — if a skill returns base64 image URIs, the loop
-   upgrades them into native `input_image` content blocks and appends them as a
-   follow-up user message. The skill only ever emits JSON; the harness does the
-   multimodal lifting (no disk round-trip). Old images are FIFO-trimmed to a cap.
-4. **Chaining** — turns chain server-side via `previous_response_id` (Azure
-   Responses API); only new items are sent each turn.
-5. **Post-Note hooks** (`agent/post_note.py`) fire after a `Note` call:
-   - *memory archival* replaces stale `Read` outputs with compact placeholders
-     to free context (breaks the chain once to resend the trimmed mirror);
-   - *tree annotation* lifts the note's page-findings into the PageIndex tree.
-   Both are opt-in (`--memory`, `--tree-annotate`).
-6. The turn with **no** tool call is the final answer.
+1. Sends the system prompt, user request, and available tool schemas to Azure
+   OpenAI's Responses API.
+2. Dispatches requested skills as subprocesses without invoking a shell.
+3. Returns textual tool results and promotes labelled base64 images to native
+   multimodal input blocks.
+4. Chains turns with `previous_response_id`.
+5. Optionally archives earlier read results and enriches the session-local tree
+   after a note.
+6. Stops on a tool-free assistant response or the configured turn limit.
 
-## The four skills (+ two automatic hooks)
-
-| Skill | Role |
-|---|---|
-| `Search` | Coarse filter: an aux LLM walks the PageIndex tree and returns candidate pages. |
-| `Read` | The single content tool: page text (markdown or PyPDF), optional page screenshots, and figure sub-images. |
-| `Note` | Append a structured progress note (found / plan / evidence). |
-| `Review` | Recall saved notes relevant to a focused query (aux LLM). |
-
-Memory archival and tree annotation used to be separate skills; they are now
-**automatic post-Note hooks**, not model-visible tools.
+Interactive chat uses a general evidence-grounded response policy. The
+MMLongBench runner explicitly enables its benchmark answer-format policy; those
+grading instructions are not applied to normal harness users.
 
 ## Session state
 
-One JSON file per chat — `outputs/sessions/<uuid>/session.json` — is the single
-source of truth shared between the harness and every skill subprocess. It holds
-`doc_env`, `notes`, `tree`, and a `workspace`. Skills read/write it through
-`DocSkills/_common/session_io.py` (atomic tmp-file + rename); the harness passes
-its path via the `HARNESS_SESSION_FILE` env var. This makes skills
-Claude-Code-compatible: set the env var and run the skill via Bash.
+Every investigation has a private session directory containing `session.json`.
+It stores the document environment, notes, a session-local tree, and bounded
+search/read history. Writes use a temporary file followed by an atomic replace.
 
-## LLM backends
+The harness passes the path through `HARNESS_SESSION_FILE`. Direct callers can
+create a compatible file with `harness init-session` and then invoke a skill
+CLI themselves.
 
-The loop only knows the abstract `LLMBackend` protocol (`harness/llm/base.py`):
+## Multimodal reads
 
-- **`AzureResponsesBackend`** (default) — Azure OpenAI Responses API, with
-  API-key or `AzureCliCredential` auth and server-side chaining.
-- **`CopilotChatBackend`** — any OpenAI-compatible `/v1/chat/completions`
-  endpoint; translates the Responses-style items the loop builds into chat
-  messages and keeps client-side multi-turn state.
+The `read` skill prefers pre-extracted per-page Markdown when available and
+falls back to PyPDF text. It can independently request:
 
-`harness/llm/factory.py` picks the backend from config; adding a new backend
-means implementing one method without touching the loop.
+- physical page images rendered by PyMuPDF;
+- a metadata catalog of extracted figures; and
+- selected figure pixels addressed by `(page, ref)`.
 
-## Preprocessing & evaluation
+The Markdown root uses this zero-based on-disk page layout while Skill calls use
+one-based physical PDF pages:
 
-- `build-md` (Docling) turns PDFs into the per-page markdown + figures layout
-  that `Read` consumes; `build-tree` wraps vendored PageIndex to produce the
-  `*_structure.json` trees that `Search` navigates. `merge-trees` /
-  `build-series-tree` combine per-doc trees into one series tree for cross-doc QA.
-  (Docling `build-md` is the low-resource extractor; the paper's numbers use
-  **MinerU 2.5** — both emit the same on-disk layout, so the inference path is
-  identical.)
-- `tasks/mmlongbench/` drives the agent loop over a benchmark in parallel and
-  emits a `{meta, results}` JSON that `scoring/` consumes. The runner writes the
-  output schema; the scorers (rule-based + optional LLM extraction / judge) own
-  the grading.
+```text
+<markdown-root>/<doc-id>/<doc-id>_page0/vlm/
+├── <doc-id>_page0.md
+└── images/
+    └── picture-1.png
+```
+
+Image paths are confined to each page's `vlm/images/` directory and validated
+before encoding. Page count, zoom, figure count, and image byte limits bound
+model-selected work.
+
+## Trust boundaries
+
+PDFs, Markdown, tree summaries, and model-generated tool arguments are
+untrusted inputs. Document content is labelled as evidence rather than
+instructions. Skill subprocesses receive a reduced environment, and only the
+built-in LLM skills receive Azure/OpenAI credentials.
+
+Custom skill code is executable code and must be reviewed before loading. The
+harness does not provide an operating-system sandbox; deployments processing
+untrusted documents should add process/container isolation appropriate to their
+risk model.
