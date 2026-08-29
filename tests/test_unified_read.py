@@ -13,11 +13,10 @@ import sys
 from pathlib import Path
 
 import pytest
+from PIL import Image
 
 _HARNESS = Path(__file__).resolve().parent.parent
 _READ_SCRIPT = _HARNESS / "docatlas" / "skills" / "read" / "scripts" / "run.py"
-_FIXTURE_DIR = _HARNESS / "evals" / "fixtures" / "markdown_with_figures"
-_MINI_DOC = _FIXTURE_DIR / "mini_doc"
 
 
 def _run_read(extra_args: list[str], env_override: dict[str, str] | None = None) -> dict:
@@ -32,17 +31,25 @@ def _run_read(extra_args: list[str], env_override: dict[str, str] | None = None)
     return json.loads(r.stdout)
 
 
-needs_fixtures = pytest.mark.skipif(
-    not _MINI_DOC.is_dir(),
-    reason="Fixtures not found at evals/fixtures/markdown_with_figures/mini_doc",
-)
+@pytest.fixture
+def markdown_fixture(tmp_path: Path) -> Path:
+    """Create the smallest valid MinerU-style tree needed by Read tests."""
+    root = tmp_path / "markdown"
+    vlm = root / "mini_doc" / "mini_doc_page1" / "vlm"
+    images = vlm / "images"
+    images.mkdir(parents=True)
+    Image.new("RGB", (120, 120), (20, 80, 140)).save(images / "chart.png")
+    (vlm / "mini_doc_page1.md").write_text(
+        "# Page Two\n\nRevenue by segment:\n\n![](images/chart.png)\n",
+        encoding="utf-8",
+    )
+    return root
 
 
-@needs_fixtures
-def test_markdown_mode_returns_figure_images_meta():
+def test_markdown_mode_returns_figure_images_meta(markdown_fixture: Path):
     """Markdown mode should populate figure_images_meta with catalog entries."""
     result = _run_read(
-        ["--pages", "2", "--markdown-dir", str(_FIXTURE_DIR), "--doc-id", "mini_doc"],
+        ["--pages", "2", "--markdown-dir", str(markdown_fixture), "--doc-id", "mini_doc"],
         env_override={"HARNESS_FIGURE_MIN_SIZE": "1", "HARNESS_FIGURE_MIN_BYTES": "1"},
     )
     assert result["mode"] == "markdown"
@@ -55,15 +62,14 @@ def test_markdown_mode_returns_figure_images_meta():
     assert "size_px" in entry
 
 
-@needs_fixtures
-def test_figures_param_returns_sub_images():
+def test_figures_param_returns_sub_images(markdown_fixture: Path):
     """--figures should return base64 URIs in _harness_extras.figure_images."""
     result = _run_read(
         [
             "--pages",
             "2",
             "--markdown-dir",
-            str(_FIXTURE_DIR),
+            str(markdown_fixture),
             "--doc-id",
             "mini_doc",
             "--figures",
@@ -78,15 +84,14 @@ def test_figures_param_returns_sub_images():
     assert figs[0]["uri"].startswith("data:image/")
 
 
-@needs_fixtures
-def test_bad_ref_returns_figure_errors():
+def test_bad_ref_returns_figure_errors(markdown_fixture: Path):
     """Bad ref should produce figure_errors with reason=ref_not_found."""
     result = _run_read(
         [
             "--pages",
             "2",
             "--markdown-dir",
-            str(_FIXTURE_DIR),
+            str(markdown_fixture),
             "--doc-id",
             "mini_doc",
             "--figures",
@@ -99,7 +104,6 @@ def test_bad_ref_returns_figure_errors():
     assert "available_refs" in errors[0]
 
 
-@needs_fixtures
 def test_text_mode_returns_empty_figure_meta(tmp_path: Path):
     """When no markdown is available, figure_images_meta should be empty list."""
     # Page 1 of mini_doc has no figures; use a non-existent markdown-dir

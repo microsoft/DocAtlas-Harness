@@ -12,7 +12,7 @@
 #
 #  Usage:
 #
-#    # Defaults: first PDF found under data/sample_pdfs/ + a generic question
+#    # Defaults: first PDF found directly under data/ + a generic question
 #    bash scripts/demo_end_to_end.sh
 #
 #    # Bring your own PDF and question
@@ -54,11 +54,11 @@ fi
 unset VIRTUAL_ENV
 
 # ── Defaults ─────────────────────────────────────────────────────────
-# Default PDF: first .pdf found under data/sample_pdfs/ (a place you can
+# Default PDF: first .pdf found directly under data/ (a place you can
 # drop a small PDF for the demo). Override with --pdf or set HARNESS_DEMO_PDF.
 DEFAULT_PDF="${HARNESS_DEMO_PDF:-}"
 if [ -z "${DEFAULT_PDF}" ]; then
-    DEFAULT_PDF="$(find "${PROJECT_ROOT}/data/sample_pdfs" -maxdepth 1 -type f -name '*.pdf' -print | sort | head -1)"
+    DEFAULT_PDF="$(find "${PROJECT_ROOT}/data" -maxdepth 1 -type f -name '*.pdf' -print | sort | head -1)"
 fi
 DEFAULT_Q="${HARNESS_DEMO_QUESTION:-Summarize the main contribution of this document in one sentence.}"
 
@@ -94,7 +94,7 @@ done
 if [ -z "${PDF}" ] || [ ! -f "${PDF}" ]; then
     echo "PDF not found: '${PDF}'" >&2
     echo "  Pass --pdf <path>, set HARNESS_DEMO_PDF, or drop one under" >&2
-    echo "  ${PROJECT_ROOT}/data/sample_pdfs/" >&2
+    echo "  ${PROJECT_ROOT}/data/" >&2
     exit 1
 fi
 

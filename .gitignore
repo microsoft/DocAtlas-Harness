@@ -8,13 +8,9 @@
 # Local documents, datasets, model files, and internal evaluations
 # Only the small, generated public demo corpus is allowlisted under data/.
 /data/*
-!/data/sample_pdfs/
-/data/sample_pdfs/*
-!/data/sample_pdfs/make_sample.py
-!/data/sample_pdfs/sample_report.pdf
-!/data/sample_pdfs/sample_report_prior.pdf
-!/data/sample_pdfs/sample_report_markdown/
-!/data/sample_pdfs/sample_report_markdown/**
+!/data/make_sample.py
+!/data/sample_report.pdf
+!/data/sample_report_prior.pdf
 /inputs/
 /documents/
 /checkpoints/

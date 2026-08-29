@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate a small, fully self-authored sample document for demos + evals.
+"""Generate a small, fully self-authored sample document for demos and smoke tests.
 
 Produces artifacts under this directory:
 
   sample_report.pdf                       — a 6-page fictional report (2025)
-  sample_report_markdown/                 — the matching per-page markdown
+  sample_report_markdown/                 — generated per-page markdown
       sample_report/
         sample_report_page{0..5}/vlm/
           sample_report_page{N}.md
@@ -12,7 +12,7 @@ Produces artifacts under this directory:
   sample_report_prior.pdf                 — a 2024 prior-year variant, so the
                                             multi-doc demo has a default pair
 
-The markdown layout mirrors the on-disk shape that `harness build-md`
+The markdown layout mirrors the on-disk shape that `docatlas build-md`
 emits and that `docatlas/skills/_common/markdown_reader.py` consumes, so the
 sample exercises Read's markdown mode (page 2 has a real table) and its
 figure path (page 4 has a chart) without needing Docling/MinerU.
@@ -20,7 +20,7 @@ figure path (page 4 has a chart) without needing Docling/MinerU.
 Content is invented for this repo (a fictional "Annual Widget Report
 2025") and is freely redistributable. Regenerate with:
 
-    python data/sample_pdfs/make_sample.py
+    uv run --locked python data/make_sample.py
 
 Requires PyMuPDF (installed via the project's deps).
 """
@@ -180,17 +180,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Overwrite the checked-in PDF and Markdown fixtures.",
+        help="Overwrite the generated sample artifacts.",
     )
     args = parser.parse_args(argv)
-    outputs = [PDF_PATH, HERE / f"{DOC_ID}_prior.pdf", MD_ROOT]
-    if not args.force and any(path.exists() for path in outputs):
+    prior_pdf = HERE / f"{DOC_ID}_prior.pdf"
+    outputs = [PDF_PATH, prior_pdf, MD_ROOT]
+    if not args.force and all(path.exists() for path in outputs):
         print("Sample fixtures already exist; pass --force to regenerate them.")
         return 0
 
-    build_pdf(PDF_PATH, PAGES, TABLE_ROWS, "2025")
-    build_markdown()
-    build_pdf(HERE / f"{DOC_ID}_prior.pdf", PAGES, TABLE_ROWS_PRIOR, "2024")
+    if args.force or not PDF_PATH.exists():
+        build_pdf(PDF_PATH, PAGES, TABLE_ROWS, "2025")
+    if args.force or not MD_ROOT.exists():
+        build_markdown()
+    if args.force or not prior_pdf.exists():
+        build_pdf(prior_pdf, PAGES, TABLE_ROWS_PRIOR, "2024")
     return 0
 
 

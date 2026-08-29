@@ -7,11 +7,12 @@
 <p align="center">
   <a href="https://officeintelligence.github.io/docatlas/"><img src="https://img.shields.io/badge/Project-Website-0b7285?style=flat-square&logo=githubpages&logoColor=white" alt="Project website"></a>
   <a href="https://arxiv.org/abs/2608.07527"><img src="https://img.shields.io/badge/arXiv-2608.07527-b31b1b?style=flat-square&logo=arxiv&logoColor=white" alt="arXiv paper"></a>
-  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/codeql.yml"><img src="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/CI-tested-2ea44f?style=flat-square&logo=githubactions&logoColor=white" alt="CI tested"></a>
+  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/codeql.yml"><img src="https://img.shields.io/badge/CodeQL-enabled-0969da?style=flat-square&logo=githubactions&logoColor=white" alt="CodeQL enabled"></a>
   <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/python-3.10--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 through 3.13">
   <a href="https://agentskills.io/"><img src="https://img.shields.io/badge/Agent%20Skills-validated-6f42c1.svg?style=flat-square" alt="Agent Skills compatible"></a>
+  <a href="https://officeintelligence.github.io/xl-docbench/"><img src="https://img.shields.io/badge/Benchmark-XL--DocBench-a61e4d?style=flat-square" alt="XL-DocBench"></a>
 </p>
 
 <p align="center">
@@ -19,6 +20,7 @@
   · <a href="https://arxiv.org/abs/2608.07527"><b>Paper</b></a>
   · <a href="#-interactive-tui"><b>Interactive TUI</b></a>
   · <a href="#-results-and-leaderboard"><b>Leaderboard</b></a>
+  · <a href="https://officeintelligence.github.io/xl-docbench/"><b>XL-DocBench</b></a>
   · <a href="ARCHITECTURE.md"><b>Architecture</b></a>
 </p>
 
@@ -34,7 +36,7 @@ changes what subsequent steps can retrieve.
 
 <p align="center">
   <a href="assets/tui-preview.svg">
-    <img src="assets/tui-preview.svg" alt="DocAtlas terminal workbench with a full-width Ask composer, compact tool execution, and a grounded answer" width="100%">
+    <img src="assets/tui-preview.svg" alt="DocAtlas terminal workbench with a full-width Ask composer, compact tool execution, and a grounded answer" width="88%">
   </a>
 </p>
 
@@ -247,7 +249,7 @@ should use the canonical `docatlas` command.
 
 ```bash
 uv run --locked python docatlas/skills/read/scripts/run.py \
-  --pdf data/sample_pdfs/sample_report.pdf \
+  --pdf data/sample_report.pdf \
   --pages 1,3
 ```
 
@@ -359,6 +361,16 @@ Use `--manifest` for explicit per-document IDs or Markdown paths.
 
 ## 🧪 Evaluation and reproducibility
 
+### Related benchmark: XL-DocBench
+
+[**XL-DocBench — Evidence at Scale**](https://officeintelligence.github.io/xl-docbench/)
+is our companion, human-verified benchmark for evidence-grounded reasoning
+over extra-long professional documents. It contains 1,519 questions, has a
+median context of 211 pages, reaches 2,303 pages at maximum, and requires
+cross-page evidence for 72.6% of its questions. Visit the
+[project homepage](https://officeintelligence.github.io/xl-docbench/) for the
+paper, benchmark design, diagnostics, and interactive leaderboard.
+
 Run the MMLongBench-Doc harness and scorer:
 
 ```bash
@@ -373,22 +385,6 @@ Evaluation outputs record the DocAtlas version, Git revision, model deployment,
 API version, and `uv.lock` hash. Benchmark corpora are obtained from their
 original sources and are not redistributed here; the repository includes a
 small self-authored PDF for smoke tests and demos.
-
-## 🔐 Security and data handling
-
-DocAtlas sends requested document content to the configured model endpoints
-and stores session notes locally. Review custom Skills before loading them:
-Skill scripts are executable code, and the harness is not an operating-system
-sandbox. Treat PDFs, extracted Markdown, and document-tree text as untrusted
-input.
-
-Remote PDF support is limited to HTTP(S). Downloads are size-limited, validated
-as PDFs, protected against private-network targets and unsafe redirects, and
-stored in a private cache. URL query values are masked in the raw TTY and
-omitted from cache metadata. HTML pages are not accepted.
-
-Report vulnerabilities through [SECURITY.md](SECURITY.md), not through public
-issues.
 
 ## 🧑‍💻 Development
 

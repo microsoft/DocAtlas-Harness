@@ -6,7 +6,7 @@
 #           → per-doc trees → merged series tree (build-series-tree)
 #           → cross-doc chat (Search + Read with --doc-id routing)
 #
-#  Default scenario: first 2 PDFs under data/sample_pdfs/, with a generic
+#  Default scenario: first 2 PDFs directly under data/, with a generic
 #  cross-document question. Override with --pdf flags (repeat) or by
 #  setting HARNESS_DEMO_PDFS (newline- or colon-separated list).
 #
@@ -46,7 +46,7 @@ fi
 unset VIRTUAL_ENV
 
 # ── Defaults ────────────────────────────────────────────────────────
-# By default we look under data/sample_pdfs/ and use the first 2 PDFs
+# By default we look directly under data/ and use the first 2 PDFs
 # we find. Override with one or more --pdf flags, or set HARNESS_DEMO_PDFS
 # (newline- or colon-separated list of paths).
 DEFAULT_PDFS=()
@@ -58,7 +58,7 @@ if [ -n "${HARNESS_DEMO_PDFS:-}" ]; then
 else
     while IFS= read -r p; do
         DEFAULT_PDFS+=("$p")
-    done < <(find "${PROJECT_ROOT}/data/sample_pdfs" -maxdepth 1 -type f -name '*.pdf' -print | sort | head -2)
+    done < <(find "${PROJECT_ROOT}/data" -maxdepth 1 -type f -name '*.pdf' -print | sort | head -2)
 fi
 DEFAULT_Q="${HARNESS_DEMO_QUESTION:-Compare the main themes of these documents and note one substantive difference.}"
 DEFAULT_SERIES_NAME="${HARNESS_DEMO_SERIES_NAME:-Demo series}"
@@ -98,7 +98,7 @@ fi
 if [ ${#PDFS[@]} -lt 2 ]; then
     echo "error: multi-doc demo needs at least 2 --pdf inputs (got ${#PDFS[@]})." >&2
     echo "  Pass --pdf <path> twice, set HARNESS_DEMO_PDFS, or drop ≥2 PDFs" >&2
-    echo "  under ${PROJECT_ROOT}/data/sample_pdfs/" >&2
+    echo "  under ${PROJECT_ROOT}/data/" >&2
     exit 2
 fi
 for p in "${PDFS[@]}"; do

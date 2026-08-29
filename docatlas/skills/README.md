@@ -44,7 +44,7 @@ library and is not itself a Skill.
 
 ```bash
 uv run --locked python docatlas/skills/read/scripts/run.py \
-  --pdf data/sample_pdfs/sample_report.pdf --pages 1,3
+  --pdf data/sample_report.pdf --pages 1,3
 ```
 
 Create a session before calling the stateful skills directly:

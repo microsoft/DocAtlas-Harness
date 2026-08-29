@@ -1,69 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="860" viewBox="0 0 1100 860" role="img" aria-labelledby="title desc">
-  <title id="title">DocAtlas compact terminal interface</title>
-  <desc id="desc">A dark terminal with a full-width, padded Ask composer, compact Working and Answer cards, and breathing room below the active input.</desc>
-  <rect width="1100" height="860" rx="18" fill="#0d1117"/>
-  <rect x="1" y="1" width="1098" height="858" rx="17" fill="none" stroke="#30363d" stroke-width="2"/>
-  <circle cx="32" cy="29" r="7" fill="#ff5f56"/>
-  <circle cx="56" cy="29" r="7" fill="#ffbd2e"/>
-  <circle cx="80" cy="29" r="7" fill="#27c93f"/>
-  <text x="550" y="35" text-anchor="middle" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="15">docatlas tui</text>
-  <line x1="0" y1="52" x2="1100" y2="52" stroke="#30363d"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+  <title id="title">DocAtlas terminal interface</title>
+  <desc id="desc">A compact dark terminal showing a user question, three completed tools, an evidence-grounded answer, and command completion.</desc>
+  <rect width="1100" height="620" rx="18" fill="#0d1117"/>
+  <rect x="1" y="1" width="1098" height="618" rx="17" fill="none" stroke="#30363d" stroke-width="2"/>
+  <circle cx="32" cy="27" r="7" fill="#ff5f56"/>
+  <circle cx="56" cy="27" r="7" fill="#ffbd2e"/>
+  <circle cx="80" cy="27" r="7" fill="#27c93f"/>
+  <text x="550" y="33" text-anchor="middle" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="15">docatlas tui</text>
+  <line x1="0" y1="50" x2="1100" y2="50" stroke="#30363d"/>
 
-  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18">
-    <text x="34" y="88" fill="#66d9ef">╭─</text>
-    <text x="66" y="88" fill="#f0f6fc" font-weight="700">DocAtlas</text>
-    <text x="34" y="119" fill="#8b949e">│</text>
-    <text x="66" y="119" fill="#9aa4ad">document</text>
-    <text x="190" y="119" fill="#e6edf3">sample_report</text>
-    <text x="34" y="150" fill="#66d9ef">╰─</text>
-    <text x="66" y="150" fill="#69db7c">Ready</text>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17">
+    <circle cx="34" cy="78" r="5" fill="#69db7c"/>
+    <text x="52" y="84" fill="#f0f6fc" font-weight="700">DocAtlas</text>
+    <text x="148" y="84" fill="#8b949e">sample_report · Search Read Note Review · Ready</text>
 
-    <line x1="2" y1="176" x2="1098" y2="176" stroke="#59636e" opacity="0.7"/>
-    <rect x="2" y="188" width="1096" height="84" fill="#1e2630"/>
-    <text x="42" y="236" fill="#69db7c" font-weight="700">›</text>
-    <text x="70" y="236" fill="#ebeff3">What changed most, and which pages support it?</text>
+    <line x1="2" y1="106" x2="1098" y2="106" stroke="#59636e" opacity="0.7"/>
+    <rect x="2" y="118" width="1096" height="60" fill="#1e2630"/>
+    <text x="34" y="154" fill="#69db7c" font-weight="700">›</text>
+    <text x="62" y="154" fill="#ebeff3">What changed most, and which pages support it?</text>
 
-    <rect x="2" y="292" width="1096" height="190" fill="#11171e"/>
-    <text x="42" y="325" fill="#66d9ef">╭─</text>
-    <text x="74" y="325" fill="#66d9ef" font-weight="700">Working</text>
+    <rect x="2" y="194" width="1096" height="166" fill="#11171e"/>
+    <text x="34" y="224" fill="#66d9ef">╭─</text>
+    <text x="66" y="224" fill="#66d9ef" font-weight="700">Working</text>
 
-    <text x="42" y="364" fill="#66d9ef">│</text>
-    <text x="76" y="364" fill="#9aa4ad">1</text>
-    <text x="112" y="364" fill="#69db7c">✓</text>
-    <text x="140" y="364" fill="#ebeff3" font-weight="700">Search</text>
-    <text x="240" y="364" fill="#9aa4ad">“Find the largest revenue changes by region”</text>
-    <text x="1058" y="364" text-anchor="end" fill="#9aa4ad">1.1s</text>
+    <text x="34" y="257" fill="#66d9ef">│</text>
+    <text x="68" y="257" fill="#9aa4ad">1</text>
+    <text x="104" y="257" fill="#69db7c">✓</text>
+    <text x="132" y="257" fill="#ebeff3" font-weight="700">Search</text>
+    <text x="232" y="257" fill="#9aa4ad">“Find the largest revenue changes by region”</text>
+    <text x="1060" y="257" text-anchor="end" fill="#9aa4ad">1.1s</text>
 
-    <text x="42" y="399" fill="#66d9ef">│</text>
-    <text x="76" y="399" fill="#9aa4ad">2</text>
-    <text x="112" y="399" fill="#69db7c">✓</text>
-    <text x="140" y="399" fill="#ebeff3" font-weight="700">Read</text>
-    <text x="240" y="399" fill="#9aa4ad">sample_report · p.2-5</text>
-    <text x="1058" y="399" text-anchor="end" fill="#9aa4ad">0.2s</text>
+    <text x="34" y="288" fill="#66d9ef">│</text>
+    <text x="68" y="288" fill="#9aa4ad">2</text>
+    <text x="104" y="288" fill="#69db7c">✓</text>
+    <text x="132" y="288" fill="#ebeff3" font-weight="700">Read</text>
+    <text x="232" y="288" fill="#9aa4ad">sample_report · p.2-5</text>
+    <text x="1060" y="288" text-anchor="end" fill="#9aa4ad">0.2s</text>
 
-    <text x="42" y="434" fill="#66d9ef">│</text>
-    <text x="76" y="434" fill="#9aa4ad">3</text>
-    <text x="112" y="434" fill="#69db7c">✓</text>
-    <text x="140" y="434" fill="#ebeff3" font-weight="700">Note</text>
-    <text x="240" y="434" fill="#9aa4ad">Page 5 · 1 finding · 1 evidence entry</text>
-    <text x="1058" y="434" text-anchor="end" fill="#9aa4ad">0.1s</text>
+    <text x="34" y="319" fill="#66d9ef">│</text>
+    <text x="68" y="319" fill="#9aa4ad">3</text>
+    <text x="104" y="319" fill="#69db7c">✓</text>
+    <text x="132" y="319" fill="#ebeff3" font-weight="700">Note</text>
+    <text x="232" y="319" fill="#9aa4ad">Page 5 · 1 finding · 1 evidence entry</text>
+    <text x="1060" y="319" text-anchor="end" fill="#9aa4ad">0.1s</text>
 
-    <text x="42" y="467" fill="#66d9ef">╰─</text>
-    <text x="74" y="467" fill="#9aa4ad">4 model turns · 3 tools · 3.7s</text>
+    <text x="34" y="348" fill="#66d9ef">╰─</text>
+    <text x="66" y="348" fill="#9aa4ad">4 model turns · 3 tools · 3.7s</text>
 
-    <rect x="2" y="500" width="1096" height="148" fill="#11171e"/>
-    <text x="42" y="533" fill="#69db7c">╭─</text>
-    <text x="74" y="533" fill="#69db7c" font-weight="700">Answer</text>
-    <text x="42" y="572" fill="#69db7c">│</text>
-    <text x="74" y="572" fill="#ebeff3">Revenue increased most in the West region [p. 3].</text>
-    <text x="42" y="611" fill="#69db7c">╰─</text>
-    <text x="74" y="611" fill="#9aa4ad">12,400 in · 320 out · 80 reasoning</text>
+    <rect x="2" y="376" width="1096" height="104" fill="#11171e"/>
+    <text x="34" y="407" fill="#69db7c">╭─</text>
+    <text x="66" y="407" fill="#69db7c" font-weight="700">Answer</text>
+    <text x="34" y="438" fill="#69db7c">│</text>
+    <text x="66" y="438" fill="#ebeff3">Revenue increased most in the West region [p. 3].</text>
+    <text x="34" y="468" fill="#69db7c">╰─</text>
+    <text x="66" y="468" fill="#9aa4ad">12,400 in · 320 out · 80 reasoning</text>
 
-    <line x1="2" y1="676" x2="1098" y2="676" stroke="#59636e" opacity="0.7"/>
-    <rect x="2" y="688" width="1096" height="112" fill="#1e2630"/>
-    <text x="42" y="735" fill="#69db7c">›</text>
-    <text x="70" y="735" fill="#ebeff3">/ov</text>
-    <text x="42" y="777" fill="#ebeff3" font-weight="700">› /overview</text>
-    <text x="210" y="777" fill="#8b949e">inspect the current session · Tab to complete</text>
+    <line x1="2" y1="506" x2="1098" y2="506" stroke="#59636e" opacity="0.7"/>
+    <rect x="2" y="518" width="1096" height="76" fill="#1e2630"/>
+    <text x="34" y="550" fill="#69db7c">›</text>
+    <text x="62" y="550" fill="#ebeff3">/ov</text>
+    <text x="34" y="580" fill="#ebeff3" font-weight="700">› /overview</text>
+    <text x="202" y="580" fill="#8b949e">inspect the current session · Tab to complete</text>
   </g>
 </svg>
