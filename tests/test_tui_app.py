@@ -14,7 +14,10 @@ import pytest
 
 from docatlas.agent.trace import AgentResult
 from docatlas.config import HarnessConfig
+from docatlas.remote_pdf import DownloadedPDF
+from docatlas.skills._common.note_store import NoteStore
 from docatlas.ui.app import DocAtlasTUI, TUIConsole, TUIOptions, _at_path_completions
+from docatlas.ui.path_picker import CtrlCInterrupt, EscapeInterrupt
 from docatlas.workspace import DocumentWorkspace, PreprocessStage
 
 
@@ -38,6 +41,16 @@ def test_at_completion_lists_only_directories_and_pdfs(tmp_path: Path) -> None:
     assert _at_path_completions("@rep", cwd=tmp_path) == ["@report.pdf", "@reports/"]
 
 
+def test_document_input_can_mix_at_paths_and_pdf_urls() -> None:
+    console, _ = _console()
+    app = DocAtlasTUI(TUIOptions(), console=console)
+
+    assert app._paths_from_line("@local.pdf https://example.com/remote.pdf?signature=value") == [
+        "local.pdf",
+        "https://example.com/remote.pdf?signature=value",
+    ]
+
+
 def test_tui_rejects_noninteractive_streams() -> None:
     console, _ = _console()
     app = DocAtlasTUI(TUIOptions(), console=console)
@@ -55,6 +68,45 @@ def test_initial_selector_accepts_at_path(tmp_path: Path, monkeypatch) -> None:
     selected = app._select_documents()
 
     assert selected == [document.resolve()]
+
+
+def test_initial_selector_downloads_remote_pdf_without_exposing_query(
+    tmp_path: Path, monkeypatch
+) -> None:
+    document = _pdf(tmp_path / "annual-report.pdf")
+    calls: list[tuple[Path, str]] = []
+
+    class FakeDownloader:
+        def __init__(self, cache_root: Path) -> None:
+            self.cache_root = cache_root
+
+        def download(self, url: str) -> DownloadedPDF:
+            calls.append((self.cache_root, url))
+            return DownloadedPDF(
+                path=document,
+                display_url="https://example.com/annual-report.pdf",
+                size=document.stat().st_size,
+                from_cache=False,
+            )
+
+    monkeypatch.setattr("docatlas.ui.app.RemotePDFDownloader", FakeDownloader)
+    console, output = _console("https://example.com/annual-report.pdf?token=secret")
+    app = DocAtlasTUI(
+        TUIOptions(assume_yes=True, workspace_root=str(tmp_path / "workspaces")),
+        console=console,
+    )
+
+    selected = app._select_documents()
+
+    assert selected == [document.resolve()]
+    assert calls == [
+        (
+            (tmp_path / "workspaces" / "_downloads").resolve(),
+            "https://example.com/annual-report.pdf?token=secret",
+        )
+    ]
+    assert "annual-report.pdf" in output.getvalue()
+    assert "token=secret" not in output.getvalue()
 
 
 def test_selector_accepts_multiple_pdf_mode(tmp_path: Path, monkeypatch) -> None:
@@ -126,7 +178,7 @@ def test_preprocess_stage_escape_interrupts_child_and_restores_terminal() -> Non
     sender.start()
     started = time.monotonic()
     try:
-        with pytest.raises(KeyboardInterrupt):
+        with pytest.raises(EscapeInterrupt):
             console.run_stage(stage)
         after = termios.tcgetattr(input_stream.fileno())
     finally:
@@ -142,7 +194,7 @@ def test_preprocess_stage_escape_interrupts_child_and_restores_terminal() -> Non
 def test_chat_loop_reuses_agent_conversation(tmp_path: Path, monkeypatch) -> None:
     document = _pdf(tmp_path / "report.pdf")
     workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
-    console, _ = _console("first question", "follow-up question", "/quit")
+    console, output = _console("first question", "follow-up question", "/quit")
     app = DocAtlasTUI(TUIOptions(), console=console)
 
     class FakeSession:
@@ -189,6 +241,7 @@ def test_chat_loop_reuses_agent_conversation(tmp_path: Path, monkeypatch) -> Non
         {"role": "user", "text": "follow-up question"},
         {"role": "assistant", "text": "answer 2"},
     ]
+    assert "Ask #" not in output.getvalue()
 
 
 @pytest.mark.parametrize(
@@ -261,3 +314,117 @@ def test_interrupted_turn_returns_to_question_prompt(tmp_path: Path, monkeypatch
 
     assert (action, replacement, force) == ("quit", None, False)
     assert renderer.aborted == ["Turn interrupted"]
+
+
+def _runtime_without_calls() -> tuple[SimpleNamespace, SimpleNamespace]:
+    notes = NoteStore(question="What changed?")
+    notes.add_analysis(
+        found="Revenue increased on Page 2.",
+        evidence=[{"type": "text", "source": "Page 2", "content": "Revenue increased."}],
+    )
+
+    class FakeSession:
+        session_id = "session-test"
+        created_at = "2026-08-29T00:00:00+00:00"
+        tree = []
+        workspace = {
+            "conversation": [
+                {"role": "user", "text": "What changed?"},
+                {"role": "assistant", "text": "Revenue increased."},
+            ]
+        }
+
+        def __init__(self) -> None:
+            self.notes = notes
+
+        def refresh_from_disk(self) -> None:
+            return None
+
+        def save(self) -> None:
+            return None
+
+    class NoCallLoop:
+        def run(self, message: str, *, continue_conversation: bool = False) -> AgentResult:
+            raise AssertionError("overview must not enter the agent loop")
+
+    class FakeRenderer:
+        def abort(self, message: str = "Interrupted") -> None:
+            return None
+
+    return SimpleNamespace(session=FakeSession(), loop=NoCallLoop()), FakeRenderer()
+
+
+def test_overview_is_a_local_tui_command_and_can_export(tmp_path: Path, monkeypatch) -> None:
+    document = _pdf(tmp_path / "report.pdf")
+    workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
+    console, output = _console("/overview", "/overview export", "/quit")
+    app = DocAtlasTUI(TUIOptions(), console=console)
+    runtime, renderer = _runtime_without_calls()
+    monkeypatch.setattr(app, "_create_runtime", lambda workspace, config: (runtime, renderer))
+
+    action, replacement, force = app._chat(workspace, HarnessConfig())
+
+    assert (action, replacement, force) == ("quit", None, False)
+    assert "DocAtlas / Overview" in output.getvalue()
+    assert "Overview exported" in output.getvalue()
+    assert (workspace.root / "overview.md").is_file()
+
+
+def test_two_consecutive_ctrl_c_interrupts_exit_chat(tmp_path: Path, monkeypatch) -> None:
+    document = _pdf(tmp_path / "report.pdf")
+    workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
+    values = iter([CtrlCInterrupt(), CtrlCInterrupt()])
+    output = io.StringIO()
+
+    def input_fn(prompt: str) -> str:
+        del prompt
+        value = next(values)
+        raise value
+
+    console = TUIConsole(stream=output, input_fn=input_fn)
+    app = DocAtlasTUI(TUIOptions(), console=console)
+    runtime, renderer = _runtime_without_calls()
+    monkeypatch.setattr(app, "_create_runtime", lambda workspace, config: (runtime, renderer))
+
+    action, replacement, force = app._chat(workspace, HarnessConfig())
+
+    assert (action, replacement, force) == ("quit", None, False)
+    assert "press Ctrl+C again within 2s" in output.getvalue()
+    assert "Exiting DocAtlas" in output.getvalue()
+
+
+def test_double_ctrl_c_exit_window_expires(monkeypatch) -> None:
+    console, output = _console()
+    app = DocAtlasTUI(TUIOptions(), console=console)
+    timestamps = iter([10.0, 12.1, 13.0])
+    monkeypatch.setattr("docatlas.ui.app.time.monotonic", lambda: next(timestamps))
+
+    assert app._ctrl_c_requests_exit("Cancelled") is False
+    assert app._ctrl_c_requests_exit("Cancelled") is False
+    assert app._ctrl_c_requests_exit("Cancelled") is True
+    assert output.getvalue().count("press Ctrl+C again within 2s") == 2
+
+
+def test_escape_does_not_arm_double_ctrl_c_exit(tmp_path: Path, monkeypatch) -> None:
+    document = _pdf(tmp_path / "report.pdf")
+    workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
+    values = iter([EscapeInterrupt(), CtrlCInterrupt(), "/quit"])
+    output = io.StringIO()
+
+    def input_fn(prompt: str) -> str:
+        del prompt
+        value = next(values)
+        if isinstance(value, BaseException):
+            raise value
+        return value
+
+    console = TUIConsole(stream=output, input_fn=input_fn)
+    app = DocAtlasTUI(TUIOptions(), console=console)
+    runtime, renderer = _runtime_without_calls()
+    monkeypatch.setattr(app, "_create_runtime", lambda workspace, config: (runtime, renderer))
+
+    action, replacement, force = app._chat(workspace, HarnessConfig())
+
+    assert (action, replacement, force) == ("quit", None, False)
+    assert output.getvalue().count("press Ctrl+C again within 2s") == 1
+    assert "Exiting DocAtlas" not in output.getvalue()

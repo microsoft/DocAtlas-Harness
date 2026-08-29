@@ -3,162 +3,47 @@
 from __future__ import annotations
 
 import os
-import select
 import shlex
-import shutil
 import signal
 import sys
 import threading
 import unicodedata
-from collections import deque
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TextIO
 
+from ..remote_pdf import mask_url_query_values
+from . import terminal as _terminal
 from .plain_renderer import sanitize_terminal_text
+from .terminal import CtrlCInterrupt, EscapeInterrupt
 
-_UP = "UP"
-_DOWN = "DOWN"
-_LEFT = "LEFT"
-_RIGHT = "RIGHT"
-_ENTER = "ENTER"
-_ESCAPE = "ESCAPE"
-_BACKSPACE = "BACKSPACE"
-_SPACE = "SPACE"
-_CTRL_C = "CTRL_C"
-_CTRL_D = "CTRL_D"
-_CTRL_A = "CTRL_A"
-_CTRL_E = "CTRL_E"
-_CTRL_U = "CTRL_U"
-_CTRL_W = "CTRL_W"
-_DELETE = "DELETE"
+_UP = _terminal.KEY_UP
+_DOWN = _terminal.KEY_DOWN
+_LEFT = _terminal.KEY_LEFT
+_RIGHT = _terminal.KEY_RIGHT
+_ENTER = _terminal.KEY_ENTER
+_ESCAPE = _terminal.KEY_ESCAPE
+_BACKSPACE = _terminal.KEY_BACKSPACE
+_SPACE = _terminal.KEY_SPACE
+_CTRL_C = _terminal.KEY_CTRL_C
+_CTRL_D = _terminal.KEY_CTRL_D
+_CTRL_A = _terminal.KEY_CTRL_A
+_CTRL_E = _terminal.KEY_CTRL_E
+_CTRL_U = _terminal.KEY_CTRL_U
+_CTRL_W = _terminal.KEY_CTRL_W
+_DELETE = _terminal.KEY_DELETE
+_capture_typeahead = _terminal.capture_typeahead
+_display_width = _terminal.display_width
+_join_columns = _terminal.join_columns
+_queue_input = _terminal.queue_input
+_read_byte = _terminal.read_byte
+_read_terminal_key = _terminal.read_terminal_key
+_terminal_size = _terminal.terminal_size
+_truncate_display = _terminal.truncate_display
+
 _HIDDEN_DIRECTORY_NAMES = {"__pycache__", "build", "dist", "node_modules"}
-_PENDING_INPUT: dict[int, deque[int]] = {}
-_PENDING_INPUT_LOCK = threading.Lock()
-
-
-def _queue_input(descriptor: int, payload: bytes) -> None:
-    if not payload:
-        return
-    with _PENDING_INPUT_LOCK:
-        _PENDING_INPUT.setdefault(descriptor, deque()).extend(payload)
-
-
-def _read_byte(descriptor: int, timeout: float | None = None) -> bytes | None:
-    with _PENDING_INPUT_LOCK:
-        pending = _PENDING_INPUT.get(descriptor)
-        if pending:
-            value = pending.popleft()
-            if not pending:
-                _PENDING_INPUT.pop(descriptor, None)
-            return bytes([value])
-    if timeout is not None:
-        ready, _, _ = select.select([descriptor], [], [], timeout)
-        if not ready:
-            return None
-    raw_value = os.read(descriptor, 1)
-    return raw_value or None
-
-
-def _capture_typeahead(descriptor: int) -> None:
-    """Preserve bytes that would otherwise be lost across termios mode changes."""
-    while True:
-        ready, _, _ = select.select([descriptor], [], [], 0)
-        if not ready:
-            return
-        payload = os.read(descriptor, 4096)
-        if not payload:
-            return
-        _queue_input(descriptor, payload)
-
-
-def _read_terminal_key(stream: TextIO) -> str:
-    try:
-        descriptor = stream.fileno()
-    except (AttributeError, OSError):
-        char = stream.read(1)
-        return _decode_character(char)
-
-    first = _read_byte(descriptor)
-    if not first:
-        return _CTRL_D
-    if first == b"\x1b":
-        introducer = _read_byte(descriptor, 0.04)
-        if introducer is None:
-            return _ESCAPE
-        if introducer not in {b"[", b"O"}:
-            _queue_input(descriptor, introducer)
-            return _ESCAPE
-        sequence = bytearray(introducer)
-        for _ in range(8):
-            part = _read_byte(descriptor, 0.04)
-            if part is None:
-                break
-            sequence.extend(part)
-            if 0x40 <= part[0] <= 0x7E:
-                break
-        encoded_sequence = bytes(sequence)
-        if encoded_sequence in {b"[3~"}:
-            return _DELETE
-        if encoded_sequence in {b"[H", b"OH", b"[1~", b"[7~"}:
-            return _CTRL_A
-        if encoded_sequence in {b"[F", b"OF", b"[4~", b"[8~"}:
-            return _CTRL_E
-        final = chr(sequence[-1]) if len(sequence) > 1 else ""
-        return {
-            "A": _UP,
-            "B": _DOWN,
-            "C": _RIGHT,
-            "D": _LEFT,
-        }.get(final, _ESCAPE)
-
-    first_value = first[0]
-    utf8_width = 1
-    if first_value & 0b11110000 == 0b11110000:
-        utf8_width = 4
-    elif first_value & 0b11100000 == 0b11100000:
-        utf8_width = 3
-    elif first_value & 0b11000000 == 0b11000000:
-        utf8_width = 2
-    payload = bytearray(first)
-    while len(payload) < utf8_width:
-        part = _read_byte(descriptor)
-        if not part:
-            break
-        payload.extend(part)
-    try:
-        char = payload.decode("utf-8")
-    except UnicodeDecodeError:
-        char = payload.decode(getattr(stream, "encoding", None) or "utf-8", errors="replace")
-    return _decode_character(char)
-
-
-def _decode_character(char: str) -> str:
-    if char == "":
-        return _CTRL_D
-    if char in {"\r", "\n"}:
-        return _ENTER
-    if char in {"\x7f", "\b"}:
-        return _BACKSPACE
-    if char == " ":
-        return _SPACE
-    if char == "\x03":
-        return _CTRL_C
-    if char == "\x04":
-        return _CTRL_D
-    if char == "\x01":
-        return _CTRL_A
-    if char == "\x05":
-        return _CTRL_E
-    if char == "\x15":
-        return _CTRL_U
-    if char == "\x17":
-        return _CTRL_W
-    if char == "\x1b":
-        return _ESCAPE
-    return char
 
 
 def _display_path(path: Path) -> str:
@@ -438,7 +323,7 @@ class TerminalPathPicker:
                 elif key in {_ESCAPE, _CTRL_D}:
                     return []
                 elif key == _CTRL_C:
-                    raise KeyboardInterrupt
+                    raise CtrlCInterrupt
                 self._redraw()
         finally:
             # Let the line editor repaint its current buffer after the picker
@@ -470,52 +355,6 @@ def _mention_text(paths: list[Path]) -> str:
             display = resolved
         mentions.append("@" + shlex.quote(str(display)))
     return " ".join(mentions)
-
-
-def _display_width(value: str) -> int:
-    width = 0
-    for char in value:
-        if unicodedata.combining(char):
-            continue
-        width += 2 if unicodedata.east_asian_width(char) in {"W", "F"} else 1
-    return width
-
-
-def _terminal_size(stream: TextIO) -> os.terminal_size:
-    """Return the size of the terminal that actually owns ``stream``."""
-    try:
-        return os.get_terminal_size(stream.fileno())
-    except (AttributeError, OSError):
-        return shutil.get_terminal_size(fallback=(92, 24))
-
-
-def _join_columns(left: str, right: str, max_width: int) -> str:
-    """Fit left/right status text on one display-width-aware terminal row."""
-    if not right:
-        return _truncate_display(left, max_width)
-    right = _truncate_display(right, max_width)
-    right_width = _display_width(right)
-    left_width = max_width - right_width - 2
-    if left_width < 1:
-        return right
-    left = _truncate_display(left, left_width)
-    gap = max(2, max_width - _display_width(left) - right_width)
-    return left + (" " * gap) + right
-
-
-def _truncate_display(value: str, max_width: int) -> str:
-    if _display_width(value) <= max_width:
-        return value
-    target = max(1, max_width - 1)
-    rendered: list[str] = []
-    width = 0
-    for char in value:
-        char_width = _display_width(char)
-        if width + char_width > target:
-            break
-        rendered.append(char)
-        width += char_width
-    return "".join(rendered) + "…"
 
 
 def _line_window(value: str, cursor: int, max_width: int) -> tuple[str, int]:
@@ -573,8 +412,10 @@ def terminal_interrupt_monitor(
     descriptor = input_stream.fileno()
     previous = termios.tcgetattr(descriptor)
     stopped = threading.Event()
+    interrupt_kind: str | None = None
 
     def watch() -> None:
+        nonlocal interrupt_kind
         while not stopped.is_set():
             try:
                 value = _read_byte(descriptor, 0.1)
@@ -583,6 +424,8 @@ def terminal_interrupt_monitor(
             except OSError:
                 return
             should_interrupt = value == b"\x03"
+            if should_interrupt:
+                interrupt_kind = "ctrl_c"
             if value == b"\x1b":
                 introducer = _read_byte(descriptor, 0.04)
                 if introducer is not None:
@@ -596,6 +439,7 @@ def terminal_interrupt_monitor(
                         continue
                     _queue_input(descriptor, introducer)
                 should_interrupt = True
+                interrupt_kind = "escape"
             if should_interrupt:
                 stopped.set()
                 os.kill(os.getpid(), signal.SIGINT)
@@ -609,7 +453,14 @@ def terminal_interrupt_monitor(
         watcher = threading.Thread(target=watch, daemon=True)
         watcher.start()
         try:
-            yield
+            try:
+                yield
+            except KeyboardInterrupt as exc:
+                if interrupt_kind == "escape":
+                    raise EscapeInterrupt from exc
+                if interrupt_kind == "ctrl_c":
+                    raise CtrlCInterrupt from exc
+                raise
         finally:
             stopped.set()
             watcher.join(timeout=0.3)
@@ -626,6 +477,7 @@ def read_line_with_at_picker(
     use_unicode: bool = True,
     use_color: bool = True,
     history: list[str] | None = None,
+    input_activity: Callable[[], None] | None = None,
 ) -> str:
     """Read one editable line and open a path picker immediately on ``@``."""
     if os.name != "posix":  # pragma: no cover - Windows fallback lives in TUIConsole
@@ -647,10 +499,10 @@ def read_line_with_at_picker(
         if extra:
             display_buffer[cursor:cursor] = list(extra)
             display_cursor += len(extra)
-        terminal_width = shutil.get_terminal_size(fallback=(92, 24)).columns
+        terminal_width = _terminal_size(output_stream).columns
         prompt_width = _display_width(sanitize_terminal_text(prompt))
         visible, cursor_column = _line_window(
-            "".join(display_buffer),
+            mask_url_query_values("".join(display_buffer)),
             display_cursor,
             max(8, terminal_width - prompt_width - 1),
         )
@@ -668,11 +520,19 @@ def read_line_with_at_picker(
         termios.tcsetattr(descriptor, termios.TCSANOW, attributes)
         while True:
             key = _read_terminal_key(input_stream)
+            if key != _CTRL_C and input_activity is not None:
+                input_activity()
             if key == _ENTER:
                 output_stream.write("\n")
                 output_stream.flush()
                 value = "".join(buffer).strip()
-                if history is not None and value and (not history or history[-1] != value):
+                history_safe = mask_url_query_values(value) == value
+                if (
+                    history is not None
+                    and history_safe
+                    and value
+                    and (not history or history[-1] != value)
+                ):
                     history.append(value)
                 return value
             if key == _BACKSPACE:
@@ -719,7 +579,7 @@ def read_line_with_at_picker(
             if key == _CTRL_C:
                 output_stream.write("^C\n")
                 output_stream.flush()
-                raise KeyboardInterrupt
+                raise CtrlCInterrupt
             if key == _CTRL_D:
                 if not buffer:
                     raise EOFError
@@ -727,7 +587,7 @@ def read_line_with_at_picker(
             if key == _ESCAPE:
                 output_stream.write("\n")
                 output_stream.flush()
-                raise KeyboardInterrupt
+                raise EscapeInterrupt
             if key == _UP and history_values:
                 if history_index == len(history_values):
                     draft = "".join(buffer)
@@ -785,6 +645,8 @@ def read_line_with_at_picker(
 
 
 __all__ = [
+    "CtrlCInterrupt",
+    "EscapeInterrupt",
     "PathPickerModel",
     "PickerEntry",
     "TerminalPathPicker",

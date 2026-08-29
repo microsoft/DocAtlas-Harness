@@ -10,11 +10,14 @@ state, multimodal transport, and limits.
 ```text
 docatlas/                  Single Python package namespace
   runtime.py               Shared session/dispatcher/AgentLoop construction
-  workspace.py             Document discovery and preprocessing cache plans
+  workspace.py             Local document discovery and preprocessing cache plans
+  remote_pdf.py            Validated HTTP(S) PDF download and private caching
   agent/                   Loop, dispatch, hooks, and trace events
   llm/                     Provider protocol and Azure Responses backend
   session/                 Atomic session state
   ui/                      Interactive workbench and pipe-friendly rendering
+    overview.py            Read-only session inspector and Markdown export
+    terminal.py            Shared key parsing and display-width primitives
   skills/                  Portable Agent Skills and shared runtime
     search/                Tree-guided candidate-page discovery
     read/                  Text, page-image, and figure retrieval
@@ -89,6 +92,18 @@ On POSIX terminals, the prompt enters cbreak mode only while reading a line so
 an `@` keystroke can open the in-place path picker immediately. Terminal state
 is restored in a `finally` block. Other terminals retain readline path
 completion and the numbered selection modes.
+
+The TUI also exposes a read-only `/overview` inspector. It builds an immutable
+snapshot from the active session's conversation, notes, search/read history,
+and session-local tree, then renders Summary, Findings, Outline, and History in
+a temporary terminal screen. It is not an Agent Skill and never invokes the
+model. The optional Markdown export stays inside the private workspace.
+
+HTTP(S) PDF inputs are resolved before workspace construction. The downloader
+pins each request to a DNS result that passed the public-address policy, repeats
+validation after bounded redirects, streams into a size-limited temporary file,
+and atomically promotes only content with a PDF header. Cache metadata omits URL
+queries. HTML ingestion remains outside the PDF harness boundary.
 
 The workbench keeps the Responses API chain alive across questions, so
 follow-ups inherit prior user and assistant turns. `/clear` creates a fresh

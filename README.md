@@ -87,8 +87,9 @@ bash scripts/start_tui.sh
 # equivalent: uv run --locked docatlas
 ```
 
-The opening screen accepts one PDF, multiple PDFs, or a directory. Typing `@`
-immediately opens a navigable picker: use `↑`/`↓`, Enter to open/select,
+The opening screen accepts one PDF, multiple PDFs, a directory, or an HTTP(S)
+PDF URL. Typing `@` immediately opens a navigable local-file picker: use
+`↑`/`↓`, Enter to open/select,
 Backspace or `←` for the parent directory, Space for multi-select, `d` to
 finish a multi-selection, and `f` to select the current folder. On terminals
 without raw-input support, `@` + Tab remains available as a fallback.
@@ -104,6 +105,9 @@ bash scripts/start_tui.sh @report.pdf @"annual report.pdf"
 
 # Every PDF in a folder; add --recursive to include subfolders
 bash scripts/start_tui.sh @reports/ --recursive
+
+# A remote PDF (quote signed URLs so the shell does not expand metacharacters)
+bash scripts/start_tui.sh 'https://example.com/reports/annual.pdf?token=...'
 ```
 
 Selections are capped at 100 PDFs by default; use `--max-documents N` to
@@ -115,17 +119,24 @@ stays open for follow-up questions. Available commands are:
 | Command | Action |
 |---|---|
 | `@` | Open the navigable PDF/folder picker. |
-| `/add`, then `@` | Add files or a directory and begin a new document conversation. |
-| `/new`, then `@` | Replace the active document set. |
+| `/add <@path\|URL>` | Add local or remote PDFs and begin a new document conversation. |
+| `/new <@path\|URL>` | Replace the active document set. |
 | `/files` | Show active documents. |
+| `/overview [view]` | Open the local session overview (`summary`, `findings`, `outline`, or `history`). |
+| `/overview export` | Write a private `overview.md` inside the active workspace. |
 | `/clear` | Clear conversation history but keep documents and cached preprocessing. |
 | `/rebuild` | Force Markdown and PageIndex regeneration. |
 | `/quit` | Exit; cached work remains available. |
 
-Press Esc or Ctrl+C to cancel the current input or interrupt an active model,
-Skill, or preprocessing turn. The prompt uses a protected single-line editor:
-long questions scroll horizontally, and Backspace, Delete, `←`/`→`, Home/End,
-Ctrl+U, and Ctrl+W cannot erase the `› Ask #N` prefix. Use `↑`/`↓` to browse
+`/overview` is a read-only TUI view and never calls the model or enters the
+agent loop. Use Tab to switch views, `↑`/`↓` to navigate, Enter to expand,
+`/` to filter, `e` to export, and Esc to return to chat.
+
+Press Esc or Ctrl+C once to cancel the current input or interrupt an active
+model, Skill, or preprocessing turn. Press Ctrl+C again within two seconds to
+exit DocAtlas cleanly. The prompt uses a protected single-line editor: long
+questions scroll horizontally, and Backspace, Delete, `←`/`→`, Home/End,
+Ctrl+U, and Ctrl+W cannot erase the `›` prompt. Use `↑`/`↓` to browse
 question history.
 
 ## Command-line workflows
@@ -286,6 +297,15 @@ stores session notes under `outputs/sessions/` by default. Review custom Skills
 before loading them: Skill scripts are executable code, and DocAtlas is not an
 operating-system sandbox. Treat PDFs, extracted Markdown, and document-tree text
 as untrusted input.
+
+Remote PDF support is limited to HTTP(S). Downloads use a private cache under
+`outputs/tui/_downloads/`, are capped at 100 MB, and must pass both response-type
+and PDF-header validation. Redirects are bounded; HTTPS downgrades, embedded
+credentials, and hosts resolving to local, private, reserved, or non-routable
+addresses are rejected. The raw TTY editor masks URL query values while they
+are entered, and downloader status/cache metadata omit them. A URL supplied as
+a command-line argument can still remain in shell history; paste sensitive
+signed URLs into the opening screen instead. HTML pages are not accepted.
 
 Please report vulnerabilities through the process in [SECURITY.md](SECURITY.md),
 not through public issues.

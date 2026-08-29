@@ -383,7 +383,7 @@ def build_parser() -> argparse.ArgumentParser:
     tui.add_argument(
         "paths",
         nargs="*",
-        help="Optional PDF files or folders; prefix with @ for TUI-style selection.",
+        help="Optional PDF files, folders, or HTTP(S) PDF URLs; prefix local paths with @.",
     )
     tui.add_argument(
         "--recursive", action="store_true", help="Search selected folders recursively."

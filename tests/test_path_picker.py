@@ -8,6 +8,7 @@ import termios
 import threading
 import time
 import tty
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -281,17 +282,24 @@ def test_terminal_key_reader_keeps_arrow_sequences_and_unicode_intact() -> None:
     stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
     tty.setcbreak(stream.fileno())
     try:
-        os.write(master, b"\x1b[B\x1b[A" + "中".encode())
+        os.write(master, b"\x1b[B\x1b[A\x1b[5~\x1b[6~\x1b[Z" + "中".encode())
 
         assert picker_module._read_terminal_key(stream) == "DOWN"
         assert picker_module._read_terminal_key(stream) == "UP"
+        assert picker_module._read_terminal_key(stream) == "PAGE_UP"
+        assert picker_module._read_terminal_key(stream) == "PAGE_DOWN"
+        assert picker_module._read_terminal_key(stream) == "SHIFT_TAB"
         assert picker_module._read_terminal_key(stream) == "中"
     finally:
         stream.close()
         os.close(master)
 
 
-def _drive_line(payload: bytes) -> tuple[str | None, BaseException | None, str]:
+def _drive_line(
+    payload: bytes,
+    history: list[str] | None = None,
+    input_activity: Callable[[], None] | None = None,
+) -> tuple[str | None, BaseException | None, str]:
     master, slave = pty.openpty()
     stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
     output = io.StringIO()
@@ -307,6 +315,8 @@ def _drive_line(payload: bytes) -> tuple[str | None, BaseException | None, str]:
                     output_stream=output,
                     use_unicode=True,
                     use_color=False,
+                    history=history,
+                    input_activity=input_activity,
                 )
             )
         except BaseException as exc:  # noqa: BLE001 - captured for the driving test
@@ -343,6 +353,19 @@ def test_line_editor_handles_unicode_and_cursor_edits() -> None:
 
     assert error is None
     assert result == "你很吗"
+
+
+def test_line_editor_masks_remote_url_query_but_returns_original_value() -> None:
+    history: list[str] = []
+    result, error, output = _drive_line(
+        b"https://example.com/report.pdf?token=do-not-echo\r", history
+    )
+
+    assert error is None
+    assert result == "https://example.com/report.pdf?token=do-not-echo"
+    assert "do-not-echo" not in output
+    assert "report.pdf?" in output
+    assert history == []
 
 
 def test_line_editor_supports_shell_editing_shortcuts() -> None:
@@ -433,8 +456,16 @@ def test_line_editor_escape_and_ctrl_c_cancel_cleanly() -> None:
     _, escape_error, _ = _drive_line(b"draft\x1b")
     _, ctrl_c_error, _ = _drive_line(b"draft\x03")
 
-    assert isinstance(escape_error, KeyboardInterrupt)
-    assert isinstance(ctrl_c_error, KeyboardInterrupt)
+    assert isinstance(escape_error, picker_module.EscapeInterrupt)
+    assert isinstance(ctrl_c_error, picker_module.CtrlCInterrupt)
+
+
+def test_line_editor_reports_non_ctrl_c_activity() -> None:
+    activity: list[str] = []
+    _, error, _ = _drive_line(b"x\x03", input_activity=lambda: activity.append("key"))
+
+    assert isinstance(error, picker_module.CtrlCInterrupt)
+    assert activity == ["key"]
 
 
 def test_line_editor_ctrl_d_reports_eof() -> None:

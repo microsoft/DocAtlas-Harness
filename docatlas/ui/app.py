@@ -8,7 +8,7 @@ import subprocess  # nosec B404
 import sys
 import threading
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TextIO
@@ -19,6 +19,7 @@ except ImportError:  # pragma: no cover - platform dependent
     readline = None  # type: ignore[assignment]
 
 from ..config import HarnessConfig
+from ..remote_pdf import RemotePDFDownloader, is_http_url, safe_display_url
 from ..runtime import AgentRuntime, create_agent_runtime
 from ..skill_loader import load_skills
 from ..workspace import (
@@ -26,11 +27,12 @@ from ..workspace import (
     PreprocessStage,
     build_preprocess_stages,
     normalize_document_paths,
-    parse_at_paths,
 )
 from .plain_renderer import PlainRenderer, sanitize_terminal_text
+from .terminal import EscapeInterrupt
 
 _SKILL_NAMES = ("search", "read", "note", "review")
+_DOUBLE_CTRL_C_SECONDS = 2.0
 
 
 class TUIExit(Exception):
@@ -132,6 +134,7 @@ class TUIConsole:
         self.input_stream = input_stream or sys.stdin
         self.input_fn = input_fn
         self.history: list[str] = []
+        self.input_activity: Callable[[], None] | None = None
         self.is_tty = bool(getattr(self.stream, "isatty", lambda: False)())
         encoding = getattr(self.stream, "encoding", None) or "utf-8"
         try:
@@ -171,7 +174,8 @@ class TUIConsole:
         self.write(self._style(self.bottom, colour))
 
     def prompt(self, label: str, *, use_history: bool = False) -> str:
-        prompt = f"{self._style('›', self._GREEN)} {label} "
+        label_suffix = f"{label} " if label else ""
+        prompt = f"{self._style('›', self._GREEN)} {label_suffix}"
         if (
             self.input_fn is None
             and os.name == "posix"
@@ -189,6 +193,7 @@ class TUIConsole:
                     use_unicode=self.use_unicode,
                     use_color=self.use_color,
                     history=self.history if use_history else None,
+                    input_activity=self.input_activity,
                 )
             except EOFError as exc:
                 raise TUIExit from exc
@@ -196,7 +201,7 @@ class TUIConsole:
             if self.input_fn is None:
                 # Let readline own the prompt in fallback mode so Backspace
                 # cannot move into and erase a separately printed prefix.
-                return input(f"› {label} ").strip()
+                return input(f"› {label_suffix}").strip()
             self.stream.write(prompt)
             self.stream.flush()
             return self.input_fn("").strip()
@@ -319,6 +324,46 @@ class DocAtlasTUI:
     def __init__(self, options: TUIOptions, *, console: TUIConsole | None = None) -> None:
         self.options = options
         self.console = console or TUIConsole()
+        self._last_ctrl_c_at: float | None = None
+        self._remote_sources: dict[Path, str] = {}
+        self.console.input_activity = self._reset_ctrl_c
+
+    def _reset_ctrl_c(self) -> None:
+        self._last_ctrl_c_at = None
+
+    def _ctrl_c_requests_exit(self, cancelled: str) -> bool:
+        now = time.monotonic()
+        if (
+            self._last_ctrl_c_at is not None
+            and now - self._last_ctrl_c_at <= _DOUBLE_CTRL_C_SECONDS
+        ):
+            self._last_ctrl_c_at = None
+            self.console.write(self.console._style("Exiting DocAtlas", self.console._DIM))
+            return True
+        self._last_ctrl_c_at = now
+        self.console.write(
+            self.console._style(
+                f"{cancelled} · press Ctrl+C again within 2s to exit",
+                self.console._DIM,
+            )
+        )
+        return False
+
+    def _select_documents_safely(self, seed_paths: list[str] | None = None) -> list[Path]:
+        pending = seed_paths
+        while True:
+            try:
+                documents = self._select_documents(pending)
+                self._reset_ctrl_c()
+                return documents
+            except EscapeInterrupt:
+                self._reset_ctrl_c()
+                self.console.write(self.console._style("Selection cancelled", self.console._DIM))
+                pending = None
+            except KeyboardInterrupt:
+                if self._ctrl_c_requests_exit("Selection cancelled"):
+                    raise TUIExit
+                pending = None
 
     def _confirm(
         self,
@@ -336,16 +381,89 @@ class DocAtlasTUI:
         return answer in {"y", "yes"}
 
     def _show_documents(self, documents: list[Path], *, title: str = "Documents") -> None:
-        lines = [
-            f"{index:>2}. {_friendly_path(path)}  ({_human_size(path.stat().st_size)})"
-            for index, path in enumerate(documents, 1)
-        ]
+        lines: list[str] = []
+        for index, path in enumerate(documents, 1):
+            remote_source = self._remote_sources.get(path.resolve())
+            remote_arrow = "←" if self.console.use_unicode else "<-"
+            display = (
+                f"{path.name} {remote_arrow} {remote_source}"
+                if remote_source
+                else _friendly_path(path)
+            )
+            lines.append(f"{index:>2}. {display}  ({_human_size(path.stat().st_size)})")
         self.console.panel(title, lines)
 
+    def _remote_cache_root(self) -> Path:
+        base = (
+            Path(self.options.workspace_root).expanduser().resolve()
+            if self.options.workspace_root is not None
+            else (Path.cwd() / "outputs" / "tui").resolve()
+        )
+        return base / "_downloads"
+
+    def _resolve_document_inputs(
+        self,
+        inputs: Iterable[str | Path],
+        *,
+        recursive: bool,
+    ) -> list[Path]:
+        resolved_inputs: list[str | Path] = []
+        downloader: RemotePDFDownloader | None = None
+        remote_count = 0
+        for raw in inputs:
+            raw_text = str(raw).strip()
+            candidate_url = (
+                raw_text[1:] if raw_text.startswith("@") and is_http_url(raw_text[1:]) else raw_text
+            )
+            if not is_http_url(candidate_url):
+                if "://" in candidate_url:
+                    raise ValueError("remote PDFs must use an HTTP or HTTPS URL")
+                resolved_inputs.append(raw)
+                continue
+            remote_count += 1
+            if remote_count > self.options.max_documents:
+                raise ValueError(f"selected more than {self.options.max_documents} remote PDFs")
+            if downloader is None:
+                downloader = RemotePDFDownloader(self._remote_cache_root())
+            display_url = safe_display_url(candidate_url)
+            self.console.write(
+                f"  {self.console._style(self.console.wait, self.console._YELLOW)} "
+                f"Fetching {display_url}"
+            )
+            from .path_picker import terminal_interrupt_monitor
+
+            with terminal_interrupt_monitor(self.console.input_stream):
+                downloaded = downloader.download(candidate_url)
+            self._remote_sources[downloaded.path.resolve()] = downloaded.display_url
+            status = "Cached" if downloaded.from_cache else "Downloaded"
+            self.console.write(
+                f"  {self.console._style(self.console.ok, self.console._GREEN)} "
+                f"{status} {downloaded.path.name} ({_human_size(downloaded.size)})"
+            )
+            resolved_inputs.append(downloaded.path)
+        return normalize_document_paths(
+            resolved_inputs,
+            recursive=recursive,
+            max_documents=self.options.max_documents,
+        )
+
     def _paths_from_line(self, value: str) -> list[str]:
-        mentions = parse_at_paths(value)
-        if mentions:
-            return mentions
+        try:
+            tokens = shlex.split(value, posix=os.name != "nt")
+        except ValueError as exc:
+            self.console.error(f"Could not parse document input: {exc}")
+            return []
+        sources: list[str] = []
+        for token in tokens:
+            # A bare at-sign is the path-picker trigger, not a credential.
+            if token == "@":  # nosec B105
+                continue
+            if token.startswith("@") and len(token) > 1:
+                sources.append(token[1:])
+            elif is_http_url(token):
+                sources.append(token)
+        if sources:
+            return sources
         stripped = value.strip().strip("'\"")
         return [stripped] if stripped else []
 
@@ -358,7 +476,7 @@ class DocAtlasTUI:
                     "Open documents",
                     [
                         "Press @ to open the navigable PDF and folder picker.",
-                        "You can also paste a plain PDF or folder path.",
+                        "You can also paste a local path or an HTTP(S) PDF URL.",
                         "[1] One PDF   [2] Multiple PDFs   [3] Entire folder   [q] Quit",
                     ],
                 )
@@ -366,9 +484,13 @@ class DocAtlasTUI:
                 if choice.casefold() in {"q", "quit", "/quit", "/exit"}:
                     raise TUIExit
                 if choice == "1":
-                    pending = self._paths_from_line(self.console.prompt("PDF path or press @"))
+                    pending = self._paths_from_line(
+                        self.console.prompt("PDF path, URL, or press @")
+                    )
                 elif choice == "2":
-                    self.console.write("Add one @path per line; submit an empty line when done.")
+                    self.console.write(
+                        "Add one PDF path or URL per line; submit an empty line when done."
+                    )
                     while True:
                         line = self.console.prompt(f"PDF {len(pending) + 1}")
                         if not line:
@@ -381,11 +503,7 @@ class DocAtlasTUI:
                     pending = self._paths_from_line(choice)
 
             try:
-                documents = normalize_document_paths(
-                    pending,
-                    recursive=recursive,
-                    max_documents=self.options.max_documents,
-                )
+                documents = self._resolve_document_inputs(pending, recursive=recursive)
             except (FileNotFoundError, ValueError) as exc:
                 self.console.panel("Could not open documents", [str(exc)], color=self.console._RED)
                 pending = []
@@ -489,17 +607,57 @@ class DocAtlasTUI:
         except (OSError, ValueError):
             return
 
+    def _show_overview(
+        self,
+        runtime: AgentRuntime,
+        workspace: DocumentWorkspace,
+        mode: str,
+    ) -> None:
+        from .overview import OverviewViewer, build_overview_snapshot, export_overview
+
+        normalized = mode.casefold() or "summary"
+        normalized = {
+            "notes": "findings",
+            "tree": "outline",
+            "questions": "history",
+        }.get(normalized, normalized)
+        if normalized not in {"summary", "findings", "outline", "history", "export"}:
+            self.console.error("Usage: /overview [summary|findings|outline|history|export]")
+            return
+        try:
+            runtime.session.refresh_from_disk()
+        except (OSError, ValueError):
+            # The in-memory session is still a useful, read-only fallback.
+            pass
+        snapshot = build_overview_snapshot(runtime.session, list(workspace.documents))
+        export_path = workspace.root / "overview.md"
+        if normalized == "export":
+            destination = export_overview(snapshot, export_path)
+            self.console.success(f"Overview exported to {_friendly_path(destination)}")
+            return
+        OverviewViewer(
+            snapshot,
+            input_stream=self.console.input_stream,
+            output_stream=self.console.stream,
+            use_unicode=self.console.use_unicode,
+            use_color=self.console.use_color,
+            initial_tab=normalized,
+            export_path=export_path,
+        ).run()
+
     def _help(self) -> None:
         self.console.panel(
             "Commands",
             [
                 "@                   open the navigable file/folder picker",
-                "/add then @         add documents and start a new conversation",
-                "/new then @         replace the current document set",
+                "/add <@path|URL>     add documents and start a new conversation",
+                "/new <@path|URL>     replace the current document set",
                 "/files              show active documents",
+                "/overview [view]    inspect findings, outline, and question history",
                 "/clear              clear chat history; keep documents and cache",
                 "/rebuild            force preprocessing for the active documents",
-                "Esc / Ctrl+C        cancel input or interrupt the active turn",
+                "Esc                 cancel input or interrupt the active turn",
+                "Ctrl+C twice        cancel, then exit DocAtlas within 2 seconds",
                 "Up / Down           browse previous questions",
                 "/help               show this list",
                 "/quit               exit DocAtlas",
@@ -516,10 +674,16 @@ class DocAtlasTUI:
         self._help()
         while True:
             try:
-                value = self.console.prompt(f"Ask #{question_number}", use_history=True)
-            except KeyboardInterrupt:
+                value = self.console.prompt("", use_history=True)
+            except EscapeInterrupt:
+                self._reset_ctrl_c()
                 self.console.write(self.console._style("Input cancelled", self.console._DIM))
                 continue
+            except KeyboardInterrupt:
+                if self._ctrl_c_requests_exit("Input cancelled"):
+                    return "quit", None, False
+                continue
+            self._reset_ctrl_c()
             if not value:
                 continue
             command, _, remainder = value.partition(" ")
@@ -533,6 +697,15 @@ class DocAtlasTUI:
             if command == "/files":
                 self._show_documents(list(workspace.documents), title="Active documents")
                 continue
+            if command == "/overview":
+                try:
+                    self._show_overview(runtime, workspace, remainder)
+                except EscapeInterrupt:
+                    self._reset_ctrl_c()
+                except KeyboardInterrupt:
+                    if self._ctrl_c_requests_exit("Overview closed"):
+                        return "quit", None, False
+                continue
             if command == "/clear":
                 runtime, renderer = self._create_runtime(workspace, config)
                 question_number = 1
@@ -545,14 +718,13 @@ class DocAtlasTUI:
                 if command == "/new" and not raw_paths:
                     return "select", None, False
                 if not raw_paths:
-                    self.console.error("Add at least one @path")
+                    self.console.error("Add at least one @path or PDF URL")
                     continue
                 base = [] if command == "/new" else list(workspace.documents)
                 try:
-                    documents = normalize_document_paths(
+                    documents = self._resolve_document_inputs(
                         [*base, *raw_paths],
                         recursive=self.options.recursive,
-                        max_documents=self.options.max_documents,
                     )
                 except (FileNotFoundError, ValueError) as exc:
                     self.console.error(str(exc))
@@ -577,8 +749,14 @@ class DocAtlasTUI:
                 )
                 with terminal_interrupt_monitor(self.console.input_stream):
                     result = runtime.loop.run(user_message, continue_conversation=True)
+            except EscapeInterrupt:
+                renderer.abort("Turn interrupted")
+                self._reset_ctrl_c()
+                continue
             except KeyboardInterrupt:
                 renderer.abort("Turn interrupted")
+                if self._ctrl_c_requests_exit("Turn interrupted"):
+                    return "quit", None, False
                 continue
             if not renderer.print_answer(result.answer):
                 sys.stdout.write(result.answer.rstrip() + "\n")
@@ -610,12 +788,13 @@ class DocAtlasTUI:
         config.enable_memory = self.options.memory
         config.enable_tree_annotate = self.options.tree_annotate
 
-        documents = self._select_documents(self.options.paths)
+        documents = self._select_documents_safely(self.options.paths)
         force = self.options.force
         while True:
             try:
                 workspace = self._prepare_workspace(documents, config, force=force)
-            except KeyboardInterrupt:
+            except EscapeInterrupt:
+                self._reset_ctrl_c()
                 self.console.panel(
                     "Preparation cancelled",
                     [
@@ -624,7 +803,21 @@ class DocAtlasTUI:
                     ],
                     color=self.console._YELLOW,
                 )
-                documents = self._select_documents()
+                documents = self._select_documents_safely()
+                force = False
+                continue
+            except KeyboardInterrupt:
+                if self._ctrl_c_requests_exit("Preparation cancelled"):
+                    raise TUIExit
+                self.console.panel(
+                    "Preparation cancelled",
+                    [
+                        "The active child process was stopped and reaped.",
+                        "Completed cache artifacts remain available; choose documents to continue.",
+                    ],
+                    color=self.console._YELLOW,
+                )
+                documents = self._select_documents_safely()
                 force = False
                 continue
             action, replacement, force = self._chat(workspace, config)
@@ -636,7 +829,7 @@ class DocAtlasTUI:
                 )
                 return 0
             if action == "select":
-                documents = self._select_documents()
+                documents = self._select_documents_safely()
             elif replacement is not None:
                 documents = replacement
 
