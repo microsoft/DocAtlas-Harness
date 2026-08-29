@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from docatlas.ui.terminal import display_width, terminal_theme, wrap_display
+from docatlas.ui.terminal import canvas_width, display_width, terminal_theme, wrap_display
 
 
 def test_terminal_theme_supports_dark_light_auto_and_no_color(monkeypatch) -> None:
@@ -30,3 +30,9 @@ def test_display_wrapper_preserves_wide_characters_and_width() -> None:
     assert "".join(rows).replace(" ", "") == "收入增长revenueincreased"
     assert all(display_width(row) <= 10 for row in rows)
     assert "increased" in rows
+
+
+def test_canvas_width_fills_row_without_triggering_terminal_wrap() -> None:
+    assert canvas_width(160) == 159
+    assert canvas_width(2) == 1
+    assert canvas_width(1) == 1

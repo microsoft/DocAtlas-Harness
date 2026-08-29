@@ -37,6 +37,7 @@ _CTRL_W = _terminal.KEY_CTRL_W
 _DELETE = _terminal.KEY_DELETE
 _SHIFT_TAB = _terminal.KEY_SHIFT_TAB
 _capture_typeahead = _terminal.capture_typeahead
+_canvas_width = _terminal.canvas_width
 _display_width = _terminal.display_width
 _join_columns = _terminal.join_columns
 _queue_input = _terminal.queue_input
@@ -210,7 +211,7 @@ class TerminalPathPicker:
         # Stay one cell short of the right edge. Writing in the final column
         # enables delayed wrapping in many terminals, which makes cursor-row
         # accounting unreliable on the next redraw.
-        width = max(1, min(120, max(2, terminal_size.columns) - 1))
+        width = _canvas_width(terminal_size.columns)
         location = sanitize_terminal_text(_display_path(self.model.current_dir))
         selected_count = len(self.model.selected)
         total = len(self.model.entries)
@@ -481,6 +482,7 @@ def read_line_with_at_picker(
     history: list[str] | None = None,
     input_activity: Callable[[], None] | None = None,
     canvas_style: str = "",
+    composer: bool = False,
     completion_provider: Callable[[str], list[CommandCompletion]] | None = None,
 ) -> str:
     """Read one editable line and open a path picker immediately on ``@``."""
@@ -501,6 +503,33 @@ def read_line_with_at_picker(
     rendered_completion_rows = 0
     last_cursor_column = 0
 
+    def current_canvas_width() -> int:
+        return _canvas_width(_terminal_size(output_stream).columns)
+
+    def painted_row(content: str, *, dim: bool = False) -> str:
+        """Paint one full-width composer row without entering the wrap column."""
+        width = current_canvas_width()
+        plain = sanitize_terminal_text(content, multiline=True)
+        padding = max(0, width - _display_width(plain))
+        if not canvas_style:
+            return content
+        dim_style = "\x1b[2m" if dim and use_color else ""
+        return canvas_style + dim_style + content + (" " * padding) + "\x1b[0m"
+
+    def begin_composer() -> None:
+        if not composer:
+            return
+        width = current_canvas_width()
+        horizontal = "─" if use_unicode else "-"
+        divider = horizontal * width
+        if use_color:
+            divider = "\x1b[2m" + divider + "\x1b[0m"
+        # A leading blank row separates the previous Answer from the next Ask.
+        # The shaded top row makes the editable area feel like a composer rather
+        # than a one-line shell prompt.
+        output_stream.write("\n" + divider + "\n" + painted_row("") + "\n")
+        output_stream.flush()
+
     def completions() -> list[CommandCompletion]:
         if completion_provider is None or completion_suppressed or cursor != len(buffer):
             return []
@@ -518,7 +547,8 @@ def read_line_with_at_picker(
             return []
         completion_index = min(completion_index, len(candidates) - 1)
         terminal_lines = _terminal_size(output_stream).lines
-        limit = max(1, min(8, terminal_lines - 3, len(candidates)))
+        chrome_rows = 5 if composer else 3
+        limit = max(1, min(8, terminal_lines - chrome_rows, len(candidates)))
         start = max(0, min(completion_index - limit // 2, len(candidates) - limit))
         visible_candidates = candidates[start : start + limit]
         value_column = min(
@@ -561,23 +591,36 @@ def read_line_with_at_picker(
 
     def commit_line(value: str) -> None:
         """Persist the full submitted Ask text instead of its scrolled viewport."""
-        if not canvas_style:
+        if not canvas_style and not composer:
             output_stream.write("\n")
             output_stream.flush()
             return
-        terminal_width = _terminal_size(output_stream).columns
-        canvas_width = min(120, max(2, terminal_width) - 1)
-        prompt_width = _display_width(sanitize_terminal_text(prompt))
+        canvas_width = current_canvas_width()
+        prompt_width = _display_width(sanitize_terminal_text(prompt, multiline=True))
         content_width = max(1, canvas_width - prompt_width)
         rows = _terminal.wrap_display(mask_url_query_values(value), content_width) or [""]
         output_stream.write("\r\x1b[2K")
         for index, row in enumerate(rows):
             prefix = prompt if index == 0 else " " * prompt_width
-            padding = max(
-                0,
-                canvas_width - _display_width(sanitize_terminal_text(prefix)) - _display_width(row),
-            )
-            output_stream.write(canvas_style + prefix + row + (" " * padding) + "\x1b[0m\n")
+            output_stream.write(painted_row(prefix + row) + "\n")
+        if composer:
+            # Preserve one shaded padding row and one terminal-background row
+            # before Working starts. This spacing remains stable for wrapped
+            # questions as well as one-line commands.
+            output_stream.write(painted_row("") + "\n\n")
+        output_stream.flush()
+
+    def close_line(marker: str = "") -> None:
+        """Close a cancelled composer without leaving its helper row behind."""
+        clear_completion_rows()
+        if marker:
+            if composer and canvas_style:
+                output_stream.write(canvas_style + marker + "\x1b[0m")
+            else:
+                output_stream.write(marker)
+        output_stream.write("\n")
+        if composer:
+            output_stream.write(painted_row("") + "\n\n")
         output_stream.flush()
 
     def redraw(extra: str = "") -> None:
@@ -587,9 +630,8 @@ def read_line_with_at_picker(
         if extra:
             display_buffer[cursor:cursor] = list(extra)
             display_cursor += len(extra)
-        terminal_width = _terminal_size(output_stream).columns
-        canvas_width = min(120, max(2, terminal_width) - 1)
-        prompt_width = _display_width(sanitize_terminal_text(prompt))
+        canvas_width = current_canvas_width()
+        prompt_width = _display_width(sanitize_terminal_text(prompt, multiline=True))
         visible, cursor_column = _line_window(
             mask_url_query_values("".join(display_buffer)),
             display_cursor,
@@ -607,7 +649,8 @@ def read_line_with_at_picker(
         candidates = completions() if not extra else []
         popup_lines = completion_lines(candidates, canvas_width)
         previous_rows = rendered_completion_rows
-        row_count = max(previous_rows, len(popup_lines))
+        auxiliary_rows = len(popup_lines) if popup_lines else int(composer)
+        row_count = max(previous_rows, auxiliary_rows)
         output_stream.write("\r")
         for index in range(row_count):
             output_stream.write("\r\n\x1b[2K")
@@ -623,7 +666,11 @@ def read_line_with_at_picker(
                     output_stream.write((" " * popup_padding) + "\x1b[0m")
                 elif selected and use_color:
                     output_stream.write("\x1b[0m")
-            if index >= len(popup_lines):
+            elif composer and index == 0 and not popup_lines:
+                hint = "  @ files · / commands · Enter send"
+                hint = _truncate_display(hint, canvas_width)
+                output_stream.write(painted_row(hint, dim=True))
+            else:
                 output_stream.write("\x1b[0m")
         if row_count:
             output_stream.write(f"\x1b[{row_count}A")
@@ -631,9 +678,10 @@ def read_line_with_at_picker(
         output_stream.write("\r")
         if last_cursor_column:
             output_stream.write(f"\x1b[{last_cursor_column}C")
-        rendered_completion_rows = len(popup_lines)
+        rendered_completion_rows = auxiliary_rows
         output_stream.flush()
 
+    begin_composer()
     redraw()
     try:
         tty.setcbreak(descriptor)
@@ -754,13 +802,11 @@ def read_line_with_at_picker(
                 redraw()
                 continue
             if key == _CTRL_C:
-                clear_completion_rows()
-                output_stream.write("^C\n")
-                output_stream.flush()
+                close_line("^C")
                 raise CtrlCInterrupt
             if key == _CTRL_D:
                 if not buffer:
-                    clear_completion_rows()
+                    close_line()
                     raise EOFError
                 continue
             if key == _ESCAPE:
@@ -768,9 +814,7 @@ def read_line_with_at_picker(
                     completion_suppressed = True
                     redraw()
                     continue
-                clear_completion_rows()
-                output_stream.write("\n")
-                output_stream.flush()
+                close_line()
                 raise EscapeInterrupt
             if key == _UP and history_values:
                 if history_index == len(history_values):

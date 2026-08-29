@@ -154,10 +154,11 @@ bash scripts/demo_end_to_end.sh
 Interactive terminals get a dependency-free, Codex-style execution view:
 
 <p align="center">
-  <img src="assets/tui-preview.svg" alt="DocAtlas terminal showing a shaded Ask row, compact Working tools, and an Answer card" width="92%">
+  <img src="assets/tui-preview.svg" alt="DocAtlas terminal showing a full-width Ask composer, compact Working tools, and an Answer card" width="92%">
 </p>
 
 ```text
+────────────────────────────────────────────────────────────
 › What changed most, and which pages support it?
 
 ╭─ Working
@@ -174,10 +175,10 @@ Interactive terminals get a dependency-free, Codex-style execution view:
 Reasoning summaries are hidden by default. Use `--show-reasoning` to display
 API-provided summaries, `--verbose` for SDK logs, or `--quiet` for only the
 answer. Colour is disabled automatically outside a TTY and when `NO_COLOR` is
-set. Interactive Ask uses a slightly lighter background while Working and
-Answer share one restrained deep canvas, distinguished by their cyan/green
-headers. Set `DOCATLAS_THEME=dark`, `light`, or `auto` to override theme
-selection.
+set. The full-width Ask composer uses a lighter background, vertical padding,
+and a divider between questions. Working and Answer share one restrained deep
+canvas, distinguished by their cyan/green headers. Set `DOCATLAS_THEME=dark`,
+`light`, or `auto` to override theme selection.
 
 For an already preprocessed document:
 

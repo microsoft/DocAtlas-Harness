@@ -234,6 +234,7 @@ class TUIConsole:
                     history=self.history if use_history else None,
                     input_activity=self.input_activity,
                     canvas_style=canvas_style,
+                    composer=not label,
                     completion_provider=self.completion_provider if not label else None,
                 )
             except EOFError as exc:

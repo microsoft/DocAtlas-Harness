@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import os
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -9,6 +10,7 @@ from typing import TextIO, cast
 from docatlas.__main__ import _chat_result_payload, _read_message, build_parser, cmd_tui
 from docatlas.agent.trace import AgentResult, ToolCallEvent, TurnEvent
 from docatlas.ui.plain_renderer import PlainRenderer, safe_display_path, sanitize_terminal_text
+from docatlas.ui.terminal import display_width
 
 
 class _TTYBuffer(io.StringIO):
@@ -107,6 +109,26 @@ def test_tty_renderer_uses_visual_tree_and_redacts_arguments(tmp_path, monkeypat
     assert "\x1b[48;2;17;23;30m" in stdout.getvalue()
     assert "│  Supported answer." in sanitize_terminal_text(stdout.getvalue(), multiline=True)
     assert "Supported answer.\x1b[31m" not in stdout.getvalue()
+
+
+def test_colored_cards_fill_wide_terminal_but_keep_readable_content_width(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("TERM", "xterm-256color")
+    monkeypatch.delenv("NO_COLOR", raising=False)
+    monkeypatch.setattr(
+        "docatlas.ui.plain_renderer.terminal_size",
+        lambda stream: os.terminal_size((180, 40)),
+    )
+    stream = _TTYBuffer()
+    renderer = PlainRenderer(_Session(tmp_path / "session.json"), stream=stream)
+
+    card = renderer._card_text("Working", renderer.theme.working_background)
+    plain = sanitize_terminal_text(card, multiline=True)
+
+    assert display_width(plain) == 179
+    assert renderer._width() == 120
+    assert renderer._canvas_width() == 179
 
 
 def test_redirected_renderer_is_ascii_and_marks_failures(tmp_path, monkeypatch) -> None:

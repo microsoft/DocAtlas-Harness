@@ -242,6 +242,27 @@ def test_picker_layout_fits_narrow_terminal_and_chinese_names(tmp_path: Path, mo
     assert any("报告" in line for line in lines)
 
 
+def test_picker_dividers_span_a_wide_terminal(tmp_path: Path, monkeypatch) -> None:
+    _pdf(tmp_path / "report.pdf")
+    picker = TerminalPathPicker(
+        start_dir=tmp_path,
+        input_stream=io.StringIO(),
+        output_stream=io.StringIO(),
+        use_unicode=True,
+        use_color=False,
+    )
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((160, 24)),
+    )
+
+    lines = picker._lines()
+
+    assert lines[1] == "─" * 159
+    assert lines[-2] == "─" * 159
+
+
 def test_terminal_picker_can_select_current_folder(tmp_path: Path, monkeypatch) -> None:
     output = io.StringIO()
     picker = TerminalPathPicker(
@@ -306,6 +327,7 @@ def _drive_line(
     input_activity: Callable[[], None] | None = None,
     completion_provider: Callable[[str], list[CommandCompletion]] | None = None,
     canvas_style: str = "",
+    composer: bool = False,
 ) -> tuple[str | None, BaseException | None, str]:
     master, slave = pty.openpty()
     stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
@@ -326,6 +348,7 @@ def _drive_line(
                     input_activity=input_activity,
                     completion_provider=completion_provider,
                     canvas_style=canvas_style,
+                    composer=composer,
                 )
             )
         except BaseException as exc:  # noqa: BLE001 - captured for the driving test
@@ -377,6 +400,83 @@ def test_line_editor_masks_remote_url_query_but_returns_original_value() -> None
     assert "do-not-echo" not in output
     assert "report.pdf?" in output
     assert history == []
+
+
+def test_composer_fills_wide_terminal_and_preserves_vertical_spacing(monkeypatch) -> None:
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((160, 24)),
+    )
+    background = "\x1b[48;2;30;38;48m"
+
+    result, error, output = _drive_line(
+        b"question\r",
+        canvas_style=background,
+        composer=True,
+    )
+
+    width = 159
+    submitted = "› Ask #5 question"
+    blank_row = background + (" " * width) + "\x1b[0m"
+    assert error is None
+    assert result == "question"
+    assert ("─" * width) in output
+    assert blank_row in output
+    assert (
+        background
+        + submitted
+        + (" " * (width - picker_module._display_width(submitted)))
+        + "\x1b[0m\n"
+    ) in output
+    assert output.endswith(blank_row + "\n\n")
+
+
+def test_composer_keeps_structure_without_color(monkeypatch) -> None:
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((36, 12)),
+    )
+
+    result, error, output = _drive_line(b"hello\r", composer=True)
+
+    assert error is None
+    assert result == "hello"
+    assert ("─" * 35) in output
+    assert "@ files · / commands · Enter send" in output
+    assert "\x1b[48;" not in output
+    assert output.endswith("\n\n")
+
+
+def test_composer_completion_and_cancel_restore_the_layout(monkeypatch) -> None:
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((48, 12)),
+    )
+    background = "\x1b[48;2;30;38;48m"
+
+    completed, completion_error, completion_output = _drive_line(
+        b"/ov\tf\t\r",
+        completion_provider=command_completions,
+        canvas_style=background,
+        composer=True,
+    )
+    _, cancel_error, cancel_output = _drive_line(
+        b"draft\x03",
+        canvas_style=background,
+        composer=True,
+    )
+
+    blank_row = background + (" " * 47) + "\x1b[0m"
+    assert completion_error is None
+    assert completed == "/overview findings"
+    assert "inspect the current session" in completion_output
+    assert "saved notes and evidence" in completion_output
+    assert isinstance(cancel_error, picker_module.CtrlCInterrupt)
+    assert "^C" in cancel_output
+    assert cancel_output.endswith(blank_row + "\n\n")
 
 
 def test_line_editor_supports_shell_editing_shortcuts() -> None:

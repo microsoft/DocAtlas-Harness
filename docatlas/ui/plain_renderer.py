@@ -19,7 +19,14 @@ from pathlib import Path
 from typing import Any, TextIO
 
 from .callbacks import LoopCallbacks
-from .terminal import display_width, terminal_size, terminal_theme, truncate_display, wrap_display
+from .terminal import (
+    canvas_width,
+    display_width,
+    terminal_size,
+    terminal_theme,
+    truncate_display,
+    wrap_display,
+)
 
 logger = logging.getLogger(__name__)
 _ANSI_ESCAPE_RE = re.compile(r"\x1b(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
@@ -170,7 +177,12 @@ class PlainRenderer:
 
     def _width(self, stream: TextIO | None = None) -> int:
         columns = terminal_size(stream or self.stream).columns
-        return max(8, min(120, max(2, columns) - 1))
+        return max(8, min(120, canvas_width(columns)))
+
+    def _canvas_width(self, stream: TextIO | None = None) -> int:
+        """Width of a painted row, independent of the readable text width."""
+        columns = terminal_size(stream or self.stream).columns
+        return canvas_width(columns)
 
     def _background_base(self, background: str) -> str:
         return background + self.theme.primary if self.use_color else ""
@@ -189,7 +201,7 @@ class PlainRenderer:
         return prefix + text + "\x1b[22m" + self._background_base(background)
 
     def _card_text(self, content: str, background: str, *, stream: TextIO | None = None) -> str:
-        width = self._width(stream)
+        width = self._canvas_width(stream)
         plain = _ANSI_ESCAPE_RE.sub("", content)
         if display_width(plain) > width:
             content = truncate_display(plain, width)

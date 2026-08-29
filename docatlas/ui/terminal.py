@@ -302,6 +302,16 @@ def terminal_size(stream: TextIO) -> os.terminal_size:
         return shutil.get_terminal_size(fallback=(92, 24))
 
 
+def canvas_width(columns: int) -> int:
+    """Return a redraw-safe width that visually fills a terminal row.
+
+    The final terminal cell is intentionally left unused. Writing into that
+    cell enables delayed wrapping in common VT implementations, which makes
+    cursor-row accounting unreliable for in-place prompts and popups.
+    """
+    return max(1, columns - 1)
+
+
 def truncate_display(value: str, max_width: int) -> str:
     if display_width(value) <= max_width:
         return value
@@ -353,6 +363,7 @@ __all__ = [
     "KEY_SPACE",
     "KEY_UP",
     "TerminalTheme",
+    "canvas_width",
     "capture_typeahead",
     "display_width",
     "join_columns",
