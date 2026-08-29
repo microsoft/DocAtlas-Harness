@@ -22,6 +22,7 @@ from .callbacks import LoopCallbacks
 from .terminal import (
     canvas_width,
     display_width,
+    reserve_bottom_rows,
     terminal_size,
     terminal_theme,
     truncate_display,
@@ -138,12 +139,9 @@ class PlainRenderer:
         self.answer_stream = answer_stream or sys.stdout
         self.is_tty = bool(getattr(self.stream, "isatty", lambda: False)())
         self.answer_is_tty = bool(getattr(self.answer_stream, "isatty", lambda: False)())
-        self.use_unicode = (
-            self.is_tty and os.getenv("TERM", "") != "dumb" and _supports_unicode(self.stream)
-        )
-        self.use_color = (
-            self.is_tty and os.getenv("TERM", "") != "dumb" and "NO_COLOR" not in os.environ
-        )
+        self.use_cursor_controls = self.is_tty and os.getenv("TERM", "") != "dumb"
+        self.use_unicode = self.use_cursor_controls and _supports_unicode(self.stream)
+        self.use_color = self.use_cursor_controls and "NO_COLOR" not in os.environ
         self.theme = terminal_theme(use_color=self.use_color)
         self._answer_open = False
         self._run_active = False
@@ -174,6 +172,10 @@ class PlainRenderer:
     def _write(self, text: str) -> None:
         self.stream.write(text)
         self.stream.flush()
+
+    def _reserve_bottom_margin(self, stream: TextIO) -> None:
+        if self.use_cursor_controls and bool(getattr(stream, "isatty", lambda: False)()):
+            reserve_bottom_rows(stream)
 
     def _width(self, stream: TextIO | None = None) -> int:
         columns = terminal_size(stream or self.stream).columns
@@ -225,6 +227,7 @@ class PlainRenderer:
         target = stream or self.stream
         target.write(self._card_text(content, background, stream=target))
         if newline:
+            self._reserve_bottom_margin(target)
             target.write("\n")
         target.flush()
 
@@ -234,12 +237,15 @@ class PlainRenderer:
             self.stream.write(self._card_text(content, background))
         else:
             self.stream.write(content)
+        self._reserve_bottom_margin(self.stream)
         self.stream.flush()
         self._live_line = True
 
     def _finish_live(self, content: str, background: str) -> None:
         self.stream.write("\r\x1b[2K")
-        self.stream.write(self._card_text(content, background) + "\n")
+        self.stream.write(self._card_text(content, background))
+        self._reserve_bottom_margin(self.stream)
+        self.stream.write("\n")
         self.stream.flush()
         self._live_line = False
 

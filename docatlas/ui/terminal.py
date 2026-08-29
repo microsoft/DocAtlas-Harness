@@ -24,6 +24,7 @@ KEY_CTRL_C = "CTRL_C"
 KEY_CTRL_D = "CTRL_D"
 KEY_CTRL_A = "CTRL_A"
 KEY_CTRL_E = "CTRL_E"
+KEY_CTRL_L = "CTRL_L"
 KEY_CTRL_U = "CTRL_U"
 KEY_CTRL_W = "CTRL_W"
 KEY_DELETE = "DELETE"
@@ -241,6 +242,8 @@ def decode_character(char: str) -> str:
         return KEY_CTRL_A
     if char == "\x05":
         return KEY_CTRL_E
+    if char == "\x0c":
+        return KEY_CTRL_L
     if char == "\x15":
         return KEY_CTRL_U
     if char == "\x17":
@@ -312,6 +315,23 @@ def canvas_width(columns: int) -> int:
     return max(1, columns - 1)
 
 
+def clear_viewport(stream: TextIO) -> None:
+    """Clear only the visible terminal and return the cursor to its top-left."""
+    stream.write("\x1b[2J\x1b[H")
+    stream.flush()
+
+
+def reserve_bottom_rows(stream: TextIO, rows: int = 2) -> None:
+    """Keep blank rows below the current line while preserving its cursor row."""
+    rows = max(0, rows)
+    if not rows:
+        return
+    stream.write("\r")
+    for _ in range(rows):
+        stream.write("\n\x1b[2K")
+    stream.write(f"\x1b[{rows}A\r")
+
+
 def truncate_display(value: str, max_width: int) -> str:
     if display_width(value) <= max_width:
         return value
@@ -349,6 +369,7 @@ __all__ = [
     "KEY_CTRL_C",
     "KEY_CTRL_D",
     "KEY_CTRL_E",
+    "KEY_CTRL_L",
     "KEY_CTRL_U",
     "KEY_CTRL_W",
     "KEY_DELETE",
@@ -365,11 +386,13 @@ __all__ = [
     "TerminalTheme",
     "canvas_width",
     "capture_typeahead",
+    "clear_viewport",
     "display_width",
     "join_columns",
     "queue_input",
     "read_byte",
     "read_terminal_key",
+    "reserve_bottom_rows",
     "terminal_size",
     "terminal_theme",
     "truncate_display",

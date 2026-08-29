@@ -1,6 +1,17 @@
 from __future__ import annotations
 
-from docatlas.ui.terminal import canvas_width, display_width, terminal_theme, wrap_display
+import io
+
+from docatlas.ui.terminal import (
+    KEY_CTRL_L,
+    canvas_width,
+    clear_viewport,
+    decode_character,
+    display_width,
+    reserve_bottom_rows,
+    terminal_theme,
+    wrap_display,
+)
 
 
 def test_terminal_theme_supports_dark_light_auto_and_no_color(monkeypatch) -> None:
@@ -36,3 +47,13 @@ def test_canvas_width_fills_row_without_triggering_terminal_wrap() -> None:
     assert canvas_width(160) == 159
     assert canvas_width(2) == 1
     assert canvas_width(1) == 1
+
+
+def test_viewport_controls_clear_and_reserve_bottom_rows() -> None:
+    stream = io.StringIO()
+
+    clear_viewport(stream)
+    reserve_bottom_rows(stream, 2)
+
+    assert stream.getvalue() == "\x1b[2J\x1b[H\r\n\x1b[2K\n\x1b[2K\x1b[2A\r"
+    assert decode_character("\x0c") == KEY_CTRL_L

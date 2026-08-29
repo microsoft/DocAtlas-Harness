@@ -131,6 +131,16 @@ def test_colored_cards_fill_wide_terminal_but_keep_readable_content_width(
     assert renderer._canvas_width() == 179
 
 
+def test_live_renderer_reserves_two_rows_below_current_output(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("TERM", "xterm-256color")
+    stream = _TTYBuffer()
+    renderer = PlainRenderer(_Session(tmp_path / "session.json"), stream=stream)
+
+    renderer.on_turn_start(1)
+
+    assert "\r\n\x1b[2K\n\x1b[2K\x1b[2A\r" in stream.getvalue()
+
+
 def test_redirected_renderer_is_ascii_and_marks_failures(tmp_path, monkeypatch) -> None:
     monkeypatch.chdir(tmp_path)
     stream = io.StringIO()

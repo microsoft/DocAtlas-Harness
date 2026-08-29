@@ -37,7 +37,14 @@ from .commands import (
     is_known_command,
 )
 from .plain_renderer import PlainRenderer, sanitize_terminal_text
-from .terminal import EscapeInterrupt, display_width, terminal_size, terminal_theme, wrap_display
+from .terminal import (
+    EscapeInterrupt,
+    clear_viewport,
+    display_width,
+    terminal_size,
+    terminal_theme,
+    wrap_display,
+)
 
 _SKILL_NAMES = ("search", "read", "note", "review")
 _DOUBLE_CTRL_C_SECONDS = 2.0
@@ -178,6 +185,11 @@ class TUIConsole:
     def write(self, value: str = "") -> None:
         self.stream.write(value + "\n")
         self.stream.flush()
+
+    def start_viewport(self) -> None:
+        """Start the inline TUI at the top of a fresh visible terminal page."""
+        if self.is_tty and os.getenv("TERM", "") != "dumb":
+            clear_viewport(self.stream)
 
     def _write_wrapped(
         self,
@@ -697,6 +709,7 @@ class DocAtlasTUI:
                 *command_help_lines(),
                 "Esc                 cancel input or interrupt the active turn",
                 "Ctrl+C twice        cancel, then exit DocAtlas within 2 seconds",
+                "Ctrl+L              clear and reposition the question composer",
                 "Up / Down           browse previous questions",
                 "Tab                 complete a /command or selected option",
             ],
@@ -715,6 +728,10 @@ class DocAtlasTUI:
         workspace: DocumentWorkspace,
         config: HarnessConfig,
     ) -> tuple[str, list[Path] | None, bool]:
+        # Selection and preprocessing can fill a short terminal. Start the
+        # conversation on its own visible page while retaining normal terminal
+        # scrollback semantics (no alternate screen).
+        self.console.start_viewport()
         runtime, renderer = self._create_runtime(workspace, config)
         question_number = 1
         self._command_hint()
@@ -758,6 +775,7 @@ class DocAtlasTUI:
                         return "quit", None, False
                 continue
             if command == "/clear":
+                self.console.start_viewport()
                 runtime, renderer = self._create_runtime(workspace, config)
                 question_number = 1
                 self.console.success("Conversation cleared")
@@ -816,6 +834,7 @@ class DocAtlasTUI:
     def run(self) -> int:
         if not self.console.input_stream.isatty() or not self.console.is_tty:
             raise RuntimeError("the interactive TUI requires a terminal; use `docatlas chat` in CI")
+        self.console.start_viewport()
         install_at_completion()
         self.console.panel(
             "DocAtlas",

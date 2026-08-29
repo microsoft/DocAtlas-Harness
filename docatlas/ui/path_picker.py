@@ -32,6 +32,7 @@ _CTRL_C = _terminal.KEY_CTRL_C
 _CTRL_D = _terminal.KEY_CTRL_D
 _CTRL_A = _terminal.KEY_CTRL_A
 _CTRL_E = _terminal.KEY_CTRL_E
+_CTRL_L = _terminal.KEY_CTRL_L
 _CTRL_U = _terminal.KEY_CTRL_U
 _CTRL_W = _terminal.KEY_CTRL_W
 _DELETE = _terminal.KEY_DELETE
@@ -47,6 +48,7 @@ _terminal_size = _terminal.terminal_size
 _truncate_display = _terminal.truncate_display
 
 _HIDDEN_DIRECTORY_NAMES = {"__pycache__", "build", "dist", "node_modules"}
+_COMPOSER_BOTTOM_ROWS = 2
 
 
 def _display_path(path: Path) -> str:
@@ -547,7 +549,7 @@ def read_line_with_at_picker(
             return []
         completion_index = min(completion_index, len(candidates) - 1)
         terminal_lines = _terminal_size(output_stream).lines
-        chrome_rows = 5 if composer else 3
+        chrome_rows = 5 + _COMPOSER_BOTTOM_ROWS if composer else 3
         limit = max(1, min(8, terminal_lines - chrome_rows, len(candidates)))
         start = max(0, min(completion_index - limit // 2, len(candidates) - limit))
         visible_candidates = candidates[start : start + limit]
@@ -649,8 +651,9 @@ def read_line_with_at_picker(
         candidates = completions() if not extra else []
         popup_lines = completion_lines(candidates, canvas_width)
         previous_rows = rendered_completion_rows
-        auxiliary_rows = len(popup_lines) if popup_lines else int(composer)
-        row_count = max(previous_rows, auxiliary_rows)
+        content_rows = len(popup_lines) if popup_lines else int(composer)
+        rows_below_input = content_rows + (_COMPOSER_BOTTOM_ROWS if composer else 0)
+        row_count = max(previous_rows, rows_below_input)
         output_stream.write("\r")
         for index in range(row_count):
             output_stream.write("\r\n\x1b[2K")
@@ -678,7 +681,7 @@ def read_line_with_at_picker(
         output_stream.write("\r")
         if last_cursor_column:
             output_stream.write(f"\x1b[{last_cursor_column}C")
-        rendered_completion_rows = auxiliary_rows
+        rendered_completion_rows = rows_below_input
         output_stream.flush()
 
     begin_composer()
@@ -781,6 +784,12 @@ def read_line_with_at_picker(
             if key == _CTRL_E:
                 cursor = len(buffer)
                 completion_suppressed = False
+                redraw()
+                continue
+            if key == _CTRL_L:
+                clear_completion_rows()
+                _terminal.clear_viewport(output_stream)
+                begin_composer()
                 redraw()
                 continue
             if key == _CTRL_U:

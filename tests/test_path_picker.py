@@ -479,6 +479,22 @@ def test_composer_completion_and_cancel_restore_the_layout(monkeypatch) -> None:
     assert cancel_output.endswith(blank_row + "\n\n")
 
 
+def test_ctrl_l_repositions_composer_without_losing_the_draft(monkeypatch) -> None:
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((48, 12)),
+    )
+
+    result, error, output = _drive_line(b"draft\x0ckeep\r", composer=True)
+
+    assert error is None
+    assert result == "draftkeep"
+    assert "\x1b[2J\x1b[H" in output
+    assert output.count("─" * 47) == 2
+    assert output.count("\r\n\x1b[2K") >= 6
+
+
 def test_line_editor_supports_shell_editing_shortcuts() -> None:
     word_result, word_error, _ = _drive_line(b"one two\x17three\r")
     clear_result, clear_error, _ = _drive_line(b"discard\x15keep\r")

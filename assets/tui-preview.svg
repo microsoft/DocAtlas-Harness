@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="860" viewBox="0 0 1100 860" role="img" aria-labelledby="title desc">
   <title id="title">DocAtlas compact terminal interface</title>
-  <desc id="desc">A dark terminal with a full-width, padded Ask composer and one deep canvas shared by compact Working and Answer cards.</desc>
-  <rect width="1100" height="820" rx="18" fill="#0d1117"/>
-  <rect x="1" y="1" width="1098" height="818" rx="17" fill="none" stroke="#30363d" stroke-width="2"/>
+  <desc id="desc">A dark terminal with a full-width, padded Ask composer, compact Working and Answer cards, and breathing room below the active input.</desc>
+  <rect width="1100" height="860" rx="18" fill="#0d1117"/>
+  <rect x="1" y="1" width="1098" height="858" rx="17" fill="none" stroke="#30363d" stroke-width="2"/>
   <circle cx="32" cy="29" r="7" fill="#ff5f56"/>
   <circle cx="56" cy="29" r="7" fill="#ffbd2e"/>
   <circle cx="80" cy="29" r="7" fill="#27c93f"/>

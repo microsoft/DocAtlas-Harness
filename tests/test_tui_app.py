@@ -44,6 +44,16 @@ class _TTYStringIO(io.StringIO):
         return True
 
 
+def test_console_starts_at_top_of_fresh_visible_viewport(monkeypatch) -> None:
+    monkeypatch.setenv("TERM", "xterm-256color")
+    output = _TTYStringIO()
+    console = TUIConsole(stream=output)
+
+    console.start_viewport()
+
+    assert output.getvalue() == "\x1b[2J\x1b[H"
+
+
 def test_chat_prompt_uses_uniform_ask_background(tmp_path: Path, monkeypatch) -> None:
     del tmp_path
     monkeypatch.setenv("TERM", "xterm-256color")

@@ -137,11 +137,13 @@ model, Skill, or preprocessing turn. Press Ctrl+C again within two seconds to
 exit DocAtlas cleanly. The prompt uses a protected single-line editor: long
 questions scroll horizontally while editing and wrap when submitted;
 Backspace, Delete, `←`/`→`, Home/End, Ctrl+U, and Ctrl+W cannot erase the `›`
-prompt. Use `↑`/`↓` to browse
-question history. Typing `/` opens command suggestions; the list narrows by
-prefix, Tab completes the selected command, `↑`/`↓` changes the selection,
-Enter accepts a candidate, and Esc closes the suggestions before cancelling
-the input itself.
+prompt. Use `↑`/`↓` to browse question history, or Ctrl+L to clear the visible
+screen and reposition the current draft without losing it. Typing `/` opens
+command suggestions; the list narrows by prefix, Tab completes the selected
+command, `↑`/`↓` changes the selection, Enter accepts a candidate, and Esc
+closes the suggestions before cancelling the input itself. The TUI starts on a
+fresh visible page and keeps two blank rows below live output; terminal
+scrollback remains available after exit.
 
 ## Command-line workflows
 
