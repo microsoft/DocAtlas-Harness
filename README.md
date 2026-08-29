@@ -1,188 +1,272 @@
 # DocAtlas: Long-Document Understanding as Mutable-State Interaction
 
 <p align="center">
-  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-  <img src="https://img.shields.io/badge/python-3.10–3.13-blue.svg" alt="Python 3.10 through 3.13">
-  <a href="https://agentskills.io/"><img src="https://img.shields.io/badge/Agent%20Skills-valid-6f42c1.svg" alt="Agent Skills compatible"></a>
+  <strong>An open-source agent harness for evidence-grounded reasoning over long, multimodal documents.</strong>
 </p>
-
-DocAtlas is an agent harness for evidence-grounded reasoning over long,
-multimodal PDF documents. Instead of treating retrieval as a one-shot lookup,
-it gives the model a mutable workspace: search the document tree, read selected
-pages and figures, save page-grounded notes, and recall them when synthesizing
-an answer.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/microsoft/DocAtlas-Harness/main/assets/framework.png" alt="DocAtlas framework" width="100%">
+  <a href="https://officeintelligence.github.io/docatlas/"><img src="https://img.shields.io/badge/Project-Website-0b7285?style=flat-square&logo=githubpages&logoColor=white" alt="Project website"></a>
+  <a href="https://arxiv.org/abs/2608.07527"><img src="https://img.shields.io/badge/arXiv-2608.07527-b31b1b?style=flat-square&logo=arxiv&logoColor=white" alt="arXiv paper"></a>
+  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/codeql.yml"><img src="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/python-3.10--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 through 3.13">
+  <a href="https://agentskills.io/"><img src="https://img.shields.io/badge/Agent%20Skills-validated-6f42c1.svg?style=flat-square" alt="Agent Skills compatible"></a>
 </p>
 
-## Why DocAtlas
+<p align="center">
+  <a href="https://officeintelligence.github.io/docatlas/"><b>Project page</b></a>
+  · <a href="https://arxiv.org/abs/2608.07527"><b>Paper</b></a>
+  · <a href="#-interactive-tui"><b>Interactive TUI</b></a>
+  · <a href="#-results-and-leaderboard"><b>Leaderboard</b></a>
+  · <a href="ARCHITECTURE.md"><b>Architecture</b></a>
+</p>
 
-- **Mutable retrieval state** — page-grounded findings enrich the session-local
-  document tree and improve later search.
-- **Selective multimodal access** — text, page images, and extracted figures are
-  requested independently, keeping context focused.
-- **Explicit working memory** — structured notes preserve evidence across long
-  investigations without retaining every page in context.
-- **Inspectable execution** — every action is a JSON-over-stdio Skill call with
-  a persisted session and structured trace.
-- **Portable Skills** — `search`, `read`, `note`, and `review` conform to the
-  Agent Skills naming and metadata specification.
+DocAtlas turns a PDF collection into a mutable workspace. An agent can search
+the document tree, read selected text and images, record page-grounded
+findings, and recall those findings later. Evidence gathered in one step
+changes what subsequent steps can retrieve.
 
-## Reported results
+> **The document is not a frozen index. It becomes state the agent can improve
+> while it works.**
 
-| Backbone | Setting | MMLongBench-Doc | FinRAGBench-V | LongDocURL |
-|---|---|:---:|:---:|:---:|
-| GPT-5.4 | direct input | 62.4 | 55.1 | 66.9 |
-| **GPT-5.4** | **+ DocAtlas** | **71.4** | **75.6** | **78.8** |
-| GPT-5.2 | + DocAtlas | 70.6 | 75.2 | 77.5 |
-| Qwen3.5-4B | direct input | 54.4 | 52.8 | 52.4 |
-| Qwen3.5-4B | + DocAtlas | 61.0 | 67.9 | 72.5 |
-| Qwen3.5-4B | + DocAtlas + RL | 63.7 | 71.7 | — |
-| Qwen3.5-9B | + DocAtlas + RL | 64.4 | 72.6 | — |
-| Human expert | reference | 65.8 | — | — |
+## ✨ Interactive TUI
 
-MMLongBench-Doc reports overall accuracy; FinRAGBench-V and LongDocURL use
-LLM-as-judge evaluation. See the paper citation below for the full protocol,
-ablations, and model settings.
+<p align="center">
+  <a href="assets/tui-preview.svg">
+    <img src="assets/tui-preview.svg" alt="DocAtlas terminal workbench with a full-width Ask composer, compact tool execution, and a grounded answer" width="100%">
+  </a>
+</p>
 
-## Quick start: run a Skill locally
+<p align="center"><sub>Select local or remote PDFs, ask follow-up questions, inspect tool calls, and review the evolving evidence state without leaving the terminal.</sub></p>
 
-DocAtlas uses [uv](https://github.com/astral-sh/uv) and the checked-in lockfile.
-The dependency versions in `uv.lock` are the tested release environment.
+### Start locally
+
+Install [uv](https://docs.astral.sh/uv/), then:
 
 ```bash
 git clone https://github.com/microsoft/DocAtlas-Harness.git
 cd DocAtlas-Harness
 uv sync --locked
+cp .env.example .env                 # fill in your Azure deployment
+az login                              # omit when using AZURE_OPENAI_API_KEY
+bash scripts/start_tui.sh
+```
 
+API-key authentication is also supported: set `AZURE_OPENAI_API_KEY` in
+`.env` and omit `az login`. The first environment sync can occupy roughly 5 GB
+on Linux because Docling brings Torch and platform acceleration libraries. The
+first local Markdown build downloads approximately 2 GB of layout models.
+
+### Select documents and start asking
+
+| Start with | Example |
+|---|---|
+| Interactive picker | `bash scripts/start_tui.sh`, then press <kbd>@</kbd> |
+| One PDF | `bash scripts/start_tui.sh @report.pdf` |
+| Multiple PDFs | `bash scripts/start_tui.sh @report.pdf @appendix.pdf` |
+| A folder | `bash scripts/start_tui.sh @reports/ --recursive` |
+| A remote PDF | `bash scripts/start_tui.sh 'https://example.com/report.pdf'` |
+
+The workbench builds or reuses a content-addressed workspace under
+`outputs/tui/`, then keeps the same model conversation alive for follow-up
+questions. Local selection supports files, multi-select, and whole folders;
+HTTP(S) PDF URLs are downloaded into a validated private cache.
+
+| Interaction | What it does |
+|---|---|
+| <kbd>@</kbd> | Opens the in-place PDF and folder picker. |
+| <kbd>/</kbd> | Shows matching commands; keep typing to filter and press <kbd>Tab</kbd> to complete. |
+| <kbd>↑</kbd> / <kbd>↓</kbd> | Selects a completion or recalls question history. |
+| <kbd>Esc</kbd> | Closes a popup, cancels input, or interrupts the active turn. |
+| <kbd>Ctrl</kbd>+<kbd>C</kbd> twice | Cancels once, then exits cleanly within two seconds. |
+| <kbd>Ctrl</kbd>+<kbd>L</kbd> | Clears the visible screen and redraws the current draft at the top. |
+
+The main chat stays in the normal terminal buffer, so completed turns remain
+available for scrolling and copying. Each chat session starts on a clean
+visible page, live output keeps breathing room above the terminal edge, and
+the input composer preserves two blank rows below it. Colour follows the
+terminal automatically; set `DOCATLAS_THEME=dark`, `light`, or `auto`, or set
+`NO_COLOR=1` for an uncoloured interface.
+
+<details>
+<summary><b>TUI command reference</b></summary>
+
+| Command | Action |
+|---|---|
+| `/add <@path\|URL>` | Add PDFs and begin a new document conversation. |
+| `/new <@path\|URL>` | Replace the active document set. |
+| `/files` | Show active documents. |
+| `/overview [view]` | Open Summary, Findings, Outline, or History without calling the model. |
+| `/overview export` | Write a private `overview.md` inside the active workspace. |
+| `/clear` | Clear conversation history while keeping cached preprocessing. |
+| `/rebuild` | Force Markdown and PageIndex regeneration. |
+| `/help` | Show commands and keyboard controls. |
+| `/quit` | Exit; cached work remains available. |
+
+Inside the <kbd>@</kbd> picker, use <kbd>↑</kbd>/<kbd>↓</kbd> to move,
+<kbd>Enter</kbd> to open or select, <kbd>Space</kbd> to mark several PDFs,
+<kbd>d</kbd> to finish a multi-selection, and <kbd>f</kbd> to select the
+current folder. Selections are capped at 100 PDFs unless
+`--max-documents N` is provided.
+
+</details>
+
+## 🧭 Why DocAtlas
+
+<table>
+  <tr>
+    <td align="center" width="25%"><strong>71.4%</strong><br><sub>MMLongBench-Doc<br>GPT-5.4 + DocAtlas</sub></td>
+    <td align="center" width="25%"><strong>63.7%</strong><br><sub>MMLongBench-Doc<br>Qwen3.5-4B + RL</sub></td>
+    <td align="center" width="25%"><strong>+20.5</strong><br><sub>FinRAGBench-V gain<br>over GPT-5.4 direct</sub></td>
+    <td align="center" width="25%"><strong>4 Skills</strong><br><sub>Search · Read<br>Note · Review</sub></td>
+  </tr>
+</table>
+
+| Design principle | Why it matters |
+|---|---|
+| 🌲 **Self-improving retrieval** | Page-grounded findings enrich the session-local tree, so later searches see accumulated evidence instead of a frozen index. |
+| 🎯 **Selective multimodal access** | Search proposes candidate regions; Read decides which text, page images, and figure crops enter context. |
+| 🧠 **Active working memory** | Structured notes retain source attribution while Review recalls only the findings needed next. |
+| 🔎 **Inspectable execution** | Every action is a JSON-over-stdio Skill call with persisted session state and a structured trace. |
+| 🧩 **Portable Skills** | Search, Read, Note, and Review follow the Agent Skills metadata and naming conventions. |
+
+### Four composable Skills
+
+|  | Skill | Role |
+|:---:|---|---|
+| 🔎 | [`search`](docatlas/skills/search/) | Navigate a PageIndex tree and propose relevant document regions. |
+| 📖 | [`read`](docatlas/skills/read/) | Return page text, optional page images, and selected figure pixels. |
+| 📝 | [`note`](docatlas/skills/note/) | Save findings, plans, and page-anchored evidence into mutable state. |
+| 🔁 | [`review`](docatlas/skills/review/) | Retrieve saved notes relevant to a focused query. |
+
+## 🏆 Results and leaderboard
+
+<p align="center">
+  <a href="https://officeintelligence.github.io/docatlas/#leaderboard">
+    <img src="https://officeintelligence.github.io/docatlas/assets/figures/motivation-results.png" alt="DocAtlas performance comparison across direct, harness, and reinforcement-learning settings" width="82%">
+  </a>
+</p>
+
+> **GPT-5.4 + DocAtlas reaches 71.4 on MMLongBench-Doc**: +9.0 over
+> direct input and +5.6 above the 65.8 human-expert reference. The same setup
+> improves GPT-5.4 by +20.5 on FinRAGBench-V and +11.9 on LongDocURL.
+
+Selected results from the paper are shown below. The
+[interactive project leaderboard](https://officeintelligence.github.io/docatlas/#leaderboard)
+contains all 27 systems and the complete 14-metric breakdown.
+
+| System | Setting | MMLongBench-Doc Acc. | FinRAGBench-V LasJ | LongDocURL LasJ |
+|---|---|---:|---:|---:|
+| **DocAtlas + GPT-5.4** | **Harness** | **71.4** 🏆 | **75.6** | **78.8** |
+| **DocAtlas + GPT-5.2** | **Harness** | **70.6** | **75.2** | **77.5** |
+| DocLens + Gemini-2.5-Pro | Agent framework | 67.6 | 70.4 | — |
+| _Human expert_ | _Reference_ | _65.8_ | — | — |
+| DocLens + Gemini-2.5-Flash | Agent framework | 64.7 | 68.5 | — |
+| DocAtlas RL + Qwen3.5-9B | Trained policy | 64.4 | 72.6 | — |
+| DocAtlas RL + Qwen3.5-4B | Trained policy | 63.7 | 71.7 | — |
+| GPT-5.4 | Direct input | 62.4 | 55.1 | 66.9 |
+| DocAtlas + Qwen3.5-9B | Harness | 61.6 | 69.8 | 74.0 |
+| DocAtlas + Qwen3.5-4B | Harness | 61.0 | 67.9 | 72.5 |
+| Qwen3.5-4B | Direct input | 54.4 | 52.8 | 52.4 |
+
+<sub>MMLongBench-Doc reports overall accuracy. FinRAGBench-V and LongDocURL
+report LLM-as-judge (LasJ). Dashes denote unreported results; RL rows omit
+LongDocURL because it is used to construct the RL data. See the paper for
+protocols, prompts, confidence intervals, and complete baselines.</sub>
+
+## 🔍 How it works
+
+<p align="center">
+  <a href="assets/framework.png">
+    <img src="assets/framework.png" alt="DocAtlas mutable-state document harness" width="100%">
+  </a>
+</p>
+
+The model operates over a state
+`S = (documents, tree, note store, explored pages)` and chooses any Skill at
+each step—there is no fixed tool order.
+
+1. **Search the tree.** A question-agnostic hierarchy provides titles, page
+   ranges, summaries, and findings accumulated earlier in the session.
+2. **Read selectively.** The agent chooses which pages to consume and whether
+   it needs text, full-page layout images, or individual figures.
+3. **Write evidence back.** Note stores source-attributed findings and annotates
+   the finest covering tree node, improving subsequent retrieval.
+4. **Review on demand.** Relevant notes return to active context before the
+   final evidence-grounded answer is synthesized.
+
+The harness owns execution, multimodal transport, safety limits, trace events,
+and atomic session state. See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime,
+Skill, workspace, and trust-boundary contracts.
+
+## 🔬 Analysis and trajectories
+
+<table>
+  <tr>
+    <td width="50%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/ablation.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/ablation.png" alt="DocAtlas component ablation" width="100%"></a></td>
+    <td width="50%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/tool-calls.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/tool-calls.png" alt="Average DocAtlas tool calls per question" width="100%"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Component ablation on MMLongBench-Doc</sub></td>
+    <td align="center"><sub>Average tool allocation by policy</sub></td>
+  </tr>
+</table>
+
+Every component contributes: removing full-page images, figure crops,
+decoupled Read, or mutable memory reduces MMLongBench-Doc performance. The tool
+allocation plot shows that the policy learns different Search, Read, Note, and
+Review budgets rather than following a scripted sequence.
+
+<details>
+<summary><b>Open a complete multi-hop evidence trajectory</b></summary>
+
+<br>
+
+<p align="center">
+  <a href="https://officeintelligence.github.io/docatlas/assets/figures/trajectory-multihop.png">
+    <img src="https://officeintelligence.github.io/docatlas/assets/figures/trajectory-multihop.png" alt="A complete DocAtlas multi-hop evidence trajectory" width="100%">
+  </a>
+</p>
+
+The trajectory shows Search locating candidate pages, Read extracting the
+required values, Note preserving both page citations, and the enriched tree
+carrying that evidence into the final answer.
+
+</details>
+
+## ⚙️ CLI and Skill usage
+
+The dependency versions in `uv.lock` are the tested release environment.
+`harness` remains available as a compatibility alias, but new integrations
+should use the canonical `docatlas` command.
+
+### Run a Skill directly
+
+`read` can run without model credentials or session state:
+
+```bash
 uv run --locked python docatlas/skills/read/scripts/run.py \
   --pdf data/sample_pdfs/sample_report.pdf \
   --pages 1,3
 ```
 
-The first environment sync can occupy roughly 5 GB on Linux because Docling's
-standard pipeline brings Torch and platform acceleration libraries. The first
-`build-md` run also downloads approximately 2 GB of document-layout models to
-the Hugging Face cache.
-
-## Interactive TUI
-
-Copy the environment template and configure an Azure OpenAI deployment:
+Stateful Skills share a session file. Create one before invoking them directly:
 
 ```bash
-cp .env.example .env
-az login                              # omit when using AZURE_OPENAI_API_KEY
-uv run --locked docatlas --help
+export HARNESS_SESSION_FILE="$(uv run --locked docatlas init-session \
+  --pdf document.pdf \
+  --tree-json trees/document_structure.json \
+  --question 'What are the report conclusions?')"
+
+uv run --locked python docatlas/skills/search/scripts/run.py \
+  --query "Locate sections containing the report conclusions."
 ```
 
-`harness` remains available as a compatibility alias, but new integrations
-should use the canonical `docatlas` command.
+See the [Skills guide](docatlas/skills/README.md) for the complete standalone
+contract and examples.
 
-Start the workbench with one command:
-
-```bash
-bash scripts/start_tui.sh
-# equivalent: uv run --locked docatlas
-```
-
-The opening screen accepts one PDF, multiple PDFs, a directory, or an HTTP(S)
-PDF URL. Typing `@` immediately opens a navigable local-file picker: use
-`↑`/`↓`, Enter to open/select,
-Backspace or `←` for the parent directory, Space for multi-select, `d` to
-finish a multi-selection, and `f` to select the current folder. On terminals
-without raw-input support, `@` + Tab remains available as a fallback.
-
-You can also launch with documents already selected:
-
-```bash
-# One document
-bash scripts/start_tui.sh @report.pdf
-
-# Multiple documents (quote paths containing spaces)
-bash scripts/start_tui.sh @report.pdf @"annual report.pdf"
-
-# Every PDF in a folder; add --recursive to include subfolders
-bash scripts/start_tui.sh @reports/ --recursive
-
-# A remote PDF (quote signed URLs so the shell does not expand metacharacters)
-bash scripts/start_tui.sh 'https://example.com/reports/annual.pdf?token=...'
-```
-
-Selections are capped at 100 PDFs by default; use `--max-documents N` to
-increase the limit explicitly for a larger corpus.
-
-DocAtlas builds or reuses a content-aware workspace under `outputs/tui/`, then
-stays open for follow-up questions. Available commands are:
-
-| Command | Action |
-|---|---|
-| `@` | Open the navigable PDF/folder picker. |
-| `/add <@path\|URL>` | Add local or remote PDFs and begin a new document conversation. |
-| `/new <@path\|URL>` | Replace the active document set. |
-| `/files` | Show active documents. |
-| `/overview [view]` | Open the local session overview (`summary`, `findings`, `outline`, or `history`). |
-| `/overview export` | Write a private `overview.md` inside the active workspace. |
-| `/clear` | Clear conversation history but keep documents and cached preprocessing. |
-| `/rebuild` | Force Markdown and PageIndex regeneration. |
-| `/quit` | Exit; cached work remains available. |
-
-`/overview` is a read-only TUI view and never calls the model or enters the
-agent loop. Use Tab to switch views, `↑`/`↓` to navigate, Enter to expand,
-`/` to filter, `e` to export, and Esc to return to chat.
-
-Press Esc or Ctrl+C once to cancel the current input or interrupt an active
-model, Skill, or preprocessing turn. Press Ctrl+C again within two seconds to
-exit DocAtlas cleanly. The prompt uses a protected single-line editor: long
-questions scroll horizontally while editing and wrap when submitted;
-Backspace, Delete, `←`/`→`, Home/End, Ctrl+U, and Ctrl+W cannot erase the `›`
-prompt. Use `↑`/`↓` to browse question history, or Ctrl+L to clear the visible
-screen and reposition the current draft without losing it. Typing `/` opens
-command suggestions; the list narrows by prefix, Tab completes the selected
-command, `↑`/`↓` changes the selection, Enter accepts a candidate, and Esc
-closes the suggestions before cancelling the input itself. The TUI starts on a
-fresh visible page and keeps two blank rows below live output; terminal
-scrollback remains available after exit.
-
-## Command-line workflows
-
-Run the complete non-interactive sample pipeline:
-
-```bash
-bash scripts/demo_end_to_end.sh
-```
-
-Interactive terminals get a dependency-free, Codex-style execution view:
-
-<p align="center">
-  <img src="assets/tui-preview.svg" alt="DocAtlas terminal showing a full-width Ask composer, compact Working tools, and an Answer card" width="92%">
-</p>
-
-```text
-────────────────────────────────────────────────────────────
-› What changed most, and which pages support it?
-
-╭─ Working
-│   1  ✓ Search  “Find the largest changes”                 1.1s
-│   2  ✓ Read    sample_report · p.2-5                      0.2s
-│   3  ✓ Note    Page 5 · 1 finding · 1 evidence entry      0.1s
-╰─ 4 model turns · 3 tools · 3.7s
-
-╭─ Answer
-│  Revenue increased most in the West region [p. 3].
-╰─ 12,400 in · 320 out · 80 reasoning
-```
-
-Reasoning summaries are hidden by default. Use `--show-reasoning` to display
-API-provided summaries, `--verbose` for SDK logs, or `--quiet` for only the
-answer. Colour is disabled automatically outside a TTY and when `NO_COLOR` is
-set. The full-width Ask composer uses a lighter background, vertical padding,
-and a divider between questions. Working and Answer share one restrained deep
-canvas, distinguished by their cyan/green headers. Set `DOCATLAS_THEME=dark`,
-`light`, or `auto` to override theme selection.
-
-For an already preprocessed document:
+### Run the non-interactive harness
 
 ```bash
 uv run --locked docatlas chat \
@@ -190,53 +274,33 @@ uv run --locked docatlas chat \
   --pdf document.pdf \
   --markdown-dir markdown/ \
   --tree-json trees/document_structure.json \
-  --message "What are the report's main conclusions, and which pages support them?"
+  --message "What are the main conclusions, and which pages support them?"
 ```
 
 The final answer is written to stdout. Progress, tool calls, token usage, and
-the session path are written to stderr, so the command remains pipe-friendly.
-For structured integrations, use JSON mode:
+the session path are written to stderr, keeping shell pipelines stable. Add
+`--format json` for structured integrations, `--show-reasoning` for
+API-provided reasoning summaries, or `--quiet` for the final answer only.
+
+### Run the complete sample pipeline
 
 ```bash
-uv run --locked docatlas chat \
-  --pdf document.pdf --markdown-dir markdown/ \
-  --tree-json trees/document_structure.json \
-  --message "Summarize the principal risks with page citations." \
-  --format json | jq -r .answer
+bash scripts/demo_end_to_end.sh
 ```
 
-## The four Skills
+This runs the bundled self-authored sample through Markdown extraction,
+PageIndex construction, and the four-Skill chat loop. Completed artifacts are
+cached under `outputs/demo/`.
 
-| Skill | Role |
-|---|---|
-| `search` | Uses an auxiliary model to select relevant nodes from a PageIndex tree. |
-| `read` | Returns page text, optional page screenshots, and selected figure pixels. |
-| `note` | Stores findings, plans, and page-anchored evidence. |
-| `review` | Retrieves the saved notes relevant to a focused query. |
-
-Validate all four against the Agent Skills specification:
-
-```bash
-for skill in search read note review; do
-  uvx --from skills-ref agentskills validate "docatlas/skills/$skill"
-done
+```text
+PDF ──► build-md ──► per-page Markdown + figures
+   ──► build-tree ──► hierarchical document index
+   ──► chat ────────► Search → Read → Note → Review → answer
 ```
 
-`read` can run independently. Stateful Skills share a session file; create one
-for direct CLI use with:
+## 📄 Preprocessing and multiple documents
 
-```bash
-export HARNESS_SESSION_FILE="$(uv run --locked docatlas init-session \
-  --pdf document.pdf --tree-json trees/document_structure.json \
-  --question 'What are the report conclusions?')"
-```
-
-See [the Skills guide](docatlas/skills/README.md) for direct invocation examples
-and [ARCHITECTURE.md](ARCHITECTURE.md) for the Skill and session contracts.
-
-## Preprocessing
-
-Build the hierarchical PageIndex tree used by `search`:
+Build the hierarchical tree used by `search`:
 
 ```bash
 uv run --locked docatlas build-tree \
@@ -253,15 +317,13 @@ uv run --locked docatlas build-md \
   --output-dir markdown/
 ```
 
-The paper experiments use MinerU 2.5 output. Docling provides a convenient
-local preprocessing path, but its extraction quality and benchmark results may
-differ on dense tables, formulas, and complex layouts. Both are consumed through
-the same per-page directory contract documented in
-[ARCHITECTURE.md](ARCHITECTURE.md).
+The reported experiments use MinerU 2.5 output. Docling is the convenient
+local preprocessing path and follows the same per-page directory contract, but
+its extraction quality can differ on dense tables, formulas, and complex
+layouts.
 
-## Multi-document questions
-
-Build a merged tree, then pass each PDF to the chat command:
+For questions spanning several PDFs, build a merged tree and pass every PDF to
+the harness:
 
 ```bash
 uv run --locked docatlas build-series-tree \
@@ -271,20 +333,33 @@ uv run --locked docatlas build-series-tree \
   --model "$AZURE_OPENAI_DEPLOYMENT"
 
 uv run --locked docatlas chat \
-  --skill search --skill read --skill note --skill review \
   --pdf reports/2024.pdf --pdf reports/2025.pdf \
   --markdown-dir markdown/ \
   --tree-json trees/annual_reports.json \
   --message "Compare the principal risks reported in 2024 and 2025."
 ```
 
-Use `--manifest` when documents need explicit `doc_id` or per-document
-Markdown paths. `scripts/demo_end_to_end_multi.sh` provides a complete example.
+Use `--manifest` for explicit per-document IDs or Markdown paths.
+`scripts/demo_end_to_end_multi.sh` provides a complete example.
 
-## Evaluation
+## 📂 Repository map
 
-The MMLongBench runner uses a benchmark-specific response policy while normal
-`docatlas chat` uses natural evidence-grounded answers.
+| Path | Purpose |
+|---|---|
+| `docatlas/agent/` | Multi-turn loop, Skill dispatch, hooks, and trace events. |
+| `docatlas/ui/` | Interactive workbench, command completion, overview, and pipe-safe rendering. |
+| `docatlas/skills/` | Portable Search, Read, Note, and Review Skills plus their shared runtime. |
+| `docatlas/session/` | Atomic session state, document environment, notes, and mutable trees. |
+| `docatlas/preprocess/` | PDF-to-Markdown and PageIndex tree construction. |
+| `docatlas/benchmarks/` | MMLongBench-Doc evaluation runner. |
+| `docatlas/scoring/` | Benchmark answer extraction and scoring. |
+| `docatlas/profiles/` | Versioned runtime defaults. |
+| `scripts/` | One-command TUI, demos, and evaluation launchers. |
+| `tests/` | Unit, integration, PTY, security, and packaging regressions. |
+
+## 🧪 Evaluation and reproducibility
+
+Run the MMLongBench-Doc harness and scorer:
 
 ```bash
 bash scripts/run_eval.sh --limit 20 --n-jobs 4
@@ -295,39 +370,42 @@ uv run --locked python -m docatlas.scoring.score_mmlongbench_hybrid \
 ```
 
 Evaluation outputs record the DocAtlas version, Git revision, model deployment,
-API version, and `uv.lock` hash for reproducibility.
+API version, and `uv.lock` hash. Benchmark corpora are obtained from their
+original sources and are not redistributed here; the repository includes a
+small self-authored PDF for smoke tests and demos.
 
-## Security and data handling
+## 🔐 Security and data handling
 
-DocAtlas sends requested document content to the configured model endpoints and
-stores session notes under `outputs/sessions/` by default. Review custom Skills
-before loading them: Skill scripts are executable code, and DocAtlas is not an
-operating-system sandbox. Treat PDFs, extracted Markdown, and document-tree text
-as untrusted input.
+DocAtlas sends requested document content to the configured model endpoints
+and stores session notes locally. Review custom Skills before loading them:
+Skill scripts are executable code, and the harness is not an operating-system
+sandbox. Treat PDFs, extracted Markdown, and document-tree text as untrusted
+input.
 
-Remote PDF support is limited to HTTP(S). Downloads use a private cache under
-`outputs/tui/_downloads/`, are capped at 100 MB, and must pass both response-type
-and PDF-header validation. Redirects are bounded; HTTPS downgrades, embedded
-credentials, and hosts resolving to local, private, reserved, or non-routable
-addresses are rejected. The raw TTY editor masks URL query values while they
-are entered, and downloader status/cache metadata omit them. A URL supplied as
-a command-line argument can still remain in shell history; paste sensitive
-signed URLs into the opening screen instead. HTML pages are not accepted.
+Remote PDF support is limited to HTTP(S). Downloads are size-limited, validated
+as PDFs, protected against private-network targets and unsafe redirects, and
+stored in a private cache. URL query values are masked in the raw TTY and
+omitted from cache metadata. HTML pages are not accepted.
 
-Please report vulnerabilities through the process in [SECURITY.md](SECURITY.md),
-not through public issues.
+Report vulnerabilities through [SECURITY.md](SECURITY.md), not through public
+issues.
 
-## Development
+## 🧑‍💻 Development
 
 ```bash
 uv sync --locked --extra dev
 uv run --locked pytest
+uvx ruff==0.16.5 check .
+uvx ruff==0.16.5 format --check .
+uv run --locked --with mypy==2.3.1 mypy docatlas
 uv build
 ```
 
 Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Citation
+## 📌 Citation
+
+If you use DocAtlas in your research, please cite:
 
 ```bibtex
 @article{wei2026docatlas,
@@ -336,7 +414,8 @@ Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
             Dai, Qi and Qiu, Kai and Li, Yunsheng and Chen, Dongdong and
             Luo, Chong and Chen, Zhenzhong and Guo, Baining},
   year   = {2026},
-  note   = {Preprint}
+  note   = {Preprint},
+  url    = {https://arxiv.org/abs/2608.07527}
 }
 ```
 
@@ -347,4 +426,5 @@ snapshot retains its upstream MIT license and provenance under
 [`docatlas/_vendor/pageindex/`](docatlas/_vendor/pageindex/).
 
 DocAtlas builds on PageIndex, MinerU, Docling, verl, and vLLM. We thank their
-authors and the creators of the long-document benchmarks used in the paper.
+authors and the creators of MMLongBench-Doc, FinRAGBench-V, and LongDocURL for
+releasing their work.
