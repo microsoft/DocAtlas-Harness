@@ -144,15 +144,27 @@ current folder. Selections are capped at 100 PDFs unless
 
 ## 🏆 Results and leaderboard
 
-<p align="center">
-  <a href="https://officeintelligence.github.io/docatlas/#leaderboard">
-    <img src="https://officeintelligence.github.io/docatlas/assets/figures/motivation-results.png" alt="DocAtlas performance comparison across direct, harness, and reinforcement-learning settings" width="82%">
-  </a>
-</p>
-
 > **GPT-5.4 + DocAtlas reaches 71.4 on MMLongBench-Doc**: +9.0 over
 > direct input and +5.6 above the 65.8 human-expert reference. The same setup
 > improves GPT-5.4 by +20.5 on FinRAGBench-V and +11.9 on LongDocURL.
+
+<table>
+  <tr>
+    <td width="33.33%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/motivation-results.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/motivation-results.png" alt="DocAtlas performance comparison across direct, harness, and reinforcement-learning settings" width="100%"></a></td>
+    <td width="33.33%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/ablation.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/ablation.png" alt="DocAtlas component ablation" width="100%"></a></td>
+    <td width="33.33%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/tool-calls.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/tool-calls.png" alt="Average DocAtlas tool calls per question" width="100%"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Overall performance across direct, harness, and RL settings</sub></td>
+    <td align="center"><sub>Component ablation on MMLongBench-Doc</sub></td>
+    <td align="center"><sub>Average tool allocation by policy</sub></td>
+  </tr>
+</table>
+
+Every component contributes: removing full-page images, figure crops,
+decoupled Read, or mutable memory reduces MMLongBench-Doc performance. The tool
+allocation plot shows that the policy learns different Search, Read, Note, and
+Review budgets rather than following a scripted sequence.
 
 Selected results from the paper are shown below. The
 [interactive project leaderboard](https://officeintelligence.github.io/docatlas/#leaderboard)
@@ -202,23 +214,7 @@ The harness owns execution, multimodal transport, safety limits, trace events,
 and atomic session state. See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime,
 Skill, workspace, and trust-boundary contracts.
 
-## 🔬 Analysis and trajectories
-
-<table>
-  <tr>
-    <td width="50%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/ablation.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/ablation.png" alt="DocAtlas component ablation" width="100%"></a></td>
-    <td width="50%"><a href="https://officeintelligence.github.io/docatlas/assets/figures/tool-calls.png"><img src="https://officeintelligence.github.io/docatlas/assets/figures/tool-calls.png" alt="Average DocAtlas tool calls per question" width="100%"></a></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Component ablation on MMLongBench-Doc</sub></td>
-    <td align="center"><sub>Average tool allocation by policy</sub></td>
-  </tr>
-</table>
-
-Every component contributes: removing full-page images, figure crops,
-decoupled Read, or mutable memory reduces MMLongBench-Doc performance. The tool
-allocation plot shows that the policy learns different Search, Read, Note, and
-Review budgets rather than following a scripted sequence.
+## 🔬 Complete trajectory
 
 <details>
 <summary><b>Open a complete multi-hop evidence trajectory</b></summary>
