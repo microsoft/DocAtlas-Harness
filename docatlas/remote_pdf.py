@@ -181,6 +181,7 @@ def _open_response(
             transport: socket.socket
             if scheme == "https":
                 context = ssl.create_default_context()
+                context.minimum_version = ssl.TLSVersion.TLSv1_2
                 transport = context.wrap_socket(raw_socket, server_hostname=ascii_hostname)
             else:
                 transport = raw_socket
