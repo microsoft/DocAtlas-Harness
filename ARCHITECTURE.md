@@ -16,6 +16,7 @@ docatlas/                  Single Python package namespace
   llm/                     Provider protocol and Azure Responses backend
   session/                 Atomic session state
   ui/                      Interactive workbench and pipe-friendly rendering
+    commands.py            Shared command registry and completion metadata
     overview.py            Read-only session inspector and Markdown export
     terminal.py            Shared key parsing and display-width primitives
   skills/                  Portable Agent Skills and shared runtime
@@ -92,6 +93,18 @@ On POSIX terminals, the prompt enters cbreak mode only while reading a line so
 an `@` keystroke can open the in-place path picker immediately. Terminal state
 is restored in a `finally` block. Other terminals retain readline path
 completion and the numbered selection modes.
+
+Interactive slash commands come from one registry shared by help text,
+validation, raw-terminal prefix suggestions, and readline fallback completion.
+The line editor renders candidates beneath the prompt with relative cursor
+movement, then clears those rows before submission so suggestions never become
+stale scrollback.
+
+Agent-loop events are grouped by user request rather than drawing one panel per
+model turn. The renderer updates each active Tool row in place and retains a
+single compact Working card containing the completed Tool sequence. Ask uses a
+slightly lighter background; Working and Answer share a deep fixed canvas and
+use semantic foreground colours to communicate structure and state.
 
 The TUI also exposes a read-only `/overview` inspector. It builds an immutable
 snapshot from the active session's conversation, notes, search/read history,

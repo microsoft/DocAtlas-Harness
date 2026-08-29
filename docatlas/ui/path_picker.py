@@ -16,6 +16,7 @@ from typing import TextIO
 
 from ..remote_pdf import mask_url_query_values
 from . import terminal as _terminal
+from .commands import CommandCompletion
 from .plain_renderer import sanitize_terminal_text
 from .terminal import CtrlCInterrupt, EscapeInterrupt
 
@@ -34,6 +35,7 @@ _CTRL_E = _terminal.KEY_CTRL_E
 _CTRL_U = _terminal.KEY_CTRL_U
 _CTRL_W = _terminal.KEY_CTRL_W
 _DELETE = _terminal.KEY_DELETE
+_SHIFT_TAB = _terminal.KEY_SHIFT_TAB
 _capture_typeahead = _terminal.capture_typeahead
 _display_width = _terminal.display_width
 _join_columns = _terminal.join_columns
@@ -478,6 +480,8 @@ def read_line_with_at_picker(
     use_color: bool = True,
     history: list[str] | None = None,
     input_activity: Callable[[], None] | None = None,
+    canvas_style: str = "",
+    completion_provider: Callable[[str], list[CommandCompletion]] | None = None,
 ) -> str:
     """Read one editable line and open a path picker immediately on ``@``."""
     if os.name != "posix":  # pragma: no cover - Windows fallback lives in TUIConsole
@@ -492,24 +496,142 @@ def read_line_with_at_picker(
     history_values = history if history is not None else []
     history_index = len(history_values)
     draft = ""
+    completion_index = 0
+    completion_suppressed = False
+    rendered_completion_rows = 0
+    last_cursor_column = 0
+
+    def completions() -> list[CommandCompletion]:
+        if completion_provider is None or completion_suppressed or cursor != len(buffer):
+            return []
+        try:
+            return completion_provider("".join(buffer))
+        except Exception:  # noqa: BLE001 - completion must never break input
+            return []
+
+    def completion_lines(
+        candidates: list[CommandCompletion], canvas_width: int
+    ) -> list[tuple[str, bool]]:
+        nonlocal completion_index
+        if not candidates:
+            completion_index = 0
+            return []
+        completion_index = min(completion_index, len(candidates) - 1)
+        terminal_lines = _terminal_size(output_stream).lines
+        limit = max(1, min(8, terminal_lines - 3, len(candidates)))
+        start = max(0, min(completion_index - limit // 2, len(candidates) - limit))
+        visible_candidates = candidates[start : start + limit]
+        value_column = min(
+            30,
+            max(_display_width(candidate.value) for candidate in visible_candidates) + 5,
+        )
+        lines: list[tuple[str, bool]] = []
+        for offset, candidate in enumerate(visible_candidates):
+            absolute_index = start + offset
+            marker = "›" if absolute_index == completion_index else " "
+            left = f" {marker} {candidate.value}"
+            if canvas_width < _display_width(left) + 20:
+                rendered = _truncate_display(left, canvas_width)
+            else:
+                rendered = _truncate_display(
+                    left
+                    + (" " * max(2, value_column - _display_width(left)))
+                    + candidate.description,
+                    canvas_width,
+                )
+            lines.append(
+                (
+                    rendered,
+                    absolute_index == completion_index,
+                )
+            )
+        return lines
+
+    def clear_completion_rows() -> None:
+        nonlocal rendered_completion_rows
+        if not rendered_completion_rows:
+            return
+        for _ in range(rendered_completion_rows):
+            output_stream.write("\r\n\x1b[2K")
+        output_stream.write(f"\x1b[{rendered_completion_rows}A\r")
+        if last_cursor_column:
+            output_stream.write(f"\x1b[{last_cursor_column}C")
+        rendered_completion_rows = 0
+        output_stream.flush()
+
+    def commit_line(value: str) -> None:
+        """Persist the full submitted Ask text instead of its scrolled viewport."""
+        if not canvas_style:
+            output_stream.write("\n")
+            output_stream.flush()
+            return
+        terminal_width = _terminal_size(output_stream).columns
+        canvas_width = min(120, max(2, terminal_width) - 1)
+        prompt_width = _display_width(sanitize_terminal_text(prompt))
+        content_width = max(1, canvas_width - prompt_width)
+        rows = _terminal.wrap_display(mask_url_query_values(value), content_width) or [""]
+        output_stream.write("\r\x1b[2K")
+        for index, row in enumerate(rows):
+            prefix = prompt if index == 0 else " " * prompt_width
+            padding = max(
+                0,
+                canvas_width - _display_width(sanitize_terminal_text(prefix)) - _display_width(row),
+            )
+            output_stream.write(canvas_style + prefix + row + (" " * padding) + "\x1b[0m\n")
+        output_stream.flush()
 
     def redraw(extra: str = "") -> None:
+        nonlocal completion_index, rendered_completion_rows, last_cursor_column
         display_buffer = list(buffer)
         display_cursor = cursor
         if extra:
             display_buffer[cursor:cursor] = list(extra)
             display_cursor += len(extra)
         terminal_width = _terminal_size(output_stream).columns
+        canvas_width = min(120, max(2, terminal_width) - 1)
         prompt_width = _display_width(sanitize_terminal_text(prompt))
         visible, cursor_column = _line_window(
             mask_url_query_values("".join(display_buffer)),
             display_cursor,
-            max(8, terminal_width - prompt_width - 1),
+            max(8, canvas_width - prompt_width),
         )
-        output_stream.write(f"\r\x1b[2K{prompt}{visible}")
-        tail_width = _display_width(visible) - cursor_column
-        if tail_width:
-            output_stream.write(f"\x1b[{tail_width}D")
+        output_stream.write("\r\x1b[2K")
+        if canvas_style:
+            output_stream.write(canvas_style)
+        output_stream.write(f"{prompt}{visible}")
+        padding = (
+            max(0, canvas_width - prompt_width - _display_width(visible)) if canvas_style else 0
+        )
+        if canvas_style:
+            output_stream.write((" " * padding) + "\x1b[0m")
+        candidates = completions() if not extra else []
+        popup_lines = completion_lines(candidates, canvas_width)
+        previous_rows = rendered_completion_rows
+        row_count = max(previous_rows, len(popup_lines))
+        output_stream.write("\r")
+        for index in range(row_count):
+            output_stream.write("\r\n\x1b[2K")
+            if index < len(popup_lines):
+                line, selected = popup_lines[index]
+                if canvas_style:
+                    output_stream.write(canvas_style)
+                if selected and use_color:
+                    output_stream.write("\x1b[1m")
+                output_stream.write(line)
+                if canvas_style:
+                    popup_padding = max(0, canvas_width - _display_width(line))
+                    output_stream.write((" " * popup_padding) + "\x1b[0m")
+                elif selected and use_color:
+                    output_stream.write("\x1b[0m")
+            if index >= len(popup_lines):
+                output_stream.write("\x1b[0m")
+        if row_count:
+            output_stream.write(f"\x1b[{row_count}A")
+        last_cursor_column = prompt_width + cursor_column
+        output_stream.write("\r")
+        if last_cursor_column:
+            output_stream.write(f"\x1b[{last_cursor_column}C")
+        rendered_completion_rows = len(popup_lines)
         output_stream.flush()
 
     redraw()
@@ -522,10 +644,24 @@ def read_line_with_at_picker(
             key = _read_terminal_key(input_stream)
             if key != _CTRL_C and input_activity is not None:
                 input_activity()
+            candidates = completions()
             if key == _ENTER:
-                output_stream.write("\n")
-                output_stream.flush()
+                if candidates:
+                    selected_completion = candidates[min(completion_index, len(candidates) - 1)]
+                    current = "".join(buffer)
+                    if (
+                        selected_completion.value != current
+                        and selected_completion.insert_text != current
+                    ):
+                        buffer[:] = list(selected_completion.insert_text)
+                        cursor = len(buffer)
+                        completion_index = 0
+                        completion_suppressed = False
+                        redraw()
+                        continue
+                clear_completion_rows()
                 value = "".join(buffer).strip()
+                commit_line(value)
                 history_safe = mask_url_query_values(value) == value
                 if (
                     history is not None
@@ -535,36 +671,75 @@ def read_line_with_at_picker(
                 ):
                     history.append(value)
                 return value
+            if key in {"\t", _SHIFT_TAB} and candidates:
+                if key == _SHIFT_TAB:
+                    completion_index = (completion_index - 1) % len(candidates)
+                    redraw()
+                    continue
+                current = "".join(buffer)
+                common_prefix = os.path.commonprefix(
+                    [candidate.insert_text for candidate in candidates]
+                )
+                if len(candidates) == 1:
+                    insertion = candidates[0].insert_text
+                elif len(common_prefix) > len(current):
+                    insertion = common_prefix
+                else:
+                    insertion = candidates[completion_index].insert_text
+                buffer[:] = list(insertion)
+                cursor = len(buffer)
+                completion_index = 0
+                completion_suppressed = False
+                redraw()
+                continue
+            if key == _UP and candidates:
+                completion_index = (completion_index - 1) % len(candidates)
+                redraw()
+                continue
+            if key == _DOWN and candidates:
+                completion_index = (completion_index + 1) % len(candidates)
+                redraw()
+                continue
             if key == _BACKSPACE:
                 if cursor:
                     del buffer[cursor - 1]
                     cursor -= 1
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _DELETE:
                 if cursor < len(buffer):
                     del buffer[cursor]
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _LEFT:
                 cursor = max(0, cursor - 1)
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _RIGHT:
                 cursor = min(len(buffer), cursor + 1)
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _CTRL_A:
                 cursor = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _CTRL_E:
                 cursor = len(buffer)
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _CTRL_U:
                 del buffer[:cursor]
                 cursor = 0
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _CTRL_W:
@@ -574,17 +749,26 @@ def read_line_with_at_picker(
                 while cursor and not buffer[cursor - 1].isspace():
                     del buffer[cursor - 1]
                     cursor -= 1
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _CTRL_C:
+                clear_completion_rows()
                 output_stream.write("^C\n")
                 output_stream.flush()
                 raise CtrlCInterrupt
             if key == _CTRL_D:
                 if not buffer:
+                    clear_completion_rows()
                     raise EOFError
                 continue
             if key == _ESCAPE:
+                if candidates:
+                    completion_suppressed = True
+                    redraw()
+                    continue
+                clear_completion_rows()
                 output_stream.write("\n")
                 output_stream.flush()
                 raise EscapeInterrupt
@@ -594,6 +778,8 @@ def read_line_with_at_picker(
                 history_index = max(0, history_index - 1)
                 buffer[:] = list(history_values[history_index])
                 cursor = len(buffer)
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _DOWN and history_values:
@@ -604,11 +790,15 @@ def read_line_with_at_picker(
                     history_index = len(history_values)
                     buffer[:] = list(draft)
                 cursor = len(buffer)
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if key == _SPACE:
                 buffer.insert(cursor, " ")
                 cursor += 1
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
                 continue
             if len(key) == 1 and key.isprintable():
@@ -622,9 +812,9 @@ def read_line_with_at_picker(
                         use_unicode=use_unicode,
                         use_color=use_color,
                     )
-                    selected = picker.run()
-                    if selected:
-                        insertion = _mention_text(selected)
+                    selected_paths = picker.run()
+                    if selected_paths:
+                        insertion = _mention_text(selected_paths)
                         if buffer and not buffer[-1].isspace():
                             buffer.insert(cursor, " ")
                             cursor += 1
@@ -634,12 +824,17 @@ def read_line_with_at_picker(
                     else:
                         buffer.insert(cursor, "@")
                         cursor += 1
+                    completion_index = 0
+                    completion_suppressed = False
                     redraw()
                     continue
                 buffer.insert(cursor, key)
                 cursor += 1
+                completion_index = 0
+                completion_suppressed = False
                 redraw()
     finally:
+        clear_completion_rows()
         _capture_typeahead(descriptor)
         termios.tcsetattr(descriptor, termios.TCSADRAIN, previous)
 

@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 from docatlas.ui import path_picker as picker_module
+from docatlas.ui.commands import CommandCompletion, command_completions
 from docatlas.ui.path_picker import PathPickerModel, TerminalPathPicker
 
 
@@ -61,6 +62,10 @@ class _VirtualTerminal:
                 elif command == "B":
                     self.row += amount
                     self._ensure_row()
+                elif command == "C":
+                    self.column += amount
+                elif command == "D":
+                    self.column = max(0, self.column - amount)
                 elif command == "K" and amount == 2:
                     self.lines[self.row] = []
                     self.column = 0
@@ -299,6 +304,8 @@ def _drive_line(
     payload: bytes,
     history: list[str] | None = None,
     input_activity: Callable[[], None] | None = None,
+    completion_provider: Callable[[str], list[CommandCompletion]] | None = None,
+    canvas_style: str = "",
 ) -> tuple[str | None, BaseException | None, str]:
     master, slave = pty.openpty()
     stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
@@ -317,6 +324,8 @@ def _drive_line(
                     use_color=False,
                     history=history,
                     input_activity=input_activity,
+                    completion_provider=completion_provider,
+                    canvas_style=canvas_style,
                 )
             )
         except BaseException as exc:  # noqa: BLE001 - captured for the driving test
@@ -358,7 +367,9 @@ def test_line_editor_handles_unicode_and_cursor_edits() -> None:
 def test_line_editor_masks_remote_url_query_but_returns_original_value() -> None:
     history: list[str] = []
     result, error, output = _drive_line(
-        b"https://example.com/report.pdf?token=do-not-echo\r", history
+        b"https://example.com/report.pdf?token=do-not-echo\r",
+        history,
+        canvas_style="\x1b[48;2;30;38;48m",
     )
 
     assert error is None
@@ -379,6 +390,100 @@ def test_line_editor_supports_shell_editing_shortcuts() -> None:
     assert clear_result == "keep"
     assert cursor_error is None
     assert cursor_result == "bcx"
+
+
+def test_line_editor_completes_command_and_context_with_tab() -> None:
+    result, error, output = _drive_line(b"/ov\tf\t\r", completion_provider=command_completions)
+
+    assert error is None
+    assert result == "/overview findings"
+    assert "inspect the current session" in output
+    assert "saved notes and evidence" in output
+
+    exact, exact_error, _ = _drive_line(b"/overview\r", completion_provider=command_completions)
+    assert exact_error is None
+    assert exact == "/overview"
+
+
+def test_line_editor_arrow_selects_completion_and_escape_closes_popup() -> None:
+    selected, selected_error, _ = _drive_line(
+        b"/overview \x1b[B\r\r", completion_provider=command_completions
+    )
+    partial, partial_error, _ = _drive_line(b"/ov\x1b\r", completion_provider=command_completions)
+
+    assert selected_error is None
+    assert selected == "/overview findings"
+    assert partial_error is None
+    assert partial == "/ov"
+
+
+def test_command_popup_replaces_candidates_and_clears_after_submit(monkeypatch) -> None:
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((48, 12)),
+    )
+    master, slave = pty.openpty()
+    stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
+    output = _VirtualTerminal()
+    result: list[str] = []
+    errors: list[BaseException] = []
+
+    def target() -> None:
+        try:
+            result.append(
+                picker_module.read_line_with_at_picker(
+                    "› ",
+                    input_stream=stream,
+                    output_stream=output,  # type: ignore[arg-type]
+                    use_unicode=True,
+                    use_color=False,
+                    completion_provider=command_completions,
+                )
+            )
+        except BaseException as exc:  # noqa: BLE001 - captured for PTY assertion
+            errors.append(exc)
+
+    def wait_for(text: str) -> None:
+        deadline = time.monotonic() + 1
+        while text not in output.snapshot() and time.monotonic() < deadline:
+            time.sleep(0.005)
+        assert text in output.snapshot()
+
+    thread = threading.Thread(target=target)
+    thread.start()
+    try:
+        wait_for("›")
+        time.sleep(0.02)
+        os.write(master, b"/")
+        wait_for("/add")
+        os.write(master, b"ov")
+        deadline = time.monotonic() + 1
+        while (
+            not output.snapshot().startswith("› /ov") or "/add" in output.snapshot()
+        ) and time.monotonic() < deadline:
+            time.sleep(0.005)
+        narrowed = output.snapshot()
+        assert narrowed.startswith("› /ov")
+        assert narrowed.count("/overview") == 1
+        assert "/add" not in narrowed
+        assert all(picker_module._display_width(line) <= 47 for line in narrowed.splitlines())
+        os.write(master, b"\tf\t\r")
+        thread.join(timeout=2)
+        assert not thread.is_alive()
+    finally:
+        if thread.is_alive():
+            os.close(master)
+            thread.join(timeout=1)
+        stream.close()
+        try:
+            os.close(master)
+        except OSError:
+            pass
+
+    assert errors == []
+    assert result == ["/overview findings"]
+    assert output.snapshot() == "› /overview findings"
 
 
 def test_at_keystroke_opens_picker_and_inserts_selection() -> None:
@@ -425,6 +530,9 @@ def test_pty_directory_navigation_replaces_picker_and_restores_prompt(
     thread.start()
     try:
         wait_for(lambda: output.snapshot().startswith("›"))
+        # The first paint precedes the cbreak transition by a few instructions.
+        # Let the reader own the PTY before injecting the first keystroke.
+        time.sleep(0.02)
         os.write(master, b"@")
         wait_for(lambda: "@ files" in output.snapshot())
         os.write(master, b"\x1b[B\r")

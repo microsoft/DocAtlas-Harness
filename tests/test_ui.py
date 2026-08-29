@@ -8,7 +8,7 @@ from typing import TextIO, cast
 
 from docatlas.__main__ import _chat_result_payload, _read_message, build_parser, cmd_tui
 from docatlas.agent.trace import AgentResult, ToolCallEvent, TurnEvent
-from docatlas.ui.plain_renderer import PlainRenderer, safe_display_path
+from docatlas.ui.plain_renderer import PlainRenderer, safe_display_path, sanitize_terminal_text
 
 
 class _TTYBuffer(io.StringIO):
@@ -92,15 +92,20 @@ def test_tty_renderer_uses_visual_tree_and_redacts_arguments(tmp_path, monkeypat
 
     rendered = stderr.getvalue()
     assert "╭─" in rendered
-    assert "├─" in rendered
-    assert "✓ Completed · 0.2s · 1 image" in rendered.replace("\x1b[0m", "")
-    assert "<redacted>" in rendered
+    assert "Working" in rendered
+    assert "Search" in rendered
+    assert "Find revenue" in rendered
+    assert "0.2s" in rendered
+    assert "1 image" in rendered
+    assert "Turn 1" not in rendered
     assert "must-not-appear" not in rendered
     assert "Find revenue\x1b[31m" not in rendered
     assert "\u202e" not in rendered
     assert str(tmp_path) not in rendered
     assert "\x1b[" in rendered
-    assert "│  Supported answer." in stdout.getvalue()
+    assert "\x1b[48;2;17;23;30m" in rendered
+    assert "\x1b[48;2;17;23;30m" in stdout.getvalue()
+    assert "│  Supported answer." in sanitize_terminal_text(stdout.getvalue(), multiline=True)
     assert "Supported answer.\x1b[31m" not in stdout.getvalue()
 
 
@@ -118,11 +123,12 @@ def test_redirected_renderer_is_ascii_and_marks_failures(tmp_path, monkeypatch) 
     renderer.print_stats(_result(ok=False))
 
     rendered = stream.getvalue()
-    assert "+-- Turn 1" in rendered
-    assert "ERROR Failed | 0.1s" in rendered
+    assert "[working]" in rendered
+    assert "[tool 1] read | p.2 | failed | 0.1s" in rendered
     assert "missing page" in rendered
     assert "1 failed" in rendered
     assert "zoom" not in rendered
+    assert "Turn 1" not in rendered
     assert "1 tool" in rendered
     assert "1 tools" not in rendered
     assert "\x1b[" not in rendered
@@ -150,9 +156,69 @@ def test_ascii_terminal_falls_back_without_unicode(tmp_path, monkeypatch) -> Non
     )
 
     renderer.on_turn_start(1)
-    renderer.on_turn_end(SimpleNamespace(archived_count=0))
+    renderer.on_tool_call("read-1", "read", {"pages": "1"})
+    renderer.on_tool_status("read-1", "read", True, "ok", 0.1, 0)
+    renderer.on_turn_end(
+        TurnEvent(
+            turn_num=1,
+            tool_calls=[ToolCallEvent(call_id="read-1", name="read")],
+        )
+    )
 
-    assert "+-- Turn 1" in stream.getvalue()
+    assert "+-- Working" in stream.getvalue()
+    assert "Turn 1" not in stream.getvalue()
+
+
+def test_direct_answer_erases_transient_thinking_without_empty_working_card(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setenv("TERM", "xterm-256color")
+    stream = _TTYBuffer()
+    answer_stream = _TTYBuffer()
+    renderer = PlainRenderer(
+        _Session(tmp_path / "session.json"),
+        stream=stream,
+        answer_stream=answer_stream,
+    )
+
+    renderer.on_turn_start(1)
+    renderer.on_turn_end(TurnEvent(turn_num=1, text_output="direct answer"))
+    assert renderer.print_answer("direct answer") is True
+    renderer.print_stats(
+        AgentResult(
+            answer="direct answer",
+            turns=[TurnEvent(turn_num=1, text_output="direct answer")],
+            total_elapsed_s=0.5,
+        )
+    )
+
+    plain = sanitize_terminal_text(stream.getvalue(), multiline=True)
+    assert "Working" not in plain
+    assert "model turn" not in plain
+    assert "0.5s" in plain
+
+
+def test_no_color_keeps_structure_without_background_sequences(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("TERM", "xterm-256color")
+    monkeypatch.setenv("NO_COLOR", "1")
+    stderr = _TTYBuffer()
+    stdout = _TTYBuffer()
+    renderer = PlainRenderer(
+        _Session(tmp_path / "session.json"), stream=stderr, answer_stream=stdout
+    )
+
+    renderer.on_turn_start(1)
+    renderer.on_tool_call("read-1", "read", {"pages": "6"})
+    renderer.on_tool_status("read-1", "read", True, "ok", 0.2, 0)
+    renderer.on_turn_end(SimpleNamespace(archived_count=0))
+    renderer.print_answer("Answer")
+    renderer.print_stats(_result())
+
+    rendered = stderr.getvalue() + stdout.getvalue()
+    assert "Working" in rendered
+    assert "Answer" in rendered
+    assert "\x1b[48;" not in rendered
+    assert "\x1b[38;" not in rendered
 
 
 def test_abort_closes_an_open_turn(tmp_path) -> None:
@@ -162,8 +228,42 @@ def test_abort_closes_an_open_turn(tmp_path) -> None:
     renderer.on_turn_start(1)
     renderer.abort()
 
-    assert "ERROR Interrupted" in stream.getvalue()
-    assert "`-- Turn 1 complete" in stream.getvalue()
+    assert "[aborted] Interrupted" in stream.getvalue()
+
+
+def test_multiple_model_turns_share_one_working_card(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("TERM", "xterm-256color")
+    monkeypatch.delenv("NO_COLOR", raising=False)
+    stream = _TTYBuffer()
+    renderer = PlainRenderer(_Session(tmp_path / "session.json"), stream=stream)
+
+    renderer.on_turn_start(1)
+    renderer.on_tool_call("search-1", "search", {"query": "Find revenue changes"})
+    renderer.on_tool_status("search-1", "search", True, "ok", 0.4, 0)
+    renderer.on_turn_end(
+        TurnEvent(
+            turn_num=1,
+            tool_calls=[ToolCallEvent(call_id="search-1", name="search")],
+        )
+    )
+    renderer.on_turn_start(2)
+    renderer.on_tool_call("read-1", "read", {"pages": "4-6"})
+    renderer.on_tool_status("read-1", "read", True, "ok", 0.2, 0)
+    renderer.on_turn_end(
+        TurnEvent(
+            turn_num=2,
+            tool_calls=[ToolCallEvent(call_id="read-1", name="read")],
+        )
+    )
+    renderer.on_turn_start(3)
+    renderer.on_turn_end(TurnEvent(turn_num=3, text_output="answer"))
+
+    plain = sanitize_terminal_text(stream.getvalue(), multiline=True)
+    assert plain.count("Working") == 1
+    assert "Search" in plain
+    assert "Read" in plain
+    assert "3 model turns · 2 tools" in plain
+    assert "Turn 1" not in plain
 
 
 def test_safe_display_path_never_exposes_external_prefix(tmp_path) -> None:

@@ -28,8 +28,16 @@ from ..workspace import (
     build_preprocess_stages,
     normalize_document_paths,
 )
+from .commands import (
+    CommandCompletion,
+    command_choice_values,
+    command_completions,
+    command_help_lines,
+    command_suggestion,
+    is_known_command,
+)
 from .plain_renderer import PlainRenderer, sanitize_terminal_text
-from .terminal import EscapeInterrupt
+from .terminal import EscapeInterrupt, display_width, terminal_size, terminal_theme, wrap_display
 
 _SKILL_NAMES = ("search", "read", "note", "review")
 _DOUBLE_CTRL_C_SECONDS = 2.0
@@ -93,7 +101,7 @@ def _at_path_completions(token: str, *, cwd: Path | None = None) -> list[str]:
 
 
 def install_at_completion() -> None:
-    """Enable Tab completion for ``@PDF`` and ``@directory`` tokens."""
+    """Enable fallback readline completion for commands and ``@`` paths."""
     if readline is None:
         return
     matches: list[str] = []
@@ -101,7 +109,14 @@ def install_at_completion() -> None:
     def complete(text: str, state: int) -> str | None:
         nonlocal matches
         if state == 0:
-            matches = _at_path_completions(text)
+            line_buffer = readline.get_line_buffer()
+            if line_buffer.startswith("/"):
+                begin = readline.get_begidx()
+                matches = [
+                    candidate.insert_text[begin:] for candidate in command_completions(line_buffer)
+                ]
+            else:
+                matches = _at_path_completions(text)
         return matches[state] if state < len(matches) else None
 
     try:
@@ -135,6 +150,7 @@ class TUIConsole:
         self.input_fn = input_fn
         self.history: list[str] = []
         self.input_activity: Callable[[], None] | None = None
+        self.completion_provider: Callable[[str], list[CommandCompletion]] | None = None
         self.is_tty = bool(getattr(self.stream, "isatty", lambda: False)())
         encoding = getattr(self.stream, "encoding", None) or "utf-8"
         try:
@@ -146,6 +162,7 @@ class TUIConsole:
         self.use_color = (
             self.is_tty and os.getenv("TERM", "") != "dumb" and "NO_COLOR" not in os.environ
         )
+        self.theme = terminal_theme(use_color=self.use_color)
         if self.use_unicode:
             self.top, self.pipe, self.bottom = "╭─", "│", "╰─"
             self.ok, self.fail, self.wait, self.dot = "✓", "✗", "◌", "·"
@@ -162,6 +179,23 @@ class TUIConsole:
         self.stream.write(value + "\n")
         self.stream.flush()
 
+    def _write_wrapped(
+        self,
+        prefix: str,
+        value: str,
+        *codes: str,
+        continuation_prefix: str | None = None,
+    ) -> None:
+        width = max(8, min(120, max(2, terminal_size(self.stream).columns) - 1))
+        prefix_width = display_width(sanitize_terminal_text(prefix, multiline=True))
+        rows = wrap_display(value, max(1, width - prefix_width)) or [""]
+        continuation = continuation_prefix or (
+            self.pipe + (" " * max(1, prefix_width - display_width(self.pipe)))
+        )
+        for index, row in enumerate(rows):
+            line = (prefix if index == 0 else continuation) + row
+            self.write(self._style(line, *codes))
+
     def panel(self, title: str, lines: list[str], *, color: str | None = None) -> None:
         colour = color or self._CYAN
         safe_title = sanitize_terminal_text(title)
@@ -170,12 +204,17 @@ class TUIConsole:
             safe_line = (
                 sanitize_terminal_text(line, multiline=True).replace("\n", " ").replace("\t", " ")
             )
-            self.write(f"{self.pipe}  {safe_line}")
+            self._write_wrapped(f"{self.pipe}  ", safe_line)
         self.write(self._style(self.bottom, colour))
 
     def prompt(self, label: str, *, use_history: bool = False) -> str:
         label_suffix = f"{label} " if label else ""
-        prompt = f"{self._style('›', self._GREEN)} {label_suffix}"
+        canvas_style = ""
+        if not label and self.use_color:
+            canvas_style = self.theme.ask_background + self.theme.primary
+            prompt = f"{self.theme.success}›{canvas_style} "
+        else:
+            prompt = f"{self._style('›', self._GREEN)} {label_suffix}"
         if (
             self.input_fn is None
             and os.name == "posix"
@@ -194,6 +233,8 @@ class TUIConsole:
                     use_color=self.use_color,
                     history=self.history if use_history else None,
                     input_activity=self.input_activity,
+                    canvas_style=canvas_style,
+                    completion_provider=self.completion_provider if not label else None,
                 )
             except EOFError as exc:
                 raise TUIExit from exc
@@ -210,14 +251,15 @@ class TUIConsole:
 
     def success(self, label: str, elapsed: float | None = None) -> None:
         suffix = f" {self.dot} {elapsed:.1f}s" if elapsed is not None else ""
-        self.write(
-            f"{self.pipe}  {self._style(self.ok, self._GREEN)} "
-            f"{sanitize_terminal_text(label)}{suffix}"
+        self._write_wrapped(
+            f"{self.pipe}  {self._style(self.ok, self._GREEN)} ",
+            f"{sanitize_terminal_text(label)}{suffix}",
         )
 
     def error(self, label: str) -> None:
-        self.write(
-            f"{self.pipe}  {self._style(self.fail, self._RED)} {sanitize_terminal_text(label)}"
+        self._write_wrapped(
+            f"{self.pipe}  {self._style(self.fail, self._RED)} ",
+            sanitize_terminal_text(label),
         )
 
     def run_stage(self, stage: PreprocessStage) -> None:
@@ -327,6 +369,7 @@ class DocAtlasTUI:
         self._last_ctrl_c_at: float | None = None
         self._remote_sources: dict[Path, str] = {}
         self.console.input_activity = self._reset_ctrl_c
+        self.console.completion_provider = command_completions
 
     def _reset_ctrl_c(self) -> None:
         self._last_ctrl_c_at = None
@@ -621,7 +664,7 @@ class DocAtlasTUI:
             "tree": "outline",
             "questions": "history",
         }.get(normalized, normalized)
-        if normalized not in {"summary", "findings", "outline", "history", "export"}:
+        if normalized not in command_choice_values("/overview"):
             self.console.error("Usage: /overview [summary|findings|outline|history|export]")
             return
         try:
@@ -650,18 +693,20 @@ class DocAtlasTUI:
             "Commands",
             [
                 "@                   open the navigable file/folder picker",
-                "/add <@path|URL>     add documents and start a new conversation",
-                "/new <@path|URL>     replace the current document set",
-                "/files              show active documents",
-                "/overview [view]    inspect findings, outline, and question history",
-                "/clear              clear chat history; keep documents and cache",
-                "/rebuild            force preprocessing for the active documents",
+                *command_help_lines(),
                 "Esc                 cancel input or interrupt the active turn",
                 "Ctrl+C twice        cancel, then exit DocAtlas within 2 seconds",
                 "Up / Down           browse previous questions",
-                "/help               show this list",
-                "/quit               exit DocAtlas",
+                "Tab                 complete a /command or selected option",
             ],
+        )
+
+    def _command_hint(self) -> None:
+        self.console._write_wrapped(
+            "  ",
+            "Type / for commands · @ for documents · Ctrl+C twice to exit",
+            self.console._DIM,
+            continuation_prefix="  ",
         )
 
     def _chat(
@@ -671,7 +716,7 @@ class DocAtlasTUI:
     ) -> tuple[str, list[Path] | None, bool]:
         runtime, renderer = self._create_runtime(workspace, config)
         question_number = 1
-        self._help()
+        self._command_hint()
         while True:
             try:
                 value = self.console.prompt("", use_history=True)
@@ -689,6 +734,11 @@ class DocAtlasTUI:
             command, _, remainder = value.partition(" ")
             command = command.casefold()
             remainder = remainder.strip()
+            if command.startswith("/") and not is_known_command(command):
+                suggestion = command_suggestion(command)
+                suffix = f"; did you mean {suggestion}?" if suggestion else ""
+                self.console.error(f"Unknown command {command}{suffix}")
+                continue
             if command in {"/quit", "/exit"}:
                 return "quit", None, False
             if command == "/help":
@@ -744,18 +794,15 @@ class DocAtlasTUI:
             try:
                 from .path_picker import terminal_interrupt_monitor
 
-                self.console.write(
-                    self.console._style("  Esc or Ctrl+C interrupts this turn", self.console._DIM)
-                )
                 with terminal_interrupt_monitor(self.console.input_stream):
                     result = runtime.loop.run(user_message, continue_conversation=True)
             except EscapeInterrupt:
-                renderer.abort("Turn interrupted")
+                renderer.abort("Request interrupted")
                 self._reset_ctrl_c()
                 continue
             except KeyboardInterrupt:
-                renderer.abort("Turn interrupted")
-                if self._ctrl_c_requests_exit("Turn interrupted"):
+                renderer.abort("Request interrupted")
+                if self._ctrl_c_requests_exit("Request interrupted"):
                     return "quit", None, False
                 continue
             if not renderer.print_answer(result.answer):

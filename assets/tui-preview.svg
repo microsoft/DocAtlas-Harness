@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650" role="img" aria-labelledby="title desc">
-  <title id="title">DocAtlas terminal interface</title>
-  <desc id="desc">A dark terminal showing at-sign document selection, Search and Read tool calls, an evidence-grounded answer, and run statistics.</desc>
+  <title id="title">DocAtlas compact terminal interface</title>
+  <desc id="desc">A dark terminal with a slightly lighter user question row and one deep canvas shared by compact Working and Answer cards.</desc>
   <rect width="1100" height="650" rx="18" fill="#0d1117"/>
   <rect x="1" y="1" width="1098" height="648" rx="17" fill="none" stroke="#30363d" stroke-width="2"/>
   <circle cx="32" cy="29" r="7" fill="#ff5f56"/>
@@ -10,47 +10,58 @@
   <line x1="0" y1="52" x2="1100" y2="52" stroke="#30363d"/>
 
   <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18">
-    <text x="34" y="88" fill="#58a6ff">╭─</text>
-    <text x="66" y="88" fill="#f0f6fc" font-weight="700">Open documents</text>
+    <text x="34" y="88" fill="#66d9ef">╭─</text>
+    <text x="66" y="88" fill="#f0f6fc" font-weight="700">DocAtlas</text>
     <text x="34" y="119" fill="#8b949e">│</text>
-    <text x="66" y="119" fill="#58a6ff">@report.pdf</text>
-    <text x="220" y="119" fill="#58a6ff">@annual_report.pdf</text>
-    <text x="34" y="150" fill="#8b949e">│</text>
-    <text x="66" y="150" fill="#8b949e">[1] One PDF   [2] Multiple PDFs   [3] Entire folder</text>
-    <text x="34" y="181" fill="#58a6ff">╰─</text>
-    <text x="66" y="181" fill="#3fb950">Selected · 2 PDFs</text>
+    <text x="66" y="119" fill="#9aa4ad">document</text>
+    <text x="190" y="119" fill="#e6edf3">sample_report</text>
+    <text x="34" y="150" fill="#66d9ef">╰─</text>
+    <text x="66" y="150" fill="#69db7c">Ready</text>
 
-    <text x="34" y="229" fill="#58a6ff">╭─</text>
-    <text x="66" y="229" fill="#f0f6fc" font-weight="700">Turn 1</text>
-    <text x="34" y="260" fill="#8b949e">│</text>
-    <text x="66" y="260" fill="#d29922">◌</text>
-    <text x="92" y="260" fill="#8b949e">Waiting for model...</text>
-    <text x="34" y="291" fill="#58a6ff">├─</text>
-    <text x="66" y="291" fill="#f0f6fc" font-weight="700">Search</text>
-    <text x="34" y="322" fill="#8b949e">│</text>
-    <text x="66" y="322" fill="#8b949e">query</text>
-    <text x="138" y="322" fill="#c9d1d9">Find financial highlights and roadmap</text>
-    <text x="34" y="353" fill="#8b949e">│</text>
-    <text x="66" y="353" fill="#3fb950">✓ Completed</text>
-    <text x="194" y="353" fill="#8b949e">· 6.9s</text>
-    <text x="34" y="384" fill="#58a6ff">├─</text>
-    <text x="66" y="384" fill="#f0f6fc" font-weight="700">Read</text>
-    <text x="34" y="415" fill="#8b949e">│</text>
-    <text x="66" y="415" fill="#8b949e">pages</text>
-    <text x="138" y="415" fill="#c9d1d9">2,3,5</text>
-    <text x="34" y="446" fill="#8b949e">│</text>
-    <text x="66" y="446" fill="#3fb950">✓ Completed</text>
-    <text x="194" y="446" fill="#8b949e">· 0.2s</text>
-    <text x="34" y="477" fill="#58a6ff">╰─</text>
-    <text x="66" y="477" fill="#8b949e">Turn 1 complete · 12.4s</text>
+    <rect x="24" y="178" width="1052" height="50" rx="6" fill="#1e2630"/>
+    <text x="42" y="210" fill="#69db7c" font-weight="700">›</text>
+    <text x="70" y="210" fill="#ebeff3">What changed most, and which pages support it?</text>
 
-    <text x="34" y="525" fill="#3fb950">╭─</text>
-    <text x="66" y="525" fill="#f0f6fc" font-weight="700">Answer</text>
-    <text x="34" y="556" fill="#8b949e">│</text>
-    <text x="66" y="556" fill="#c9d1d9">Revenue was USD 54.6M [p. 2]; West grew fastest [p. 3].</text>
-    <text x="34" y="587" fill="#3fb950">╰─</text>
+    <rect x="24" y="246" width="1052" height="190" rx="7" fill="#11171e"/>
+    <text x="42" y="279" fill="#66d9ef">╭─</text>
+    <text x="74" y="279" fill="#66d9ef" font-weight="700">Working</text>
 
-    <text x="645" y="587" fill="#3fb950">✓ Run complete</text>
-    <text x="824" y="587" fill="#8b949e">4 turns · 3 tools · 28.5s</text>
+    <text x="42" y="318" fill="#66d9ef">│</text>
+    <text x="76" y="318" fill="#9aa4ad">1</text>
+    <text x="112" y="318" fill="#69db7c">✓</text>
+    <text x="140" y="318" fill="#ebeff3" font-weight="700">Search</text>
+    <text x="240" y="318" fill="#9aa4ad">“Find the largest revenue changes by region”</text>
+    <text x="1015" y="318" text-anchor="end" fill="#9aa4ad">1.1s</text>
+
+    <text x="42" y="353" fill="#66d9ef">│</text>
+    <text x="76" y="353" fill="#9aa4ad">2</text>
+    <text x="112" y="353" fill="#69db7c">✓</text>
+    <text x="140" y="353" fill="#ebeff3" font-weight="700">Read</text>
+    <text x="240" y="353" fill="#9aa4ad">sample_report · p.2-5</text>
+    <text x="1015" y="353" text-anchor="end" fill="#9aa4ad">0.2s</text>
+
+    <text x="42" y="388" fill="#66d9ef">│</text>
+    <text x="76" y="388" fill="#9aa4ad">3</text>
+    <text x="112" y="388" fill="#69db7c">✓</text>
+    <text x="140" y="388" fill="#ebeff3" font-weight="700">Note</text>
+    <text x="240" y="388" fill="#9aa4ad">Page 5 · 1 finding · 1 evidence entry</text>
+    <text x="1015" y="388" text-anchor="end" fill="#9aa4ad">0.1s</text>
+
+    <text x="42" y="421" fill="#66d9ef">╰─</text>
+    <text x="74" y="421" fill="#9aa4ad">4 model turns · 3 tools · 3.7s</text>
+
+    <rect x="24" y="454" width="1052" height="148" rx="7" fill="#11171e"/>
+    <text x="42" y="487" fill="#69db7c">╭─</text>
+    <text x="74" y="487" fill="#69db7c" font-weight="700">Answer</text>
+    <text x="42" y="526" fill="#69db7c">│</text>
+    <text x="74" y="526" fill="#ebeff3">Revenue increased most in the West region [p. 3].</text>
+    <text x="42" y="565" fill="#69db7c">╰─</text>
+    <text x="74" y="565" fill="#9aa4ad">12,400 in · 320 out · 80 reasoning</text>
+
+    <rect x="24" y="606" width="1052" height="36" rx="6" fill="#1e2630"/>
+    <text x="34" y="629" fill="#69db7c">›</text>
+    <text x="62" y="629" fill="#8b949e">/ov</text>
+    <text x="140" y="629" fill="#66d9ef">/overview</text>
+    <text x="270" y="629" fill="#8b949e">Tab to complete</text>
   </g>
 </svg>

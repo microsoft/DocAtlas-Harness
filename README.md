@@ -135,9 +135,13 @@ agent loop. Use Tab to switch views, `↑`/`↓` to navigate, Enter to expand,
 Press Esc or Ctrl+C once to cancel the current input or interrupt an active
 model, Skill, or preprocessing turn. Press Ctrl+C again within two seconds to
 exit DocAtlas cleanly. The prompt uses a protected single-line editor: long
-questions scroll horizontally, and Backspace, Delete, `←`/`→`, Home/End,
-Ctrl+U, and Ctrl+W cannot erase the `›` prompt. Use `↑`/`↓` to browse
-question history.
+questions scroll horizontally while editing and wrap when submitted;
+Backspace, Delete, `←`/`→`, Home/End, Ctrl+U, and Ctrl+W cannot erase the `›`
+prompt. Use `↑`/`↓` to browse
+question history. Typing `/` opens command suggestions; the list narrows by
+prefix, Tab completes the selected command, `↑`/`↓` changes the selection,
+Enter accepts a candidate, and Esc closes the suggestions before cancelling
+the input itself.
 
 ## Command-line workflows
 
@@ -150,30 +154,30 @@ bash scripts/demo_end_to_end.sh
 Interactive terminals get a dependency-free, Codex-style execution view:
 
 <p align="center">
-  <img src="assets/tui-preview.svg" alt="DocAtlas terminal interface showing Search and Read tool calls" width="92%">
+  <img src="assets/tui-preview.svg" alt="DocAtlas terminal showing a shaded Ask row, compact Working tools, and an Answer card" width="92%">
 </p>
 
 ```text
-╭─ DocAtlas
-│  session   7a71c003...
-│  document  sample_report
-│  skills    search read note review
-│  state     outputs/sessions/7a71c003.../session.json
-╰─ Ready
+› What changed most, and which pages support it?
 
-╭─ Turn 1
-│  ◌ Waiting for model...
-├─ Search
-│  query  Find the financial highlights and roadmap
-│  ◌ Running...
-│  ✓ Completed · 6.9s
-╰─ Turn 1 complete · 12.4s
+╭─ Working
+│   1  ✓ Search  “Find the largest changes”                 1.1s
+│   2  ✓ Read    sample_report · p.2-5                      0.2s
+│   3  ✓ Note    Page 5 · 1 finding · 1 evidence entry      0.1s
+╰─ 4 model turns · 3 tools · 3.7s
+
+╭─ Answer
+│  Revenue increased most in the West region [p. 3].
+╰─ 12,400 in · 320 out · 80 reasoning
 ```
 
 Reasoning summaries are hidden by default. Use `--show-reasoning` to display
 API-provided summaries, `--verbose` for SDK logs, or `--quiet` for only the
 answer. Colour is disabled automatically outside a TTY and when `NO_COLOR` is
-set.
+set. Interactive Ask uses a slightly lighter background while Working and
+Answer share one restrained deep canvas, distinguished by their cyan/green
+headers. Set `DOCATLAS_THEME=dark`, `light`, or `auto` to override theme
+selection.
 
 For an already preprocessed document:
 

@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import os
+import re
 import select
 import shutil
 import threading
 import unicodedata
 from collections import deque
+from dataclasses import dataclass
 from typing import TextIO
 
 KEY_UP = "UP"
@@ -31,6 +33,85 @@ KEY_SHIFT_TAB = "SHIFT_TAB"
 
 _PENDING_INPUT: dict[int, deque[int]] = {}
 _PENDING_INPUT_LOCK = threading.Lock()
+
+
+@dataclass(frozen=True)
+class TerminalTheme:
+    """ANSI palette with fixed backgrounds for the three TUI content layers."""
+
+    name: str
+    primary: str
+    muted: str
+    accent: str
+    success: str
+    warning: str
+    danger: str
+    ask_background: str
+    working_background: str
+    answer_background: str
+    reset: str = "\x1b[0m"
+    bold: str = "\x1b[1m"
+    dim: str = "\x1b[2m"
+
+
+_DARK_THEME = TerminalTheme(
+    name="dark",
+    primary="\x1b[38;2;235;239;243m",
+    muted="\x1b[38;2;154;164;173m",
+    accent="\x1b[38;2;102;217;239m",
+    success="\x1b[38;2;105;219;124m",
+    warning="\x1b[38;2;255;212;59m",
+    danger="\x1b[38;2;255;107;107m",
+    ask_background="\x1b[48;2;30;38;48m",
+    working_background="\x1b[48;2;17;23;30m",
+    answer_background="\x1b[48;2;17;23;30m",
+)
+
+_LIGHT_THEME = TerminalTheme(
+    name="light",
+    primary="\x1b[38;2;31;41;51m",
+    muted="\x1b[38;2;92;103;112m",
+    accent="\x1b[38;2;11;114;133m",
+    success="\x1b[38;2;8;127;91m",
+    warning="\x1b[38;2;156;101;0m",
+    danger="\x1b[38;2;201;42;42m",
+    ask_background="\x1b[48;2;232;238;242m",
+    working_background="\x1b[48;2;219;228;234m",
+    answer_background="\x1b[48;2;219;228;234m",
+)
+
+_NO_COLOR_THEME = TerminalTheme(
+    name="none",
+    primary="",
+    muted="",
+    accent="",
+    success="",
+    warning="",
+    danger="",
+    ask_background="",
+    working_background="",
+    answer_background="",
+    reset="",
+    bold="",
+    dim="",
+)
+
+
+def terminal_theme(*, use_color: bool) -> TerminalTheme:
+    """Choose a theme without querying or mutating the terminal."""
+    if not use_color:
+        return _NO_COLOR_THEME
+    requested = os.getenv("DOCATLAS_THEME", "auto").strip().casefold()
+    if requested == "light":
+        return _LIGHT_THEME
+    if requested == "dark":
+        return _DARK_THEME
+    color_fg_bg = os.getenv("COLORFGBG", "")
+    try:
+        background = int(color_fg_bg.rsplit(";", 1)[-1])
+    except ValueError:
+        background = 0
+    return _LIGHT_THEME if background in {7, 15} else _DARK_THEME
 
 
 class EscapeInterrupt(KeyboardInterrupt):
@@ -178,6 +259,41 @@ def display_width(value: str) -> int:
     return width
 
 
+def wrap_display(value: str, max_width: int) -> list[str]:
+    """Wrap text at words while respecting wide terminal characters."""
+    max_width = max(1, max_width)
+    rows: list[str] = []
+    for source_line in value.splitlines() or [""]:
+        initial_row_count = len(rows)
+        if not source_line:
+            rows.append("")
+            continue
+        current = ""
+        for token in re.findall(r"\s+|\S+", source_line):
+            if display_width(current + token) <= max_width:
+                current += token
+                continue
+            if current.rstrip():
+                rows.append(current.rstrip())
+            current = token.lstrip()
+            while display_width(current) > max_width:
+                chunk: list[str] = []
+                chunk_width = 0
+                split_at = 0
+                for split_at, char in enumerate(current, 1):
+                    char_width = display_width(char)
+                    if chunk and chunk_width + char_width > max_width:
+                        split_at -= 1
+                        break
+                    chunk.append(char)
+                    chunk_width += char_width
+                rows.append("".join(chunk).rstrip())
+                current = current[split_at:]
+        if current.rstrip() or len(rows) == initial_row_count:
+            rows.append(current.rstrip())
+    return rows
+
+
 def terminal_size(stream: TextIO) -> os.terminal_size:
     """Return the size of the terminal that actually owns ``stream``."""
     try:
@@ -236,6 +352,7 @@ __all__ = [
     "KEY_SHIFT_TAB",
     "KEY_SPACE",
     "KEY_UP",
+    "TerminalTheme",
     "capture_typeahead",
     "display_width",
     "join_columns",
@@ -243,5 +360,7 @@ __all__ = [
     "read_byte",
     "read_terminal_key",
     "terminal_size",
+    "terminal_theme",
     "truncate_display",
+    "wrap_display",
 ]

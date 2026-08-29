@@ -16,7 +16,13 @@ from docatlas.agent.trace import AgentResult
 from docatlas.config import HarnessConfig
 from docatlas.remote_pdf import DownloadedPDF
 from docatlas.skills._common.note_store import NoteStore
-from docatlas.ui.app import DocAtlasTUI, TUIConsole, TUIOptions, _at_path_completions
+from docatlas.ui.app import (
+    DocAtlasTUI,
+    TUIConsole,
+    TUIOptions,
+    _at_path_completions,
+    install_at_completion,
+)
 from docatlas.ui.path_picker import CtrlCInterrupt, EscapeInterrupt
 from docatlas.workspace import DocumentWorkspace, PreprocessStage
 
@@ -33,12 +39,113 @@ def _console(*answers: str) -> tuple[TUIConsole, io.StringIO]:
     return TUIConsole(stream=stream, input_fn=lambda _: next(iterator)), stream
 
 
+class _TTYStringIO(io.StringIO):
+    def isatty(self) -> bool:
+        return True
+
+
+def test_chat_prompt_uses_uniform_ask_background(tmp_path: Path, monkeypatch) -> None:
+    del tmp_path
+    monkeypatch.setenv("TERM", "xterm-256color")
+    monkeypatch.setenv("DOCATLAS_THEME", "dark")
+    monkeypatch.delenv("NO_COLOR", raising=False)
+    master, slave = pty.openpty()
+    input_stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
+    output = _TTYStringIO()
+    console = TUIConsole(stream=output, input_stream=input_stream)
+    DocAtlasTUI(TUIOptions(), console=console)
+    monkeypatch.setattr(
+        "docatlas.ui.path_picker._terminal_size",
+        lambda stream: os.terminal_size((32, 10)),
+    )
+    values: list[str] = []
+    errors: list[BaseException] = []
+
+    def target() -> None:
+        try:
+            values.append(console.prompt("", use_history=True))
+        except BaseException as exc:  # noqa: BLE001 - captured for PTY assertion
+            errors.append(exc)
+
+    thread = threading.Thread(target=target)
+    thread.start()
+    time.sleep(0.05)
+    question = "a deliberately long user question for wrapping"
+    os.write(master, question.encode() + b"\r")
+    thread.join(timeout=2)
+    input_stream.close()
+    os.close(master)
+
+    assert not thread.is_alive()
+    assert errors == []
+    assert values == [question]
+    assert "\x1b[48;2;30;38;48m" in output.getvalue()
+    assert "\x1b[0m\n\x1b[48;2;30;38;48m" in output.getvalue()
+    assert output.getvalue().rfind("\x1b[0m") > output.getvalue().rfind("\x1b[48;2;30;38;48m")
+
+
 def test_at_completion_lists_only_directories_and_pdfs(tmp_path: Path) -> None:
     _pdf(tmp_path / "report.pdf")
     (tmp_path / "ignore.txt").write_text("ignore")
     (tmp_path / "reports").mkdir()
 
     assert _at_path_completions("@rep", cwd=tmp_path) == ["@report.pdf", "@reports/"]
+
+
+def test_console_wraps_errors_on_narrow_terminals(monkeypatch) -> None:
+    console, output = _console()
+    monkeypatch.setattr(
+        "docatlas.ui.app.terminal_size",
+        lambda stream: os.terminal_size((28, 10)),
+    )
+
+    console.error("Unknown command with a deliberately long explanatory message")
+
+    lines = output.getvalue().splitlines()
+    assert len(lines) > 1
+    assert all(len(line) <= 27 for line in lines)
+    assert all(line.startswith("|") for line in lines)
+
+    output.seek(0)
+    output.truncate(0)
+    DocAtlasTUI(TUIOptions(), console=console)._command_hint()
+    hint_lines = output.getvalue().splitlines()
+    assert len(hint_lines) > 1
+    assert all(len(line) <= 27 and line.startswith("  ") for line in hint_lines)
+
+
+def test_readline_fallback_completes_commands(monkeypatch) -> None:
+    class FakeReadline:
+        completer = None
+        line = "/ov"
+
+        @classmethod
+        def set_completer_delims(cls, value: str) -> None:
+            assert value == " \t\n"
+
+        @classmethod
+        def set_completer(cls, value) -> None:
+            cls.completer = value
+
+        @classmethod
+        def parse_and_bind(cls, value: str) -> None:
+            assert value == "tab: complete"
+
+        @classmethod
+        def get_line_buffer(cls) -> str:
+            return cls.line
+
+        @classmethod
+        def get_begidx(cls) -> int:
+            return 0
+
+    monkeypatch.setattr("docatlas.ui.app.readline", FakeReadline)
+
+    install_at_completion()
+
+    assert FakeReadline.completer is not None
+    assert FakeReadline.completer("/ov", 0) == "/overview "
+    assert FakeReadline.completer("/ov", 1) is None
 
 
 def test_document_input_can_mix_at_paths_and_pdf_urls() -> None:
@@ -49,6 +156,22 @@ def test_document_input_can_mix_at_paths_and_pdf_urls() -> None:
         "local.pdf",
         "https://example.com/remote.pdf?signature=value",
     ]
+
+
+def test_unknown_command_is_not_sent_to_agent_and_suggests_match(
+    tmp_path: Path, monkeypatch
+) -> None:
+    document = _pdf(tmp_path / "report.pdf")
+    workspace = DocumentWorkspace.create([document], workspace_root=tmp_path / "workspaces")
+    console, output = _console("/ovrview", "/quit")
+    app = DocAtlasTUI(TUIOptions(), console=console)
+    runtime, renderer = _runtime_without_calls()
+    monkeypatch.setattr(app, "_create_runtime", lambda workspace, config: (runtime, renderer))
+
+    action, _, _ = app._chat(workspace, HarnessConfig())
+
+    assert action == "quit"
+    assert "Unknown command /ovrview; did you mean /overview?" in output.getvalue()
 
 
 def test_tui_rejects_noninteractive_streams() -> None:
@@ -313,7 +436,7 @@ def test_interrupted_turn_returns_to_question_prompt(tmp_path: Path, monkeypatch
     action, replacement, force = app._chat(workspace, HarnessConfig())
 
     assert (action, replacement, force) == ("quit", None, False)
-    assert renderer.aborted == ["Turn interrupted"]
+    assert renderer.aborted == ["Request interrupted"]
 
 
 def _runtime_without_calls() -> tuple[SimpleNamespace, SimpleNamespace]:

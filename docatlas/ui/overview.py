@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 import re
 import tempfile
-import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, TextIO
@@ -34,6 +33,7 @@ from .terminal import (
     read_terminal_key,
     terminal_size,
     truncate_display,
+    wrap_display,
 )
 
 _MAX_TREE_NODES = 10_000
@@ -68,31 +68,6 @@ def _page_refs(*values: str) -> tuple[int, ...]:
             if 0 < start <= end and end - start <= 100:
                 pages.update(range(start, end + 1))
     return tuple(sorted(pages))
-
-
-def _display_lines(value: str, width: int) -> list[str]:
-    """Wrap sanitized text without splitting wide terminal characters."""
-    width = max(1, width)
-    output: list[str] = []
-    for source in value.splitlines() or [""]:
-        if not source:
-            output.append("")
-            continue
-        row: list[str] = []
-        row_width = 0
-        for char in source:
-            if unicodedata.combining(char):
-                char_width = 0
-            else:
-                char_width = 2 if unicodedata.east_asian_width(char) in {"W", "F"} else 1
-            if row and row_width + char_width > width:
-                output.append("".join(row).rstrip())
-                row = []
-                row_width = 0
-            row.append(char)
-            row_width += char_width
-        output.append("".join(row).rstrip())
-    return output
 
 
 @dataclass(frozen=True)
@@ -591,7 +566,7 @@ class OverviewRenderer:
         active_output_index: int | None = None
         for source_index, row in enumerate(source):
             prefix = "› " if source_index == active_source_index else "  "
-            wrapped = _display_lines(row.text, max(1, width - 2))
+            wrapped = wrap_display(row.text, max(1, width - 2))
             for wrap_index, line in enumerate(wrapped):
                 display_prefix = prefix if wrap_index == 0 else "  "
                 if source_index == active_source_index and wrap_index == 0:
