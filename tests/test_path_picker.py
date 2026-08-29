@@ -26,6 +26,74 @@ def _index(model: PathPickerModel, label: str) -> int:
     return next(index for index, entry in enumerate(model.entries) if entry.label == label)
 
 
+class _VirtualTerminal:
+    """Tiny VT100 screen model for picker redraw regression tests."""
+
+    encoding = "utf-8"
+
+    def __init__(self, initial_line: str = "") -> None:
+        self.lines: list[list[str]] = [list(initial_line)]
+        self.row = 0
+        self.column = len(initial_line)
+        self.raw: list[str] = []
+
+    def _ensure_row(self) -> None:
+        while len(self.lines) <= self.row:
+            self.lines.append([])
+
+    def write(self, value: str) -> int:
+        self.raw.append(value)
+        index = 0
+        while index < len(value):
+            if value.startswith("\x1b[", index):
+                end = index + 2
+                while end < len(value) and not ("@" <= value[end] <= "~"):
+                    end += 1
+                if end >= len(value):
+                    break
+                parameters = value[index + 2 : end]
+                command = value[end]
+                numeric = parameters.lstrip("?").split(";", maxsplit=1)[0]
+                amount = int(numeric) if numeric.isdigit() else 1
+                if command == "A":
+                    self.row = max(0, self.row - amount)
+                elif command == "B":
+                    self.row += amount
+                    self._ensure_row()
+                elif command == "K" and amount == 2:
+                    self.lines[self.row] = []
+                    self.column = 0
+                index = end + 1
+                continue
+            char = value[index]
+            if char == "\r":
+                self.column = 0
+            elif char == "\n":
+                self.row += 1
+                self._ensure_row()
+            else:
+                self._ensure_row()
+                line = self.lines[self.row]
+                while len(line) < self.column:
+                    line.append(" ")
+                if self.column < len(line):
+                    line[self.column] = char
+                else:
+                    line.append(char)
+                self.column += 1
+            index += 1
+        return len(value)
+
+    def flush(self) -> None:
+        return
+
+    def snapshot(self) -> str:
+        rows = ["".join(line).rstrip() for line in self.lines]
+        while rows and not rows[-1]:
+            rows.pop()
+        return "\n".join(rows)
+
+
 def test_picker_model_navigates_directories_and_tracks_multiple_files(tmp_path: Path) -> None:
     first = _pdf(tmp_path / "one.pdf")
     second = _pdf(tmp_path / "two.pdf")
@@ -76,7 +144,96 @@ def test_terminal_picker_space_selects_and_enter_finishes(tmp_path: Path, monkey
 
     assert selected == [first.resolve(), second.resolve()]
     assert "@ files" in output.getvalue()
-    assert "Space multi" in output.getvalue()
+    assert "Space mark" in output.getvalue()
+
+
+def test_terminal_picker_redraws_one_frame_in_place(tmp_path: Path, monkeypatch) -> None:
+    nested = tmp_path / "data"
+    _pdf(nested / "nested.pdf")
+    _pdf(tmp_path / "root.pdf")
+    output = _VirtualTerminal("› @")
+    picker = TerminalPathPicker(
+        start_dir=tmp_path,
+        input_stream=io.StringIO(),
+        output_stream=output,  # type: ignore[arg-type]
+        use_unicode=True,
+        use_color=False,
+    )
+    picker.model.index = _index(picker.model, "data/")
+    keys = iter(["ENTER", "DOWN", "UP", "ESCAPE"])
+    frames: list[str] = []
+
+    def next_key(stream) -> str:
+        del stream
+        frames.append(output.snapshot())
+        return next(keys)
+
+    monkeypatch.setattr(picker_module, "_read_terminal_key", next_key)
+
+    assert picker.run() == []
+    assert len(frames) == 4
+    assert all(frame.count("@ files") == 1 for frame in frames)
+    assert "root.pdf" in frames[0]
+    assert all("root.pdf" not in frame for frame in frames[1:])
+    terminal_output = "".join(output.raw)
+    assert "\x1b[s" not in terminal_output
+    assert "\x1b[u" not in terminal_output
+    assert output.snapshot() == "› @"
+
+
+def test_terminal_picker_clears_rows_when_listing_shrinks(tmp_path: Path, monkeypatch) -> None:
+    nested = tmp_path / "small"
+    _pdf(nested / "only.pdf")
+    for number in range(7):
+        _pdf(tmp_path / f"root-only-{number}.pdf")
+    output = _VirtualTerminal("› @")
+    picker = TerminalPathPicker(
+        start_dir=tmp_path,
+        input_stream=io.StringIO(),
+        output_stream=output,  # type: ignore[arg-type]
+        use_unicode=True,
+        use_color=False,
+    )
+    picker.model.index = _index(picker.model, "small/")
+    keys = iter(["ENTER", "ESCAPE"])
+    frames: list[str] = []
+
+    def next_key(stream) -> str:
+        del stream
+        frames.append(output.snapshot())
+        return next(keys)
+
+    monkeypatch.setattr(picker_module, "_read_terminal_key", next_key)
+
+    assert picker.run() == []
+    assert any("root-only-6.pdf" in frame for frame in frames[:1])
+    assert "only.pdf" in frames[1]
+    assert "root-only-" not in frames[1]
+    assert frames[1].count("@ files") == 1
+
+
+def test_picker_layout_fits_narrow_terminal_and_chinese_names(tmp_path: Path, monkeypatch) -> None:
+    directory = tmp_path / "中文资料"
+    for number in range(8):
+        _pdf(directory / f"第{number}份非常长的报告.pdf")
+    picker = TerminalPathPicker(
+        start_dir=directory,
+        input_stream=io.StringIO(),
+        output_stream=io.StringIO(),
+        use_unicode=True,
+        use_color=False,
+    )
+    monkeypatch.setattr(
+        picker_module,
+        "_terminal_size",
+        lambda stream: os.terminal_size((24, 10)),
+    )
+
+    lines = picker._lines()
+
+    assert len(lines) <= 9
+    assert all(picker_module._display_width(line) <= 23 for line in lines)
+    assert any("报告" in line for line in lines)
 
 
 def test_terminal_picker_can_select_current_folder(tmp_path: Path, monkeypatch) -> None:
@@ -207,6 +364,69 @@ def test_at_keystroke_opens_picker_and_inserts_selection() -> None:
     assert error is None
     assert result == "@."
     assert "@ files" in output
+
+
+def test_pty_directory_navigation_replaces_picker_and_restores_prompt(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    _pdf(tmp_path / "root-only.pdf")
+    _pdf(tmp_path / "data" / "nested.pdf")
+    master, slave = pty.openpty()
+    stream = os.fdopen(slave, "r", encoding="utf-8", closefd=True)
+    output = _VirtualTerminal()
+    result: list[str] = []
+    errors: list[BaseException] = []
+
+    def target() -> None:
+        try:
+            result.append(
+                picker_module.read_line_with_at_picker(
+                    "› ",
+                    input_stream=stream,
+                    output_stream=output,  # type: ignore[arg-type]
+                    use_unicode=True,
+                    use_color=False,
+                )
+            )
+        except BaseException as exc:  # noqa: BLE001 - captured for the PTY test
+            errors.append(exc)
+
+    def wait_for(predicate) -> None:
+        deadline = time.monotonic() + 1
+        while not predicate() and time.monotonic() < deadline:
+            time.sleep(0.005)
+        assert predicate()
+
+    thread = threading.Thread(target=target)
+    thread.start()
+    try:
+        wait_for(lambda: output.snapshot().startswith("›"))
+        os.write(master, b"@")
+        wait_for(lambda: "@ files" in output.snapshot())
+        os.write(master, b"\x1b[B\r")
+        wait_for(lambda: "nested.pdf" in output.snapshot())
+        nested_frame = output.snapshot()
+        assert nested_frame.count("@ files") == 1
+        assert "root-only.pdf" not in nested_frame
+
+        os.write(master, b"\x1b\x15done\r")
+        thread.join(timeout=2)
+        assert not thread.is_alive()
+    finally:
+        if thread.is_alive():
+            os.close(master)
+            thread.join(timeout=1)
+        stream.close()
+        try:
+            os.close(master)
+        except OSError:
+            pass
+
+    assert errors == []
+    assert result == ["done"]
+    assert "@ files" not in output.snapshot()
+    assert output.snapshot().startswith("› done")
 
 
 def test_line_editor_escape_and_ctrl_c_cancel_cleanly() -> None:

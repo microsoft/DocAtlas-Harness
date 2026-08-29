@@ -270,7 +270,7 @@ class PathPickerModel:
 
 
 class TerminalPathPicker:
-    """Render and drive a navigable file list below the active prompt."""
+    """Render and drive an in-place navigable file list below the prompt."""
 
     _RESET = "\x1b[0m"
     _BOLD = "\x1b[1m"
@@ -295,62 +295,120 @@ class TerminalPathPicker:
         self.use_unicode = use_unicode
         self.use_color = use_color
         self.visible_rows = max(4, visible_rows)
+        self._rendered_lines: list[str] = []
         if use_unicode:
-            self.top, self.pipe, self.bottom = "╭─", "│", "╰─"
-            self.pointer, self.directory, self.file = "›", "▸", "•"
+            self.horizontal = "─"
+            self.pointer, self.directory = "›", "▸"
+            self.unselected_file, self.selected_file = "○", "●"
         else:
-            self.top, self.pipe, self.bottom = "+--", "|", "`--"
-            self.pointer, self.directory, self.file = ">", "+", "-"
+            self.horizontal = "-"
+            self.pointer, self.directory = ">", "+"
+            self.unselected_file, self.selected_file = "o", "*"
 
     def _style(self, text: str, *codes: str) -> str:
         if not self.use_color:
             return text
         return "".join(codes) + text + self._RESET
 
-    def _visible_entries(self) -> tuple[int, list[PickerEntry]]:
+    def _visible_entries(self, limit: int) -> tuple[int, list[PickerEntry]]:
         total = len(self.model.entries)
-        if total <= self.visible_rows:
+        if total <= limit:
             return 0, self.model.entries
-        half = self.visible_rows // 2
-        start = max(0, min(self.model.index - half, total - self.visible_rows))
-        return start, self.model.entries[start : start + self.visible_rows]
+        half = limit // 2
+        start = max(0, min(self.model.index - half, total - limit))
+        return start, self.model.entries[start : start + limit]
 
     def _lines(self) -> list[str]:
-        width = max(32, min(120, shutil.get_terminal_size(fallback=(92, 24)).columns))
+        terminal_size = _terminal_size(self.output_stream)
+        # Stay one cell short of the right edge. Writing in the final column
+        # enables delayed wrapping in many terminals, which makes cursor-row
+        # accounting unreliable on the next redraw.
+        width = max(1, min(120, max(2, terminal_size.columns) - 1))
         location = sanitize_terminal_text(_display_path(self.model.current_dir))
         selected_count = len(self.model.selected)
-        title = f"{self.top} @ files · {location}"
-        if selected_count:
-            title += f" · {selected_count} selected"
-        lines = [self._style(_truncate_display(title, width), self._CYAN, self._BOLD)]
-        start, entries = self._visible_entries()
+        total = len(self.model.entries)
+        position = f"{self.model.index + 1}/{total}" if total else "empty"
+        status = f"{selected_count} selected · {position}" if selected_count else position
+        header = _join_columns(f" @ files  {location}", status, width)
+        divider = self.horizontal * width
+        lines = [
+            self._style(header, self._CYAN, self._BOLD),
+            self._style(divider, self._CYAN, self._DIM),
+        ]
+
+        # Keep the complete popup inside the terminal whenever practical:
+        # prompt + four chrome rows + entries (+ an optional error row).
+        chrome_rows = 5 + int(bool(self.model.error))
+        entry_limit = max(1, min(self.visible_rows, terminal_size.lines - chrome_rows))
+        start, entries = self._visible_entries(entry_limit)
         if not entries:
-            lines.append(f"{self.pipe}    No PDF files or readable directories")
+            lines.append(_truncate_display("   No PDF files or readable directories", width))
         for offset, entry in enumerate(entries):
             absolute_index = start + offset
             pointer = self.pointer if absolute_index == self.model.index else " "
-            checked = "[x]" if entry.path in self.model.selected else "[ ]"
-            kind = self.directory if entry.is_directory else self.file
+            if entry.is_directory:
+                kind = self.directory
+            elif entry.path in self.model.selected:
+                kind = self.selected_file
+            else:
+                kind = self.unselected_file
             label = sanitize_terminal_text(entry.label)
-            row = f"{self.pipe}  {pointer} {checked} {kind} {label}"
+            row = f" {pointer} {kind} {label}"
             row = _truncate_display(row, width)
             if absolute_index == self.model.index:
-                row = self._style(row, self._BOLD)
+                row = self._style(row, self._CYAN, self._BOLD)
+            elif entry.path in self.model.selected:
+                row = self._style(row, self._GREEN)
             lines.append(row)
         if self.model.error:
             error = _truncate_display(self.model.error, max(4, width - 4))
-            lines.append(f"{self.pipe}  {self._style(error, self._YELLOW)}")
-        hint = "↑↓ move · Enter open · Space multi · d done · f folder · Esc"
-        lines.append(self._style(_truncate_display(f"{self.bottom} {hint}", width), self._DIM))
+            lines.append(self._style(_truncate_display(f" ! {error}", width), self._YELLOW))
+        lines.append(self._style(divider, self._CYAN, self._DIM))
+        hint = " ↑↓ navigate · Enter open/select · Space mark · d done · f folder · Esc close"
+        lines.append(self._style(_truncate_display(hint, width), self._DIM))
         return lines
 
     def _redraw(self) -> None:
-        self.output_stream.write("\x1b[u\x1b[J")
-        self.output_stream.write("\n".join(self._lines()) + "\n")
+        lines = self._lines()
+        previous = self._rendered_lines
+        if previous:
+            if len(previous) > 1:
+                self.output_stream.write(f"\x1b[{len(previous) - 1}A")
+            self.output_stream.write("\r")
+
+        # Redraw only changed rows, but visit the full previous/new span so a
+        # shorter directory listing also erases every stale row. This mirrors
+        # the previous-frame diffing used by mature TUIs without requiring a
+        # full-screen or alternate-screen dependency.
+        row_count = max(len(previous), len(lines))
+        for index in range(row_count):
+            old_line = previous[index] if index < len(previous) else None
+            new_line = lines[index] if index < len(lines) else None
+            if old_line != new_line:
+                self.output_stream.write("\x1b[2K")
+                if new_line is not None:
+                    self.output_stream.write(new_line)
+            if index < row_count - 1:
+                self.output_stream.write("\r\n")
+
+        if row_count > len(lines):
+            self.output_stream.write(f"\x1b[{row_count - len(lines)}A")
+        self._rendered_lines = lines
+        self.output_stream.flush()
+
+    def _clear(self) -> None:
+        """Erase the current frame and return the cursor to the prompt."""
+        for index in range(len(self._rendered_lines) - 1, -1, -1):
+            self.output_stream.write("\r\x1b[2K")
+            if index:
+                self.output_stream.write("\x1b[1A")
+        # ``run`` opens the picker exactly one row below the input prompt.
+        self.output_stream.write("\x1b[1A\r\x1b[?25h")
+        self._rendered_lines = []
         self.output_stream.flush()
 
     def run(self) -> list[Path]:
-        self.output_stream.write("\n\x1b[s")
+        self.output_stream.write("\x1b[?25l\r\n")
         self._redraw()
         try:
             while True:
@@ -383,10 +441,9 @@ class TerminalPathPicker:
                     raise KeyboardInterrupt
                 self._redraw()
         finally:
-            # Erase the popup, move back to the prompt row, and let the line
-            # editor repaint its current buffer.
-            self.output_stream.write("\x1b[u\x1b[J\x1b[1A")
-            self.output_stream.flush()
+            # Let the line editor repaint its current buffer after the picker
+            # has restored the prompt row and hardware cursor.
+            self._clear()
 
 
 def _buffer_accepts_picker(buffer: str) -> bool:
@@ -422,6 +479,28 @@ def _display_width(value: str) -> int:
             continue
         width += 2 if unicodedata.east_asian_width(char) in {"W", "F"} else 1
     return width
+
+
+def _terminal_size(stream: TextIO) -> os.terminal_size:
+    """Return the size of the terminal that actually owns ``stream``."""
+    try:
+        return os.get_terminal_size(stream.fileno())
+    except (AttributeError, OSError):
+        return shutil.get_terminal_size(fallback=(92, 24))
+
+
+def _join_columns(left: str, right: str, max_width: int) -> str:
+    """Fit left/right status text on one display-width-aware terminal row."""
+    if not right:
+        return _truncate_display(left, max_width)
+    right = _truncate_display(right, max_width)
+    right_width = _display_width(right)
+    left_width = max_width - right_width - 2
+    if left_width < 1:
+        return right
+    left = _truncate_display(left, left_width)
+    gap = max(2, max_width - _display_width(left) - right_width)
+    return left + (" " * gap) + right
 
 
 def _truncate_display(value: str, max_width: int) -> str:
