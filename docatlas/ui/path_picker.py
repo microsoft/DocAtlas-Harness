@@ -178,6 +178,7 @@ class TerminalPathPicker:
         use_unicode: bool,
         use_color: bool,
         visible_rows: int = 9,
+        allow_trigger_delete: bool = False,
     ) -> None:
         self.model = PathPickerModel(start_dir)
         self.input_stream = input_stream
@@ -185,6 +186,8 @@ class TerminalPathPicker:
         self.use_unicode = use_unicode
         self.use_color = use_color
         self.visible_rows = max(4, visible_rows)
+        self.allow_trigger_delete = allow_trigger_delete
+        self.trigger_deleted = False
         self._rendered_lines: list[str] = []
         if use_unicode:
             self.horizontal = "─"
@@ -254,7 +257,13 @@ class TerminalPathPicker:
             error = _truncate_display(self.model.error, max(4, width - 4))
             lines.append(self._style(_truncate_display(f" ! {error}", width), self._YELLOW))
         lines.append(self._style(divider, self._CYAN, self._DIM))
-        hint = " ↑↓ navigate · Enter open/select · Space mark · d done · f folder · Esc close"
+        if self.allow_trigger_delete:
+            hint = (
+                " Backspace/Delete removes @ · ↑↓ navigate · Enter open/select · "
+                "Space mark · d done · f folder · ← parent · Esc close"
+            )
+        else:
+            hint = " ↑↓ navigate · Enter open/select · Space mark · d done · f folder · Esc close"
         lines.append(self._style(_truncate_display(hint, width), self._DIM))
         return lines
 
@@ -307,6 +316,9 @@ class TerminalPathPicker:
                     self.model.move(-1)
                 elif key == _DOWN:
                     self.model.move(1)
+                elif self.allow_trigger_delete and key in {_BACKSPACE, _DELETE}:
+                    self.trigger_deleted = True
+                    return []
                 elif key in {_LEFT, _BACKSPACE}:
                     self.model.go_parent()
                 elif key in {_RIGHT, _ENTER}:
@@ -864,6 +876,7 @@ def read_line_with_at_picker(
                         output_stream=output_stream,
                         use_unicode=use_unicode,
                         use_color=use_color,
+                        allow_trigger_delete=True,
                     )
                     selected_paths = picker.run()
                     if selected_paths:
@@ -874,7 +887,7 @@ def read_line_with_at_picker(
                         for char in insertion + " ":
                             buffer.insert(cursor, char)
                             cursor += 1
-                    else:
+                    elif not picker.trigger_deleted:
                         buffer.insert(cursor, "@")
                         cursor += 1
                     completion_index = 0

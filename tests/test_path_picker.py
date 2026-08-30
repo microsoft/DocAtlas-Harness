@@ -610,6 +610,15 @@ def test_at_keystroke_opens_picker_and_inserts_selection() -> None:
     assert "@ files" in output
 
 
+@pytest.mark.parametrize("erase_key", [b"\x7f", b"\x1b[3~"])
+def test_at_picker_erase_key_deletes_trigger_and_returns_to_editor(erase_key: bytes) -> None:
+    result, error, output = _drive_line(b"@" + erase_key + b"question\r")
+
+    assert error is None
+    assert result == "question"
+    assert "Backspace/Delete removes @" in output
+
+
 def test_pty_directory_navigation_replaces_picker_and_restores_prompt(
     tmp_path: Path, monkeypatch
 ) -> None:

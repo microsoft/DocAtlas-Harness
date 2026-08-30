@@ -109,7 +109,9 @@ terminal automatically; set `DOCATLAS_THEME=dark`, `light`, or `auto`, or set
 Inside the <kbd>@</kbd> picker, use <kbd>↑</kbd>/<kbd>↓</kbd> to move,
 <kbd>Enter</kbd> to open or select, <kbd>Space</kbd> to mark several PDFs,
 <kbd>d</kbd> to finish a multi-selection, and <kbd>f</kbd> to select the
-current folder. Selections are capped at 100 PDFs unless
+current folder. Press <kbd>←</kbd> to open the parent folder, or press
+<kbd>Backspace</kbd>/<kbd>Delete</kbd> to remove the triggering <kbd>@</kbd>
+and return to the composer. Selections are capped at 100 PDFs unless
 `--max-documents N` is provided.
 
 </details>
