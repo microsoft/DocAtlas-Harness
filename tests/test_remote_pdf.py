@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import ssl
 import threading
 from contextlib import contextmanager
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -103,6 +104,72 @@ def _allow_test_server(monkeypatch) -> None:
         "_resolve_public_addresses",
         lambda hostname, port: ["127.0.0.1"],
     )
+
+
+def test_https_downloads_require_tls_1_2_or_newer(monkeypatch) -> None:
+    response = object()
+    request: dict[str, object] = {}
+
+    class _FakeSocket:
+        def close(self) -> None:
+            return
+
+    class _FakeTLSContext:
+        def __init__(self) -> None:
+            self.minimum_version = ssl.TLSVersion.MINIMUM_SUPPORTED
+            self.server_hostname = ""
+
+        def wrap_socket(self, raw_socket: _FakeSocket, *, server_hostname: str):
+            request["wrapped_socket"] = raw_socket
+            self.server_hostname = server_hostname
+            return object()
+
+    class _FakeConnection:
+        def __init__(self, host: str, port: int, timeout: float) -> None:
+            request["host"] = host
+            request["port"] = port
+            request["timeout"] = timeout
+            self.sock = None
+
+        def request(self, method: str, target: str, *, headers: dict[str, str]) -> None:
+            request["method"] = method
+            request["target"] = target
+            request["headers"] = headers
+
+        def getresponse(self):
+            return response
+
+        def close(self) -> None:
+            return
+
+    raw_socket = _FakeSocket()
+    tls_context = _FakeTLSContext()
+    monkeypatch.setattr(
+        remote_pdf,
+        "_resolve_public_addresses",
+        lambda hostname, port: ["93.184.216.34"],
+    )
+    monkeypatch.setattr(
+        remote_pdf.socket,
+        "create_connection",
+        lambda address, timeout: raw_socket,
+    )
+    monkeypatch.setattr(remote_pdf.ssl, "create_default_context", lambda: tls_context)
+    monkeypatch.setattr(remote_pdf.http.client, "HTTPConnection", _FakeConnection)
+
+    connection, received_response = remote_pdf._open_response(
+        "https://example.com/report.pdf?token=secret",
+        {"User-Agent": "pytest"},
+        timeout=2.5,
+    )
+
+    assert isinstance(connection, _FakeConnection)
+    assert received_response is response
+    assert tls_context.minimum_version == ssl.TLSVersion.TLSv1_2
+    assert tls_context.server_hostname == "example.com"
+    assert request["method"] == "GET"
+    assert request["target"] == "/report.pdf?token=secret"
+    assert request["headers"] == {"Host": "example.com", "User-Agent": "pytest"}
 
 
 def test_downloader_rejects_private_and_credentialed_urls(tmp_path: Path) -> None:
