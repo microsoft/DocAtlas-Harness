@@ -168,7 +168,7 @@ decoupled Read, or mutable memory reduces MMLongBench-Doc performance. The tool
 allocation plot shows that the policy learns different Search, Read, Note, and
 Review budgets rather than following a scripted sequence.
 
-Selected results from the paper are shown below. The
+Selected benchmark results are shown below. The
 [interactive project leaderboard](https://officeintelligence.github.io/docatlas/#leaderboard)
 contains all 27 systems and the complete 14-metric breakdown.
 
@@ -176,6 +176,7 @@ contains all 27 systems and the complete 14-metric breakdown.
 |---|---|---:|---:|---:|
 | **DocAtlas + GPT-5.4** | **Harness** | **71.4** 🏆 | **75.6** | **78.8** |
 | **DocAtlas + GPT-5.2** | **Harness** | **70.6** | **75.2** | **77.5** |
+| Codex w/ GPT-5.4 | Coding agent | 69.5 | — | — |
 | DocLens + Gemini-2.5-Pro | Agent framework | 67.6 | 70.4 | — |
 | _Human expert_ | _Reference_ | _65.8_ | — | — |
 | DocLens + Gemini-2.5-Flash | Agent framework | 64.7 | 68.5 | — |
