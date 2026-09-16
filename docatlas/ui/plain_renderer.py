@@ -141,7 +141,7 @@ class PlainRenderer:
         self.answer_is_tty = bool(getattr(self.answer_stream, "isatty", lambda: False)())
         self.use_cursor_controls = self.is_tty and os.getenv("TERM", "") != "dumb"
         self.use_unicode = self.use_cursor_controls and _supports_unicode(self.stream)
-        self.use_color = self.use_cursor_controls and "NO_COLOR" not in os.environ
+        self.use_color = self.use_unicode and "NO_COLOR" not in os.environ
         self.theme = terminal_theme(use_color=self.use_color)
         self._answer_open = False
         self._run_active = False
@@ -295,7 +295,7 @@ class PlainRenderer:
                 + " "
                 + self._tone("Thinking…", self.theme.muted, background)
             )
-        if not self.use_color:
+        if not self.use_unicode:
             return f"  {self.wait} Thinking..."
         return (
             "  "
