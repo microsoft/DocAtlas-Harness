@@ -197,8 +197,10 @@ def test_ascii_terminal_falls_back_without_unicode(tmp_path, monkeypatch) -> Non
         )
     )
 
-    assert "+-- Working" in stream.getvalue()
-    assert "Turn 1" not in stream.getvalue()
+    rendered = stream.getvalue()
+    assert rendered.isascii()
+    assert "+-- Working" in rendered
+    assert "Turn 1" not in rendered
 
 
 def test_direct_answer_erases_transient_thinking_without_empty_working_card(
