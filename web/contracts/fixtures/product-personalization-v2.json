@@ -1,0 +1,32 @@
+{
+  "description": "Clone a named base from product-personalization.json, set envelope schemaVersion to 2; command expectedProfileEpoch=0; inspection profileEpoch=0/modelApplication=host-ephemeral/useSemantics=observed-answer-generation before set/remove. Inner durable records remain v1. These are wire vectors, not operation authority or proof of model compliance.",
+  "baseFixture": "product-personalization.json",
+  "valid": [
+    { "name": "connected inspection", "base": "inspection" },
+    { "name": "explicitly disconnected inspection", "base": "inspection", "set": [{ "path": ["modelApplication"], "value": "not-connected" }] },
+    { "name": "v2 command with unchanged v1 action", "base": "preference" },
+    { "name": "v2 result with unchanged v1 durable receipt", "base": "preferenceResult" }
+  ],
+  "invalidShape": [
+    { "name": "commands require a privacy epoch", "base": "preference", "remove": [["expectedProfileEpoch"]] },
+    { "name": "negative expected privacy epoch", "base": "preference", "set": [{ "path": ["expectedProfileEpoch"], "value": -1 }] },
+    { "name": "unsafe expected privacy epoch", "base": "preference", "set": [{ "path": ["expectedProfileEpoch"], "value": 9007199254740992 }] },
+    { "name": "inspection requires privacy epoch", "base": "inspection", "remove": [["profileEpoch"]] },
+    { "name": "fractional privacy epoch", "base": "inspection", "set": [{ "path": ["profileEpoch"], "value": 0.5 }] },
+    { "name": "v1 envelope is not v2", "base": "policy", "set": [{ "path": ["schemaVersion"], "value": 1 }] },
+    { "name": "unknown envelope version", "base": "preferenceResult", "set": [{ "path": ["schemaVersion"], "value": 3 }] },
+    { "name": "inspection requires actual connection status", "base": "inspection", "remove": [["modelApplication"]] },
+    { "name": "inspection requires use semantics", "base": "inspection", "remove": [["useSemantics"]] },
+    { "name": "connection is not model compliance", "base": "inspection", "set": [{ "path": ["modelApplication"], "value": "applied" }] },
+    { "name": "use does not prove DOM rendering", "base": "inspection", "set": [{ "path": ["useSemantics"], "value": "rendered-answer" }] },
+    { "name": "use does not prove facts", "base": "inspection", "set": [{ "path": ["useSemantics"], "value": "verified-facts" }] },
+    { "name": "no model payload in inspection", "base": "inspection", "set": [{ "path": ["modelPayload"], "value": {} }] },
+    { "name": "command cannot supply profile identity", "base": "policy", "set": [{ "path": ["command", "profileId"], "value": "profile:forged" }] },
+    { "name": "command cannot enable a caller-selected model policy", "base": "policy", "set": [{ "path": ["modelApplication"], "value": "host-ephemeral" }] },
+    { "name": "unsupported markdown reading preference stays denied", "base": "preference", "set": [{ "path": ["command", "preference", "effect"], "value": { "key": "preferred-representation", "value": "markdown" } }] },
+    { "name": "inner durable receipt still has version 1", "base": "preferenceResult", "set": [{ "path": ["result", "schemaVersion"], "value": 2 }] }
+  ],
+  "invalidSemantic": [
+    { "name": "inspection session identity remains bound", "base": "inspection", "set": [{ "path": ["conversationId"], "value": "conversation:other" }], "codes": ["preference-session"] }
+  ]
+}

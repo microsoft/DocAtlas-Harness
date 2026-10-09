@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/runtime-progress.v1.json",
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["type", "messageId", "delta"], "properties": {
+      "type": {"const": "text"}, "messageId": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"}, "delta": {"type": "string", "maxLength": 8192}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["type", "toolName", "toolCallId"], "properties": {
+      "type": {"enum": ["tool-start", "tool-end"]}, "toolName": {"type": "string", "minLength": 1, "maxLength": 128}, "toolCallId": {"type": "string", "minLength": 1, "maxLength": 256}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["type"], "properties": {"type": {"const": "resync"}}}
+  ]
+}

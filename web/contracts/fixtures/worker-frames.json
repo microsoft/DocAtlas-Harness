@@ -1,0 +1,17 @@
+{
+  "valid": [
+    {"version": 1, "kind": "call", "id": "00000000-0000-4000-8000-000000000000:1", "method": "native.call", "value": {"operation": "readFile", "path": "/work/test.txt"}},
+    {"version": 1, "kind": "yield", "id": "00000000-0000-4000-8000-000000000000:1", "sequence": 0, "value": "delta"},
+    {"version": 1, "kind": "return", "id": "00000000-0000-4000-8000-000000000000:1", "value": null},
+    {"version": 1, "kind": "error", "id": "00000000-0000-4000-8000-000000000000:1", "code": "denied"},
+    {"version": 1, "kind": "cancel", "id": "00000000-0000-4000-8000-000000000000:1"}
+  ],
+  "invalid": [
+    {"version": 2, "kind": "cancel", "id": "00000000-0000-4000-8000-000000000000:1"},
+    {"version": 1, "kind": "call", "id": "actor:forged", "method": "native.call", "value": null},
+    {"version": 1, "kind": "return", "id": "00000000-0000-4000-8000-000000000000:1"},
+    {"version": 1, "kind": "cancel", "id": "00000000-0000-4000-8000-000000000000:1", "value": "extra"},
+    {"version": 1, "kind": "error", "id": "00000000-0000-4000-8000-000000000000:1", "code": "internal-secret"},
+    {"version": 1, "kind": "yield", "id": "00000000-0000-4000-8000-000000000000:1", "sequence": -1, "value": null}
+  ]
+}

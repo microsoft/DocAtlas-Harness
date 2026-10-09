@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-http.v1.json",
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "idempotencyKey"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "conversation-create"},
+      "idempotencyKey": {"type": "string", "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId", "minLength": 16}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "items", "nextCursor"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "conversation-list"},
+      "items": {"type": "array", "maxItems": 32, "items": {"$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"}},
+      "nextCursor": {"anyOf": [{"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"}, {"type": "null"}]}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "code"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "auth-exchange"}, "code": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "actor", "csrfToken"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "bootstrap"},
+      "actor": {"type": "object", "additionalProperties": false, "required": ["actorId", "workspaceId"], "properties": {
+        "actorId": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"}, "workspaceId": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"}
+      }}, "csrfToken": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "code"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "api-error"}, "code": {"enum": ["unauthenticated", "forbidden", "invalid-request", "not-found", "conflict", "limit-exceeded", "unavailable"]}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "conversationId", "generation"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "runtime-stopped"}, "conversationId": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"}, "generation": {"type": "integer", "minimum": 1}
+    }}
+  ]
+}

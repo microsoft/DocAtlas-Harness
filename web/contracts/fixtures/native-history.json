@@ -1,0 +1,716 @@
+{
+  "native-control": [
+    {
+      "kind": "set-thinking",
+      "level": "max"
+    },
+    {
+      "kind": "set-model",
+      "provider": "fixture",
+      "modelId": "reasoning"
+    },
+    {
+      "kind": "set-queue-mode",
+      "queue": "steering",
+      "mode": "all"
+    },
+    {
+      "head": {
+        "version": 1,
+        "sessionId": "session:native-fixture",
+        "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "byteLength": 210,
+        "entryCount": 2,
+        "leafEntryId": "entry:initial"
+      },
+      "configuration": {
+        "model": {
+          "provider": "fixture",
+          "id": "reasoning"
+        },
+        "thinkingLevel": "max",
+        "steeringMode": "one-at-a-time",
+        "followUpMode": "all"
+      },
+      "models": [
+        {
+          "provider": "fixture",
+          "id": "reasoning",
+          "name": "Reasoning fixture",
+          "thinkingLevels": [
+            "off",
+            "minimal",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 4096
+        }
+      ],
+      "thinkingLevels": [
+        "off",
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "busy": false,
+      "nativeQueue": {
+        "steering": 0,
+        "followUp": 0
+      }
+    },
+    {
+      "operationId": "native:operation-fixture",
+      "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "expectedHead": {
+        "version": 1,
+        "sessionId": "session:native-fixture",
+        "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "byteLength": 210,
+        "entryCount": 2,
+        "leafEntryId": "entry:initial"
+      },
+      "action": {
+        "kind": "set-thinking",
+        "level": "max"
+      }
+    },
+    {
+      "status": "applied",
+      "proof": {
+        "operationId": "native:operation-fixture",
+        "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "action": {
+          "kind": "set-thinking",
+          "level": "max"
+        },
+        "beforeHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 210,
+          "entryCount": 2,
+          "leafEntryId": "entry:initial"
+        },
+        "afterHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "byteLength": 1900,
+          "entryCount": 5,
+          "leafEntryId": "entry:committed"
+        },
+        "intentEntryId": "entry:intent",
+        "markerEntryId": "entry:committed",
+        "configuration": {
+          "model": {
+            "provider": "fixture",
+            "id": "reasoning"
+          },
+          "thinkingLevel": "max",
+          "steeringMode": "one-at-a-time",
+          "followUpMode": "all"
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "native-command",
+      "conversationId": "conversation:native-fixture",
+      "expectedBindingId": "binding:native-fixture",
+      "expectedGeneration": 1,
+      "runtimeSessionId": "session:native-fixture",
+      "approvalId": "approval:native-fixture",
+      "expectedApprovalVersion": 1,
+      "expectedHead": {
+        "version": 1,
+        "sessionId": "session:native-fixture",
+        "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "byteLength": 210,
+        "entryCount": 2,
+        "leafEntryId": "entry:initial"
+      },
+      "idempotencyKey": "native-fixture:command:one",
+      "action": {
+        "kind": "set-thinking",
+        "level": "max"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "native-operation",
+      "operationId": "native:operation-fixture",
+      "conversationId": "conversation:native-fixture",
+      "bindingId": "binding:native-fixture",
+      "generation": 1,
+      "runtimeSessionId": "session:native-fixture",
+      "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "request": {
+        "schemaVersion": 1,
+        "kind": "native-command",
+        "conversationId": "conversation:native-fixture",
+        "expectedBindingId": "binding:native-fixture",
+        "expectedGeneration": 1,
+        "runtimeSessionId": "session:native-fixture",
+        "approvalId": "approval:native-fixture",
+        "expectedApprovalVersion": 1,
+        "expectedHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 210,
+          "entryCount": 2,
+          "leafEntryId": "entry:initial"
+        },
+        "idempotencyKey": "native-fixture:command:one",
+        "action": {
+          "kind": "set-thinking",
+          "level": "max"
+        }
+      },
+      "state": "succeeded",
+      "version": 3,
+      "createdAt": "2026-09-09T00:00:00.000Z",
+      "updatedAt": "2026-09-09T00:00:00.000Z",
+      "result": {
+        "operationId": "native:operation-fixture",
+        "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "action": {
+          "kind": "set-thinking",
+          "level": "max"
+        },
+        "beforeHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 210,
+          "entryCount": 2,
+          "leafEntryId": "entry:initial"
+        },
+        "afterHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "byteLength": 1900,
+          "entryCount": 5,
+          "leafEntryId": "entry:committed"
+        },
+        "intentEntryId": "entry:intent",
+        "markerEntryId": "entry:committed",
+        "configuration": {
+          "model": {
+            "provider": "fixture",
+            "id": "reasoning"
+          },
+          "thinkingLevel": "max",
+          "steeringMode": "one-at-a-time",
+          "followUpMode": "all"
+        }
+      },
+      "errorCode": null
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "native-inspection",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:native-fixture",
+        "conversationId": "conversation:native-fixture",
+        "workspaceId": "workspace:native-fixture",
+        "ownerActorId": "user:native-fixture",
+        "investigationId": null,
+        "runtimeSessionId": "session:native-fixture",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T00:00:00.000Z",
+        "updatedAt": "2026-09-09T00:00:00.000Z"
+      },
+      "resource": {
+        "approvalId": "approval:native-fixture",
+        "version": 1,
+        "manifestHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "models": [
+        {
+          "provider": "fixture",
+          "id": "reasoning",
+          "name": "Reasoning fixture",
+          "thinkingLevels": [
+            "off",
+            "minimal",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 4096
+        }
+      ],
+      "state": {
+        "head": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 210,
+          "entryCount": 2,
+          "leafEntryId": "entry:initial"
+        },
+        "configuration": {
+          "model": {
+            "provider": "fixture",
+            "id": "reasoning"
+          },
+          "thinkingLevel": "max",
+          "steeringMode": "one-at-a-time",
+          "followUpMode": "all"
+        },
+        "models": [
+          {
+            "provider": "fixture",
+            "id": "reasoning",
+            "name": "Reasoning fixture",
+            "thinkingLevels": [
+              "off",
+              "minimal",
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ],
+            "contextWindow": 131072,
+            "maxTokens": 4096
+          }
+        ],
+        "thinkingLevels": [
+          "off",
+          "minimal",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "busy": false,
+        "nativeQueue": {
+          "steering": 0,
+          "followUp": 0
+        }
+      },
+      "busy": false,
+      "queued": 0,
+      "operations": [
+        {
+          "schemaVersion": 1,
+          "kind": "native-operation",
+          "operationId": "native:operation-fixture",
+          "conversationId": "conversation:native-fixture",
+          "bindingId": "binding:native-fixture",
+          "generation": 1,
+          "runtimeSessionId": "session:native-fixture",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "request": {
+            "schemaVersion": 1,
+            "kind": "native-command",
+            "conversationId": "conversation:native-fixture",
+            "expectedBindingId": "binding:native-fixture",
+            "expectedGeneration": 1,
+            "runtimeSessionId": "session:native-fixture",
+            "approvalId": "approval:native-fixture",
+            "expectedApprovalVersion": 1,
+            "expectedHead": {
+              "version": 1,
+              "sessionId": "session:native-fixture",
+              "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byteLength": 210,
+              "entryCount": 2,
+              "leafEntryId": "entry:initial"
+            },
+            "idempotencyKey": "native-fixture:command:one",
+            "action": {
+              "kind": "set-thinking",
+              "level": "max"
+            }
+          },
+          "state": "succeeded",
+          "version": 3,
+          "createdAt": "2026-09-09T00:00:00.000Z",
+          "updatedAt": "2026-09-09T00:00:00.000Z",
+          "result": {
+            "operationId": "native:operation-fixture",
+            "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "action": {
+              "kind": "set-thinking",
+              "level": "max"
+            },
+            "beforeHead": {
+              "version": 1,
+              "sessionId": "session:native-fixture",
+              "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byteLength": 210,
+              "entryCount": 2,
+              "leafEntryId": "entry:initial"
+            },
+            "afterHead": {
+              "version": 1,
+              "sessionId": "session:native-fixture",
+              "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "byteLength": 1900,
+              "entryCount": 5,
+              "leafEntryId": "entry:committed"
+            },
+            "intentEntryId": "entry:intent",
+            "markerEntryId": "entry:committed",
+            "configuration": {
+              "model": {
+                "provider": "fixture",
+                "id": "reasoning"
+              },
+              "thinkingLevel": "max",
+              "steeringMode": "one-at-a-time",
+              "followUpMode": "all"
+            }
+          },
+          "errorCode": null
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "native-operation",
+      "operationId": "native:operation-fixture",
+      "conversationId": "conversation:native-fixture",
+      "bindingId": "binding:native-fixture",
+      "generation": 1,
+      "runtimeSessionId": "session:native-fixture",
+      "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "request": {
+        "schemaVersion": 1,
+        "kind": "native-command",
+        "conversationId": "conversation:native-fixture",
+        "expectedBindingId": "binding:native-fixture",
+        "expectedGeneration": 1,
+        "runtimeSessionId": "session:native-fixture",
+        "approvalId": "approval:native-fixture",
+        "expectedApprovalVersion": 1,
+        "expectedHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 210,
+          "entryCount": 2,
+          "leafEntryId": "entry:initial"
+        },
+        "idempotencyKey": "native-fixture:command:one",
+        "action": {
+          "kind": "set-thinking",
+          "level": "max"
+        }
+      },
+      "state": "accepted",
+      "version": 1,
+      "createdAt": "2026-09-09T00:00:00.000Z",
+      "updatedAt": "2026-09-09T00:00:00.000Z",
+      "result": null,
+      "errorCode": null
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "native-operation",
+      "operationId": "native:operation-fixture",
+      "conversationId": "conversation:native-fixture",
+      "bindingId": "binding:native-fixture",
+      "generation": 1,
+      "runtimeSessionId": "session:native-fixture",
+      "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "request": {
+        "schemaVersion": 1,
+        "kind": "native-command",
+        "conversationId": "conversation:native-fixture",
+        "expectedBindingId": "binding:native-fixture",
+        "expectedGeneration": 1,
+        "runtimeSessionId": "session:native-fixture",
+        "approvalId": "approval:native-fixture",
+        "expectedApprovalVersion": 1,
+        "expectedHead": {
+          "version": 1,
+          "sessionId": "session:native-fixture",
+          "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 210,
+          "entryCount": 2,
+          "leafEntryId": "entry:initial"
+        },
+        "idempotencyKey": "native-fixture:command:one",
+        "action": {
+          "kind": "set-thinking",
+          "level": "max"
+        }
+      },
+      "state": "outcome-unknown",
+      "version": 3,
+      "createdAt": "2026-09-09T00:00:00.000Z",
+      "updatedAt": "2026-09-09T00:00:00.000Z",
+      "result": null,
+      "errorCode": "execution-interrupted"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "native-inspection",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:native-fixture",
+        "conversationId": "conversation:native-fixture",
+        "workspaceId": "workspace:native-fixture",
+        "ownerActorId": "user:native-fixture",
+        "investigationId": null,
+        "runtimeSessionId": "session:native-fixture",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T00:00:00.000Z",
+        "updatedAt": "2026-09-09T00:00:00.000Z"
+      },
+      "resource": {
+        "approvalId": "approval:native-fixture",
+        "version": 1,
+        "manifestHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "models": [
+        {
+          "provider": "fixture",
+          "id": "reasoning",
+          "name": "Reasoning fixture",
+          "thinkingLevels": [
+            "off",
+            "minimal",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 4096
+        }
+      ],
+      "state": null,
+      "busy": true,
+      "queued": 0,
+      "operations": [
+        {
+          "schemaVersion": 1,
+          "kind": "native-operation",
+          "operationId": "native:operation-fixture",
+          "conversationId": "conversation:native-fixture",
+          "bindingId": "binding:native-fixture",
+          "generation": 1,
+          "runtimeSessionId": "session:native-fixture",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "request": {
+            "schemaVersion": 1,
+            "kind": "native-command",
+            "conversationId": "conversation:native-fixture",
+            "expectedBindingId": "binding:native-fixture",
+            "expectedGeneration": 1,
+            "runtimeSessionId": "session:native-fixture",
+            "approvalId": "approval:native-fixture",
+            "expectedApprovalVersion": 1,
+            "expectedHead": {
+              "version": 1,
+              "sessionId": "session:native-fixture",
+              "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byteLength": 210,
+              "entryCount": 2,
+              "leafEntryId": "entry:initial"
+            },
+            "idempotencyKey": "native-fixture:command:one",
+            "action": {
+              "kind": "set-thinking",
+              "level": "max"
+            }
+          },
+          "state": "succeeded",
+          "version": 3,
+          "createdAt": "2026-09-09T00:00:00.000Z",
+          "updatedAt": "2026-09-09T00:00:00.000Z",
+          "result": {
+            "operationId": "native:operation-fixture",
+            "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "action": {
+              "kind": "set-thinking",
+              "level": "max"
+            },
+            "beforeHead": {
+              "version": 1,
+              "sessionId": "session:native-fixture",
+              "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byteLength": 210,
+              "entryCount": 2,
+              "leafEntryId": "entry:initial"
+            },
+            "afterHead": {
+              "version": 1,
+              "sessionId": "session:native-fixture",
+              "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "byteLength": 1900,
+              "entryCount": 5,
+              "leafEntryId": "entry:committed"
+            },
+            "intentEntryId": "entry:intent",
+            "markerEntryId": "entry:committed",
+            "configuration": {
+              "model": {
+                "provider": "fixture",
+                "id": "reasoning"
+              },
+              "thinkingLevel": "max",
+              "steeringMode": "one-at-a-time",
+              "followUpMode": "all"
+            }
+          },
+          "errorCode": null
+        }
+      ],
+      "truncated": false
+    }
+  ],
+  "product-history": [
+    {
+      "schemaVersion": 1,
+      "kind": "history-page-request",
+      "expectedGeneration": 1,
+      "cursor": null
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "history-page",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:native-fixture",
+        "conversationId": "conversation:native-fixture",
+        "workspaceId": "workspace:native-fixture",
+        "ownerActorId": "user:native-fixture",
+        "investigationId": null,
+        "runtimeSessionId": "session:native-fixture",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T00:00:00.000Z",
+        "updatedAt": "2026-09-09T00:00:00.000Z"
+      },
+      "checkpoint": {
+        "schemaVersion": 1,
+        "kind": "pi-checkpoint",
+        "submissionId": "submission:fixture",
+        "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "runtimeSessionId": "session:native-fixture",
+        "userEntryId": "message:user",
+        "leafEntryId": "message:assistant",
+        "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "byteLength": 3000,
+        "entryCount": 9,
+        "settledAt": "2026-09-09T00:00:00.000Z"
+      },
+      "messages": [
+        {
+          "entryId": "message:user",
+          "role": "user",
+          "text": "Original question",
+          "truncated": false,
+          "nativeTextHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "displayOrigin": "submission"
+        },
+        {
+          "entryId": "message:assistant",
+          "role": "assistant",
+          "text": "Saved native answer",
+          "truncated": false,
+          "nativeTextHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "displayOrigin": "native"
+        }
+      ],
+      "hasEarlier": true,
+      "nextCursor": "history:11111111-2222-3333-4444-555555555555"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "history-page",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:native-fixture",
+        "conversationId": "conversation:native-fixture",
+        "workspaceId": "workspace:native-fixture",
+        "ownerActorId": "user:native-fixture",
+        "investigationId": null,
+        "runtimeSessionId": "session:native-fixture",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T00:00:00.000Z",
+        "updatedAt": "2026-09-09T00:00:00.000Z"
+      },
+      "checkpoint": null,
+      "messages": [],
+      "hasEarlier": false,
+      "nextCursor": null
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "history-page",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:native-fixture",
+        "conversationId": "conversation:native-fixture",
+        "workspaceId": "workspace:native-fixture",
+        "ownerActorId": "user:native-fixture",
+        "investigationId": null,
+        "runtimeSessionId": "session:native-fixture",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T00:00:00.000Z",
+        "updatedAt": "2026-09-09T00:00:00.000Z"
+      },
+      "checkpoint": {
+        "schemaVersion": 1,
+        "kind": "pi-checkpoint",
+        "submissionId": "submission:fixture",
+        "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "runtimeSessionId": "session:native-fixture",
+        "userEntryId": "message:user",
+        "leafEntryId": "message:assistant",
+        "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "byteLength": 3000,
+        "entryCount": 9,
+        "settledAt": "2026-09-09T00:00:00.000Z"
+      },
+      "messages": [
+        {
+          "entryId": "message:user",
+          "role": "user",
+          "text": "",
+          "truncated": false,
+          "nativeTextHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "displayOrigin": "unavailable"
+        }
+      ],
+      "hasEarlier": false,
+      "nextCursor": null
+    }
+  ]
+}

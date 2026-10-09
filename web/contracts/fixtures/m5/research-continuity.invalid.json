@@ -1,0 +1,307 @@
+{
+  "shapeCases": [
+    {
+      "name": "comparative request without evidence",
+      "value": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:invalid:1",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid:1",
+        "priorRecordId": "claim:invalid:1",
+        "priorSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+        "currentSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+        "proposedState": "changed",
+        "rationale": "Evidence was omitted.",
+        "idempotencyKey": "idempotency:invalid:1"
+      }
+    },
+    {
+      "name": "unknown result marked reverified",
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:invalid:unknown",
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:1",
+          "priorRecordId": "claim:invalid:1",
+          "priorSources": [],
+          "currentSources": [],
+          "state": "unknown",
+          "verificationStatus": "reverified",
+          "priorEvidenceIds": [],
+          "currentEvidenceIds": [],
+          "rationale": "Unknown cannot be reverified.",
+          "createdBy": { "kind": "system", "actorId": "system:invalid" },
+          "createdAt": "2026-08-31T14:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "truncated impact result without cursor",
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "revision-impact",
+        "workspaceId": "workspace:invalid",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+        "impacts": [{ "recordId": "claim:invalid:1", "status": "needs-reverify", "reason": "Predecessor reference." }],
+        "pageInfo": { "schemaVersion": 1, "limit": 1, "returned": 1, "total": 2, "truncated": true, "completeness": "partial" }
+      }
+    },
+    {
+      "name": "filesystem path injection",
+      "value": {
+        "schemaVersion": 1,
+        "requestType": "revision-impact",
+        "sessionId": "session:invalid",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+        "recordIds": ["claim:invalid:1"],
+        "limits": { "maxItems": 1 },
+        "path": "/private/investigation.sqlite3"
+      }
+    }
+  ],
+  "semanticCases": [
+    {
+      "name": "reverified source escaped active scope",
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:invalid:scope",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid:1",
+        "priorRecordId": "claim:invalid:scope",
+        "priorSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+        "currentSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+        "proposedState": "continuing",
+        "priorEvidenceIds": ["evidence:invalid:1"],
+        "currentEvidenceIds": ["evidence:invalid:2"],
+        "rationale": "Structurally complete but prior source is outside scope.",
+        "idempotencyKey": "idempotency:invalid:scope"
+      },
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:invalid:scope",
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:1",
+          "priorRecordId": "claim:invalid:scope",
+          "priorSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+          "currentSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+          "state": "continuing",
+          "verificationStatus": "reverified",
+          "priorEvidenceIds": ["evidence:invalid:1"],
+          "currentEvidenceIds": ["evidence:invalid:2"],
+          "rationale": "Structurally complete but prior source is outside scope.",
+          "createdBy": { "kind": "system", "actorId": "system:invalid" },
+          "createdAt": "2026-08-31T14:01:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:1",
+          "sources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }]
+        }
+      },
+      "expectedIssueCodes": ["continuity-scope"]
+    },
+    {
+      "name": "stale evidence was presented as reverified",
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:invalid:evidence",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid:2",
+        "priorRecordId": "claim:invalid:evidence",
+        "priorSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+        "currentSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+        "proposedState": "changed",
+        "priorEvidenceIds": ["evidence:invalid:stale"],
+        "currentEvidenceIds": ["evidence:invalid:current"],
+        "rationale": "One EvidenceAtom is stale.",
+        "idempotencyKey": "idempotency:invalid:evidence"
+      },
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:invalid:evidence",
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:2",
+          "priorRecordId": "claim:invalid:evidence",
+          "priorSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+          "currentSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+          "state": "changed",
+          "verificationStatus": "reverified",
+          "priorEvidenceIds": ["evidence:invalid:stale"],
+          "currentEvidenceIds": ["evidence:invalid:current"],
+          "rationale": "One EvidenceAtom is stale.",
+          "createdBy": { "kind": "system", "actorId": "system:invalid" },
+          "createdAt": "2026-08-31T14:02:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:2",
+          "sources": [
+            { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+            { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }
+          ]
+        },
+        "evidence": [
+          {
+            "evidenceId": "evidence:invalid:stale",
+            "source": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+            "scopeVersionId": "scope:invalid:2",
+            "resolutionStatus": "stale",
+            "status": "stale"
+          },
+          {
+            "evidenceId": "evidence:invalid:current",
+            "source": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+            "scopeVersionId": "scope:invalid:2",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          }
+        ]
+      },
+      "expectedIssueCodes": ["continuity-evidence-invalid"]
+    },
+    {
+      "name": "outside-scope status with all sources admitted",
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:invalid:false-outside",
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:3",
+          "priorRecordId": "claim:invalid:false-outside",
+          "priorSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+          "currentSources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+          "state": "unknown",
+          "verificationStatus": "outside-scope",
+          "priorEvidenceIds": [],
+          "currentEvidenceIds": [],
+          "rationale": "The status does not match the authenticated scope.",
+          "createdBy": { "kind": "system", "actorId": "system:invalid" },
+          "createdAt": "2026-08-31T14:03:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:invalid",
+          "investigationId": "investigation:invalid",
+          "scopeVersionId": "scope:invalid:3",
+          "sources": [
+            { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+            { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }
+          ]
+        }
+      },
+      "expectedIssueCodes": ["continuity-verification"]
+    },
+    {
+      "name": "impact request compares one revision to itself",
+      "value": {
+        "schemaVersion": 1,
+        "requestType": "revision-impact",
+        "sessionId": "session:invalid",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:other", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+        "recordIds": ["claim:invalid:1"],
+        "limits": { "maxItems": 1 }
+      },
+      "expectedIssueCodes": ["continuity-revision"]
+    },
+    {
+      "name": "impact result drifts identity and pagination bounds",
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "revision-impact",
+        "sessionId": "session:invalid",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+        "recordIds": ["claim:invalid:1", "claim:invalid:2"],
+        "limits": { "maxItems": 2 }
+      },
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "revision-impact",
+        "workspaceId": "workspace:other",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:other", "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" },
+        "impacts": [{ "recordId": "claim:invalid:1", "status": "needs-reverify", "reason": "Predecessor reference." }],
+        "pageInfo": { "schemaVersion": 1, "limit": 1, "returned": 1, "total": 2, "truncated": true, "completeness": "partial", "nextCursor": "cursor:invalid:2" }
+      },
+      "expectedIssueCodes": ["continuity-pagination", "continuity-identity"]
+    },
+    {
+      "name": "impact status ignores exact predecessor reference",
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "revision-impact",
+        "sessionId": "session:invalid",
+        "workspaceId": "workspace:invalid",
+        "investigationId": "investigation:invalid",
+        "scopeVersionId": "scope:invalid",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+        "recordIds": ["claim:invalid:1"],
+        "limits": { "maxItems": 1 }
+      },
+      "value": {
+        "schemaVersion": 1,
+        "resultType": "revision-impact",
+        "workspaceId": "workspace:invalid",
+        "previousSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        "currentSource": { "documentId": "doc:invalid", "revisionId": "rev:invalid:2", "representationId": "rep:invalid:2", "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+        "impacts": [{ "recordId": "claim:invalid:1", "status": "unaffected", "reason": "Incorrectly classified." }],
+        "pageInfo": { "schemaVersion": 1, "limit": 1, "returned": 1, "total": 1, "truncated": false, "completeness": "complete" }
+      },
+      "context": {
+        "impactRecords": [
+          {
+            "recordId": "claim:invalid:1",
+            "sources": [{ "documentId": "doc:invalid", "revisionId": "rev:invalid:1", "representationId": "rep:invalid:1", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+            "previousSourceAvailability": "available"
+          }
+        ]
+      },
+      "expectedIssueCodes": ["continuity-impact-status"]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/native-lineage.v1.json",
+  "title": "DocAtlas native selected-head, branch and fork handoffs v1",
+  "oneOf": [
+    { "$ref": "#/$defs/action" }, { "$ref": "#/$defs/apply" }, { "$ref": "#/$defs/outcome" },
+    { "$ref": "#/$defs/command" }, { "$ref": "#/$defs/operation" }, { "$ref": "#/$defs/inspection" },
+    { "$ref": "#/$defs/treeRequest" }, { "$ref": "#/$defs/treePage" }
+  ],
+  "$defs": {
+    "id": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "hash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "time": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "integer": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "positive": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "optionalId": { "anyOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }] },
+    "label": { "type": ["string", "null"], "maxLength": 256 },
+    "configuration": { "$ref": "https://docatlas.dev/schemas/native-control.v1.json#/$defs/configuration" },
+    "binding": { "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding" },
+    "fileSeal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "sessionId", "transcriptHash", "byteLength", "entryCount", "tailEntryId"],
+      "properties": {
+        "version": { "const": 1 }, "sessionId": { "$ref": "#/$defs/id" }, "transcriptHash": { "$ref": "#/$defs/hash" },
+        "byteLength": { "type": "integer", "minimum": 1, "maximum": 67108864 }, "entryCount": { "$ref": "#/$defs/integer" }, "tailEntryId": { "$ref": "#/$defs/optionalId" }
+      }
+    },
+    "head": {
+      "type": "object", "additionalProperties": false, "required": ["version", "fileSeal", "selectedLeafEntryId", "contextHash"],
+      "properties": { "version": { "const": 1 }, "fileSeal": { "$ref": "#/$defs/fileSeal" }, "selectedLeafEntryId": { "$ref": "#/$defs/optionalId" }, "contextHash": { "$ref": "#/$defs/hash" } }
+    },
+    "action": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["kind", "targetEntryId", "summarize", "instructions", "replaceInstructions", "label"],
+          "properties": { "kind": { "const": "navigate" }, "targetEntryId": { "$ref": "#/$defs/id" }, "summarize": { "type": "boolean" }, "instructions": { "type": "string", "maxLength": 4096 }, "replaceInstructions": { "type": "boolean" }, "label": { "$ref": "#/$defs/label" } } },
+        { "type": "object", "additionalProperties": false, "required": ["kind", "targetEntryId", "position"],
+          "properties": { "kind": { "const": "fork" }, "targetEntryId": { "$ref": "#/$defs/id" }, "position": { "enum": ["before", "at"] } } }
+      ]
+    },
+    "apply": {
+      "type": "object", "additionalProperties": false, "required": ["operationId", "requestHash", "expectedHead", "action"],
+      "properties": { "operationId": { "$ref": "#/$defs/id" }, "requestHash": { "$ref": "#/$defs/hash" }, "expectedHead": { "$ref": "#/$defs/head" }, "action": { "$ref": "#/$defs/action" } }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false, "required": ["entryId", "fromEntryId", "summaryHash"],
+      "properties": { "entryId": { "$ref": "#/$defs/id" }, "fromEntryId": { "$ref": "#/$defs/optionalId" }, "summaryHash": { "$ref": "#/$defs/hash" } }
+    },
+    "proof": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "operationId", "requestHash", "action", "beforeHead", "sourceAfterHead", "targetHead", "intentEntryId", "sourceMarkerEntryId", "targetMarkerEntryId", "sourceConfiguration", "configuration"],
+      "properties": {
+        "kind": { "enum": ["native-navigation-proof", "native-fork-proof"] }, "operationId": { "$ref": "#/$defs/id" }, "requestHash": { "$ref": "#/$defs/hash" }, "action": { "$ref": "#/$defs/action" },
+        "beforeHead": { "$ref": "#/$defs/head" }, "sourceAfterHead": { "$ref": "#/$defs/head" }, "targetHead": { "$ref": "#/$defs/head" },
+        "intentEntryId": { "$ref": "#/$defs/id" }, "sourceMarkerEntryId": { "$ref": "#/$defs/id" }, "targetMarkerEntryId": { "$ref": "#/$defs/id" },
+        "sourceConfiguration": { "$ref": "#/$defs/configuration" }, "configuration": { "$ref": "#/$defs/configuration" },
+        "landingEntryId": { "$ref": "#/$defs/optionalId" }, "summary": { "anyOf": [{ "$ref": "#/$defs/summary" }, { "type": "null" }] },
+        "forkBasisSeal": { "$ref": "#/$defs/fileSeal" }, "inheritedEntryCount": { "$ref": "#/$defs/integer" }, "inheritanceHash": { "$ref": "#/$defs/hash" }
+      },
+      "allOf": [{
+        "if": { "properties": { "kind": { "const": "native-navigation-proof" } }, "required": ["kind"] },
+        "then": { "required": ["landingEntryId", "summary"], "properties": { "landingEntryId": true, "summary": true, "forkBasisSeal": false, "inheritedEntryCount": false, "inheritanceHash": false } },
+        "else": { "required": ["forkBasisSeal", "inheritedEntryCount", "inheritanceHash"], "properties": { "forkBasisSeal": true, "inheritedEntryCount": true, "inheritanceHash": true, "landingEntryId": false, "summary": false } }
+      }]
+    },
+    "failureProof": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "operationId", "requestHash", "action", "beforeHead", "afterHead", "intentEntryId", "markerEntryId", "reason"],
+      "properties": { "kind": { "const": "native-lineage-failure" }, "operationId": { "$ref": "#/$defs/id" }, "requestHash": { "$ref": "#/$defs/hash" }, "action": { "$ref": "#/$defs/action" },
+        "beforeHead": { "$ref": "#/$defs/head" }, "afterHead": { "$ref": "#/$defs/head" }, "intentEntryId": { "$ref": "#/$defs/id" }, "markerEntryId": { "$ref": "#/$defs/id" }, "reason": { "enum": ["cancelled", "sdk-rejected"] } }
+    },
+    "outcome": { "oneOf": [
+      { "type": "object", "additionalProperties": false, "required": ["status", "proof"], "properties": { "status": { "enum": ["applied", "replayed"] }, "proof": { "$ref": "#/$defs/proof" } } },
+      { "type": "object", "additionalProperties": false, "required": ["status", "failureProof"], "properties": { "status": { "const": "not-applied" }, "failureProof": { "$ref": "#/$defs/failureProof" } } }
+    ] },
+    "command": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "kind", "conversationId", "expectedBindingId", "expectedGeneration", "runtimeSessionId", "approvalId", "expectedApprovalVersion", "expectedHead", "idempotencyKey", "action"],
+      "properties": { "schemaVersion": { "const": 1 }, "kind": { "const": "lineage-command" }, "conversationId": { "$ref": "#/$defs/id" }, "expectedBindingId": { "$ref": "#/$defs/id" },
+        "expectedGeneration": { "$ref": "#/$defs/positive" }, "runtimeSessionId": { "$ref": "#/$defs/id" }, "approvalId": { "$ref": "#/$defs/id" }, "expectedApprovalVersion": { "$ref": "#/$defs/positive" },
+        "expectedHead": { "$ref": "#/$defs/head" }, "idempotencyKey": { "type": "string", "$ref": "#/$defs/id", "minLength": 16 }, "action": { "$ref": "#/$defs/action" } }
+    },
+    "operation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "kind", "operationId", "sourceBinding", "requestHash", "request", "state", "version", "createdAt", "updatedAt", "result", "errorCode"],
+      "properties": { "schemaVersion": { "const": 1 }, "kind": { "const": "lineage-operation" }, "operationId": { "$ref": "#/$defs/id" }, "sourceBinding": { "$ref": "#/$defs/binding" },
+        "requestHash": { "$ref": "#/$defs/hash" }, "request": { "$ref": "#/$defs/command" }, "state": { "enum": ["accepted", "applying", "handoff", "succeeded", "failed", "outcome-unknown"] },
+        "version": { "$ref": "#/$defs/positive" }, "createdAt": { "$ref": "#/$defs/time" }, "updatedAt": { "$ref": "#/$defs/time" },
+        "result": { "anyOf": [{ "type": "object", "additionalProperties": false, "required": ["proof", "targetBinding"], "properties": { "proof": { "$ref": "#/$defs/proof" }, "targetBinding": { "$ref": "#/$defs/binding" } } }, { "type": "null" }] },
+        "failureProof": { "$ref": "#/$defs/failureProof" }, "errorCode": { "enum": ["stale-state", "not-authorized", "invalid-action", "execution-interrupted", null] } }
+    },
+    "inspection": {
+      "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "binding", "resource", "head", "busy", "queued", "operations", "truncated"],
+      "properties": { "schemaVersion": { "const": 1 }, "kind": { "const": "lineage-inspection" }, "binding": { "$ref": "#/$defs/binding" },
+        "resource": { "type": "object", "additionalProperties": false, "required": ["approvalId", "version", "manifestHash"], "properties": { "approvalId": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/positive" }, "manifestHash": { "$ref": "#/$defs/hash" } } },
+        "head": { "anyOf": [{ "$ref": "#/$defs/head" }, { "type": "null" }] }, "busy": { "type": "boolean" }, "queued": { "$ref": "#/$defs/integer" },
+        "operations": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/operation" } }, "truncated": { "type": "boolean" } }
+    },
+    "origin": { "type": "object", "additionalProperties": false, "required": ["conversationId", "bindingId", "generation", "runtimeSessionId", "entryId"],
+      "properties": { "conversationId": { "$ref": "#/$defs/id" }, "bindingId": { "$ref": "#/$defs/id" }, "generation": { "$ref": "#/$defs/positive" }, "runtimeSessionId": { "$ref": "#/$defs/id" }, "entryId": { "$ref": "#/$defs/id" } } },
+    "treeRequest": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "expectedGeneration", "view", "cursor"],
+      "properties": { "schemaVersion": { "const": 1 }, "kind": { "const": "native-tree-request" }, "expectedGeneration": { "$ref": "#/$defs/positive" }, "view": { "enum": ["messages", "all"] }, "cursor": { "$ref": "#/$defs/optionalId" } } },
+    "treeEntry": { "type": "object", "additionalProperties": false,
+      "required": ["entryId", "parentId", "type", "preview", "label", "depth", "onSelectedBranch", "canNavigate", "canForkBefore", "canForkAt", "origin"],
+      "properties": { "entryId": { "$ref": "#/$defs/id" }, "parentId": { "$ref": "#/$defs/optionalId" }, "type": { "enum": ["user", "assistant", "tool-result", "compaction", "branch-summary", "label", "metadata", "custom-message"] },
+        "preview": { "type": "string", "maxLength": 1000 }, "label": { "$ref": "#/$defs/label" }, "depth": { "$ref": "#/$defs/integer" }, "onSelectedBranch": { "type": "boolean" },
+        "canNavigate": { "type": "boolean" }, "canForkBefore": { "type": "boolean" }, "canForkAt": { "type": "boolean" }, "origin": { "anyOf": [{ "$ref": "#/$defs/origin" }, { "type": "null" }] } } },
+    "treePage": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "binding", "head", "view", "entries", "nextCursor"],
+      "properties": { "schemaVersion": { "const": 1 }, "kind": { "const": "native-tree-page" }, "binding": { "$ref": "#/$defs/binding" }, "head": { "$ref": "#/$defs/head" }, "view": { "enum": ["messages", "all"] },
+        "entries": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/treeEntry" } }, "nextCursor": { "$ref": "#/$defs/optionalId" } } }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/source-scope-version.v1.json",
+  "title": "DocAtlas versioned investigation source scope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "scopeVersionId",
+    "workspaceId",
+    "investigationId",
+    "version",
+    "included",
+    "excluded",
+    "locked",
+    "createdBy",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "version": { "type": "integer", "minimum": 1 },
+    "previousScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "included": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/includedSource" }
+    },
+    "excluded": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/excludedSource" }
+    },
+    "locked": { "type": "boolean" },
+    "policyTags": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "$defs": {
+    "sourceIdentity": {
+      "type": "object",
+      "required": ["documentId", "revisionId"],
+      "properties": {
+        "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "includedSource": {
+      "allOf": [
+        { "$ref": "#/$defs/sourceIdentity" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["documentId", "revisionId", "role"],
+          "properties": {
+            "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+            "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+            "role": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sourceRole" },
+            "reason": { "type": "string", "maxLength": 1000 }
+          }
+        }
+      ]
+    },
+    "excludedSource": {
+      "allOf": [
+        { "$ref": "#/$defs/sourceIdentity" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["documentId", "revisionId", "reason"],
+          "properties": {
+            "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+            "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+            "reason": {
+              "type": "string",
+              "enum": ["user", "policy", "permission", "out-of-date", "duplicate", "other"]
+            },
+            "detail": { "type": "string", "maxLength": 1000 }
+          }
+        }
+      ]
+    }
+  }
+}

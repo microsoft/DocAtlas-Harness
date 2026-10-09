@@ -1,0 +1,650 @@
+{
+  "description": "Shared Library revision wire vectors. Shape and deterministic display consistency never grant upload/source/CAS/binding authority.",
+  "imports": {
+    "library": "m2/library.json"
+  },
+  "bases": {
+    "command": {
+      "schemaVersion": 1,
+      "kind": "revision-import",
+      "expectedGeneration": 1,
+      "idempotencyKey": "revision:explicit:one",
+      "uploadId": "upload:one",
+      "targetDocumentId": "doc:library:report",
+      "expectedCurrentRevisionId": "rev:library:report:1"
+    },
+    "history": {
+      "schemaVersion": 1,
+      "kind": "revision-history",
+      "conversationId": "conversation:one",
+      "bindingId": "binding:one",
+      "generation": 1,
+      "documentId": "doc:library:report",
+      "currentRevisionId": "rev:library:report:1",
+      "versions": [
+        {
+          "revision": {
+            "$fixture": "library",
+            "path": [
+              "document",
+              "currentRevision"
+            ]
+          },
+          "source": {
+            "documentId": "doc:library:report",
+            "revisionId": "rev:library:report:1",
+            "representationId": "rep:library:report:text",
+            "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "original": {
+            "documentId": "doc:library:report",
+            "revisionId": "rev:library:report:1",
+            "name": "Report.pdf",
+            "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "byteLength": 1000,
+            "pageCount": 3
+          }
+        }
+      ],
+      "nextCursor": null,
+      "truncated": false
+    },
+    "state": {
+      "schemaVersion": 1,
+      "kind": "revision-import-state",
+      "conversationId": "conversation:one",
+      "bindingId": "binding:one",
+      "generation": 1,
+      "request": {
+        "schemaVersion": 1,
+        "kind": "revision-import",
+        "expectedGeneration": 1,
+        "idempotencyKey": "revision:explicit:one",
+        "uploadId": "upload:one",
+        "targetDocumentId": "doc:library:report",
+        "expectedCurrentRevisionId": "rev:library:report:1"
+      },
+      "requestHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "job": {
+        "$fixture": "library",
+        "path": [
+          "jobResult"
+        ]
+      }
+    }
+  },
+  "valid": [
+    {
+      "name": "explicit revision intent",
+      "base": "command"
+    },
+    {
+      "name": "queued durable job",
+      "base": "state"
+    },
+    {
+      "name": "no job yet is only a lookup",
+      "base": "state",
+      "set": [
+        {
+          "path": [
+            "job"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "same-current-byte reuse",
+      "base": "state",
+      "set": [
+        {
+          "path": [
+            "job",
+            "status"
+          ],
+          "value": "succeeded"
+        },
+        {
+          "path": [
+            "job",
+            "phase"
+          ],
+          "value": "complete"
+        },
+        {
+          "path": [
+            "job",
+            "document"
+          ],
+          "value": {
+            "$fixture": "library",
+            "path": [
+              "document"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "current original metadata",
+      "base": "history"
+    },
+    {
+      "name": "empty visible history",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "paged history remains explicit",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "nextCursor"
+          ],
+          "value": "revisions:next"
+        },
+        {
+          "path": [
+            "truncated"
+          ],
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "original not available is not invented",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "history of a superseded revision",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "currentRevisionId"
+          ],
+          "value": "rev:library:report:2"
+        },
+        {
+          "path": [
+            "versions",
+            0,
+            "revision",
+            "status"
+          ],
+          "value": "superseded"
+        },
+        {
+          "path": [
+            "versions",
+            0,
+            "revision",
+            "supersededByRevisionId"
+          ],
+          "value": "rev:library:report:2"
+        }
+      ]
+    }
+  ],
+  "invalidShape": [
+    {
+      "name": "actor is not a request field",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "actor:forged"
+        }
+      ]
+    },
+    {
+      "name": "workspace is not a request field",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "workspaceId"
+          ],
+          "value": "workspace:other"
+        }
+      ]
+    },
+    {
+      "name": "no browser filesystem path",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/input.pdf"
+        }
+      ]
+    },
+    {
+      "name": "no client content override",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "contentHash"
+          ],
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    {
+      "name": "unknown protocol",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "unsafe target path",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "targetDocumentId"
+          ],
+          "value": "../private"
+        }
+      ]
+    },
+    {
+      "name": "zero generation",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "short operation key",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "idempotencyKey"
+          ],
+          "value": "short"
+        }
+      ]
+    },
+    {
+      "name": "missing predecessor",
+      "base": "command",
+      "remove": [
+        [
+          "expectedCurrentRevisionId"
+        ]
+      ]
+    },
+    {
+      "name": "no implicit target",
+      "base": "command",
+      "remove": [
+        [
+          "targetDocumentId"
+        ]
+      ]
+    },
+    {
+      "name": "hash must be sha256",
+      "base": "state",
+      "set": [
+        {
+          "path": [
+            "requestHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    },
+    {
+      "name": "successful job requires committed document",
+      "base": "state",
+      "set": [
+        {
+          "path": [
+            "job",
+            "status"
+          ],
+          "value": "succeeded"
+        },
+        {
+          "path": [
+            "job",
+            "phase"
+          ],
+          "value": "complete"
+        }
+      ]
+    },
+    {
+      "name": "no arbitrary original URL",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "url"
+          ],
+          "value": "https://untrusted.invalid/file.pdf"
+        }
+      ]
+    },
+    {
+      "name": "original must have a real page count",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "pageCount"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "oversized original metadata",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "byteLength"
+          ],
+          "value": 26214401
+        }
+      ]
+    },
+    {
+      "name": "unknown history property",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "allSourcesAuthorized"
+          ],
+          "value": true
+        }
+      ]
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "history document differs from row",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "documentId"
+          ],
+          "value": "doc:other"
+        }
+      ],
+      "codes": [
+        "revision-identity"
+      ]
+    },
+    {
+      "name": "source revision differs",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "source",
+            "revisionId"
+          ],
+          "value": "rev:other"
+        }
+      ],
+      "codes": [
+        "revision-source"
+      ]
+    },
+    {
+      "name": "original revision differs",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "revisionId"
+          ],
+          "value": "rev:other"
+        }
+      ],
+      "codes": [
+        "revision-original"
+      ]
+    },
+    {
+      "name": "original hash differs",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "contentHash"
+          ],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "codes": [
+        "revision-original"
+      ]
+    },
+    {
+      "name": "original length differs",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "byteLength"
+          ],
+          "value": 999
+        }
+      ],
+      "codes": [
+        "revision-original"
+      ]
+    },
+    {
+      "name": "original page count differs",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "original",
+            "pageCount"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "revision-original"
+      ]
+    },
+    {
+      "name": "current row cannot be superseded",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "versions",
+            0,
+            "revision",
+            "status"
+          ],
+          "value": "superseded"
+        },
+        {
+          "path": [
+            "versions",
+            0,
+            "revision",
+            "supersededByRevisionId"
+          ],
+          "value": "rev:next"
+        }
+      ],
+      "codes": [
+        "revision-current"
+      ]
+    },
+    {
+      "name": "next page cannot be advertised complete",
+      "base": "history",
+      "set": [
+        {
+          "path": [
+            "nextCursor"
+          ],
+          "value": "revisions:next"
+        }
+      ],
+      "codes": [
+        "revision-page"
+      ]
+    },
+    {
+      "name": "successful result must belong to original target",
+      "base": "state",
+      "set": [
+        {
+          "path": [
+            "job",
+            "status"
+          ],
+          "value": "succeeded"
+        },
+        {
+          "path": [
+            "job",
+            "phase"
+          ],
+          "value": "complete"
+        },
+        {
+          "path": [
+            "job",
+            "document"
+          ],
+          "value": {
+            "$fixture": "library",
+            "path": [
+              "document"
+            ]
+          }
+        },
+        {
+          "path": [
+            "request",
+            "targetDocumentId"
+          ],
+          "value": "doc:other"
+        }
+      ],
+      "codes": [
+        "revision-result"
+      ]
+    }
+  ],
+  "hostOnly": [
+    {
+      "name": "unknown upload cannot be promoted by a valid shape",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "uploadId"
+          ],
+          "value": "upload:unknown"
+        }
+      ],
+      "authority": "The authenticated UploadStore must own the bytes and reservation."
+    },
+    {
+      "name": "unknown target is not a grant",
+      "base": "command",
+      "set": [
+        {
+          "path": [
+            "targetDocumentId"
+          ],
+          "value": "doc:unknown"
+        }
+      ],
+      "authority": "The host resolves current source authority and the Core commit checks CAS."
+    },
+    {
+      "name": "plausible receipt hash is not verified",
+      "base": "state",
+      "authority": "The client compares the exact original body and receipt hash; the host verifies its existing job journal."
+    },
+    {
+      "name": "unavailable job is not permission to replay",
+      "base": "state",
+      "set": [
+        {
+          "path": [
+            "job"
+          ],
+          "value": null
+        }
+      ],
+      "authority": "Only an explicit write may submit; refresh and lookup never start a job."
+    }
+  ]
+}

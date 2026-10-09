@@ -1,0 +1,39 @@
+name: Grounded Web
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: grounded-web-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4
+        with:
+          version: 0.9.21
+          python-version: 3.12.12
+          enable-cache: true
+      - name: Install actual Linux isolation and browser dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y bubblewrap libseccomp2
+          if test -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+      - name: Check independent launch and verification scripts
+        run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/check.sh scripts/prepare-test-source.sh scripts/run-docatlas-web.sh scripts/bootstrap-node.sh scripts/pnpmw scripts/tool-bin/pnpm
+      - run: bash scripts/pnpmw install --frozen-lockfile
+      - run: uv sync --locked --all-packages --all-groups
+      - run: bash scripts/prepare-test-source.sh
+      - run: bash scripts/check.sh
+      - run: bash scripts/pnpmw exec playwright install --with-deps chromium
+      - run: bash scripts/pnpmw run test:live

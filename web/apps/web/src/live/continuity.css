@@ -1,0 +1,25 @@
+.live-continuity { display: grid; gap: 18px; color: var(--ink); }
+.live-continuity p { margin: 8px 0; line-height: 1.65; }
+.live-continuity h3 { margin: 0 0 10px; font-size: 15px; }
+.live-continuity h4 { margin: 18px 0 8px; font-size: 13px; }
+.live-continuity small, .live-continuity code { display: block; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
+.live-continuity label:not(.continuity-check) { display: grid; gap: 7px; margin: 12px 0; font-size: 12px; }
+.live-continuity select, .live-continuity textarea { width: 100%; min-width: 0; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: inherit; font: inherit; }
+.live-continuity textarea { resize: vertical; }
+.live-continuity button { min-height: 40px; white-space: normal; text-align: left; }
+.live-continuity :is(button,input,textarea,select,summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.live-continuity pre { padding: 12px; border-radius: 8px; background: var(--paper); white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; }
+.continuity-section { padding-bottom: 18px; border-bottom: 1px solid var(--line); min-width: 0; }
+.continuity-section summary { cursor: pointer; padding: 10px 0; font-size: 13px; }
+.continuity-muted { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.continuity-label { white-space: pre-wrap; overflow-wrap: anywhere; }
+.continuity-notice, .continuity-pending { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); font-size: 12px; overflow-wrap: anywhere; }
+.continuity-check { display: flex; align-items: flex-start; gap: 9px; margin: 10px 0; font-size: 12px; line-height: 1.6; }
+.continuity-check input { flex: 0 0 auto; margin-top: 3px; accent-color: var(--accent); }
+.continuity-check span { min-width: 0; overflow-wrap: anywhere; }
+.continuity-evidence { margin-top: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; }
+.continuity-evidence header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.continuity-evidence p { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.continuity-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px; margin-top: 6px; }
+.continuity-saved { padding: 16px; border-left: 3px solid var(--accent); border-radius: 8px; background: var(--paper); overflow-wrap: anywhere; }
+@media (max-width: 720px) { .live-continuity button { min-height: 44px; } .continuity-check { min-height: 32px; } }

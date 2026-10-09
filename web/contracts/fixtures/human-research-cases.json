@@ -1,0 +1,2480 @@
+{
+  "description": "Human authoring shared shape and semantic cases. These are contract fixtures, not PDF verification, actor authority, command-hash or durable-commit proofs. Old Agent and selection wire are not widened.",
+  "templates": {
+    "binding": {
+      "schemaVersion": 1,
+      "kind": "binding",
+      "bindingId": "binding:human",
+      "conversationId": "conversation:human",
+      "workspaceId": "workspace:human",
+      "ownerActorId": "actor:human",
+      "investigationId": null,
+      "runtimeSessionId": "session:human",
+      "branchEntryId": null,
+      "generation": 1,
+      "version": 1,
+      "createdAt": "2026-09-08T00:00:00Z",
+      "updatedAt": "2026-09-08T00:00:00Z"
+    },
+    "source": {
+      "documentId": "doc:annual-report",
+      "revisionId": "rev:annual-report:2026-06",
+      "representationId": "rep:annual-report:markdown",
+      "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "sourceRef": {
+      "documentId": "doc:annual-report",
+      "revisionId": "rev:annual-report:2026-06"
+    },
+    "locator": {
+      "schemaVersion": 1,
+      "locatorId": "loc:revenue-growth",
+      "documentId": "doc:annual-report",
+      "revisionId": "rev:annual-report:2026-06",
+      "representationId": "rep:annual-report:markdown",
+      "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "physicalPage": 17,
+      "selectors": [
+        {
+          "type": "block",
+          "blockId": "p00017.b00004.text.abc123"
+        },
+        {
+          "type": "text-quote",
+          "exact": "Revenue increased by 12%.",
+          "prefix": "For the year, ",
+          "suffix": " Cloud services led growth.",
+          "normalizedHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338"
+        },
+        {
+          "type": "text-position",
+          "start": 1024,
+          "end": 1049,
+          "unit": "unicode-scalar"
+        },
+        {
+          "type": "bbox",
+          "unit": "ratio",
+          "x": 0.12,
+          "y": 0.3,
+          "width": 0.5,
+          "height": 0.05,
+          "rotation": 0
+        }
+      ],
+      "createdAt": "2026-08-30T00:03:00Z"
+    },
+    "proposal": {
+      "documentId": "doc:annual-report",
+      "revisionId": "rev:annual-report:2026-06",
+      "physicalPage": 17,
+      "quote": "Revenue increased by 12%."
+    },
+    "record": {
+      "schemaVersion": 1,
+      "origin": "human-command",
+      "recordId": "note:human",
+      "workspaceId": "workspace:human",
+      "investigationId": "investigation:human",
+      "sourceSessionId": "conversation:human",
+      "sourceScopeVersionId": "scope:human",
+      "provenanceCommandId": "human-op:1111111111111111111111111111111111111111111111111111111111111111",
+      "commandHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "version": 1,
+      "createdBy": {
+        "kind": "user",
+        "actorId": "actor:human"
+      },
+      "createdAt": "2026-09-09T00:00:00Z",
+      "epistemicStatus": "unverified",
+      "anchors": [],
+      "sourceIdentities": [],
+      "recordType": "research-note",
+      "noteKind": "commentary",
+      "body": "A human research note, not an Agent checkpoint.",
+      "status": "active"
+    },
+    "anchoredRecord": {
+      "schemaVersion": 1,
+      "origin": "human-command",
+      "recordId": "note:human",
+      "workspaceId": "workspace:human",
+      "investigationId": "investigation:human",
+      "sourceSessionId": "conversation:human",
+      "sourceScopeVersionId": "scope:human",
+      "provenanceCommandId": "human-op:1111111111111111111111111111111111111111111111111111111111111111",
+      "commandHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "version": 1,
+      "createdBy": {
+        "kind": "user",
+        "actorId": "actor:human"
+      },
+      "createdAt": "2026-09-09T00:00:00Z",
+      "epistemicStatus": "unverified",
+      "anchors": [
+        {
+          "locator": {
+            "schemaVersion": 1,
+            "locatorId": "loc:revenue-growth",
+            "documentId": "doc:annual-report",
+            "revisionId": "rev:annual-report:2026-06",
+            "representationId": "rep:annual-report:markdown",
+            "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "physicalPage": 17,
+            "selectors": [
+              {
+                "type": "block",
+                "blockId": "p00017.b00004.text.abc123"
+              },
+              {
+                "type": "text-quote",
+                "exact": "Revenue increased by 12%.",
+                "prefix": "For the year, ",
+                "suffix": " Cloud services led growth.",
+                "normalizedHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338"
+              },
+              {
+                "type": "text-position",
+                "start": 1024,
+                "end": 1049,
+                "unit": "unicode-scalar"
+              },
+              {
+                "type": "bbox",
+                "unit": "ratio",
+                "x": 0.12,
+                "y": 0.3,
+                "width": 0.5,
+                "height": 0.05,
+                "rotation": 0
+              }
+            ],
+            "createdAt": "2026-08-30T00:03:00Z"
+          },
+          "text": "Revenue increased by 12%."
+        }
+      ],
+      "sourceIdentities": [
+        {
+          "documentId": "doc:annual-report",
+          "revisionId": "rev:annual-report:2026-06",
+          "representationId": "rep:annual-report:markdown",
+          "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ],
+      "recordType": "research-note",
+      "noteKind": "commentary",
+      "body": "A human research note, not an Agent checkpoint.",
+      "status": "active"
+    },
+    "questionRecord": {
+      "schemaVersion": 1,
+      "origin": "human-command",
+      "recordId": "note:human",
+      "workspaceId": "workspace:human",
+      "investigationId": "investigation:human",
+      "sourceSessionId": "conversation:human",
+      "sourceScopeVersionId": "scope:human",
+      "provenanceCommandId": "human-op:1111111111111111111111111111111111111111111111111111111111111111",
+      "commandHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "version": 1,
+      "createdBy": {
+        "kind": "user",
+        "actorId": "actor:human"
+      },
+      "createdAt": "2026-09-09T00:00:00Z",
+      "epistemicStatus": "unverified",
+      "anchors": [],
+      "sourceIdentities": [],
+      "recordType": "open-question",
+      "status": "open",
+      "question": "What should be verified next?"
+    },
+    "command": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:human",
+      "expectedGeneration": 1,
+      "kind": "human-research-command",
+      "idempotencyKey": "human:fixture:command:one",
+      "action": "create",
+      "entry": {
+        "recordType": "research-note",
+        "noteKind": "commentary",
+        "body": "A human research note, not an Agent checkpoint."
+      },
+      "sourceRefs": [],
+      "selections": []
+    },
+    "receipt": {
+      "schemaVersion": 1,
+      "kind": "human-research-receipt",
+      "status": "committed",
+      "operationId": "human-op:1111111111111111111111111111111111111111111111111111111111111111",
+      "idempotencyKey": "human:fixture:command:one",
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actorId": "actor:human",
+      "workspaceId": "workspace:human",
+      "conversationId": "conversation:human",
+      "bindingId": "binding:human",
+      "generation": 1,
+      "action": "create",
+      "recordId": "note:human",
+      "recordType": "research-note",
+      "recordVersion": 1,
+      "committedAt": "2026-09-09T00:00:00Z"
+    },
+    "operation": {
+      "schemaVersion": 1,
+      "kind": "human-research-operation",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:human",
+        "conversationId": "conversation:human",
+        "workspaceId": "workspace:human",
+        "ownerActorId": "actor:human",
+        "investigationId": null,
+        "runtimeSessionId": "session:human",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "operationId": "human-op:1111111111111111111111111111111111111111111111111111111111111111",
+      "receipt": {
+        "schemaVersion": 1,
+        "kind": "human-research-receipt",
+        "status": "committed",
+        "operationId": "human-op:1111111111111111111111111111111111111111111111111111111111111111",
+        "idempotencyKey": "human:fixture:command:one",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "actorId": "actor:human",
+        "workspaceId": "workspace:human",
+        "conversationId": "conversation:human",
+        "bindingId": "binding:human",
+        "generation": 1,
+        "action": "create",
+        "recordId": "note:human",
+        "recordType": "research-note",
+        "recordVersion": 1,
+        "committedAt": "2026-09-09T00:00:00Z"
+      }
+    },
+    "query": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:human",
+      "expectedGeneration": 1,
+      "kind": "human-research-query",
+      "view": "workspace",
+      "recordTypes": [
+        "research-note",
+        "open-question",
+        "project-decision",
+        "research-policy"
+      ],
+      "recordStatuses": [
+        "active",
+        "open",
+        "resolved",
+        "archived"
+      ],
+      "maxItems": 50,
+      "maxChars": 12000
+    },
+    "workspace": {
+      "schemaVersion": 1,
+      "kind": "human-research-workspace",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:human",
+        "conversationId": "conversation:human",
+        "workspaceId": "workspace:human",
+        "ownerActorId": "actor:human",
+        "investigationId": null,
+        "runtimeSessionId": "session:human",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "research-notebook",
+        "workspaceId": "workspace:human",
+        "investigationId": "investigation:human",
+        "scopeVersionId": "scope:human",
+        "view": "workspace",
+        "queryHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "items": [],
+        "pageInfo": {
+          "schemaVersion": 1,
+          "limit": 50,
+          "returned": 0,
+          "total": 0,
+          "usedChars": 0,
+          "truncated": false,
+          "completeness": "candidate"
+        }
+      }
+    },
+    "entry": {
+      "schemaVersion": 1,
+      "kind": "human-research-entry",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:human",
+        "conversationId": "conversation:human",
+        "workspaceId": "workspace:human",
+        "ownerActorId": "actor:human",
+        "investigationId": null,
+        "runtimeSessionId": "session:human",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "entry": {
+        "schemaVersion": 1,
+        "kind": "notebook-entry",
+        "conversationId": "conversation:human",
+        "recordId": "note:human",
+        "recordType": "research-note",
+        "investigationId": "investigation:human",
+        "sourceSessionId": "conversation:human",
+        "scopeVersionId": "scope:human",
+        "version": 1,
+        "status": "active",
+        "text": "A human research note, not an Agent checkpoint.",
+        "locators": [],
+        "evidence": [],
+        "authoredBy": "user",
+        "verificationStatus": "unverified-lead"
+      },
+      "useStatus": "unverified-lead"
+    },
+    "governanceEntry": {
+      "schemaVersion": 1,
+      "kind": "human-research-entry",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:human",
+        "conversationId": "conversation:human",
+        "workspaceId": "workspace:human",
+        "ownerActorId": "actor:human",
+        "investigationId": null,
+        "runtimeSessionId": "session:human",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "entry": {
+        "schemaVersion": 1,
+        "recordId": "decision:human",
+        "workspaceId": "workspace:human",
+        "investigationId": "investigation:human",
+        "sourceSessionId": "conversation:human",
+        "sourceScopeVersionId": "scope:human",
+        "recordType": "project-decision",
+        "version": 1,
+        "status": "active",
+        "createdBy": {
+          "kind": "user",
+          "actorId": "actor:human"
+        },
+        "updatedBy": {
+          "kind": "user",
+          "actorId": "actor:human"
+        },
+        "createdAt": "2026-09-09T00:00:00Z",
+        "updatedAt": "2026-09-09T00:00:00Z",
+        "title": "Human decision",
+        "decision": "Investigate the original documents.",
+        "rationale": "This is a work decision, not a factual conclusion."
+      },
+      "useStatus": "user-governance"
+    },
+    "overlayQuery": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:human",
+      "expectedGeneration": 1,
+      "kind": "human-research-overlay-query",
+      "view": "workspace",
+      "source": {
+        "documentId": "doc:annual-report",
+        "revisionId": "rev:annual-report:2026-06"
+      },
+      "recordTypes": [
+        "research-note",
+        "open-question"
+      ],
+      "maxItems": 50,
+      "maxChars": 20000
+    },
+    "overlay": {
+      "schemaVersion": 1,
+      "kind": "human-research-overlay",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:human",
+        "conversationId": "conversation:human",
+        "workspaceId": "workspace:human",
+        "ownerActorId": "actor:human",
+        "investigationId": null,
+        "runtimeSessionId": "session:human",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "tree-overlay",
+        "workspaceId": "workspace:human",
+        "investigationId": "investigation:human",
+        "scopeVersionId": "scope:human",
+        "source": {
+          "documentId": "doc:annual-report",
+          "revisionId": "rev:annual-report:2026-06",
+          "representationId": "rep:annual-report:markdown",
+          "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "queryHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "items": [],
+        "pageInfo": {
+          "schemaVersion": 1,
+          "limit": 50,
+          "returned": 0,
+          "total": 0,
+          "usedChars": 0,
+          "truncated": false,
+          "completeness": "candidate"
+        }
+      }
+    }
+  },
+  "vectors": [
+    { "id": "overlayVersions", "name": "empty version metadata preserves old overlay semantics", "contract": "human-research", "value": { "$template": "overlay" }, "patches": [{ "path": ["recordVersions"], "value": [] }] },
+    {
+      "id": "record",
+      "name": "record",
+      "contract": "human-research",
+      "value": {
+        "$template": "record"
+      }
+    },
+    {
+      "id": "anchoredRecord",
+      "name": "anchoredRecord",
+      "contract": "human-research",
+      "value": {
+        "$template": "anchoredRecord"
+      }
+    },
+    {
+      "id": "questionRecord",
+      "name": "questionRecord",
+      "contract": "human-research",
+      "value": {
+        "$template": "questionRecord"
+      }
+    },
+    {
+      "id": "command",
+      "name": "command",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      }
+    },
+    {
+      "id": "receipt",
+      "name": "receipt",
+      "contract": "human-research",
+      "value": {
+        "$template": "receipt"
+      }
+    },
+    {
+      "id": "operation",
+      "name": "operation",
+      "contract": "human-research",
+      "value": {
+        "$template": "operation"
+      }
+    },
+    {
+      "id": "query",
+      "name": "query",
+      "contract": "human-research",
+      "value": {
+        "$template": "query"
+      }
+    },
+    {
+      "id": "workspace",
+      "name": "workspace",
+      "contract": "human-research",
+      "value": {
+        "$template": "workspace"
+      }
+    },
+    {
+      "id": "entry",
+      "name": "entry",
+      "contract": "human-research",
+      "value": {
+        "$template": "entry"
+      }
+    },
+    {
+      "id": "governanceEntry",
+      "name": "governanceEntry",
+      "contract": "human-research",
+      "value": {
+        "$template": "governanceEntry"
+      }
+    },
+    {
+      "id": "overlayQuery",
+      "name": "overlayQuery",
+      "contract": "human-research",
+      "value": {
+        "$template": "overlayQuery"
+      }
+    },
+    {
+      "id": "overlay",
+      "name": "overlay",
+      "contract": "human-research",
+      "value": {
+        "$template": "overlay"
+      }
+    },
+    {
+      "id": "selected-note",
+      "name": "selected-note",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "selections"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 17,
+              "quote": "Revenue increased by 12%."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "question-create",
+      "name": "question-create",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "open-question",
+            "question": "What needs checking?"
+          }
+        }
+      ]
+    },
+    {
+      "id": "selected-question",
+      "name": "selected-question",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "open-question",
+            "question": "What does this paragraph mean?"
+          }
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 17,
+              "quote": "Revenue increased by 12%."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "associated-free-note",
+      "name": "associated-free-note",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision-create",
+      "name": "decision-create",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "project-decision",
+            "title": "Review",
+            "decision": "Read both originals."
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy-create",
+      "name": "policy-create",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "research-policy",
+            "title": "Source rule",
+            "directive": "Keep primary sources visible.",
+            "policyScope": "workspace"
+          }
+        }
+      ]
+    },
+    {
+      "id": "edit-command",
+      "name": "edit-command",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "edit"
+        },
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "note:human"
+        },
+        {
+          "path": [
+            "expectedVersion"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "text"
+          ],
+          "value": "Updated full research text."
+        }
+      ]
+    },
+    {
+      "id": "edit-receipt",
+      "name": "edit-receipt",
+      "contract": "human-research",
+      "value": {
+        "$template": "receipt"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "edit"
+        },
+        {
+          "path": [
+            "recordVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "resolve-command",
+      "name": "resolve-command",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "resolve"
+        },
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "question:human"
+        },
+        {
+          "path": [
+            "expectedVersion"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry"
+          ],
+          "remove": true
+        }
+      ]
+    },
+    {
+      "id": "resolve-receipt",
+      "name": "resolve-receipt",
+      "contract": "human-research",
+      "value": {
+        "$template": "receipt"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "resolve"
+        },
+        {
+          "path": [
+            "recordVersion"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "open-question"
+        }
+      ]
+    },
+    {
+      "id": "archive-command",
+      "name": "archive-command",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "archive"
+        },
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "note:human"
+        },
+        {
+          "path": [
+            "expectedVersion"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry"
+          ],
+          "remove": true
+        }
+      ]
+    },
+    {
+      "id": "archive-receipt",
+      "name": "archive-receipt",
+      "contract": "human-research",
+      "value": {
+        "$template": "receipt"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "archive"
+        },
+        {
+          "path": [
+            "recordVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "delete-command",
+      "name": "delete-command",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "delete"
+        },
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "note:human"
+        },
+        {
+          "path": [
+            "expectedVersion"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry"
+          ],
+          "remove": true
+        }
+      ]
+    },
+    {
+      "id": "delete-receipt",
+      "name": "delete-receipt",
+      "contract": "human-research",
+      "value": {
+        "$template": "receipt"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "delete"
+        },
+        {
+          "path": [
+            "recordVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "revise-command",
+      "name": "revise-command",
+      "contract": "human-research",
+      "value": {
+        "$template": "command"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "revise"
+        },
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "decision:human"
+        },
+        {
+          "path": [
+            "expectedVersion"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "project-decision",
+            "title": "Updated decision",
+            "decision": "Continue with a new source."
+          }
+        }
+      ]
+    },
+    {
+      "id": "revise-receipt",
+      "name": "revise-receipt",
+      "contract": "human-research",
+      "value": {
+        "$template": "receipt"
+      },
+      "patches": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "revise"
+        },
+        {
+          "path": [
+            "recordVersion"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "project-decision"
+        }
+      ]
+    },
+    {
+      "id": "empty-operation",
+      "name": "empty-operation",
+      "contract": "human-research",
+      "value": {
+        "$template": "operation"
+      },
+      "patches": [
+        {
+          "path": [
+            "receipt"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "historical-operation",
+      "name": "historical-operation",
+      "contract": "human-research",
+      "value": {
+        "$template": "operation"
+      },
+      "patches": [
+        {
+          "path": [
+            "binding",
+            "generation"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "binding",
+            "version"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "binding",
+            "bindingId"
+          ],
+          "value": "binding:new"
+        }
+      ]
+    },
+    {
+      "id": "deleted-note-entry",
+      "name": "deleted-note-entry",
+      "contract": "human-research",
+      "value": {
+        "$template": "entry"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "status"
+          ],
+          "value": "deleted"
+        },
+        {
+          "path": [
+            "entry",
+            "version"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "entry",
+            "text"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "archived-governance",
+      "name": "archived-governance",
+      "contract": "human-research",
+      "value": {
+        "$template": "governanceEntry"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "status"
+          ],
+          "value": "archived"
+        },
+        {
+          "path": [
+            "entry",
+            "version"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "deleted-governance",
+      "name": "deleted-governance",
+      "contract": "human-research",
+      "value": {
+        "$template": "governanceEntry"
+      },
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "status"
+          ],
+          "value": "deleted"
+        },
+        {
+          "path": [
+            "entry",
+            "version"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "entry",
+            "title"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry",
+            "decision"
+          ],
+          "remove": true
+        },
+        {
+          "path": [
+            "entry",
+            "rationale"
+          ],
+          "remove": true
+        }
+      ]
+    }
+  ],
+  "invalidShape": [
+    { "name": "overlay record version must be positive", "vector": "overlay", "patches": [{ "path": ["recordVersions"], "value": [{ "recordId": "note:one", "version": 0, "authoredBy": "user" }] }] },
+    { "name": "overlay authorship cannot be an invented authority", "vector": "overlay", "patches": [{ "path": ["recordVersions"], "value": [{ "recordId": "note:one", "version": 1, "authoredBy": "system" }] }] },
+    {
+      "name": "command-unknown-version",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "command-unknown-field",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "receipt-unknown-version",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "receipt-unknown-field",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "query-unknown-version",
+      "vector": "query",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "query-unknown-field",
+      "vector": "query",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "operation-unknown-version",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "operation-unknown-field",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "workspace-unknown-version",
+      "vector": "workspace",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "workspace-unknown-field",
+      "vector": "workspace",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "entry-unknown-version",
+      "vector": "entry",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "entry-unknown-field",
+      "vector": "entry",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "overlayQuery-unknown-version",
+      "vector": "overlayQuery",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "overlayQuery-unknown-field",
+      "vector": "overlayQuery",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "overlay-unknown-version",
+      "vector": "overlay",
+      "patches": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "overlay-unknown-field",
+      "vector": "overlay",
+      "patches": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/files"
+        }
+      ]
+    },
+    {
+      "name": "record-agent-is-not-human",
+      "vector": "record",
+      "patches": [
+        {
+          "path": [
+            "createdBy",
+            "kind"
+          ],
+          "value": "agent"
+        }
+      ]
+    },
+    {
+      "name": "record-no-fake-call",
+      "vector": "record",
+      "patches": [
+        {
+          "path": [
+            "provenanceCallId"
+          ],
+          "value": "tool:fake"
+        }
+      ]
+    },
+    {
+      "name": "record-no-evidence-copy",
+      "vector": "record",
+      "patches": [
+        {
+          "path": [
+            "evidence"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "record-unverified-only",
+      "vector": "record",
+      "patches": [
+        {
+          "path": [
+            "epistemicStatus"
+          ],
+          "value": "verified"
+        }
+      ]
+    },
+    {
+      "name": "record-no-checkpoint-kind",
+      "vector": "record",
+      "patches": [
+        {
+          "path": [
+            "noteKind"
+          ],
+          "value": "checkpoint"
+        }
+      ]
+    },
+    {
+      "name": "empty-human-body",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "body"
+          ],
+          "value": "  \n "
+        }
+      ]
+    },
+    {
+      "name": "body-over-budget",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "body"
+          ],
+          "value": "🔬",
+          "repeat": 4001
+        }
+      ]
+    },
+    {
+      "name": "no-browser-author",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "actor:forged"
+        }
+      ]
+    },
+    {
+      "name": "no-browser-canonical-anchors",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "anchors"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "new-command-requires-binding",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "expectedBindingId"
+          ],
+          "remove": true
+        }
+      ]
+    },
+    {
+      "name": "command-small-key",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "idempotencyKey"
+          ],
+          "value": "short"
+        }
+      ]
+    },
+    {
+      "name": "command-no-ticket",
+      "vector": "selected-note",
+      "patches": [
+        {
+          "path": [
+            "selectionContextId"
+          ],
+          "value": "selection:ask"
+        }
+      ]
+    },
+    {
+      "name": "create-no-CAS-target",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "note:wrong"
+        }
+      ]
+    },
+    {
+      "name": "edit-no-typed-replacement",
+      "vector": "edit-command",
+      "patches": [
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "research-note",
+            "noteKind": "commentary",
+            "body": "A human research note, not an Agent checkpoint."
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolve-no-free-text",
+      "vector": "resolve-command",
+      "patches": [
+        {
+          "path": [
+            "text"
+          ],
+          "value": "Pretend resolve"
+        }
+      ]
+    },
+    {
+      "name": "revise-only-governance",
+      "vector": "revise-command",
+      "patches": [
+        {
+          "path": [
+            "entry"
+          ],
+          "value": {
+            "recordType": "research-note",
+            "noteKind": "commentary",
+            "body": "A human research note, not an Agent checkpoint."
+          }
+        }
+      ]
+    },
+    {
+      "name": "query-no-native-types",
+      "vector": "query",
+      "patches": [
+        {
+          "path": [
+            "recordTypes"
+          ],
+          "value": [
+            "evidence-bookmark"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query-no-duplicate-types",
+      "vector": "query",
+      "patches": [
+        {
+          "path": [
+            "recordTypes"
+          ],
+          "value": [
+            "research-note",
+            "research-note"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query-no-deleted-current-prose",
+      "vector": "query",
+      "patches": [
+        {
+          "path": [
+            "recordStatuses"
+          ],
+          "value": [
+            "deleted"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "operation-ID-not-call",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "operationId"
+          ],
+          "value": "call:one"
+        }
+      ]
+    },
+    {
+      "name": "receipt-hash-required",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "requestHash"
+          ],
+          "remove": true
+        }
+      ]
+    },
+    {
+      "name": "receipt-no-prose-copy",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "text"
+          ],
+          "value": "Deleted text must not reappear."
+        }
+      ]
+    },
+    {
+      "name": "receipt-no-accepted-effect",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "accepted"
+        }
+      ]
+    },
+    {
+      "name": "receipt-no-native-fields",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "nativeToolCallId"
+          ],
+          "value": "tool:one"
+        }
+      ]
+    },
+    {
+      "name": "too-many-proposals",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "selections"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 1,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 2,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 3,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 4,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 5,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 6,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 7,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 8,
+              "quote": "Revenue increased by 12%."
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 9,
+              "quote": "Revenue increased by 12%."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "invalidSemantic": [
+    { "name": "version metadata cannot disclose records outside the returned overlay", "vector": "overlay", "patches": [{ "path": ["recordVersions"], "value": [{ "recordId": "note:foreign", "version": 1, "authoredBy": "user" }] }] },
+    {
+      "name": "governance-no-invented-anchor",
+      "vector": "policy-create",
+      "patches": [
+        {
+          "path": [
+            "selections"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 17,
+              "quote": "Revenue increased by 12%."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "human-anchor-source-mismatch",
+      "vector": "anchoredRecord",
+      "patches": [
+        {
+          "path": [
+            "sourceIdentities"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "human-anchor-text-mismatch",
+      "vector": "anchoredRecord",
+      "patches": [
+        {
+          "path": [
+            "anchors",
+            0,
+            "text"
+          ],
+          "value": "Different saved text"
+        }
+      ]
+    },
+    {
+      "name": "human-anchor-duplicate",
+      "vector": "anchoredRecord",
+      "patches": [
+        {
+          "path": [
+            "anchors"
+          ],
+          "value": [
+            {
+              "locator": {
+                "schemaVersion": 1,
+                "locatorId": "loc:revenue-growth",
+                "documentId": "doc:annual-report",
+                "revisionId": "rev:annual-report:2026-06",
+                "representationId": "rep:annual-report:markdown",
+                "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "physicalPage": 17,
+                "selectors": [
+                  {
+                    "type": "block",
+                    "blockId": "p00017.b00004.text.abc123"
+                  },
+                  {
+                    "type": "text-quote",
+                    "exact": "Revenue increased by 12%.",
+                    "prefix": "For the year, ",
+                    "suffix": " Cloud services led growth.",
+                    "normalizedHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338"
+                  },
+                  {
+                    "type": "text-position",
+                    "start": 1024,
+                    "end": 1049,
+                    "unit": "unicode-scalar"
+                  },
+                  {
+                    "type": "bbox",
+                    "unit": "ratio",
+                    "x": 0.12,
+                    "y": 0.3,
+                    "width": 0.5,
+                    "height": 0.05,
+                    "rotation": 0
+                  }
+                ],
+                "createdAt": "2026-08-30T00:03:00Z"
+              },
+              "text": "Revenue increased by 12%."
+            },
+            {
+              "locator": {
+                "schemaVersion": 1,
+                "locatorId": "loc:revenue-growth",
+                "documentId": "doc:annual-report",
+                "revisionId": "rev:annual-report:2026-06",
+                "representationId": "rep:annual-report:markdown",
+                "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "physicalPage": 17,
+                "selectors": [
+                  {
+                    "type": "block",
+                    "blockId": "p00017.b00004.text.abc123"
+                  },
+                  {
+                    "type": "text-quote",
+                    "exact": "Revenue increased by 12%.",
+                    "prefix": "For the year, ",
+                    "suffix": " Cloud services led growth.",
+                    "normalizedHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338"
+                  },
+                  {
+                    "type": "text-position",
+                    "start": 1024,
+                    "end": 1049,
+                    "unit": "unicode-scalar"
+                  },
+                  {
+                    "type": "bbox",
+                    "unit": "ratio",
+                    "x": 0.12,
+                    "y": 0.3,
+                    "width": 0.5,
+                    "height": 0.05,
+                    "rotation": 0
+                  }
+                ],
+                "createdAt": "2026-08-30T00:03:00Z"
+              },
+              "text": "Revenue increased by 12%."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "two-representations-one-associated-revision",
+      "vector": "anchoredRecord",
+      "patches": [
+        {
+          "path": [
+            "sourceIdentities"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "representationId": "rep:annual-report:markdown",
+              "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "representationId": "representation:other",
+              "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create-receipt-version-two",
+      "vector": "receipt",
+      "patches": [
+        {
+          "path": [
+            "recordVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "edit-cannot-governance",
+      "vector": "edit-receipt",
+      "patches": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "project-decision"
+        }
+      ]
+    },
+    {
+      "name": "resolve-cannot-note",
+      "vector": "resolve-receipt",
+      "patches": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "research-note"
+        }
+      ]
+    },
+    {
+      "name": "revise-cannot-note",
+      "vector": "revise-receipt",
+      "patches": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "research-note"
+        }
+      ]
+    },
+    {
+      "name": "operation-actorId-mismatch",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "receipt",
+            "actorId"
+          ],
+          "value": "actor:foreign"
+        }
+      ]
+    },
+    {
+      "name": "operation-workspaceId-mismatch",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "receipt",
+            "workspaceId"
+          ],
+          "value": "workspace:foreign"
+        }
+      ]
+    },
+    {
+      "name": "operation-conversationId-mismatch",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "receipt",
+            "conversationId"
+          ],
+          "value": "conversation:foreign"
+        }
+      ]
+    },
+    {
+      "name": "operation-bindingId-mismatch",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "receipt",
+            "bindingId"
+          ],
+          "value": "binding:foreign"
+        }
+      ]
+    },
+    {
+      "name": "operation-generation-mismatch",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "receipt",
+            "generation"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "operation-identity-mismatch",
+      "vector": "operation",
+      "patches": [
+        {
+          "path": [
+            "receipt",
+            "operationId"
+          ],
+          "value": "human-op:2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ]
+    },
+    {
+      "name": "workspace-owner-mismatch",
+      "vector": "workspace",
+      "patches": [
+        {
+          "path": [
+            "result",
+            "workspaceId"
+          ],
+          "value": "workspace:foreign"
+        }
+      ]
+    },
+    {
+      "name": "entry-governance-is-not-evidence",
+      "vector": "governanceEntry",
+      "patches": [
+        {
+          "path": [
+            "useStatus"
+          ],
+          "value": "unverified-lead"
+        }
+      ]
+    },
+    {
+      "name": "entry-note-is-not-governance",
+      "vector": "entry",
+      "patches": [
+        {
+          "path": [
+            "useStatus"
+          ],
+          "value": "user-governance"
+        }
+      ]
+    },
+    {
+      "name": "entry-conversation-mismatch",
+      "vector": "entry",
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "conversationId"
+          ],
+          "value": "conversation:foreign"
+        }
+      ]
+    },
+    {
+      "name": "deleted-entry-no-prose",
+      "vector": "deleted-note-entry",
+      "patches": [
+        {
+          "path": [
+            "entry",
+            "text"
+          ],
+          "value": "Removed text"
+        }
+      ]
+    },
+    {
+      "name": "overlay-owner-mismatch",
+      "vector": "overlay",
+      "patches": [
+        {
+          "path": [
+            "result",
+            "workspaceId"
+          ],
+          "value": "workspace:foreign"
+        }
+      ]
+    },
+    {
+      "name": "selection-total-budget",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "selections"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 1,
+              "quote": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 2,
+              "quote": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 3,
+              "quote": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 4,
+              "quote": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 5,
+              "quote": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "source-plus-anchor-total-budget",
+      "vector": "command",
+      "patches": [
+        {
+          "path": [
+            "sourceRefs"
+          ],
+          "value": [
+            {
+              "documentId": "document:0",
+              "revisionId": "revision:0"
+            },
+            {
+              "documentId": "document:1",
+              "revisionId": "revision:1"
+            },
+            {
+              "documentId": "document:2",
+              "revisionId": "revision:2"
+            },
+            {
+              "documentId": "document:3",
+              "revisionId": "revision:3"
+            },
+            {
+              "documentId": "document:4",
+              "revisionId": "revision:4"
+            },
+            {
+              "documentId": "document:5",
+              "revisionId": "revision:5"
+            },
+            {
+              "documentId": "document:6",
+              "revisionId": "revision:6"
+            },
+            {
+              "documentId": "document:7",
+              "revisionId": "revision:7"
+            },
+            {
+              "documentId": "document:8",
+              "revisionId": "revision:8"
+            },
+            {
+              "documentId": "document:9",
+              "revisionId": "revision:9"
+            },
+            {
+              "documentId": "document:10",
+              "revisionId": "revision:10"
+            },
+            {
+              "documentId": "document:11",
+              "revisionId": "revision:11"
+            },
+            {
+              "documentId": "document:12",
+              "revisionId": "revision:12"
+            },
+            {
+              "documentId": "document:13",
+              "revisionId": "revision:13"
+            },
+            {
+              "documentId": "document:14",
+              "revisionId": "revision:14"
+            },
+            {
+              "documentId": "document:15",
+              "revisionId": "revision:15"
+            },
+            {
+              "documentId": "document:16",
+              "revisionId": "revision:16"
+            },
+            {
+              "documentId": "document:17",
+              "revisionId": "revision:17"
+            },
+            {
+              "documentId": "document:18",
+              "revisionId": "revision:18"
+            },
+            {
+              "documentId": "document:19",
+              "revisionId": "revision:19"
+            },
+            {
+              "documentId": "document:20",
+              "revisionId": "revision:20"
+            },
+            {
+              "documentId": "document:21",
+              "revisionId": "revision:21"
+            },
+            {
+              "documentId": "document:22",
+              "revisionId": "revision:22"
+            },
+            {
+              "documentId": "document:23",
+              "revisionId": "revision:23"
+            },
+            {
+              "documentId": "document:24",
+              "revisionId": "revision:24"
+            },
+            {
+              "documentId": "document:25",
+              "revisionId": "revision:25"
+            },
+            {
+              "documentId": "document:26",
+              "revisionId": "revision:26"
+            },
+            {
+              "documentId": "document:27",
+              "revisionId": "revision:27"
+            },
+            {
+              "documentId": "document:28",
+              "revisionId": "revision:28"
+            },
+            {
+              "documentId": "document:29",
+              "revisionId": "revision:29"
+            },
+            {
+              "documentId": "document:30",
+              "revisionId": "revision:30"
+            },
+            {
+              "documentId": "document:31",
+              "revisionId": "revision:31"
+            },
+            {
+              "documentId": "document:32",
+              "revisionId": "revision:32"
+            },
+            {
+              "documentId": "document:33",
+              "revisionId": "revision:33"
+            },
+            {
+              "documentId": "document:34",
+              "revisionId": "revision:34"
+            },
+            {
+              "documentId": "document:35",
+              "revisionId": "revision:35"
+            },
+            {
+              "documentId": "document:36",
+              "revisionId": "revision:36"
+            },
+            {
+              "documentId": "document:37",
+              "revisionId": "revision:37"
+            },
+            {
+              "documentId": "document:38",
+              "revisionId": "revision:38"
+            },
+            {
+              "documentId": "document:39",
+              "revisionId": "revision:39"
+            },
+            {
+              "documentId": "document:40",
+              "revisionId": "revision:40"
+            },
+            {
+              "documentId": "document:41",
+              "revisionId": "revision:41"
+            },
+            {
+              "documentId": "document:42",
+              "revisionId": "revision:42"
+            },
+            {
+              "documentId": "document:43",
+              "revisionId": "revision:43"
+            },
+            {
+              "documentId": "document:44",
+              "revisionId": "revision:44"
+            },
+            {
+              "documentId": "document:45",
+              "revisionId": "revision:45"
+            },
+            {
+              "documentId": "document:46",
+              "revisionId": "revision:46"
+            },
+            {
+              "documentId": "document:47",
+              "revisionId": "revision:47"
+            },
+            {
+              "documentId": "document:48",
+              "revisionId": "revision:48"
+            },
+            {
+              "documentId": "document:49",
+              "revisionId": "revision:49"
+            },
+            {
+              "documentId": "document:50",
+              "revisionId": "revision:50"
+            },
+            {
+              "documentId": "document:51",
+              "revisionId": "revision:51"
+            },
+            {
+              "documentId": "document:52",
+              "revisionId": "revision:52"
+            },
+            {
+              "documentId": "document:53",
+              "revisionId": "revision:53"
+            },
+            {
+              "documentId": "document:54",
+              "revisionId": "revision:54"
+            },
+            {
+              "documentId": "document:55",
+              "revisionId": "revision:55"
+            },
+            {
+              "documentId": "document:56",
+              "revisionId": "revision:56"
+            },
+            {
+              "documentId": "document:57",
+              "revisionId": "revision:57"
+            },
+            {
+              "documentId": "document:58",
+              "revisionId": "revision:58"
+            },
+            {
+              "documentId": "document:59",
+              "revisionId": "revision:59"
+            },
+            {
+              "documentId": "document:60",
+              "revisionId": "revision:60"
+            },
+            {
+              "documentId": "document:61",
+              "revisionId": "revision:61"
+            },
+            {
+              "documentId": "document:62",
+              "revisionId": "revision:62"
+            },
+            {
+              "documentId": "document:63",
+              "revisionId": "revision:63"
+            }
+          ]
+        },
+        {
+          "path": [
+            "selections"
+          ],
+          "value": [
+            {
+              "documentId": "doc:annual-report",
+              "revisionId": "rev:annual-report:2026-06",
+              "physicalPage": 17,
+              "quote": "Revenue increased by 12%."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

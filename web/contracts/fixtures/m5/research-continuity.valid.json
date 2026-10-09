@@ -1,0 +1,618 @@
+{
+  "assessments": {
+    "continuing": {
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:finance:current",
+        "workspaceId": "workspace:finance",
+        "investigationId": "investigation:finance:current",
+        "scopeVersionId": "scope:finance:4",
+        "priorRecordId": "claim:finance:margin:prior",
+        "priorSources": [
+          {
+            "documentId": "doc:finance:quarterly",
+            "revisionId": "rev:finance:q1",
+            "representationId": "rep:finance:q1:text",
+            "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "currentSources": [
+          {
+            "documentId": "doc:finance:quarterly",
+            "revisionId": "rev:finance:q2",
+            "representationId": "rep:finance:q2:text",
+            "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ],
+        "proposedState": "continuing",
+        "priorEvidenceIds": ["evidence:finance:q1:margin"],
+        "currentEvidenceIds": ["evidence:finance:q2:margin"],
+        "rationale": "Both filings use the same adjusted-margin definition and report the covenant remains satisfied.",
+        "idempotencyKey": "idempotency:continuity:finance:1"
+      },
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:finance:1",
+          "workspaceId": "workspace:finance",
+          "investigationId": "investigation:finance:current",
+          "scopeVersionId": "scope:finance:4",
+          "priorRecordId": "claim:finance:margin:prior",
+          "priorSources": [
+            {
+              "documentId": "doc:finance:quarterly",
+              "revisionId": "rev:finance:q1",
+              "representationId": "rep:finance:q1:text",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "currentSources": [
+            {
+              "documentId": "doc:finance:quarterly",
+              "revisionId": "rev:finance:q2",
+              "representationId": "rep:finance:q2:text",
+              "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ],
+          "state": "continuing",
+          "verificationStatus": "reverified",
+          "priorEvidenceIds": ["evidence:finance:q1:margin"],
+          "currentEvidenceIds": ["evidence:finance:q2:margin"],
+          "rationale": "Both filings use the same adjusted-margin definition and report the covenant remains satisfied.",
+          "createdBy": { "kind": "agent", "actorId": "agent:dsh:finance" },
+          "createdAt": "2026-08-31T13:00:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:finance",
+          "investigationId": "investigation:finance:current",
+          "scopeVersionId": "scope:finance:4",
+          "sources": [
+            {
+              "documentId": "doc:finance:quarterly",
+              "revisionId": "rev:finance:q1",
+              "representationId": "rep:finance:q1:text",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "documentId": "doc:finance:quarterly",
+              "revisionId": "rev:finance:q2",
+              "representationId": "rep:finance:q2:text",
+              "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "evidenceId": "evidence:finance:q1:margin",
+            "source": {
+              "documentId": "doc:finance:quarterly",
+              "revisionId": "rev:finance:q1",
+              "representationId": "rep:finance:q1:text",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "scopeVersionId": "scope:finance:4",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          },
+          {
+            "evidenceId": "evidence:finance:q2:margin",
+            "source": {
+              "documentId": "doc:finance:quarterly",
+              "revisionId": "rev:finance:q2",
+              "representationId": "rep:finance:q2:text",
+              "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            "scopeVersionId": "scope:finance:4",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          }
+        ]
+      }
+    },
+    "changed": {
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:contract:current",
+        "workspaceId": "workspace:contract",
+        "investigationId": "investigation:contract:renewal",
+        "scopeVersionId": "scope:contract:2",
+        "priorRecordId": "claim:contract:termination-window",
+        "priorSources": [
+          {
+            "documentId": "doc:contract:master",
+            "revisionId": "rev:contract:1",
+            "representationId": "rep:contract:1:text",
+            "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ],
+        "currentSources": [
+          {
+            "documentId": "doc:contract:master",
+            "revisionId": "rev:contract:2",
+            "representationId": "rep:contract:2:text",
+            "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        ],
+        "proposedState": "changed",
+        "priorEvidenceIds": ["evidence:contract:1:termination"],
+        "currentEvidenceIds": ["evidence:contract:2:termination"],
+        "rationale": "The signed amendment changes the notice period from 30 to 60 days.",
+        "idempotencyKey": "idempotency:continuity:contract:1"
+      },
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:contract:1",
+          "workspaceId": "workspace:contract",
+          "investigationId": "investigation:contract:renewal",
+          "scopeVersionId": "scope:contract:2",
+          "priorRecordId": "claim:contract:termination-window",
+          "priorSources": [
+            {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:1",
+              "representationId": "rep:contract:1:text",
+              "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "currentSources": [
+            {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:2",
+              "representationId": "rep:contract:2:text",
+              "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+            }
+          ],
+          "state": "changed",
+          "verificationStatus": "reverified",
+          "priorEvidenceIds": ["evidence:contract:1:termination"],
+          "currentEvidenceIds": ["evidence:contract:2:termination"],
+          "rationale": "The signed amendment changes the notice period from 30 to 60 days.",
+          "createdBy": { "kind": "user", "actorId": "user:contract:reviewer" },
+          "createdAt": "2026-08-31T13:01:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:contract",
+          "investigationId": "investigation:contract:renewal",
+          "scopeVersionId": "scope:contract:2",
+          "sources": [
+            {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:1",
+              "representationId": "rep:contract:1:text",
+              "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            },
+            {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:2",
+              "representationId": "rep:contract:2:text",
+              "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "evidenceId": "evidence:contract:1:termination",
+            "source": {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:1",
+              "representationId": "rep:contract:1:text",
+              "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            },
+            "scopeVersionId": "scope:contract:2",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          },
+          {
+            "evidenceId": "evidence:contract:2:termination",
+            "source": {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:2",
+              "representationId": "rep:contract:2:text",
+              "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+            },
+            "scopeVersionId": "scope:contract:2",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          }
+        ]
+      }
+    },
+    "conflicted": {
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:research:current",
+        "workspaceId": "workspace:research",
+        "investigationId": "investigation:research:replication",
+        "scopeVersionId": "scope:research:7",
+        "priorRecordId": "claim:research:effect",
+        "priorSources": [
+          {
+            "documentId": "doc:research:original",
+            "revisionId": "rev:research:original:1",
+            "representationId": "rep:research:original:text",
+            "representationContentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "currentSources": [
+          {
+            "documentId": "doc:research:replication",
+            "revisionId": "rev:research:replication:1",
+            "representationId": "rep:research:replication:text",
+            "representationContentHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          },
+          {
+            "documentId": "doc:research:response",
+            "revisionId": "rev:research:response:1",
+            "representationId": "rep:research:response:text",
+            "representationContentHash": "1111111111111111111111111111111111111111111111111111111111111111"
+          }
+        ],
+        "proposedState": "conflicted",
+        "priorEvidenceIds": ["evidence:research:original:effect"],
+        "currentEvidenceIds": ["evidence:research:replication:null", "evidence:research:response:effect"],
+        "rationale": "The replication reports no effect under the same protocol while the author response maintains the original effect.",
+        "idempotencyKey": "idempotency:continuity:research:1"
+      },
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:research:1",
+          "workspaceId": "workspace:research",
+          "investigationId": "investigation:research:replication",
+          "scopeVersionId": "scope:research:7",
+          "priorRecordId": "claim:research:effect",
+          "priorSources": [
+            {
+              "documentId": "doc:research:original",
+              "revisionId": "rev:research:original:1",
+              "representationId": "rep:research:original:text",
+              "representationContentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            }
+          ],
+          "currentSources": [
+            {
+              "documentId": "doc:research:replication",
+              "revisionId": "rev:research:replication:1",
+              "representationId": "rep:research:replication:text",
+              "representationContentHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "documentId": "doc:research:response",
+              "revisionId": "rev:research:response:1",
+              "representationId": "rep:research:response:text",
+              "representationContentHash": "1111111111111111111111111111111111111111111111111111111111111111"
+            }
+          ],
+          "state": "conflicted",
+          "verificationStatus": "reverified",
+          "priorEvidenceIds": ["evidence:research:original:effect"],
+          "currentEvidenceIds": ["evidence:research:replication:null", "evidence:research:response:effect"],
+          "rationale": "The replication reports no effect under the same protocol while the author response maintains the original effect.",
+          "createdBy": { "kind": "agent", "actorId": "agent:dsh:research" },
+          "createdAt": "2026-08-31T13:02:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:research",
+          "investigationId": "investigation:research:replication",
+          "scopeVersionId": "scope:research:7",
+          "sources": [
+            {
+              "documentId": "doc:research:original",
+              "revisionId": "rev:research:original:1",
+              "representationId": "rep:research:original:text",
+              "representationContentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            {
+              "documentId": "doc:research:replication",
+              "revisionId": "rev:research:replication:1",
+              "representationId": "rep:research:replication:text",
+              "representationContentHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "documentId": "doc:research:response",
+              "revisionId": "rev:research:response:1",
+              "representationId": "rep:research:response:text",
+              "representationContentHash": "1111111111111111111111111111111111111111111111111111111111111111"
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "evidenceId": "evidence:research:original:effect",
+            "source": {
+              "documentId": "doc:research:original",
+              "revisionId": "rev:research:original:1",
+              "representationId": "rep:research:original:text",
+              "representationContentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            "scopeVersionId": "scope:research:7",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          },
+          {
+            "evidenceId": "evidence:research:replication:null",
+            "source": {
+              "documentId": "doc:research:replication",
+              "revisionId": "rev:research:replication:1",
+              "representationId": "rep:research:replication:text",
+              "representationContentHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            "scopeVersionId": "scope:research:7",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          },
+          {
+            "evidenceId": "evidence:research:response:effect",
+            "source": {
+              "documentId": "doc:research:response",
+              "revisionId": "rev:research:response:1",
+              "representationId": "rep:research:response:text",
+              "representationContentHash": "1111111111111111111111111111111111111111111111111111111111111111"
+            },
+            "scopeVersionId": "scope:research:7",
+            "resolutionStatus": "resolved",
+            "status": "current"
+          }
+        ]
+      }
+    },
+    "unknown": {
+      "request": {
+        "schemaVersion": 1,
+        "requestType": "continuity-assess",
+        "sessionId": "session:audit:current",
+        "workspaceId": "workspace:audit",
+        "investigationId": "investigation:audit:current",
+        "scopeVersionId": "scope:audit:3",
+        "priorRecordId": "note:audit:prior-control",
+        "priorSources": [
+          {
+            "documentId": "doc:audit:prior-workpaper",
+            "revisionId": "rev:audit:prior:1",
+            "representationId": "rep:audit:prior:text",
+            "representationContentHash": "2222222222222222222222222222222222222222222222222222222222222222"
+          }
+        ],
+        "currentSources": [
+          {
+            "documentId": "doc:audit:current-workpaper",
+            "revisionId": "rev:audit:current:1",
+            "representationId": "rep:audit:current:text",
+            "representationContentHash": "3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ],
+        "proposedState": "unknown",
+        "rationale": "The prior workpaper is not admitted to the current source scope.",
+        "idempotencyKey": "idempotency:continuity:audit:1"
+      },
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "continuity-assessed",
+        "status": "created",
+        "link": {
+          "schemaVersion": 1,
+          "continuityLinkId": "continuity:audit:1",
+          "workspaceId": "workspace:audit",
+          "investigationId": "investigation:audit:current",
+          "scopeVersionId": "scope:audit:3",
+          "priorRecordId": "note:audit:prior-control",
+          "priorSources": [
+            {
+              "documentId": "doc:audit:prior-workpaper",
+              "revisionId": "rev:audit:prior:1",
+              "representationId": "rep:audit:prior:text",
+              "representationContentHash": "2222222222222222222222222222222222222222222222222222222222222222"
+            }
+          ],
+          "currentSources": [
+            {
+              "documentId": "doc:audit:current-workpaper",
+              "revisionId": "rev:audit:current:1",
+              "representationId": "rep:audit:current:text",
+              "representationContentHash": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ],
+          "state": "unknown",
+          "verificationStatus": "outside-scope",
+          "priorEvidenceIds": [],
+          "currentEvidenceIds": [],
+          "rationale": "The prior workpaper is not admitted to the current source scope.",
+          "createdBy": { "kind": "system", "actorId": "system:continuity-gate" },
+          "createdAt": "2026-08-31T13:03:00Z"
+        }
+      },
+      "context": {
+        "activeScope": {
+          "workspaceId": "workspace:audit",
+          "investigationId": "investigation:audit:current",
+          "scopeVersionId": "scope:audit:3",
+          "sources": [
+            {
+              "documentId": "doc:audit:current-workpaper",
+              "revisionId": "rev:audit:current:1",
+              "representationId": "rep:audit:current:text",
+              "representationContentHash": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "evidence": []
+      }
+    }
+  },
+  "revisionImpact": {
+      "pageOneRequest": {
+        "schemaVersion": 1,
+        "requestType": "revision-impact",
+        "sessionId": "session:contract:current",
+        "workspaceId": "workspace:contract",
+        "investigationId": "investigation:contract:current",
+        "scopeVersionId": "scope:contract:current",
+      "previousSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:1",
+        "representationId": "rep:contract:1:text",
+        "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "currentSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:2",
+        "representationId": "rep:contract:2:text",
+        "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "recordIds": ["claim:contract:termination-window", "note:contract:unrelated", "artifact:contract:brief"],
+      "limits": { "maxItems": 2 }
+    },
+    "pageOneResult": {
+      "schemaVersion": 1,
+      "resultType": "revision-impact",
+      "workspaceId": "workspace:contract",
+      "previousSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:1",
+        "representationId": "rep:contract:1:text",
+        "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "currentSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:2",
+        "representationId": "rep:contract:2:text",
+        "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "impacts": [
+        {
+          "recordId": "claim:contract:termination-window",
+          "status": "needs-reverify",
+          "reason": "The claim references the exact predecessor representation."
+        },
+        {
+          "recordId": "note:contract:unrelated",
+          "status": "unaffected",
+          "reason": "The note has no reference to the predecessor revision."
+        }
+      ],
+      "pageInfo": {
+        "schemaVersion": 1,
+        "limit": 2,
+        "returned": 2,
+        "total": 3,
+        "truncated": true,
+        "completeness": "partial",
+        "nextCursor": "cursor:revision-impact:contract:2"
+      }
+    },
+      "pageTwoRequest": {
+        "schemaVersion": 1,
+        "requestType": "revision-impact",
+        "sessionId": "session:contract:current",
+        "workspaceId": "workspace:contract",
+        "investigationId": "investigation:contract:current",
+        "scopeVersionId": "scope:contract:current",
+      "previousSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:1",
+        "representationId": "rep:contract:1:text",
+        "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "currentSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:2",
+        "representationId": "rep:contract:2:text",
+        "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "recordIds": ["claim:contract:termination-window", "note:contract:unrelated", "artifact:contract:brief"],
+      "limits": { "maxItems": 2 },
+      "cursor": "cursor:revision-impact:contract:2"
+    },
+    "pageTwoResult": {
+      "schemaVersion": 1,
+      "resultType": "revision-impact",
+      "workspaceId": "workspace:contract",
+      "previousSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:1",
+        "representationId": "rep:contract:1:text",
+        "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "currentSource": {
+        "documentId": "doc:contract:master",
+        "revisionId": "rev:contract:2",
+        "representationId": "rep:contract:2:text",
+        "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "impacts": [
+        {
+          "recordId": "artifact:contract:brief",
+          "status": "missing-source",
+          "reason": "The artifact references the predecessor, whose source is no longer available."
+        }
+      ],
+      "pageInfo": {
+        "schemaVersion": 1,
+        "limit": 2,
+        "returned": 1,
+        "total": 3,
+        "truncated": false,
+        "completeness": "complete"
+      }
+    },
+    "context": {
+      "impactRecords": [
+        {
+          "recordId": "claim:contract:termination-window",
+          "sources": [
+            {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:1",
+              "representationId": "rep:contract:1:text",
+              "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "previousSourceAvailability": "available"
+        },
+        {
+          "recordId": "note:contract:unrelated",
+          "sources": [
+            {
+              "documentId": "doc:contract:appendix",
+              "revisionId": "rev:contract:appendix:1",
+              "representationId": "rep:contract:appendix:text",
+              "representationContentHash": "4444444444444444444444444444444444444444444444444444444444444444"
+            }
+          ],
+          "previousSourceAvailability": "available"
+        },
+        {
+          "recordId": "artifact:contract:brief",
+          "sources": [
+            {
+              "documentId": "doc:contract:master",
+              "revisionId": "rev:contract:1",
+              "representationId": "rep:contract:1:text",
+              "representationContentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "previousSourceAvailability": "missing"
+        }
+      ]
+    }
+  }
+}

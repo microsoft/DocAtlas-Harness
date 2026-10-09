@@ -1,0 +1,24 @@
+.live-native-controls { color: var(--ink); font-size: 13px; line-height: 1.7; }
+.live-native-controls code, .live-native-controls small { display: block; overflow-wrap: anywhere; font-size: 11px; }
+.live-native-controls pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; }
+.live-native-controls > button, .native-control-notice button { min-height: 40px; }
+.native-control-history { margin: 18px 0; }
+.native-control-history summary { cursor: pointer; padding: 8px 0; }
+.live-history-earlier { align-self: center; min-height: 40px; padding: 8px 16px; }
+.native-settings-section { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+.native-settings-section h3 { margin: 0 0 12px; font-size: 15px; }
+.native-settings-section label { display: grid; gap: 7px; font-size: 12px; margin: 14px 0; }
+.native-settings-section select, .native-settings-section textarea { width: 100%; min-width: 0; box-sizing: border-box; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 10px; color: inherit; font: inherit; }
+.native-settings-section textarea { resize: vertical; line-height: 1.6; }
+.native-compaction-section { margin-top: 24px; }
+.native-settings-summary { margin: 0; display: grid; gap: 10px; }
+.native-settings-summary > div { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 12px; }
+.native-settings-summary dt { color: var(--muted); }
+.native-settings-summary dd { margin: 0; overflow-wrap: anywhere; }
+.native-settings-summary small { display: block; color: var(--muted); font-size: 11px; }
+.native-runtime-status { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 16px 0 8px; font-size: 12px; }
+.native-control-muted { color: var(--muted); font-size: 12px; line-height: 1.7; }
+.native-control-notice { padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-size: 12px; overflow-wrap: anywhere; }
+.native-settings-section button { min-height: 40px; }
+.native-settings-section :is(button, select, textarea):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 720px) { .native-settings-section :is(select, textarea) { font-size: 16px; } .native-settings-section button { min-height: 44px; } }

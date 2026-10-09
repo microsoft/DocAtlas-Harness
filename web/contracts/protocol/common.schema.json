@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/common.v1.json",
+  "title": "DocAtlas common contract definitions v1",
+  "$defs": {
+    "opaqueId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:~-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actorRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "actorId"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["user", "agent", "system", "rule"]
+        },
+        "actorId": {
+          "$ref": "#/$defs/opaqueId"
+        }
+      }
+    },
+    "sourceRole": {
+      "type": "string",
+      "enum": ["primary", "secondary", "external", "user-authored", "model-derived"]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/question-context.v1.json",
+  "title": "Read-only selected source context for exact product questions and native messages",
+  "oneOf": [{"$ref": "#/$defs/context"}, {"$ref": "#/$defs/focus"}],
+  "$defs": {
+    "id": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"},
+    "optionalHash": {"anyOf": [{"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"}, {"type": "null"}]},
+    "target": {"type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": {"kind": {"enum": ["message", "submission"]}, "id": {"$ref": "#/$defs/id"}}},
+    "original": {"$ref": "https://docatlas.dev/schemas/product-answer.v1.json#/$defs/focus/properties/original"},
+    "passage": {"type": "object", "additionalProperties": false, "required": ["selectionContextId", "locatorId", "physicalPage", "text", "original"], "properties": {
+      "selectionContextId": {"$ref": "#/$defs/id"}, "locatorId": {"$ref": "#/$defs/id"}, "physicalPage": {"type": "integer", "minimum": 1}, "text": {"type": "string", "minLength": 1, "maxLength": 4000}, "original": {"$ref": "#/$defs/original"}
+    }},
+    "context": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "binding", "target", "status", "reason", "requestHash", "nativeTextHash", "selectionState", "passages"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "question-context"}, "binding": {"$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"}, "target": {"$ref": "#/$defs/target"}, "status": {"enum": ["available", "none", "unavailable"]}, "reason": {"enum": ["history", "source", "purged", null]}, "requestHash": {"$ref": "#/$defs/optionalHash"}, "nativeTextHash": {"$ref": "#/$defs/optionalHash"}, "selectionState": {"enum": ["attached", "consumed", null]}, "passages": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/passage"}}
+    }},
+    "focus": {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "binding", "target", "selectionContextId", "locatorId", "status", "locator", "physicalPage", "exactText", "original"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "question-selection-focus"}, "binding": {"$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"}, "target": {"$ref": "#/$defs/target"}, "selectionContextId": {"$ref": "#/$defs/id"}, "locatorId": {"$ref": "#/$defs/id"}, "status": {"enum": ["resolved", "page-only", "ambiguous"]}, "locator": {"$ref": "https://docatlas.dev/schemas/document-locator.v1.json"}, "physicalPage": {"type": "integer", "minimum": 1}, "exactText": {"type": ["string", "null"], "maxLength": 4000}, "original": {"$ref": "#/$defs/original"}
+    }}
+  }
+}

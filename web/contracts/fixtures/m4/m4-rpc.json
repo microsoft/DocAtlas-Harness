@@ -1,0 +1,519 @@
+{
+  "claimRecordRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-claim-record",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:claim:v1",
+    "expectedCurrentClaimVersionId": null,
+    "claim": {
+      "schemaVersion": 1,
+      "claimVersionId": "claim:termination:v1",
+      "claimChainId": "claim-chain:termination",
+      "version": 1,
+      "statement": "The agreement permits termination for convenience.",
+      "basis": "document-supported",
+      "scope": { "jurisdiction": "New York", "section": "Termination" },
+      "epistemicStatus": "supported",
+      "reviewStatus": "accepted"
+    },
+    "provenance": {
+      "schemaVersion": 1,
+      "derivationActivityId": "derivation:termination:v1",
+      "operation": "verify",
+      "inputEvidenceIds": ["evidence:termination-support"],
+      "inputClaimVersionIds": []
+    },
+    "evidenceRelations": [
+      {
+        "schemaVersion": 1,
+        "evidenceRelationId": "relation:termination:support:v1",
+        "evidenceId": "evidence:termination-support",
+        "kind": "supports",
+        "coverage": "full",
+        "rationale": "Section 8.2 grants the right."
+      }
+    ]
+  },
+  "claimRecordResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-claim-record",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "status": "created",
+    "claim": {
+      "schemaVersion": 1,
+      "claimVersionId": "claim:termination:v1",
+      "claimChainId": "claim-chain:termination",
+      "version": 1,
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "statement": "The agreement permits termination for convenience.",
+      "basis": "document-supported",
+      "scope": {
+        "sourceScopeVersionId": "scope:contract-review:v1",
+        "jurisdiction": "New York",
+        "section": "Termination"
+      },
+      "epistemicStatus": "supported",
+      "reviewStatus": "accepted",
+      "lifecycleStatus": "current",
+      "createdBy": { "kind": "user", "actorId": "user:reviewer" },
+      "createdAt": "2026-08-31T10:01:00Z",
+      "provenanceActivityId": "derivation:termination:v1"
+    }
+  },
+  "ledgerGetRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-claim-ledger-get",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1"
+  },
+  "ledgerGetResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-claim-ledger",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "ledger": {
+      "knownEvidenceIds": ["evidence:termination-support"],
+      "claims": [
+        {
+          "schemaVersion": 1,
+          "claimVersionId": "claim:termination:v1",
+          "claimChainId": "claim-chain:termination",
+          "version": 1,
+          "workspaceId": "workspace:demo",
+          "investigationId": "investigation:contract-review",
+          "statement": "The agreement permits termination for convenience.",
+          "basis": "document-supported",
+          "scope": {
+            "sourceScopeVersionId": "scope:contract-review:v1",
+            "jurisdiction": "New York",
+            "section": "Termination"
+          },
+          "epistemicStatus": "supported",
+          "reviewStatus": "accepted",
+          "lifecycleStatus": "current",
+          "createdBy": { "kind": "user", "actorId": "user:reviewer" },
+          "createdAt": "2026-08-31T10:01:00Z",
+          "provenanceActivityId": "derivation:termination:v1"
+        }
+      ],
+      "evidenceRelations": [
+        {
+          "schemaVersion": 1,
+          "evidenceRelationId": "relation:termination:support:v1",
+          "workspaceId": "workspace:demo",
+          "investigationId": "investigation:contract-review",
+          "claimVersionId": "claim:termination:v1",
+          "evidenceId": "evidence:termination-support",
+          "kind": "supports",
+          "coverage": "full",
+          "rationale": "Section 8.2 grants the right.",
+          "createdBy": { "kind": "user", "actorId": "user:reviewer" },
+          "createdAt": "2026-08-31T10:01:00Z",
+          "reviewStatus": "human-confirmed",
+          "reviewedBy": { "kind": "user", "actorId": "user:reviewer" },
+          "reviewedAt": "2026-08-31T10:01:00Z"
+        }
+      ],
+      "derivations": [
+        {
+          "schemaVersion": 1,
+          "derivationActivityId": "derivation:termination:v1",
+          "workspaceId": "workspace:demo",
+          "investigationId": "investigation:contract-review",
+          "operation": "verify",
+          "inputEvidenceIds": ["evidence:termination-support"],
+          "inputClaimVersionIds": [],
+          "outputClaimVersionIds": ["claim:termination:v1"],
+          "actor": { "kind": "user", "actorId": "user:reviewer" },
+          "startedAt": "2026-08-31T10:01:00Z",
+          "completedAt": "2026-08-31T10:01:00Z"
+        }
+      ]
+    }
+  },
+  "artifactDraftRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-artifact-draft",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:artifact:v1",
+    "expectedPreviousArtifactManifestId": null,
+    "manifest": {
+      "schemaVersion": 1,
+      "artifactManifestId": "artifact-manifest:brief:v1",
+      "artifactId": "artifact:brief",
+      "version": 1,
+      "kind": "brief",
+      "title": "Termination evidence brief",
+      "content": {
+        "kind": "brief",
+        "sections": [
+          {
+            "sectionId": "section:termination",
+            "heading": "Termination",
+            "markdown": "The agreement permits termination for convenience.",
+            "claimUses": [
+              {
+                "claimUseId": "claim-use:termination",
+                "claimVersionId": "claim:termination:v1",
+                "useKind": "assertion",
+                "span": { "start": 0, "end": 3, "unit": "unicode-scalar" },
+                "citationEvidenceIds": ["evidence:termination-support"]
+              }
+            ]
+          }
+        ]
+      },
+      "personalizationUseIds": []
+    }
+  },
+  "artifactDraftResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-artifact-draft",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "status": "created",
+    "manifest": {
+      "schemaVersion": 1,
+      "artifactManifestId": "artifact-manifest:brief:v1",
+      "artifactId": "artifact:brief",
+      "version": 1,
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "sourceScopeVersionId": "scope:contract-review:v1",
+      "kind": "brief",
+      "title": "Termination evidence brief",
+      "status": "draft",
+      "content": {
+        "kind": "brief",
+        "sections": [
+          {
+            "sectionId": "section:termination",
+            "heading": "Termination",
+            "markdown": "The agreement permits termination for convenience.",
+            "claimUses": [
+              {
+                "claimUseId": "claim-use:termination",
+                "claimVersionId": "claim:termination:v1",
+                "useKind": "assertion",
+                "span": { "start": 0, "end": 3, "unit": "unicode-scalar" },
+                "citationEvidenceIds": ["evidence:termination-support"]
+              }
+            ]
+          }
+        ]
+      },
+      "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "personalizationUseIds": [],
+      "createdBy": { "kind": "user", "actorId": "user:reviewer" },
+      "createdAt": "2026-08-31T10:02:00Z"
+    }
+  },
+  "conflictAssureRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-conflict-search-assure",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:conflict-assurance:v1",
+    "claimVersionIds": ["claim:termination:v1"],
+    "evidenceIds": ["evidence:termination-support"]
+  },
+  "conflictAssureResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-conflict-search-assurance",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "status": "created",
+    "assurance": {
+      "schemaVersion": 1,
+      "assuranceId": "assurance:conflict:v1",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "sourceScopeVersionId": "scope:contract-review:v1",
+      "claimVersionIds": ["claim:termination:v1"],
+      "evidenceIds": ["evidence:termination-support"],
+      "assuredBy": { "kind": "user", "actorId": "user:reviewer" },
+      "assuredAt": "2026-08-31T10:02:30Z"
+    }
+  },
+  "reviewRunRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-review-run",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:review:v1",
+    "artifactManifestId": "artifact-manifest:brief:v1",
+    "reviewResultId": "review:brief:v1",
+    "ruleset": {
+      "name": "docatlas-publish-gates",
+      "version": "1.0.0",
+      "configHash": "30288476e404da8e42aaadbd5ef63a498ecd7761856d2fc92dd63806e8dc971a"
+    },
+    "signoffRequirement": "required"
+  },
+  "reviewRunResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-review-run",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "status": "created",
+    "review": {
+      "schemaVersion": 1,
+      "reviewResultId": "review:brief:v1",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "sourceScopeVersionId": "scope:contract-review:v1",
+      "mode": "publish-gate",
+      "subject": {
+        "kind": "artifact-manifest",
+        "objectIds": ["artifact-manifest:brief:v1"],
+        "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "ruleset": {
+        "name": "docatlas-publish-gates",
+        "version": "1.0.0",
+        "configHash": "30288476e404da8e42aaadbd5ef63a498ecd7761856d2fc92dd63806e8dc971a"
+      },
+      "checkedObjectIds": ["artifact-manifest:brief:v1"],
+      "gates": [
+        { "gateId": "G0-integrity", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G1-grounding", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G2-scope", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G3-conflict", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G4-publication", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] }
+      ],
+      "issues": [],
+      "coverage": {
+        "requiredItems": 5,
+        "checkedItems": 5,
+        "passedItems": 5,
+        "failedItems": 0,
+        "notApplicableItems": 0,
+        "complete": true
+      },
+      "signoffRequirement": "required",
+      "decision": "needs-human",
+      "reviewer": { "kind": "rule", "actorId": "rule:docatlas-publish-gates" },
+      "createdAt": "2026-08-31T10:03:00Z"
+    }
+  },
+  "humanDecisionRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-human-decision",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:human-decision:v1",
+    "reviewDecisionId": "human-review:brief:v1",
+    "reviewResultId": "review:brief:v1",
+    "decision": "approved",
+    "rationale": "The cited support and conflict-search set have been checked."
+  },
+  "humanDecisionResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-human-decision",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "status": "created",
+    "reviewDecision": {
+      "schemaVersion": 1,
+      "reviewDecisionId": "human-review:brief:v1",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "reviewResultId": "review:brief:v1",
+      "decision": "approved",
+      "rationale": "The cited support and conflict-search set have been checked.",
+      "decidedBy": { "kind": "user", "actorId": "user:reviewer" },
+      "decidedAt": "2026-08-31T10:04:00Z"
+    }
+  },
+  "publishRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-artifact-publish",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:publish:v1",
+    "artifactManifestId": "artifact-manifest:brief:v1",
+    "expectedStatus": "draft",
+    "reviewResultId": "review:brief:v1",
+    "humanReviewDecisionId": "human-review:brief:v1"
+  },
+  "publishResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-artifact-publish",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "status": "created",
+    "manifest": {
+      "schemaVersion": 1,
+      "artifactManifestId": "artifact-manifest:brief:v1",
+      "artifactId": "artifact:brief",
+      "version": 1,
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "sourceScopeVersionId": "scope:contract-review:v1",
+      "kind": "brief",
+      "title": "Termination evidence brief",
+      "status": "published",
+      "content": {
+        "kind": "brief",
+        "sections": [
+          {
+            "sectionId": "section:termination",
+            "heading": "Termination",
+            "markdown": "The agreement permits termination for convenience.",
+            "claimUses": [
+              {
+                "claimUseId": "claim-use:termination",
+                "claimVersionId": "claim:termination:v1",
+                "useKind": "assertion",
+                "span": { "start": 0, "end": 3, "unit": "unicode-scalar" },
+                "citationEvidenceIds": ["evidence:termination-support"]
+              }
+            ]
+          }
+        ]
+      },
+      "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "personalizationUseIds": [],
+      "publication": {
+        "reviewResultId": "review:brief:v1",
+        "deterministicDecision": "needs-human",
+        "humanReviewDecisionId": "human-review:brief:v1",
+        "publishedBy": { "kind": "user", "actorId": "user:reviewer" },
+        "publishedAt": "2026-08-31T10:05:00Z"
+      },
+      "createdBy": { "kind": "user", "actorId": "user:reviewer" },
+      "createdAt": "2026-08-31T10:02:00Z"
+    }
+  },
+  "artifactGetRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-artifact-get",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "artifactManifestId": "artifact-manifest:brief:v1"
+  },
+  "artifactGetResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-artifact",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "manifest": {
+      "schemaVersion": 1,
+      "artifactManifestId": "artifact-manifest:brief:v1",
+      "artifactId": "artifact:brief",
+      "version": 1,
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "sourceScopeVersionId": "scope:contract-review:v1",
+      "kind": "brief",
+      "title": "Termination evidence brief",
+      "status": "draft",
+      "content": {
+        "kind": "brief",
+        "sections": [
+          {
+            "sectionId": "section:termination",
+            "heading": "Termination",
+            "markdown": "The agreement permits termination for convenience.",
+            "claimUses": [
+              {
+                "claimUseId": "claim-use:termination",
+                "claimVersionId": "claim:termination:v1",
+                "useKind": "assertion",
+                "span": { "start": 0, "end": 3, "unit": "unicode-scalar" },
+                "citationEvidenceIds": ["evidence:termination-support"]
+              }
+            ]
+          }
+        ]
+      },
+      "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "personalizationUseIds": [],
+      "createdBy": { "kind": "user", "actorId": "user:reviewer" },
+      "createdAt": "2026-08-31T10:02:00Z"
+    }
+  },
+  "reviewGetRequest": {
+    "schemaVersion": 1,
+    "requestType": "m4-review-get",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "reviewResultId": "review:brief:v1"
+  },
+  "reviewGetResult": {
+    "schemaVersion": 1,
+    "resultType": "m4-review",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "review": {
+      "schemaVersion": 1,
+      "reviewResultId": "review:brief:v1",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "sourceScopeVersionId": "scope:contract-review:v1",
+      "mode": "publish-gate",
+      "subject": {
+        "kind": "artifact-manifest",
+        "objectIds": ["artifact-manifest:brief:v1"],
+        "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "ruleset": {
+        "name": "docatlas-publish-gates",
+        "version": "1.0.0",
+        "configHash": "30288476e404da8e42aaadbd5ef63a498ecd7761856d2fc92dd63806e8dc971a"
+      },
+      "checkedObjectIds": ["artifact-manifest:brief:v1"],
+      "gates": [
+        { "gateId": "G0-integrity", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G1-grounding", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G2-scope", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G3-conflict", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] },
+        { "gateId": "G4-publication", "status": "pass", "checkedObjectIds": ["artifact-manifest:brief:v1"], "issueIds": [] }
+      ],
+      "issues": [],
+      "coverage": {
+        "requiredItems": 5,
+        "checkedItems": 5,
+        "passedItems": 5,
+        "failedItems": 0,
+        "notApplicableItems": 0,
+        "complete": true
+      },
+      "signoffRequirement": "required",
+      "decision": "needs-human",
+      "reviewer": { "kind": "rule", "actorId": "rule:docatlas-publish-gates" },
+      "createdAt": "2026-08-31T10:03:00Z"
+    }
+  }
+}

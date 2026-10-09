@@ -1,0 +1,94 @@
+{
+  "brief": {
+    "schemaVersion": 1,
+    "artifactManifestId": "artifact-manifest:brief:v1",
+    "artifactId": "artifact:brief",
+    "version": 1,
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "sourceScopeVersionId": "scope:contract-review:v1",
+    "kind": "brief",
+    "title": "Termination evidence brief",
+    "status": "published",
+    "content": {
+      "kind": "brief",
+      "sections": [
+        {
+          "sectionId": "section:termination",
+          "heading": "Termination",
+          "markdown": "The reviewed materials conflict on termination for convenience.",
+          "claimUses": [
+            {
+              "claimUseId": "claim-use:termination-conflict",
+              "claimVersionId": "claim:termination:v1",
+              "useKind": "conflict-disclosure",
+              "span": { "start": 0, "end": 63, "unit": "unicode-scalar" },
+              "citationEvidenceIds": ["evidence:termination-support", "evidence:termination-refute"]
+            }
+          ]
+        }
+      ]
+    },
+    "contentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "personalizationUseIds": [],
+    "publication": {
+      "reviewResultId": "review:brief:v1",
+      "deterministicDecision": "needs-human",
+      "humanReviewDecisionId": "human-review:brief:v1",
+      "publishedBy": { "kind": "user", "actorId": "user:reviewer" },
+      "publishedAt": "2026-08-31T10:06:00Z"
+    },
+    "createdBy": { "kind": "agent", "actorId": "agent:dsh-root" },
+    "createdAt": "2026-08-31T10:04:00Z"
+  },
+  "matrix": {
+    "schemaVersion": 1,
+    "artifactManifestId": "artifact-manifest:matrix:v1",
+    "artifactId": "artifact:matrix",
+    "version": 1,
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "sourceScopeVersionId": "scope:contract-review:v1",
+    "kind": "matrix",
+    "title": "Contract issue matrix",
+    "status": "draft",
+    "content": {
+      "kind": "matrix",
+      "rows": [
+        {
+          "rowId": "row:agreement",
+          "label": "Agreement and amendment",
+          "source": { "documentId": "document:agreement", "revisionId": "revision:agreement:v2" }
+        }
+      ],
+      "columns": [
+        {
+          "columnId": "column:termination",
+          "label": "Termination",
+          "question": "Does the agreement permit termination for convenience?"
+        }
+      ],
+      "cells": [
+        {
+          "cellId": "cell:agreement:termination",
+          "rowId": "row:agreement",
+          "columnId": "column:termination",
+          "markdown": "Conflicting provisions",
+          "claimUses": [
+            {
+              "claimUseId": "claim-use:matrix-termination",
+              "claimVersionId": "claim:termination:v1",
+              "useKind": "conflict-disclosure",
+              "span": { "start": 0, "end": 22, "unit": "unicode-scalar" },
+              "citationEvidenceIds": ["evidence:termination-support", "evidence:termination-refute"]
+            }
+          ]
+        }
+      ]
+    },
+    "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "personalizationUseIds": [],
+    "createdBy": { "kind": "agent", "actorId": "agent:dsh-root" },
+    "createdAt": "2026-08-31T10:04:30Z"
+  }
+}

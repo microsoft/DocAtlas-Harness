@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/answer-rpc.v1.json",
+  "title": "DocAtlas answer manifest browser RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/getRequest" },
+    { "$ref": "#/$defs/getResult" }
+  ],
+  "$defs": {
+    "getRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "requestType", "sessionId", "workspaceId", "messageId"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "answer-get" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "messageId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "getResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "resultType", "workspaceId", "messageId", "status"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "answer-manifest" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "messageId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "status": { "type": "string", "enum": ["available", "unavailable"] },
+        "manifest": { "$ref": "https://docatlas.dev/schemas/answer-manifest.v1.json" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "available" } }, "required": ["status"] },
+          "then": { "required": ["manifest"], "properties": { "manifest": true } },
+          "else": { "not": { "required": ["manifest"], "properties": { "manifest": true } } }
+        }
+      ]
+    }
+  }
+}

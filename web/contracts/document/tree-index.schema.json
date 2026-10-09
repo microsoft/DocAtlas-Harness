@@ -1,0 +1,475 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/tree-index.v1.json",
+  "title": "Immutable navigation tree generations v1",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/build"
+    },
+    {
+      "$ref": "#/$defs/read"
+    },
+    {
+      "$ref": "#/$defs/data"
+    },
+    {
+      "$ref": "#/$defs/manifest"
+    },
+    {
+      "$ref": "#/$defs/page"
+    }
+  ],
+  "$defs": {
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "useEmbeddedToc",
+        "workers"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "raw",
+            "merge"
+          ]
+        },
+        "useEmbeddedToc": {
+          "type": "boolean"
+        },
+        "workers": {
+          "const": 1
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nodeId",
+        "parentId",
+        "title",
+        "startPage",
+        "endPage",
+        "sourceNodeId",
+        "keyItems"
+      ],
+      "properties": {
+        "nodeId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "parentId": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "startPage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "endPage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "sourceNodeId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "keyItems": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "documentId",
+        "revisionId",
+        "sourceHash",
+        "config"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "build-tree"
+        },
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "revisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "sourceHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "config": {
+          "$ref": "#/$defs/config"
+        }
+      }
+    },
+    "read": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "documentId",
+        "revisionId",
+        "sourceHash",
+        "generationId",
+        "offset",
+        "limit"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "read-tree"
+        },
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "revisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "sourceHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "generationId": {
+          "type": "string",
+          "pattern": "^tree:[a-f0-9]{64}$"
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "generationId",
+        "pageCount",
+        "nodes"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "tree-data"
+        },
+        "generationId": {
+          "type": "string",
+          "pattern": "^tree:[a-f0-9]{64}$"
+        },
+        "pageCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "nodes": {
+          "type": "array",
+          "maxItems": 20000,
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "documentId",
+        "revisionId",
+        "sourceHash",
+        "generationId",
+        "parentGenerationId",
+        "config",
+        "provider",
+        "status",
+        "pageCount",
+        "nodeCount",
+        "treeHash",
+        "createdAt",
+        "tocSource",
+        "warnings",
+        "optimization"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "tree-generation"
+        },
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "revisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "sourceHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "generationId": {
+          "type": "string",
+          "pattern": "^tree:[a-f0-9]{64}$"
+        },
+        "parentGenerationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^tree:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "config": {
+          "$ref": "#/$defs/config"
+        },
+        "provider": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "version",
+            "sourceCommit",
+            "fingerprint"
+          ],
+          "properties": {
+            "name": {
+              "const": "pageindex-flash"
+            },
+            "version": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "sourceCommit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "fingerprint": {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+            }
+          }
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "empty"
+          ]
+        },
+        "pageCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "nodeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "treeHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "createdAt": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp"
+        },
+        "tocSource": {
+          "enum": [
+            "detected",
+            "bookmarks",
+            "hybrid",
+            "disabled"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 8,
+          "items": {
+            "enum": [
+              "empty-tree",
+              "no-readable-text"
+            ]
+          }
+        },
+        "optimization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mergeCount",
+            "samePageMergeCount",
+            "samePageDroppedCount",
+            "rounds",
+            "costBefore",
+            "costAfter"
+          ],
+          "properties": {
+            "mergeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            "samePageMergeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            "samePageDroppedCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            "rounds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "costBefore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000
+            },
+            "costAfter": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "empty"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "nodeCount": {
+                "const": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "nodeCount": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20000
+              }
+            }
+          }
+        }
+      ]
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "generationId",
+        "treeHash",
+        "offset",
+        "total",
+        "nextOffset",
+        "nodes"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "tree-page"
+        },
+        "generationId": {
+          "type": "string",
+          "pattern": "^tree:[a-f0-9]{64}$"
+        },
+        "treeHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "nextOffset": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        }
+      }
+    }
+  }
+}

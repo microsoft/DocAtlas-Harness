@@ -1,0 +1,165 @@
+{
+  "pageInfo": {
+    "schemaVersion": 1,
+    "limit": 8,
+    "returned": 2,
+    "total": 2,
+    "usedChars": 388,
+    "truncated": false,
+    "completeness": "complete"
+  },
+  "protocolError": {
+    "schemaVersion": 1,
+    "code": "stale",
+    "message": "The locator belongs to an older representation.",
+    "retryable": false,
+    "correlationId": "corr:stale-1",
+    "details": [
+      {
+        "path": "/representationId",
+        "reason": "representation content hash changed"
+      }
+    ],
+    "nextActions": ["open-old-revision", "re-anchor"]
+  },
+  "documentRevision": {
+    "schemaVersion": 1,
+    "documentId": "doc:annual-report",
+    "revisionId": "rev:annual-report:2026-06",
+    "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byteLength": 1200000,
+    "mediaType": "application/pdf",
+    "displayName": "Annual Report 2026.pdf",
+    "origin": {
+      "kind": "provider",
+      "providerId": "provider:local",
+      "externalId": "annual-report-2026"
+    },
+    "ingestedAt": "2026-08-30T00:00:00Z",
+    "sourceModifiedAt": "2026-06-30T12:00:00Z",
+    "pageCount": 80,
+    "status": "active"
+  },
+  "originalRepresentation": {
+    "schemaVersion": 1,
+    "representationId": "rep:annual-report:pdf",
+    "documentId": "doc:annual-report",
+    "revisionId": "rev:annual-report:2026-06",
+    "kind": "original-bytes",
+    "mediaType": "application/pdf",
+    "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byteLength": 1200000,
+    "pageCount": 80,
+    "textQuality": "not-applicable",
+    "derivedFromRepresentationIds": [],
+    "createdAt": "2026-08-30T00:00:00Z",
+    "status": "current"
+  },
+  "textRepresentation": {
+    "schemaVersion": 1,
+    "representationId": "rep:annual-report:markdown",
+    "documentId": "doc:annual-report",
+    "revisionId": "rev:annual-report:2026-06",
+    "kind": "derived-markdown",
+    "mediaType": "text/markdown",
+    "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "byteLength": 450000,
+    "pageCount": 80,
+    "textQuality": "usable",
+    "derivedFromRepresentationIds": ["rep:annual-report:pdf"],
+    "generator": {
+      "name": "docling",
+      "version": "2.50.0",
+      "configHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "createdAt": "2026-08-30T00:01:00Z",
+    "status": "current"
+  },
+  "sourceScope": {
+    "schemaVersion": 1,
+    "scopeVersionId": "scope:cash-flow:1",
+    "workspaceId": "workspace:finance",
+    "investigationId": "investigation:cash-flow",
+    "version": 1,
+    "included": [
+      {
+        "documentId": "doc:annual-report",
+        "revisionId": "rev:annual-report:2026-06",
+        "role": "primary",
+        "reason": "current filing"
+      }
+    ],
+    "excluded": [],
+    "locked": true,
+    "policyTags": ["policy:local-only"],
+    "createdBy": { "kind": "user", "actorId": "user:local-default" },
+    "createdAt": "2026-08-30T00:02:00Z"
+  },
+  "quoteLocator": {
+    "schemaVersion": 1,
+    "locatorId": "loc:revenue-growth",
+    "documentId": "doc:annual-report",
+    "revisionId": "rev:annual-report:2026-06",
+    "representationId": "rep:annual-report:markdown",
+    "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "physicalPage": 17,
+    "selectors": [
+      { "type": "block", "blockId": "p00017.b00004.text.abc123" },
+      {
+        "type": "text-quote",
+        "exact": "Revenue increased by 12%.",
+        "prefix": "For the year, ",
+        "suffix": " Cloud services led growth.",
+        "normalizedHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338"
+      },
+      { "type": "text-position", "start": 1024, "end": 1049, "unit": "unicode-scalar" },
+      {
+        "type": "bbox",
+        "unit": "ratio",
+        "x": 0.12,
+        "y": 0.3,
+        "width": 0.5,
+        "height": 0.05,
+        "rotation": 0
+      }
+    ],
+    "createdAt": "2026-08-30T00:03:00Z"
+  },
+  "evidence": {
+    "schemaVersion": 1,
+    "evidenceId": "evidence:revenue-growth",
+    "documentId": "doc:annual-report",
+    "revisionId": "rev:annual-report:2026-06",
+    "representationId": "rep:annual-report:markdown",
+    "locatorId": "loc:revenue-growth",
+    "kind": "quote",
+    "content": {
+      "mediaType": "text/plain",
+      "text": "Revenue increased by 12%."
+    },
+    "contentHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338",
+    "sourceRole": "primary",
+    "resolutionStatus": "resolved",
+    "status": "current",
+    "createdBy": { "kind": "agent", "actorId": "agent:docatlas" },
+    "provenanceActivityId": "activity:read:1",
+    "createdAt": "2026-08-30T00:04:00Z"
+  },
+  "legacyLead": {
+    "schemaVersion": 1,
+    "leadId": "legacy-lead:session-1:note-3",
+    "legacyKind": "note-evidence",
+    "sourceSessionId": "session:legacy-1",
+    "rawSource": "Page 2",
+    "rawContent": "A page-only observation from the legacy NoteStore.",
+    "physicalPageCandidate": 2,
+    "documentCandidates": [
+      { "documentId": "doc:a", "revisionId": "rev:a:1" },
+      { "documentId": "doc:b", "revisionId": "rev:b:1" }
+    ],
+    "resolutionStatus": "unresolved",
+    "verificationStatus": "unverified",
+    "importedBy": { "kind": "system", "actorId": "system:legacy-import" },
+    "importedAt": "2026-08-30T00:05:00Z"
+  }
+}

@@ -1,0 +1,541 @@
+diff --git a/dist/core/agent-session-services.d.ts b/dist/core/agent-session-services.d.ts
+index 0b1c83f9dfff269fe5ef49f1c5540acfd9484e8d..abf0ccc2ca6cd1d81cf8df38c966090fec8fea9e 100644
+--- a/dist/core/agent-session-services.d.ts
++++ b/dist/core/agent-session-services.d.ts
+@@ -54,6 +54,7 @@ export interface CreateAgentSessionFromServicesOptions {
+     excludeTools?: CreateAgentSessionOptions["excludeTools"];
+     noTools?: CreateAgentSessionOptions["noTools"];
+     customTools?: ToolDefinition[];
++    toolOptions?: CreateAgentSessionOptions["toolOptions"];
+ }
+ /**
+  * Coherent cwd-bound runtime services for one effective session cwd.
+diff --git a/dist/core/agent-session-services.js b/dist/core/agent-session-services.js
+index 536242222044a4a0bfd6c5112ff2c577f3a29071..646795227b3b1b755b4a296539cf05a73898353a 100644
+--- a/dist/core/agent-session-services.js
++++ b/dist/core/agent-session-services.js
+@@ -128,6 +128,7 @@ export async function createAgentSessionFromServices(options) {
+         excludeTools: options.excludeTools,
+         noTools: options.noTools,
+         customTools: options.customTools,
++        toolOptions: options.toolOptions,
+         sessionStartEvent: options.sessionStartEvent,
+     });
+ }
+diff --git a/dist/core/agent-session.d.ts b/dist/core/agent-session.d.ts
+index 89f96e8769496a952cbf29efded4dd52b7eaad97..4eed91540bbe46f6063bb66ff6557ca9c0f38403 100644
+--- a/dist/core/agent-session.d.ts
++++ b/dist/core/agent-session.d.ts
+@@ -130,6 +130,7 @@ export interface AgentSessionConfig {
+      * a definition-first registry even when callers provide plain AgentTool instances.
+      */
+     baseToolsOverride?: Record<string, AgentTool>;
++    toolOptions?: import("./tools/index.js").ToolsOptions;
+     /** Mutable ref used by Agent to access the current ExtensionRunner */
+     extensionRunnerRef?: {
+         current?: ExtensionRunner;
+@@ -157,6 +158,8 @@ export interface PromptOptions {
+     source?: InputSource;
+     /** Internal hook used by RPC mode to observe prompt preflight acceptance or rejection. */
+     preflightResult?: (success: boolean) => void;
++    /** Observe the exact expanded native user message before admission; no transcript format changes. */
++    onUserMessage?: (message: import("@earendil-works/pi-ai").UserMessage) => void;
+ }
+ /** Options for model/thinking mutations. */
+ export interface ModelMutationOptions {
+@@ -226,6 +229,7 @@ export declare class AgentSession {
+     private _allowedToolNames?;
+     private _excludedToolNames?;
+     private _baseToolsOverride?;
++    private _toolOptions?;
+     private _sessionStartEvent;
+     private _extensionUIContext?;
+     private _extensionMode;
+diff --git a/dist/core/agent-session.js b/dist/core/agent-session.js
+index 66e874efd252470d00d3cdaad2e2b4b6121de15b..3077747e97521b747e6f93255a4245007891943b 100644
+--- a/dist/core/agent-session.js
++++ b/dist/core/agent-session.js
+@@ -117,6 +117,7 @@ export class AgentSession {
+     _allowedToolNames;
+     _excludedToolNames;
+     _baseToolsOverride;
++    _toolOptions;
+     _sessionStartEvent;
+     _extensionUIContext;
+     _extensionMode = "print";
+@@ -149,6 +150,7 @@ export class AgentSession {
+         this._allowedToolNames = config.allowedToolNames ? new Set(config.allowedToolNames) : undefined;
+         this._excludedToolNames = config.excludedToolNames ? new Set(config.excludedToolNames) : undefined;
+         this._baseToolsOverride = config.baseToolsOverride;
++        this._toolOptions = config.toolOptions;
+         this._sessionStartEvent = config.sessionStartEvent ?? { type: "session_start", reason: "startup" };
+         // Always subscribe to agent events for internal handling
+         // (session persistence, extensions, auto-compaction, retry logic)
+@@ -862,10 +864,10 @@ export class AgentSession {
+                     throw new Error("Agent is already processing. Specify streamingBehavior ('steer' or 'followUp') to queue the message.");
+                 }
+                 if (options.streamingBehavior === "followUp") {
+-                    await this._queueFollowUp(expandedText, currentImages);
++                    await this._queueFollowUp(expandedText, currentImages, options?.onUserMessage);
+                 }
+                 else {
+-                    await this._queueSteer(expandedText, currentImages);
++                    await this._queueSteer(expandedText, currentImages, options?.onUserMessage);
+                 }
+                 preflightResult?.(true);
+                 return;
+@@ -901,11 +903,9 @@ export class AgentSession {
+             if (currentImages) {
+                 userContent.push(...currentImages);
+             }
+-            messages.push({
+-                role: "user",
+-                content: userContent,
+-                timestamp: Date.now(),
+-            });
++            const userMessage = { role: "user", content: userContent, timestamp: Date.now() };
++            options?.onUserMessage?.(userMessage);
++            messages.push(userMessage);
+             // Inject any pending "nextTurn" messages as context alongside the user message
+             for (const msg of this._pendingNextTurnMessages) {
+                 messages.push(msg);
+@@ -1043,34 +1043,26 @@ export class AgentSession {
+     /**
+      * Internal: Queue a steering message (already expanded, no extension command check).
+      */
+-    async _queueSteer(text, images) {
++    async _queueSteer(text, images, onUserMessage) {
++        const content = [{ type: "text", text }];
++        if (images) content.push(...images);
++        const message = { role: "user", content, timestamp: Date.now() };
++        onUserMessage?.(message);
+         this._steeringMessages.push(text);
+         this._emitQueueUpdate();
+-        const content = [{ type: "text", text }];
+-        if (images) {
+-            content.push(...images);
+-        }
+-        this.agent.steer({
+-            role: "user",
+-            content,
+-            timestamp: Date.now(),
+-        });
++        this.agent.steer(message);
+     }
+     /**
+      * Internal: Queue a follow-up message (already expanded, no extension command check).
+      */
+-    async _queueFollowUp(text, images) {
++    async _queueFollowUp(text, images, onUserMessage) {
++        const content = [{ type: "text", text }];
++        if (images) content.push(...images);
++        const message = { role: "user", content, timestamp: Date.now() };
++        onUserMessage?.(message);
+         this._followUpMessages.push(text);
+         this._emitQueueUpdate();
+-        const content = [{ type: "text", text }];
+-        if (images) {
+-            content.push(...images);
+-        }
+-        this.agent.followUp({
+-            role: "user",
+-            content,
+-            timestamp: Date.now(),
+-        });
++        this.agent.followUp(message);
+     }
+     /**
+      * Throw an error if the text is an extension command.
+@@ -2189,8 +2181,9 @@ export class AgentSession {
+                 createToolDefinitionFromAgentTool(tool),
+             ]))
+             : createAllToolDefinitions(this._cwd, {
+-                read: { autoResizeImages },
+-                bash: { commandPrefix: shellCommandPrefix, shellPath },
++                ...this._toolOptions,
++                read: { ...this._toolOptions?.read, autoResizeImages },
++                bash: { ...this._toolOptions?.bash, commandPrefix: shellCommandPrefix, shellPath },
+             });
+         this._baseToolDefinitions = new Map(Object.entries(baseToolDefinitions).map(([name, tool]) => [name, tool]));
+         const extensionsResult = this._resourceLoader.getExtensions();
+@@ -2369,12 +2362,13 @@ export class AgentSession {
+         const shellPath = this.settingsManager.getShellPath();
+         const resolvedCommand = prefix ? `${prefix}\n${command}` : command;
+         try {
+-            const result = await executeBashWithOperations(resolvedCommand, this.sessionManager.getCwd(), options?.operations ?? createLocalBashOperations({ shellPath }), {
++            const result = await executeBashWithOperations(resolvedCommand, this.sessionManager.getCwd(), options?.operations ?? this._toolOptions?.bash?.operations ?? createLocalBashOperations({ shellPath }), {
+                 onChunk: (delta) => {
+                     onChunk?.(delta);
+                     this._emit({ type: "bash_execution_update", id: options?.id, delta });
+                 },
+                 signal: abortController.signal,
++                tempFileDirectory: this._toolOptions?.bash?.tempFileDirectory,
+             });
+             this.recordBashResult(command, result, options);
+             return result;
+diff --git a/dist/core/bash-executor.d.ts b/dist/core/bash-executor.d.ts
+index 0cfc35dc001301ce770c5789aa327c539b7074ee..ba820333258df5c115342053fbdb00df6024aa74 100644
+--- a/dist/core/bash-executor.d.ts
++++ b/dist/core/bash-executor.d.ts
+@@ -7,6 +7,7 @@
+  */
+ import type { BashOperations } from "./tools/bash.ts";
+ export interface BashExecutorOptions {
++    tempFileDirectory?: string;
+     /** Callback for streaming output chunks (already sanitized) */
+     onChunk?: (chunk: string) => void;
+     /** AbortSignal for cancellation */
+diff --git a/dist/core/bash-executor.js b/dist/core/bash-executor.js
+index 46a438fb39fb4b9bdf033fd26b09d84db8311ea6..10aa3a259a319c6bd3323615afa66a9cbd6992de 100644
+--- a/dist/core/bash-executor.js
++++ b/dist/core/bash-executor.js
+@@ -31,7 +31,7 @@ export async function executeBashWithOperations(command, cwd, operations, option
+             return;
+         }
+         const id = randomBytes(8).toString("hex");
+-        tempFilePath = join(tmpdir(), `pi-bash-${id}.log`);
++        tempFilePath = join(options?.tempFileDirectory ?? tmpdir(), `pi-bash-${id}.log`);
+         tempFileStream = createWriteStream(tempFilePath);
+         for (const chunk of outputChunks) {
+             tempFileStream.write(chunk);
+diff --git a/dist/core/extensions/loader.js b/dist/core/extensions/loader.js
+index e8e8859ae1e64ef0cdc50b0d31e2927d1fa0082f..774be33e84b71724ddcea04b9c1cb0108b6c78a9 100644
+--- a/dist/core/extensions/loader.js
++++ b/dist/core/extensions/loader.js
+@@ -318,7 +318,7 @@ function createExtensionAPI(extension, runtime, cwd, eventBus) {
+         },
+         exec(command, args, options) {
+             assertActive();
+-            return execCommand(command, args, options?.cwd ?? cwd, options);
++            return (runtime.exec ?? execCommand)(command, args, options?.cwd ?? cwd, options);
+         },
+         getActiveTools() {
+             assertActive();
+diff --git a/dist/core/extensions/types.d.ts b/dist/core/extensions/types.d.ts
+index 94ca0722daa6a65691587e52a6fb269417337152..627a1ac48ecd01678e5827592ecaede09ff8dca8 100644
+--- a/dist/core/extensions/types.d.ts
++++ b/dist/core/extensions/types.d.ts
+@@ -1211,6 +1211,8 @@ export type SetLabelHandler = (entryId: string, label: string | undefined) => vo
+  * Contains flag values (defaults set during registration, CLI values set after).
+  */
+ export interface ExtensionRuntimeState {
++    /** Optional application-owned process boundary; installed before factory execution. */
++    exec?: (command: string, args: string[], cwd: string, options?: ExecOptions) => Promise<ExecResult>;
+     flagValues: Map<string, boolean | string>;
+     /** Legacy provider-config registrations queued during extension loading, processed when runner binds. */
+     pendingProviderRegistrations: Array<{
+diff --git a/dist/core/resource-loader.d.ts b/dist/core/resource-loader.d.ts
+index 0a908d3491c97a8b8d8ee9a132b0d117c5c1a46c..6ce353dc189824288214ba8934ee4e1128468678 100644
+--- a/dist/core/resource-loader.d.ts
++++ b/dist/core/resource-loader.d.ts
+@@ -2,7 +2,7 @@ import { type Theme } from "../modes/interactive/theme/theme.ts";
+ import type { ResourceDiagnostic } from "./diagnostics.ts";
+ export type { ResourceCollision, ResourceDiagnostic } from "./diagnostics.ts";
+ import { type EventBus } from "./event-bus.ts";
+-import type { InlineExtension, LoadExtensionsResult } from "./extensions/types.ts";
++import type { InlineExtension, LoadExtensionsResult, ExtensionRuntimeState } from "./extensions/types.ts";
+ import { type PathMetadata } from "./package-manager.ts";
+ import type { PromptTemplate } from "./prompt-templates.ts";
+ import { SettingsManager } from "./settings-manager.ts";
+@@ -65,6 +65,8 @@ export declare function loadProjectContextFiles(options: {
+     content: string;
+ }>;
+ export interface DefaultResourceLoaderOptions {
++    /** Application process boundary, scoped to this loader and its runtime generations. */
++    extensionExec?: ExtensionRuntimeState["exec"];
+     cwd: string;
+     agentDir: string;
+     settingsManager?: SettingsManager;
+@@ -128,6 +130,7 @@ export declare class DefaultResourceLoader implements ResourceLoader {
+     private additionalPromptTemplatePaths;
+     private additionalThemePaths;
+     private extensionFactories;
++    private extensionExec;
+     private noExtensions;
+     private noSkills;
+     private noPromptTemplates;
+diff --git a/dist/core/resource-loader.js b/dist/core/resource-loader.js
+index c5ed4d72cd596fe384af4c7b9526247e86e4d91b..46a4a5271ef9b44d11904cc53d295b3959d113a2 100644
+--- a/dist/core/resource-loader.js
++++ b/dist/core/resource-loader.js
+@@ -118,6 +118,7 @@ export class DefaultResourceLoader {
+     additionalPromptTemplatePaths;
+     additionalThemePaths;
+     extensionFactories;
++    extensionExec;
+     noExtensions;
+     noSkills;
+     noPromptTemplates;
+@@ -167,6 +168,7 @@ export class DefaultResourceLoader {
+         this.additionalPromptTemplatePaths = options.additionalPromptTemplatePaths ?? [];
+         this.additionalThemePaths = options.additionalThemePaths ?? [];
+         this.extensionFactories = options.extensionFactories ?? [];
++        this.extensionExec = options.extensionExec;
+         this.noExtensions = options.noExtensions ?? false;
+         this.noSkills = options.noSkills ?? false;
+         this.noPromptTemplates = options.noPromptTemplates ?? false;
+@@ -409,7 +411,8 @@ export class DefaultResourceLoader {
+         const extensionPaths = this.noExtensions
+             ? cliEnabledExtensions
+             : this.mergePaths(cliEnabledExtensions, enabledExtensions);
+-        const extensionsResult = await loadExtensionsCached(extensionPaths, this.cwd, this.eventBus);
++        const extensionsResult = await loadExtensionsCached(extensionPaths, this.cwd, this.eventBus,
++            this.extensionExec ? Object.assign(createExtensionRuntime(), { exec: this.extensionExec }) : undefined);
+         if (!options.includeInlineFactories) {
+             return extensionsResult;
+         }
+@@ -423,7 +426,8 @@ export class DefaultResourceLoader {
+     }
+     async loadFinalExtensionSet(extensionPaths, preTrustExtensions) {
+         if (!preTrustExtensions) {
+-            const extensionsResult = await loadExtensionsCached(extensionPaths, this.cwd, this.eventBus);
++            const extensionsResult = await loadExtensionsCached(extensionPaths, this.cwd, this.eventBus,
++                this.extensionExec ? Object.assign(createExtensionRuntime(), { exec: this.extensionExec }) : undefined);
+             const inlineExtensions = await this.loadExtensionFactories(extensionsResult.runtime);
+             extensionsResult.extensions.push(...inlineExtensions.extensions);
+             extensionsResult.errors.push(...inlineExtensions.errors);
+diff --git a/dist/core/sdk.d.ts b/dist/core/sdk.d.ts
+index 040051fa1bcf161699d8705919ba7b3d595861c7..cf35cdd9f6072d6d1a914d67689324ac68d83a23 100644
+--- a/dist/core/sdk.d.ts
++++ b/dist/core/sdk.d.ts
+@@ -45,6 +45,8 @@ export interface CreateAgentSessionOptions {
+     excludeTools?: string[];
+     /** Custom tools to register (in addition to built-in tools). */
+     customTools?: ToolDefinition[];
++    /** Application-supplied native I/O backends; defaults unchanged. */
++    toolOptions?: import("./tools/index.js").ToolsOptions;
+     /** Resource loader. When omitted, DefaultResourceLoader is used. */
+     resourceLoader?: ResourceLoader;
+     /** Session manager. Default: SessionManager.create(cwd) */
+diff --git a/dist/core/sdk.js b/dist/core/sdk.js
+index 8bb4595a64ca83f4ffd72d46dd65f1a75c283021..b70dfbfa70951b6edda735da8c813d37ed2fd12f 100644
+--- a/dist/core/sdk.js
++++ b/dist/core/sdk.js
+@@ -258,6 +258,7 @@ export async function createAgentSession(options = {}) {
+         scopedModels: options.scopedModels,
+         resourceLoader,
+         customTools: options.customTools,
++        toolOptions: options.toolOptions,
+         modelRuntime,
+         initialActiveToolNames,
+         allowedToolNames,
+diff --git a/dist/core/tools/bash.d.ts b/dist/core/tools/bash.d.ts
+index c3d9348029445772f711a923b1f1b01aa20f8acc..410450af7cbb0dbc5bdd021d4f7c81e3dafeec32 100644
+--- a/dist/core/tools/bash.d.ts
++++ b/dist/core/tools/bash.d.ts
+@@ -55,6 +55,8 @@ export interface BashSpawnContext {
+ }
+ export type BashSpawnHook = (context: BashSpawnContext) => BashSpawnContext;
+ export interface BashToolOptions {
++    /** Application-owned output directory; caller creates it. */
++    tempFileDirectory?: string;
+     /** Custom operations for command execution. Default: local shell */
+     operations?: BashOperations;
+     /** Command prefix prepended to every command (for example shell setup commands) */
+diff --git a/dist/core/tools/bash.js b/dist/core/tools/bash.js
+index b71057ddcf98b8500371f7b91f8ca10f52e7a78d..b983d40d3f166cfb9dcb48713dbef70d0ec8bbfa 100644
+--- a/dist/core/tools/bash.js
++++ b/dist/core/tools/bash.js
+@@ -155,7 +155,7 @@ export function createShellToolDefinition(cwd, config, options) {
+         async execute(_toolCallId, { command, timeout }, signal, onUpdate, ctx) {
+             const resolvedCommand = commandPrefix ? `${commandPrefix}\n${command}` : command;
+             const spawnContext = resolveSpawnContext(resolvedCommand, ctx?.cwd || cwd, spawnHook, exposeSessionEnvironment, ctx);
+-            const output = new OutputAccumulator({ tempFilePrefix: config.tempFilePrefix });
++            const output = new OutputAccumulator({ tempFilePrefix: config.tempFilePrefix, tempFileDirectory: options?.tempFileDirectory });
+             let acceptingOutput = true;
+             let updateTimer;
+             let updateDirty = false;
+diff --git a/dist/core/tools/grep.d.ts b/dist/core/tools/grep.d.ts
+index a0ee106148058186ebaecbe20850898dc56713cb..21073ed2cc5971e419a72a437878f2a5efb9b32a 100644
+--- a/dist/core/tools/grep.d.ts
++++ b/dist/core/tools/grep.d.ts
+@@ -26,6 +26,8 @@ export interface GrepToolDetails {
+  * Override these to delegate search to remote systems (for example SSH).
+  */
+ export interface GrepOperations {
++    /** Optional process backend, preserving native rg arguments/formatting. */
++    spawn?: (command: string, args: string[]) => import("node:child_process").ChildProcessByStdio<null, import("node:stream").Readable, import("node:stream").Readable>;
+     /** Check if path is a directory. Throws if path does not exist. */
+     isDirectory: (absolutePath: string) => Promise<boolean> | boolean;
+     /** Read file contents for context lines */
+diff --git a/dist/core/tools/grep.js b/dist/core/tools/grep.js
+index d427d071582ead6e0c876121a8b67ad9fe6c45f7..fbfadf5c4053becf2f4035ec58eb54c4d80fe2b7 100644
+--- a/dist/core/tools/grep.js
++++ b/dist/core/tools/grep.js
+@@ -49,7 +49,7 @@ export function createGrepToolDefinition(cwd, options) {
+                 };
+                 (async () => {
+                     try {
+-                        const rgPath = await ensureTool("rg");
++                        const rgPath = customOps?.spawn ? "rg" : await ensureTool("rg");
+                         if (!rgPath) {
+                             settle(() => reject(new Error("ripgrep (rg) is not available and could not be downloaded")));
+                             return;
+@@ -98,7 +98,7 @@ export function createGrepToolDefinition(cwd, options) {
+                         if (glob)
+                             args.push("--glob", glob);
+                         args.push("--", pattern, searchPath);
+-                        const child = spawn(rgPath, args, { stdio: ["ignore", "pipe", "pipe"] });
++                        const child = customOps?.spawn ? customOps.spawn(rgPath, args) : spawn(rgPath, args, { stdio: ["ignore", "pipe", "pipe"] });
+                         const rl = createInterface({ input: child.stdout });
+                         let stderr = "";
+                         let matchCount = 0;
+diff --git a/dist/core/tools/output-accumulator.d.ts b/dist/core/tools/output-accumulator.d.ts
+index fbd581f6067c98771dc6a29272a5bab2b2653dcd..f1d9e3bed097481cefd6887001d63b84f0e5cc91 100644
+--- a/dist/core/tools/output-accumulator.d.ts
++++ b/dist/core/tools/output-accumulator.d.ts
+@@ -3,6 +3,7 @@ export interface OutputAccumulatorOptions {
+     maxLines?: number;
+     maxBytes?: number;
+     tempFilePrefix?: string;
++    tempFileDirectory?: string;
+ }
+ export interface OutputSnapshot {
+     content: string;
+@@ -21,6 +22,7 @@ export declare class OutputAccumulator {
+     private readonly maxBytes;
+     private readonly maxRollingBytes;
+     private readonly tempFilePrefix;
++    private readonly tempFileDirectory;
+     private readonly decoder;
+     private rawChunks;
+     private tailText;
+diff --git a/dist/core/tools/output-accumulator.js b/dist/core/tools/output-accumulator.js
+index 72416680b6307108ffeace36e45fa7076cc8b7e5..f6a30f9822ef7b335359362f8775b3bdbfd65128 100644
+--- a/dist/core/tools/output-accumulator.js
++++ b/dist/core/tools/output-accumulator.js
+@@ -3,9 +3,9 @@ import { createWriteStream } from "node:fs";
+ import { tmpdir } from "node:os";
+ import { join } from "node:path";
+ import { DEFAULT_MAX_BYTES, DEFAULT_MAX_LINES, truncateTail } from "./truncate.js";
+-function defaultTempFilePath(prefix) {
++function defaultTempFilePath(prefix, directory) {
+     const id = randomBytes(8).toString("hex");
+-    return join(tmpdir(), `${prefix}-${id}.log`);
++    return join(directory ?? tmpdir(), `${prefix}-${id}.log`);
+ }
+ function byteLength(text) {
+     return Buffer.byteLength(text, "utf-8");
+@@ -22,6 +22,7 @@ export class OutputAccumulator {
+     maxBytes;
+     maxRollingBytes;
+     tempFilePrefix;
++    tempFileDirectory;
+     decoder = new TextDecoder();
+     rawChunks = [];
+     tailText = "";
+@@ -41,6 +42,7 @@ export class OutputAccumulator {
+         this.maxBytes = options.maxBytes ?? DEFAULT_MAX_BYTES;
+         this.maxRollingBytes = Math.max(this.maxBytes * 2, 1);
+         this.tempFilePrefix = options.tempFilePrefix ?? "pi-output";
++        this.tempFileDirectory = options.tempFileDirectory;
+     }
+     append(data) {
+         if (this.finished) {
+@@ -173,7 +175,7 @@ export class OutputAccumulator {
+         if (this.tempFilePath) {
+             return;
+         }
+-        this.tempFilePath = defaultTempFilePath(this.tempFilePrefix);
++        this.tempFilePath = defaultTempFilePath(this.tempFilePrefix, this.tempFileDirectory);
+         this.tempFileStream = createWriteStream(this.tempFilePath);
+         for (const chunk of this.rawChunks) {
+             this.tempFileStream.write(chunk);
+diff --git a/dist/core/tools/path-utils.d.ts b/dist/core/tools/path-utils.d.ts
+index 5df8b6b11ad347bbd630621310b3c119a5c2506d..9da0e4b20422e287120cc4723c8f126e44eeeadd 100644
+--- a/dist/core/tools/path-utils.d.ts
++++ b/dist/core/tools/path-utils.d.ts
+@@ -6,5 +6,5 @@ export declare function expandPath(filePath: string): string;
+  */
+ export declare function resolveToCwd(filePath: string, cwd: string): string;
+ export declare function resolveReadPath(filePath: string, cwd: string): string;
+-export declare function resolveReadPathAsync(filePath: string, cwd: string): Promise<string>;
++export declare function resolveReadPathAsync(filePath: string, cwd: string, exists?: (path: string) => Promise<boolean>): Promise<string>;
+ //# sourceMappingURL=path-utils.d.ts.map
+\ No newline at end of file
+diff --git a/dist/core/tools/path-utils.js b/dist/core/tools/path-utils.js
+index 47382b52446ad2ed3dd8b1c4b7b1b6d00e7a1d05..d5646b054a5dcef3d51b48393e0d542a4dd5c452 100644
+--- a/dist/core/tools/path-utils.js
++++ b/dist/core/tools/path-utils.js
+@@ -69,29 +69,29 @@ export function resolveReadPath(filePath, cwd) {
+     }
+     return resolved;
+ }
+-export async function resolveReadPathAsync(filePath, cwd) {
++export async function resolveReadPathAsync(filePath, cwd, exists = pathExists) {
+     const resolved = resolveToCwd(filePath, cwd);
+-    if (await pathExists(resolved)) {
++    if (await exists(resolved)) {
+         return resolved;
+     }
+     // Try macOS AM/PM variant (narrow no-break space before AM/PM)
+     const amPmVariant = tryMacOSScreenshotPath(resolved);
+-    if (amPmVariant !== resolved && (await pathExists(amPmVariant))) {
++    if (amPmVariant !== resolved && (await exists(amPmVariant))) {
+         return amPmVariant;
+     }
+     // Try NFD variant (macOS stores filenames in NFD form)
+     const nfdVariant = tryNFDVariant(resolved);
+-    if (nfdVariant !== resolved && (await pathExists(nfdVariant))) {
++    if (nfdVariant !== resolved && (await exists(nfdVariant))) {
+         return nfdVariant;
+     }
+     // Try curly quote variant (macOS uses U+2019 in screenshot names)
+     const curlyVariant = tryCurlyQuoteVariant(resolved);
+-    if (curlyVariant !== resolved && (await pathExists(curlyVariant))) {
++    if (curlyVariant !== resolved && (await exists(curlyVariant))) {
+         return curlyVariant;
+     }
+     // Try combined NFD + curly quote (for French macOS screenshots like "Capture d'écran")
+     const nfdCurlyVariant = tryCurlyQuoteVariant(nfdVariant);
+-    if (nfdCurlyVariant !== resolved && (await pathExists(nfdCurlyVariant))) {
++    if (nfdCurlyVariant !== resolved && (await exists(nfdCurlyVariant))) {
+         return nfdCurlyVariant;
+     }
+     return resolved;
+diff --git a/dist/core/tools/powershell.d.ts b/dist/core/tools/powershell.d.ts
+index cbc562bcd9d38132f23e81194e5e398ef8a00012..9def247464d1473d29642cc48f2733f6cd389008 100644
+--- a/dist/core/tools/powershell.d.ts
++++ b/dist/core/tools/powershell.d.ts
+@@ -8,7 +8,7 @@ export type PowerShellSpawnContext = BashSpawnContext;
+ export type PowerShellSpawnHook = BashSpawnHook;
+ export type PowerShellToolDetails = BashToolDetails;
+ export type PowerShellToolInput = BashToolInput;
+-export interface PowerShellToolOptions extends Pick<BashToolOptions, "operations" | "exposeSessionEnvironment" | "spawnHook"> {
++export interface PowerShellToolOptions extends Pick<BashToolOptions, "operations" | "exposeSessionEnvironment" | "spawnHook" | "tempFileDirectory"> {
+ }
+ export declare function createLocalPowerShellOperations(): PowerShellOperations;
+ export declare function createPowerShellToolDefinition(cwd: string, options?: PowerShellToolOptions): ReturnType<typeof createShellToolDefinition>;
+diff --git a/dist/core/tools/read.js b/dist/core/tools/read.js
+index eef9b7ccfa02a26bad7a3e19253f3e553bebf299..0bb60bcdc20f46a17b64c2ea9aeaa951d5f81a4c 100644
+--- a/dist/core/tools/read.js
++++ b/dist/core/tools/read.js
+@@ -53,7 +53,7 @@ export function createReadToolDefinition(cwd, options) {
+                 signal?.addEventListener("abort", onAbort, { once: true });
+                 (async () => {
+                     try {
+-                        const absolutePath = await resolveReadPathAsync(path, ctx?.cwd || cwd);
++                        const absolutePath = await resolveReadPathAsync(path, ctx?.cwd || cwd, options?.operations ? (candidate) => ops.access(candidate).then(() => true, () => false) : undefined);
+                         if (aborted)
+                             return;
+                         // Check if file exists and is readable.
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index e2b640b661a7712fa3f86ed5ecb494b98a6f9e4d..1dd24db64782ed006e01b2061e7e77d8dcb6dfbe 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -1,4 +1,5 @@
+ export { type Args, parseArgs } from "./cli/args.ts";
++export { detectSupportedImageMimeType } from "./utils/mime.js";
+ export { CONFIG_DIR_NAME, getAgentDir, getDocsPath, getExamplesPath, getPackageDir, getReadmePath, VERSION, } from "./config.ts";
+ export { AgentSession, type AgentSessionConfig, type AgentSessionEvent, type AgentSessionEventListener, type ModelCycleResult, type ParsedSkillBlock, type PromptOptions, parseSkillBlock, type SessionStats, } from "./core/agent-session.ts";
+ export { readStoredCredential } from "./core/auth-storage.ts";
+diff --git a/dist/index.js b/dist/index.js
+index 01017cdbf6a26b3d36e236c7f9e835fbf0fa5c3a..1413163247e1c9a8e7b41f98cf255917d9194b2a 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1,4 +1,5 @@
+ // Core session management
++export { detectSupportedImageMimeType } from "./utils/mime.js";
+ export { parseArgs } from "./cli/args.js";
+ // Config paths
+ export { CONFIG_DIR_NAME, getAgentDir, getDocsPath, getExamplesPath, getPackageDir, getReadmePath, VERSION, } from "./config.js";

@@ -1,0 +1,22 @@
+.live-lineage-controls { color: var(--ink); font-size: 13px; line-height: 1.7; }
+.live-lineage-controls code, .live-lineage-controls small { display: block; overflow-wrap: anywhere; font-size: 11px; }
+.live-lineage-controls pre, .lineage-full-preview { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
+.lineage-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin: 18px 0; }
+.lineage-toolbar label { display: grid; gap: 4px; font-size: 12px; }
+.lineage-toolbar select, .lineage-actions input:not([type="checkbox"]) { border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--paper); color: inherit; font: inherit; min-width: 0; width: 100%; box-sizing: border-box; }
+.lineage-tree { padding: 0; margin: 18px 0; list-style: none; }
+.lineage-tree li { margin: 8px 0; }
+.lineage-tree button { display: block; width: stretch; width: -webkit-fill-available; max-width: 100%; text-align: start; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: inherit; padding: 12px; cursor: pointer; overflow-wrap: anywhere; }
+.lineage-tree button[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.lineage-node-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); }
+.lineage-path-tag { color: var(--accent); }
+.lineage-preview { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 5px 0; }
+.lineage-tree strong { font-size: 13px; font-weight: 600; }
+.lineage-actions { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.native-settings-section .lineage-check { display: flex; align-items: start; gap: 9px; }
+.lineage-check input { margin-top: 5px; accent-color: var(--accent); }
+.lineage-fork-actions { display: grid; gap: 8px; margin-top: 16px; }
+.lineage-record { display: block; width: 100%; text-align: start; margin: 6px 0; }
+.live-lineage-controls button { min-height: 40px; }
+.live-lineage-controls :is(button, select, input, textarea):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 720px) { .live-lineage-controls :is(select, textarea, input:not([type="checkbox"])) { font-size: 16px; } .live-lineage-controls button { min-height: 44px; } }

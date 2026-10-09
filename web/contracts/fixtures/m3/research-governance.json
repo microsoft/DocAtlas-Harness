@@ -1,0 +1,115 @@
+{
+  "createDecisionRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-governance",
+    "sessionId": "session:governance:one",
+    "workspaceId": "workspace:governance",
+    "investigationId": "investigation:governance:one",
+    "scopeVersionId": "scope:governance:1",
+    "idempotencyKey": "idempotency:governance:decision:create",
+    "action": "create",
+    "entry": {
+      "recordType": "project-decision",
+      "title": "Page numbering convention",
+      "decision": "Use physical PDF page numbers in every deliverable.",
+      "rationale": "This keeps citations resolvable across extracted representations."
+    }
+  },
+  "createDecisionResult": {
+    "schemaVersion": 1,
+    "resultType": "research-governance",
+    "status": "created",
+    "record": {
+      "schemaVersion": 1,
+      "recordId": "decision:governance:one",
+      "workspaceId": "workspace:governance",
+      "investigationId": "investigation:governance:one",
+      "sourceSessionId": "session:governance:one",
+      "sourceScopeVersionId": "scope:governance:1",
+      "recordType": "project-decision",
+      "version": 1,
+      "status": "active",
+      "title": "Page numbering convention",
+      "decision": "Use physical PDF page numbers in every deliverable.",
+      "rationale": "This keeps citations resolvable across extracted representations.",
+      "createdBy": { "kind": "user", "actorId": "user:governance:one" },
+      "updatedBy": { "kind": "user", "actorId": "user:governance:one" },
+      "createdAt": "2026-08-31T12:00:00Z",
+      "updatedAt": "2026-08-31T12:00:00Z"
+    }
+  },
+  "createPolicyRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-governance",
+    "sessionId": "session:governance:one",
+    "workspaceId": "workspace:governance",
+    "investigationId": "investigation:governance:one",
+    "scopeVersionId": "scope:governance:1",
+    "idempotencyKey": "idempotency:governance:policy:create",
+    "action": "create",
+    "entry": {
+      "recordType": "research-policy",
+      "title": "Primary-source requirement",
+      "directive": "Verify material financial figures against a primary filing.",
+      "policyScope": "workspace"
+    }
+  },
+  "createPolicyResult": {
+    "schemaVersion": 1,
+    "resultType": "research-governance",
+    "status": "created",
+    "record": {
+      "schemaVersion": 1,
+      "recordId": "policy:governance:one",
+      "workspaceId": "workspace:governance",
+      "investigationId": "investigation:governance:one",
+      "sourceSessionId": "session:governance:one",
+      "sourceScopeVersionId": "scope:governance:1",
+      "recordType": "research-policy",
+      "version": 1,
+      "status": "active",
+      "title": "Primary-source requirement",
+      "directive": "Verify material financial figures against a primary filing.",
+      "policyScope": "workspace",
+      "createdBy": { "kind": "user", "actorId": "user:governance:one" },
+      "updatedBy": { "kind": "user", "actorId": "user:governance:one" },
+      "createdAt": "2026-08-31T12:01:00Z",
+      "updatedAt": "2026-08-31T12:01:00Z"
+    }
+  },
+  "archivePolicyRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-governance",
+    "sessionId": "session:governance:one",
+    "workspaceId": "workspace:governance",
+    "investigationId": "investigation:governance:one",
+    "scopeVersionId": "scope:governance:1",
+    "idempotencyKey": "idempotency:governance:policy:archive",
+    "action": "archive",
+    "recordId": "policy:governance:one",
+    "expectedVersion": 1
+  },
+  "archivePolicyResult": {
+    "schemaVersion": 1,
+    "resultType": "research-governance",
+    "status": "updated",
+    "record": {
+      "schemaVersion": 1,
+      "recordId": "policy:governance:one",
+      "workspaceId": "workspace:governance",
+      "investigationId": "investigation:governance:one",
+      "sourceSessionId": "session:governance:one",
+      "sourceScopeVersionId": "scope:governance:1",
+      "recordType": "research-policy",
+      "version": 2,
+      "status": "archived",
+      "title": "Primary-source requirement",
+      "directive": "Verify material financial figures against a primary filing.",
+      "policyScope": "workspace",
+      "createdBy": { "kind": "user", "actorId": "user:governance:one" },
+      "updatedBy": { "kind": "user", "actorId": "user:governance:one" },
+      "createdAt": "2026-08-31T12:01:00Z",
+      "updatedAt": "2026-08-31T12:02:00Z"
+    }
+  }
+}

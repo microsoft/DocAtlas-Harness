@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": false, "declarationMap": false,
+    "jsx": "react-jsx", "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "module": "ESNext", "moduleResolution": "Bundler", "noEmit": true,
+    "types": ["node", "react", "react-dom"],
+    "paths": {
+      "@docatlas/contracts": ["./packages/contracts/src/index.ts"],
+      "@docatlas/contracts/node": ["./packages/contracts/src/node.ts"]
+    }
+  },
+  "include": ["e2e/live", "playwright.live.config.ts"]
+}

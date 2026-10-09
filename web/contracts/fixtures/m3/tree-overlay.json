@@ -1,0 +1,75 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "requestType": "tree-overlay-get",
+    "sessionId": "session:overlay:current",
+    "workspaceId": "workspace:overlay",
+    "investigationId": "investigation:overlay:current",
+    "scopeVersionId": "scope:overlay:current",
+    "source": {
+      "documentId": "doc:overlay",
+      "revisionId": "rev:overlay:1",
+      "representationId": "rep:overlay:text",
+      "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "physicalPage": 2,
+    "recordTypes": ["research-note", "open-question"],
+    "limits": { "maxItems": 20, "maxChars": 2000 }
+  },
+  "result": {
+    "schemaVersion": 1,
+    "resultType": "tree-overlay",
+    "workspaceId": "workspace:overlay",
+    "investigationId": "investigation:overlay:current",
+    "scopeVersionId": "scope:overlay:current",
+    "source": {
+      "documentId": "doc:overlay",
+      "revisionId": "rev:overlay:1",
+      "representationId": "rep:overlay:text",
+      "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "physicalPage": 2,
+    "queryHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "items": [
+      {
+        "overlayId": "overlay:note:margin:1",
+        "recordId": "note:margin:1",
+        "recordType": "research-note",
+        "recordStatus": "active",
+        "sourceInvestigationId": "investigation:overlay:prior",
+        "sourceSessionId": "session:overlay:prior",
+        "layer": "research",
+        "locator": {
+          "schemaVersion": 1,
+          "locatorId": "locator:overlay:margin",
+          "documentId": "doc:overlay",
+          "revisionId": "rev:overlay:1",
+          "representationId": "rep:overlay:text",
+          "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "physicalPage": 2,
+          "selectors": [
+            {
+              "type": "text-quote",
+              "exact": "audited margin",
+              "normalizedHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ],
+          "createdAt": "2026-08-31T12:30:00Z"
+        },
+        "preview": "Margin note",
+        "relation": "research-record-anchor",
+        "verificationStatus": "anchor-only",
+        "createdAt": "2026-08-31T12:31:00Z"
+      }
+    ],
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 20,
+      "returned": 1,
+      "total": 1,
+      "usedChars": 11,
+      "truncated": false,
+      "completeness": "candidate"
+    }
+  }
+}

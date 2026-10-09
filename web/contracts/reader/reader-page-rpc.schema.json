@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/reader-page-rpc.v1.json",
+  "title": "DocAtlas authenticated controlled Reader page RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "requestType",
+        "sessionId",
+        "workspaceId",
+        "documentId",
+        "revisionId",
+        "physicalPage",
+        "maxPixels"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "reader-page-get" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "physicalPage": { "type": "integer", "minimum": 1 },
+        "maxPixels": { "type": "integer", "minimum": 1, "maximum": 40000000 },
+        "cursor": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "resultType",
+        "workspaceId",
+        "documentId",
+        "revisionId",
+        "representationId",
+        "representationContentHash",
+        "physicalPage",
+        "totalPages",
+        "textQuality",
+        "blocks",
+        "visual",
+        "pageInfo"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "reader-page" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "representationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "representationContentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+        "physicalPage": { "type": "integer", "minimum": 1 },
+        "totalPages": { "type": "integer", "minimum": 1 },
+        "textQuality": {
+          "type": "string",
+          "enum": ["empty", "sparse", "garbled", "usable", "not-applicable"]
+        },
+        "blocks": {
+          "type": "array",
+          "maxItems": 200,
+          "items": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/textBlock" }
+        },
+        "visual": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/visualAsset" },
+        "pageInfo": { "$ref": "https://docatlas.dev/schemas/page-info.v1.json" }
+      }
+    }
+  }
+}

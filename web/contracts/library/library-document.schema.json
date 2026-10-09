@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/library-document.v1.json",
+  "title": "DocAtlas workspace Library document v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "workspaceId",
+    "documentId",
+    "displayName",
+    "mediaType",
+    "sourceRole",
+    "status",
+    "revisionCount",
+    "currentRevision",
+    "representations",
+    "activeRepresentationId",
+    "capabilities",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "mediaType": { "type": "string", "enum": ["application/pdf", "text/markdown", "text/plain"] },
+    "sourceRole": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sourceRole" },
+    "status": { "type": "string", "enum": ["ready", "partial", "archived"] },
+    "revisionCount": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+    "currentRevision": { "$ref": "https://docatlas.dev/schemas/document-revision.v1.json" },
+    "representations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": { "$ref": "https://docatlas.dev/schemas/source-representation.v1.json" }
+    },
+    "activeRepresentationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "capabilities": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": { "type": "string", "enum": ["text", "ocr", "table", "figure", "page-image", "original"] }
+    },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "updatedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  }
+}

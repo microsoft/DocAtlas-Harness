@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/document-http.v1.json",
+  "$defs": {
+    "id": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"},
+    "name": {"type": "string", "minLength": 1, "maxLength": 160, "pattern": "^[^\\u0000-\\u001f\\u007f/\\\\]+\\.[pP][dD][fF]$"},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "bytes": {"type": "integer", "minimum": 5, "maximum": 26214400},
+    "proposal": {"type": "object", "additionalProperties": false, "required": ["documentId", "revisionId", "physicalPage", "quote"], "properties": {
+      "documentId": {"$ref": "#/$defs/id"}, "revisionId": {"$ref": "#/$defs/id"}, "physicalPage": {"type": "integer", "minimum": 1, "maximum": 100000}, "quote": {"type": "string", "minLength": 1, "maxLength": 2000}
+    }},
+    "selectionItem": {"type": "object", "additionalProperties": false, "required": ["locator", "text"], "properties": {
+      "locator": {"$ref": "https://docatlas.dev/schemas/document-locator.v1.json"}, "text": {"type": "string", "minLength": 1, "maxLength": 4000}
+    }}
+  },
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "idempotencyKey", "expectedGeneration", "proposals"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "selection-stage"}, "idempotencyKey": {"type": "string", "$ref": "#/$defs/id", "minLength": 16}, "expectedGeneration": {"type": "integer", "minimum": 1}, "proposals": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "#/$defs/proposal"}}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "selectionContextId", "conversationId", "workspaceId", "actorId", "bindingId", "generation", "state", "items", "createdAt", "expiresAt", "submissionId", "requestHash"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "selection-ticket"}, "selectionContextId": {"$ref": "#/$defs/id"}, "conversationId": {"$ref": "#/$defs/id"}, "workspaceId": {"$ref": "#/$defs/id"}, "actorId": {"$ref": "#/$defs/id"}, "bindingId": {"$ref": "#/$defs/id"}, "generation": {"type": "integer", "minimum": 1}, "state": {"enum": ["staged", "bound", "consumed", "cancelled", "expired"]}, "items": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "#/$defs/selectionItem"}}, "createdAt": {"type": "string", "format": "date-time"}, "expiresAt": {"type": "string", "format": "date-time"}, "submissionId": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}, "requestHash": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "idempotencyKey", "name", "byteLength", "contentHash"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "upload-start"}, "idempotencyKey": {"type": "string", "$ref": "#/$defs/id", "minLength": 16}, "name": {"$ref": "#/$defs/name"}, "byteLength": {"$ref": "#/$defs/bytes"}, "contentHash": {"$ref": "#/$defs/hash"}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "uploadId", "conversationId", "name", "byteLength", "contentHash", "status"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "upload"}, "uploadId": {"$ref": "#/$defs/id"}, "conversationId": {"$ref": "#/$defs/id"}, "name": {"$ref": "#/$defs/name"}, "byteLength": {"$ref": "#/$defs/bytes"}, "contentHash": {"$ref": "#/$defs/hash"}, "status": {"enum": ["pending", "stored"]}
+    }},
+    {"type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "conversationId", "result"], "properties": {
+      "schemaVersion": {"const": 1}, "kind": {"const": "library-response"}, "conversationId": {"$ref": "#/$defs/id"}, "result": {"type": "object", "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json", "required": ["resultType"], "properties": {"resultType": {"type": "string"}}}
+    }}
+  ]
+}

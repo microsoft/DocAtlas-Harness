@@ -1,0 +1,485 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-probe.v1.json",
+  "title": "Controlled presentation choices over an authorized saved Answer",
+  "$defs": {
+    "id": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positive": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "inspect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedGeneration",
+        "messageId",
+        "kind"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "probe-inspect"
+        }
+      }
+    },
+    "prepare": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedGeneration",
+        "messageId",
+        "expectedProfileEpoch",
+        "expectedPolicyVersion",
+        "kind"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "expectedPolicyVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "kind": {
+          "const": "probe-prepare"
+        }
+      }
+    },
+    "choose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedGeneration",
+        "messageId",
+        "expectedProfileEpoch",
+        "expectedPolicyVersion",
+        "kind",
+        "probeId",
+        "idempotencyKey",
+        "selected",
+        "scopeIntent",
+        "reasonTags"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "expectedPolicyVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "kind": {
+          "const": "probe-choose"
+        },
+        "probeId": {
+          "$ref": "#/$defs/id"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/id"
+        },
+        "selected": {
+          "$ref": "#/$defs/id"
+        },
+        "scopeIntent": {
+          "enum": [
+            "turn",
+            "workspace"
+          ]
+        },
+        "reasonTags": {
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "faster-understanding",
+              "easier-verification",
+              "better-deliverable",
+              "less-cognitive-load"
+            ]
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedGeneration",
+        "messageId",
+        "kind",
+        "expectedProfileEpoch",
+        "probeId",
+        "candidateId",
+        "expectedCandidateVersion",
+        "decision",
+        "idempotencyKey"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "probe-review"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "probeId": {
+          "$ref": "#/$defs/id"
+        },
+        "candidateId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedCandidateVersion": {
+          "$ref": "#/$defs/positive"
+        },
+        "decision": {
+          "enum": [
+            "accept",
+            "reject"
+          ]
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest",
+        "nativeTextHash",
+        "materialHash"
+      ],
+      "properties": {
+        "manifest": {
+          "$ref": "https://docatlas.dev/schemas/answer-manifest.v1.json"
+        },
+        "nativeTextHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "materialHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        }
+      }
+    },
+    "choiceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "idempotencyKey",
+        "requestHash",
+        "choice",
+        "candidateId"
+      ],
+      "properties": {
+        "idempotencyKey": {
+          "$ref": "#/$defs/id"
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "choice": {
+          "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/preferenceChoiceObservation"
+        },
+        "candidateId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "profileEpoch",
+        "messageId",
+        "kind",
+        "reason",
+        "contributionAllowed",
+        "policyVersion",
+        "material",
+        "probe",
+        "choiceReceipt",
+        "candidate"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "conversationId": {
+          "$ref": "#/$defs/id"
+        },
+        "bindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "generation": {
+          "$ref": "#/$defs/positive"
+        },
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "probe-view"
+        },
+        "reason": {
+          "enum": [
+            "ready",
+            "answer-unavailable",
+            "no-evidence",
+            "too-large"
+          ]
+        },
+        "contributionAllowed": {
+          "type": "boolean"
+        },
+        "policyVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "material": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/material"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "probe": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/preferenceProbe"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "choiceReceipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/choiceReceipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryCandidate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "choiceResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "profileEpoch",
+        "messageId",
+        "idempotencyKey",
+        "requestHash",
+        "choice",
+        "candidateId",
+        "kind",
+        "probeId",
+        "status"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "conversationId": {
+          "$ref": "#/$defs/id"
+        },
+        "bindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "generation": {
+          "$ref": "#/$defs/positive"
+        },
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/id"
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "choice": {
+          "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/preferenceChoiceObservation"
+        },
+        "candidateId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "kind": {
+          "const": "probe-choice-result"
+        },
+        "probeId": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "enum": [
+            "created",
+            "replayed"
+          ]
+        }
+      }
+    },
+    "reviewResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "profileEpoch",
+        "messageId",
+        "kind",
+        "probeId",
+        "idempotencyKey",
+        "requestHash",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "conversationId": {
+          "$ref": "#/$defs/id"
+        },
+        "bindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "generation": {
+          "$ref": "#/$defs/positive"
+        },
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "probe-review-result"
+        },
+        "probeId": {
+          "$ref": "#/$defs/id"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/id"
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/personalization-command.v1.json#/$defs/result"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/inspect"
+    },
+    {
+      "$ref": "#/$defs/prepare"
+    },
+    {
+      "$ref": "#/$defs/choose"
+    },
+    {
+      "$ref": "#/$defs/review"
+    },
+    {
+      "$ref": "#/$defs/view"
+    },
+    {
+      "$ref": "#/$defs/choiceResult"
+    },
+    {
+      "$ref": "#/$defs/reviewResult"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "docatlas-grounded-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "engines": { "node": "22.19.0" },
+  "scripts": {
+    "check:clean-host": "node --experimental-transform-types scripts/clean-check.mjs check",
+    "test:live:clean-host": "node --experimental-transform-types scripts/clean-check.mjs browser",
+    "build": "pnpm -r --sort --workspace-concurrency=2 --if-present run build",
+    "check:env": "node scripts/check-env.mjs",
+    "generate:contracts": "node scripts/generate-contract-bindings.mjs",
+    "check:generated-contracts": "node scripts/generate-contract-bindings.mjs --check",
+    "check:build": "pnpm --config.enable-pre-post-scripts=false -r --sort --workspace-concurrency=2 --if-present run build",
+    "check:types": "pnpm --config.enable-pre-post-scripts=false -r --sort --workspace-concurrency=4 --if-present run typecheck && tsc --project tsconfig.e2e.json --noEmit",
+    "check:compat": "node scripts/check-pi-patch.mjs",
+    "check:protocol": "node scripts/check-sidecar-protocol.mjs",
+    "check:js": "pnpm run check:env && pnpm run check:generated-contracts && pnpm run lint && pnpm run check:build && pnpm run check:types && pnpm run test && pnpm run check:compat && pnpm run check:protocol",
+    "lint": "oxlint --deny-warnings apps packages scripts e2e compat playwright.live.config.ts",
+    "test": "vitest run",
+    "build:demo": "pnpm --filter @docatlas/web-demo build",
+    "web": "bash scripts/run-docatlas-web.sh",
+    "test:live": "playwright test --config playwright.live.config.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.59.1",
+    "@types/node": "22.20.0",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "oxlint": "1.76.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "6.0.3",
+    "vite": "8.2.2",
+    "vitest": "4.1.8"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "description": "Bounded Node/static-browser/Python controlled-presentation vectors. $fixture imports are test-only expansion. Wire shape/semantic consistency do not prove host Answer publication, current actor/epoch/policy, native text hash or durable choice authority. ready's exact material and recipe hashes are also verified by the pure Core tests.",
+  "imports": { "answer": "m2/answer-manifest.json", "memory": "m6/personalization.valid.json" },
+  "bases": {
+    "inspect": { "schemaVersion": 1, "kind": "probe-inspect", "expectedGeneration": 1, "messageId": "message:answer:revenue" },
+    "prepare": { "schemaVersion": 1, "kind": "probe-prepare", "expectedGeneration": 1, "messageId": "message:answer:revenue", "expectedProfileEpoch": 0, "expectedPolicyVersion": 0 },
+    "choose": { "schemaVersion": 1, "kind": "probe-choose", "expectedGeneration": 1, "messageId": "message:answer:revenue", "expectedProfileEpoch": 0, "expectedPolicyVersion": 0, "probeId": "probe:d10783a0c3f3058622e856f5ec9e4524139f2d3e8c27e8791fe892846b5c351f", "idempotencyKey": "choice:request:one", "selected": "variant:evidence-first", "scopeIntent": "workspace", "reasonTags": ["easier-verification"] },
+    "review": { "schemaVersion": 1, "kind": "probe-review", "expectedGeneration": 1, "messageId": "message:answer:revenue", "expectedProfileEpoch": 0, "probeId": "probe:d10783a0c3f3058622e856f5ec9e4524139f2d3e8c27e8791fe892846b5c351f", "candidateId": "candidate:probe:one", "expectedCandidateVersion": 1, "decision": "accept", "idempotencyKey": "review:request:one" },
+    "empty": { "schemaVersion": 1, "kind": "probe-view", "conversationId": "session:answer", "bindingId": "binding:probe", "generation": 1, "profileEpoch": 0, "messageId": "message:answer:revenue", "reason": "answer-unavailable", "contributionAllowed": false, "policyVersion": 0, "material": null, "probe": null, "choiceReceipt": null, "candidate": null },
+    "ready": {
+      "schemaVersion": 1, "kind": "probe-view", "conversationId": "session:answer", "bindingId": "binding:probe", "generation": 1, "profileEpoch": 0, "messageId": "message:answer:revenue", "reason": "ready", "contributionAllowed": true, "policyVersion": 0,
+      "material": { "manifest": { "$fixture": "answer", "path": ["manifest"] }, "nativeTextHash": "95d1056dcb23bd7316c1962ba2a4b6b8664988266f7ea3dd67eb10550b37da7b", "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8" },
+      "probe": {
+        "schemaVersion": 1, "recordType": "preference-probe", "probeId": "probe:d10783a0c3f3058622e856f5ec9e4524139f2d3e8c27e8791fe892846b5c351f", "profileId": "profile:probe", "sessionId": "session:answer", "turn": 1,
+        "taskContext": { "mode": "explore", "workspaceId": "workspace:answer", "investigationId": "investigation:answer" }, "axis": "answer-order", "trigger": "user-requested", "investigationId": "investigation:answer",
+        "backbone": { "sourceScopeVersionId": "scope:answer:1", "claimVersionIds": [], "evidenceAtomIds": ["evidence:revenue-growth"], "uncertaintyIds": [], "conflictIds": [], "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8" },
+        "variants": [
+          { "variantKey": "variant:answer-first", "effect": { "key": "answer-order", "value": "conclusion-first" }, "artifactId": "presentation:b84ff737ce0dfb95f59717cfc5b0b1e1be51f3d992837fd63a777b0ec392782d", "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8", "invariantCheck": "passed" },
+          { "variantKey": "variant:evidence-first", "effect": { "key": "answer-order", "value": "evidence-first" }, "artifactId": "presentation:bbf508650aa82df3f84557f73abdb2ede2a626adef289e09f2fe8369dbc0ca54", "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8", "invariantCheck": "passed" }
+        ],
+        "presentationOrder": ["variant:answer-first", "variant:evidence-first"], "generatedAt": "2026-09-10T00:00:00.000Z"
+      },
+      "choiceReceipt": null, "candidate": null
+    },
+    "choiceResult": {
+      "schemaVersion": 1, "kind": "probe-choice-result", "conversationId": "session:answer", "bindingId": "binding:probe", "generation": 1, "profileEpoch": 0, "messageId": "message:answer:revenue",
+      "probeId": "probe:d10783a0c3f3058622e856f5ec9e4524139f2d3e8c27e8791fe892846b5c351f", "idempotencyKey": "choice:request:one", "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "created", "candidateId": null,
+      "choice": { "schemaVersion": 1, "recordType": "preference-choice-observation", "choiceObservationId": "choice:probe:one", "probeId": "probe:d10783a0c3f3058622e856f5ec9e4524139f2d3e8c27e8791fe892846b5c351f", "profileId": "profile:probe", "sessionId": "session:answer", "turn": 1, "selected": "variant:evidence-first", "scopeIntent": "turn", "reasonTags": ["easier-verification"], "consent": { "retention": "session-only", "basis": "session-policy" }, "occurredAt": "2026-09-10T00:01:00.000Z" }
+    },
+    "reviewResult": { "schemaVersion": 1, "kind": "probe-review-result", "conversationId": "session:answer", "bindingId": "binding:probe", "generation": 1, "profileEpoch": 0, "messageId": "message:answer:revenue", "probeId": "probe:review:one", "idempotencyKey": "review:request:one", "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "result": { "$fixture": "memory", "path": ["commands", "reviewCandidateResult"] } }
+  },
+  "valid": [
+    { "name": "inspection is not a mutation", "base": "inspect" },
+    { "name": "preparation pins privacy epoch and contribution policy", "base": "prepare" },
+    { "name": "workspace choice is separate from preference activation", "base": "choose" },
+    { "name": "turn choice is explicit and bounded", "base": "choose", "set": [{ "path": ["scopeIntent"], "value": "turn" }] },
+    { "name": "neither is a turn-only response", "base": "choose", "set": [{ "path": ["selected"], "value": "neither" }, { "path": ["scopeIntent"], "value": "turn" }] },
+    { "name": "candidate review requires a version", "base": "review" },
+    { "name": "unavailable Answer has no simulated material", "base": "empty" },
+    { "name": "no Evidence is explicit", "base": "empty", "set": [{ "path": ["reason"], "value": "no-evidence" }] },
+    { "name": "large material is explicitly unavailable", "base": "empty", "set": [{ "path": ["reason"], "value": "too-large" }] },
+    { "name": "real Read Evidence does not require invented Claim IDs", "base": "ready" },
+    { "name": "inspection can show material before explicit preparation", "base": "ready", "set": [{ "path": ["probe"], "value": null }] },
+    { "name": "choice receipt records only this turn", "base": "choiceResult" },
+    { "name": "replayed receipt is not a new choice", "base": "choiceResult", "set": [{ "path": ["status"], "value": "replayed" }] },
+    { "name": "review carries the unchanged domain result shape", "base": "reviewResult" }
+  ],
+  "invalidShape": [
+    { "name": "browser cannot supply profile identity", "base": "prepare", "set": [{ "path": ["profileId"], "value": "profile:forged" }] },
+    { "name": "browser cannot supply actor identity", "base": "choose", "set": [{ "path": ["actorId"], "value": "actor:forged" }] },
+    { "name": "browser cannot submit its own Answer material", "base": "prepare", "set": [{ "path": ["material"], "value": {} }] },
+    { "name": "missing epoch cannot revive erased preferences", "base": "choose", "remove": [["expectedProfileEpoch"]] },
+    { "name": "negative epoch is not a version", "base": "prepare", "set": [{ "path": ["expectedProfileEpoch"], "value": -1 }] },
+    { "name": "unsafe policy version is rejected", "base": "prepare", "set": [{ "path": ["expectedPolicyVersion"], "value": 9007199254740992 }] },
+    { "name": "review cannot omit candidate CAS", "base": "review", "remove": [["expectedCandidateVersion"]] },
+    { "name": "unsupported automatic scope is rejected", "base": "choose", "set": [{ "path": ["scopeIntent"], "value": "global" }] },
+    { "name": "reason tags are unique", "base": "choose", "set": [{ "path": ["reasonTags"], "value": ["easier-verification", "easier-verification"] }] },
+    { "name": "native digest must be a canonical hash", "base": "ready", "set": [{ "path": ["material", "nativeTextHash"], "value": "forged" }] },
+    { "name": "material cannot provide alternate generated HTML", "base": "ready", "set": [{ "path": ["material", "html"], "value": "<b>different facts</b>" }] },
+    { "name": "unknown recipe version is not allowed in material", "base": "ready", "set": [{ "path": ["material", "recipeVersion"], "value": 2 }] },
+    { "name": "unknown outer protocol version is rejected", "base": "ready", "set": [{ "path": ["schemaVersion"], "value": 2 }] },
+    { "name": "successful choice cannot omit its receipt hash", "base": "choiceResult", "remove": [["requestHash"]] }
+  ],
+  "invalidSemantic": [
+    { "name": "reserved answer cannot imply future retention", "base": "choose", "set": [{ "path": ["selected"], "value": "both" }], "codes": ["probe-choice-scope"] },
+    { "name": "ready requires real material", "base": "empty", "set": [{ "path": ["reason"], "value": "ready" }], "codes": ["probe-material-state"] },
+    { "name": "unavailable must not carry a real-looking material", "base": "ready", "set": [{ "path": ["reason"], "value": "answer-unavailable" }], "codes": ["probe-material-state"] },
+    { "name": "material message must match the response", "base": "ready", "set": [{ "path": ["messageId"], "value": "message:other" }], "codes": ["probe-answer"] },
+    { "name": "probe source scope cannot differ from actual material", "base": "ready", "set": [{ "path": ["probe", "backbone", "sourceScopeVersionId"], "value": "scope:other" }], "codes": ["probe-binding"] },
+    { "name": "probe digest cannot differ from material", "base": "ready", "set": [{ "path": ["material", "materialHash"], "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }], "codes": ["probe-binding"] },
+    { "name": "probe turn cannot differ from actual Answer", "base": "ready", "set": [{ "path": ["probe", "turn"], "value": 2 }], "codes": ["probe-binding"] },
+    { "name": "both variants must preserve the same declared backbone", "base": "ready", "set": [{ "path": ["probe", "variants", 0, "factTraceDigest"], "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }], "codes": ["probe-binding"] },
+    { "name": "choice receipt cannot change its original probe", "base": "choiceResult", "set": [{ "path": ["probeId"], "value": "probe:other" }], "codes": ["probe-choice-identity"] },
+    { "name": "choice receipt cannot belong to another session", "base": "choiceResult", "set": [{ "path": ["choice", "sessionId"], "value": "session:other" }], "codes": ["probe-choice-identity"] },
+    { "name": "turn-only choice cannot create a workspace candidate", "base": "choiceResult", "set": [{ "path": ["candidateId"], "value": "candidate:forged" }], "codes": ["probe-choice-scope"] },
+    { "name": "review envelope cannot masquerade as a direct preference write", "base": "reviewResult", "set": [{ "path": ["result"], "value": { "$fixture": "memory", "path": ["commands", "setSessionPolicyResult"] } }], "codes": ["probe-review-kind"] }
+  ],
+  "hostOnly": [
+    { "name": "well-shaped recipe artifact IDs are not verified content", "base": "ready", "set": [{ "path": ["probe", "variants", 0, "artifactId"], "value": "presentation:forged" }], "authority": "Core recomputes the exact whitelisted recipe and content hash before any domain choice." },
+    { "name": "well-shaped native digest is not checkpoint authority", "base": "ready", "set": [{ "path": ["material", "nativeTextHash"], "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }], "authority": "Host must authorize the original completed Answer publication and native text seal; Core then rehashes all material." },
+    { "name": "caller reported equal hashes do not validate visible text", "base": "ready", "set": [{ "path": ["material", "manifest", "blocks", 0, "segments", 0, "text"], "value": "Revenue increased by 90%." }], "authority": "Core reconstructs visible text from actual blocks and rejects the stale answerTextHash rather than trusting declared equality." },
+    { "name": "old valid epoch requires host comparison", "base": "prepare", "set": [{ "path": ["expectedProfileEpoch"], "value": 1 }], "authority": "Only the host current persistent privacy epoch can decide whether this operation is stale." },
+    { "name": "unrecognized variant key requires exact prepared-probe lookup", "base": "choose", "set": [{ "path": ["selected"], "value": "variant:not-prepared" }], "authority": "Host validates the exact prepared recipe choice; opaque syntax alone cannot select a variant." }
+  ]
+}

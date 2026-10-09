@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/evidence-atom.v1.json",
+  "title": "DocAtlas immutable evidence atom v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "evidenceId",
+    "documentId",
+    "revisionId",
+    "representationId",
+    "locatorId",
+    "kind",
+    "content",
+    "contentHash",
+    "sourceRole",
+    "resolutionStatus",
+    "status",
+    "createdBy",
+    "provenanceActivityId",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "evidenceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "representationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "locatorId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "kind": {
+      "type": "string",
+      "enum": ["quote", "table-cell", "figure", "visual-observation"]
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mediaType"],
+      "properties": {
+        "mediaType": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+$",
+          "maxLength": 127
+        },
+        "text": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "assetId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      },
+      "anyOf": [
+        {
+          "required": ["text"],
+          "properties": { "text": { "type": "string" } }
+        },
+        {
+          "required": ["assetId"],
+          "properties": {
+            "assetId": {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            }
+          }
+        }
+      ]
+    },
+    "contentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "sourceRole": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sourceRole" },
+    "resolutionStatus": {
+      "type": "string",
+      "enum": ["resolved", "page-only", "ambiguous", "stale", "missing", "denied"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["current", "stale", "withdrawn", "deleted"]
+    },
+    "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "provenanceActivityId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "kind": { "enum": ["quote", "table-cell", "visual-observation"] } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "type": "object",
+            "required": ["text"],
+            "properties": { "text": { "type": "string" } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "figure" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "content": {
+            "type": "object",
+            "required": ["assetId"],
+            "properties": {
+              "assetId": {
+                "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

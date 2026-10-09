@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "reviewResultId": "review:brief:v1",
+  "workspaceId": "workspace:demo",
+  "investigationId": "investigation:contract-review",
+  "sourceScopeVersionId": "scope:contract-review:v1",
+  "mode": "publish-gate",
+  "subject": {
+    "kind": "artifact-manifest",
+    "objectIds": ["artifact-manifest:brief:v1"],
+    "contentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "ruleset": {
+    "name": "docatlas-publish-gates",
+    "version": "1.0.0",
+    "configHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "checkedObjectIds": [
+    "artifact-manifest:brief:v1",
+    "claim:termination:v1",
+    "claim-use:termination-conflict",
+    "relation:termination-support",
+    "relation:termination-refute",
+    "evidence:termination-support",
+    "evidence:termination-refute",
+    "derivation:termination-verify",
+    "scope:contract-review:v1"
+  ],
+  "gates": [
+    {
+      "gateId": "G0-integrity",
+      "status": "pass",
+      "checkedObjectIds": [
+        "artifact-manifest:brief:v1",
+        "claim:termination:v1",
+        "evidence:termination-support",
+        "evidence:termination-refute",
+        "derivation:termination-verify"
+      ],
+      "issueIds": []
+    },
+    {
+      "gateId": "G1-grounding",
+      "status": "pass",
+      "checkedObjectIds": [
+        "claim:termination:v1",
+        "relation:termination-support",
+        "relation:termination-refute",
+        "evidence:termination-support",
+        "evidence:termination-refute"
+      ],
+      "issueIds": []
+    },
+    {
+      "gateId": "G2-scope",
+      "status": "pass",
+      "checkedObjectIds": [
+        "artifact-manifest:brief:v1",
+        "scope:contract-review:v1",
+        "evidence:termination-refute"
+      ],
+      "issueIds": ["review-issue:source-authority"]
+    },
+    {
+      "gateId": "G3-conflict",
+      "status": "pass",
+      "checkedObjectIds": [
+        "claim:termination:v1",
+        "relation:termination-support",
+        "relation:termination-refute"
+      ],
+      "issueIds": []
+    },
+    {
+      "gateId": "G4-publication",
+      "status": "pass",
+      "checkedObjectIds": ["artifact-manifest:brief:v1", "claim-use:termination-conflict"],
+      "issueIds": []
+    }
+  ],
+  "issues": [
+    {
+      "issueId": "review-issue:source-authority",
+      "code": "source-authority-limited",
+      "gateId": "G2-scope",
+      "severity": "warning",
+      "message": "The amendment is unsigned; the limitation is disclosed but does not make the deterministic gate fail.",
+      "subjects": [
+        { "kind": "evidence", "objectId": "evidence:termination-refute" }
+      ],
+      "ruleId": "review-rule:source-authority",
+      "status": "open"
+    }
+  ],
+  "coverage": {
+    "requiredItems": 1,
+    "checkedItems": 1,
+    "passedItems": 1,
+    "failedItems": 0,
+    "notApplicableItems": 0,
+    "complete": true
+  },
+  "signoffRequirement": "required",
+  "decision": "needs-human",
+  "reviewer": { "kind": "rule", "actorId": "rule:publish-gates" },
+  "createdAt": "2026-08-31T10:05:00Z"
+}

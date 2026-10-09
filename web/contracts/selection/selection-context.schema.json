@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/selection-context.v1.json",
+  "title": "DocAtlas durable selection context v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "selectionContextId",
+    "sessionId",
+    "workspaceId",
+    "investigationId",
+    "scopeVersionId",
+    "intent",
+    "sourcePolicy",
+    "retention",
+    "selections",
+    "createdBy",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "selectionContextId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "intent": {
+      "type": "string",
+      "enum": ["ask", "explain", "compare", "challenge", "translate", "calculate"]
+    },
+    "sourcePolicy": { "type": "string", "enum": ["focus", "exclusive"] },
+    "retention": { "type": "string", "enum": ["one-shot", "investigation-focus"] },
+    "selections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/selection" }
+    },
+    "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "$defs": {
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selectionId",
+        "kind",
+        "documentId",
+        "revisionId",
+        "representationId",
+        "representationContentHash",
+        "locators",
+        "content",
+        "createdAt"
+      ],
+      "properties": {
+        "selectionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "kind": { "type": "string", "enum": ["text", "table", "figure", "page", "multi-range"] },
+        "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "representationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "representationContentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+        "locators": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "$ref": "https://docatlas.dev/schemas/document-locator.v1.json" }
+        },
+        "content": { "$ref": "#/$defs/content" },
+        "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mediaType", "contentHash", "actualLength", "lengthUnit", "completeness", "truncated"],
+      "properties": {
+        "mediaType": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "assetId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "contentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+        "actualLength": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "lengthUnit": { "type": "string", "enum": ["unicode-scalar", "byte"] },
+        "completeness": { "type": "string", "enum": ["partial", "complete"] },
+        "truncated": { "type": "boolean" }
+      },
+      "anyOf": [
+        { "required": ["text"], "properties": { "text": true } },
+        { "required": ["assetId"], "properties": { "assetId": true } }
+      ]
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/sidecar-capabilities.v1.json",
+  "title": "DocAtlas sidecar capabilities result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "resultType",
+    "protocolVersion",
+    "documentRpcVersion",
+    "service",
+    "status",
+    "methods",
+    "readModes",
+    "providerCapabilities",
+    "limits",
+    "runtime"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "resultType": { "const": "capabilities" },
+    "protocolVersion": { "const": "1.2.0" },
+    "documentRpcVersion": { "const": "1.1.0" },
+    "service": { "const": "docatlas-sidecar" },
+    "status": { "const": "ok" },
+    "methods": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["health", "capabilities", "ingest", "search", "read", "resolve", "cancel"]
+      },
+      "allOf": [
+        { "contains": { "const": "health" }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "const": "capabilities" }, "minContains": 1, "maxContains": 1 }
+      ]
+    },
+    "readModes": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["locate", "blocks", "expand", "sequential", "visual", "page"]
+      }
+    },
+    "providerCapabilities": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["pdf", "markdown", "page-image", "figure", "table", "ocr"]
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxConcurrentRead",
+        "maxConcurrentIngest",
+        "maxRequestBytes",
+        "maxDocumentBytes",
+        "maxTextResultChars",
+        "maxImagePixels"
+      ],
+      "properties": {
+        "maxConcurrentRead": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "maxConcurrentIngest": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "maxRequestBytes": { "type": "integer", "minimum": 1024 },
+        "maxDocumentBytes": { "type": "integer", "minimum": 1 },
+        "maxTextResultChars": { "type": "integer", "minimum": 1 },
+        "maxImagePixels": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation", "pythonVersion", "packageVersion"],
+      "properties": {
+        "implementation": { "const": "cpython" },
+        "pythonVersion": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "packageVersion": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?$"
+        }
+      }
+    }
+  }
+}

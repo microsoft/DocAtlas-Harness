@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-personalization.v2.json",
+  "title": "DocAtlas host-ephemeral presentation controls v2",
+  "description": "Host connection and observed answer-generation use are distinct from model compliance, factual correctness, evidence support, and browser rendering. Inner personalization records remain v1. Existing v1 commands must retain their original version and idempotency key when retried.",
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "kind", "expectedGeneration", "expectedProfileEpoch", "command"],
+      "properties": {
+        "schemaVersion": { "const": 2 },
+        "kind": { "const": "preference-command" },
+        "expectedGeneration": { "type": "integer", "minimum": 1 },
+        "expectedProfileEpoch": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "command": { "$ref": "https://docatlas.dev/schemas/product-personalization.v1.json#/$defs/command/properties/command" }
+      }
+    },
+    "inspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "kind", "conversationId", "profileEpoch", "modelApplication", "useSemantics", "result"],
+      "properties": {
+        "schemaVersion": { "const": 2 },
+        "kind": { "const": "preference-inspection" },
+        "conversationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "profileEpoch": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "modelApplication": { "enum": ["host-ephemeral", "not-connected"] },
+        "useSemantics": { "const": "observed-answer-generation" },
+        "result": { "$ref": "https://docatlas.dev/schemas/personalization-inspect.v1.json#/$defs/result" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "kind", "conversationId", "result"],
+      "properties": {
+        "schemaVersion": { "const": 2 },
+        "kind": { "const": "preference-result" },
+        "conversationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "result": { "$ref": "https://docatlas.dev/schemas/personalization-command.v1.json#/$defs/result" }
+      }
+    }
+  },
+  "oneOf": [{ "$ref": "#/$defs/command" }, { "$ref": "#/$defs/inspection" }, { "$ref": "#/$defs/result" }]
+}

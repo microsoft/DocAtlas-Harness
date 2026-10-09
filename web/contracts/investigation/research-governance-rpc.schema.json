@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/research-governance-rpc.v1.json",
+  "title": "DocAtlas authenticated user Research Governance RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "draft": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recordType", "title", "decision"],
+          "properties": {
+            "recordType": { "const": "project-decision" },
+            "title": { "type": "string", "minLength": 1, "maxLength": 500 },
+            "decision": { "type": "string", "minLength": 1, "maxLength": 8000 },
+            "rationale": { "type": "string", "minLength": 1, "maxLength": 8000 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recordType", "title", "directive", "policyScope"],
+          "properties": {
+            "recordType": { "const": "research-policy" },
+            "title": { "type": "string", "minLength": 1, "maxLength": 500 },
+            "directive": { "type": "string", "minLength": 1, "maxLength": 8000 },
+            "policyScope": { "type": "string", "enum": ["investigation", "workspace"] },
+            "rationale": { "type": "string", "minLength": 1, "maxLength": 8000 }
+          }
+        }
+      ]
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "requestType", "sessionId", "workspaceId", "investigationId",
+        "scopeVersionId", "idempotencyKey", "action"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "research-governance" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "action": { "type": "string", "enum": ["create", "revise", "archive", "delete"] },
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "expectedVersion": { "type": "integer", "minimum": 1 },
+        "entry": { "$ref": "#/$defs/draft" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "action": { "const": "create" } }, "required": ["action"] },
+          "then": {
+            "required": ["entry"],
+            "properties": { "entry": {}, "recordId": false, "expectedVersion": false }
+          }
+        },
+        {
+          "if": { "properties": { "action": { "const": "revise" } }, "required": ["action"] },
+          "then": {
+            "required": ["recordId", "expectedVersion", "entry"],
+            "properties": { "recordId": {}, "expectedVersion": {}, "entry": {} }
+          }
+        },
+        {
+          "if": {
+            "properties": { "action": { "enum": ["archive", "delete"] } },
+            "required": ["action"]
+          },
+          "then": {
+            "required": ["recordId", "expectedVersion"],
+            "properties": { "recordId": {}, "expectedVersion": {}, "entry": false }
+          }
+        }
+      ]
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "recordId", "workspaceId", "investigationId", "sourceSessionId",
+        "sourceScopeVersionId", "recordType", "version", "status", "createdBy", "updatedBy",
+        "createdAt", "updatedAt"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceSessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "recordType": { "type": "string", "enum": ["project-decision", "research-policy"] },
+        "version": { "type": "integer", "minimum": 1 },
+        "status": { "type": "string", "enum": ["active", "archived", "deleted"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "decision": { "type": "string", "minLength": 1, "maxLength": 8000 },
+        "directive": { "type": "string", "minLength": 1, "maxLength": 8000 },
+        "policyScope": { "type": "string", "enum": ["investigation", "workspace"] },
+        "rationale": { "type": "string", "minLength": 1, "maxLength": 8000 },
+        "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+        "updatedBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+        "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+        "updatedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "deleted" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "title": false,
+              "decision": false,
+              "directive": false,
+              "policyScope": false,
+              "rationale": false
+            }
+          },
+          "else": {
+            "if": {
+              "properties": { "recordType": { "const": "project-decision" } },
+              "required": ["recordType"]
+            },
+            "then": {
+              "required": ["title", "decision"],
+              "properties": { "title": {}, "decision": {}, "directive": false, "policyScope": false }
+            },
+            "else": {
+              "required": ["title", "directive", "policyScope"],
+              "properties": { "title": {}, "directive": {}, "policyScope": {}, "decision": false }
+            }
+          }
+        }
+      ]
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "resultType", "status", "record"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "research-governance" },
+        "status": { "type": "string", "enum": ["created", "updated", "replayed"] },
+        "record": { "$ref": "#/$defs/record" }
+      }
+    }
+  }
+}

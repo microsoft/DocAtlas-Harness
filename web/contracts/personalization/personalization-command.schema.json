@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/personalization-command.v1.json",
+  "title": "DocAtlas authenticated personalization commands v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "editableMemoryDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["memoryType", "effect", "summary", "scope", "sensitivity", "policy"],
+      "properties": {
+        "memoryType": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryType" },
+        "effect": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryEffect" },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "scope": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryScope" },
+        "sensitivity": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/sensitivity" },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["apply"],
+          "properties": {
+            "apply": { "type": "string", "enum": ["silent-ui", "disclose", "confirm-each-use"] },
+            "expiresAfterDays": { "type": "integer", "minimum": 1, "maximum": 3650 }
+          }
+        }
+      }
+    },
+    "requestBase": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "requestType",
+        "profileId",
+        "sessionId",
+        "idempotencyKey",
+        "actor",
+        "action"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "personalization-command" },
+        "profileId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "actor": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/userActor" },
+        "action": {}
+      }
+    },
+    "request": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        { "$ref": "#/$defs/requestBase" },
+        {
+          "oneOf": [
+            {
+              "required": ["expectedVersion", "policy"],
+              "properties": {
+                "action": { "const": "set-session-policy" },
+                "expectedVersion": { "type": "integer", "minimum": 0 },
+                "policy": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["useExisting", "contributeToFuture"],
+                  "properties": {
+                    "useExisting": { "type": "boolean" },
+                    "contributeToFuture": { "type": "boolean" }
+                  }
+                }
+              }
+            },
+            {
+              "required": ["preference"],
+              "properties": {
+                "action": { "const": "set-preference" },
+                "preference": { "$ref": "#/$defs/editableMemoryDraft" }
+              }
+            },
+            {
+              "required": ["candidateId", "expectedVersion", "decision"],
+              "properties": {
+                "action": { "const": "review-candidate" },
+                "candidateId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedVersion": { "type": "integer", "minimum": 1 },
+                "decision": { "type": "string", "enum": ["accept", "reject"] },
+                "replacement": { "$ref": "#/$defs/editableMemoryDraft" }
+              },
+              "allOf": [
+                {
+                  "if": { "properties": { "decision": { "const": "reject" } }, "required": ["decision"] },
+                  "then": { "properties": { "replacement": false } }
+                }
+              ]
+            },
+            {
+              "required": ["memoryVersionId", "expectedVersion"],
+              "properties": {
+                "action": { "const": "pause" },
+                "memoryVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedVersion": { "type": "integer", "minimum": 1 },
+                "expectedProfileRevision": { "type": "integer", "minimum": 1 },
+                "until": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+              }
+            },
+            {
+              "required": ["memoryVersionId", "expectedVersion"],
+              "properties": {
+                "action": { "const": "resume" },
+                "memoryVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedVersion": { "type": "integer", "minimum": 1 }
+              }
+            },
+            {
+              "required": ["memoryVersionId", "expectedVersion", "replacement", "statusAfterEdit"],
+              "properties": {
+                "action": { "const": "edit" },
+                "memoryVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedVersion": { "type": "integer", "minimum": 1 },
+                "replacement": { "$ref": "#/$defs/editableMemoryDraft" },
+                "statusAfterEdit": { "type": "string", "enum": ["active", "paused"] }
+              }
+            },
+            {
+              "required": ["target", "mode", "provenanceHandling", "acknowledgeExternalRetention"],
+              "properties": {
+                "action": { "const": "forget" },
+                "target": { "type": "string", "enum": ["memory-chain", "profile"] },
+                "memoryVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedVersion": { "type": "integer", "minimum": 1 },
+                "mode": { "type": "string", "enum": ["memory-only", "privacy-erasure"] },
+                "provenanceHandling": { "type": "string", "enum": ["orphan", "redact-derived-excerpts"] },
+                "acknowledgeExternalRetention": { "const": true }
+              },
+              "allOf": [
+                {
+                  "if": { "properties": { "target": { "const": "memory-chain" } }, "required": ["target"] },
+                  "then": {
+                    "required": ["memoryVersionId", "expectedVersion"],
+                    "properties": {
+                      "memoryVersionId": {},
+                      "expectedVersion": {},
+                      "expectedProfileRevision": false
+                    }
+                  },
+                  "else": {
+                    "required": ["expectedProfileRevision"],
+                    "properties": {
+                      "memoryVersionId": false,
+                      "expectedVersion": false,
+                      "expectedProfileRevision": {}
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "required": ["format", "includeProvenanceRefs", "includeStatuses"],
+              "properties": {
+                "action": { "const": "export" },
+                "format": { "type": "string", "enum": ["json", "markdown"] },
+                "includeProvenanceRefs": { "type": "boolean" },
+                "includeStatuses": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true,
+                  "items": { "type": "string", "enum": ["active", "paused", "disputed", "superseded", "expired", "archived"] }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "forgetReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receiptId",
+        "target",
+        "targetId",
+        "mode",
+        "activeProjectionRemoved",
+        "sessionLogChanged",
+        "providerCopiesChanged",
+        "provenanceHandling",
+        "backupDisposition"
+      ],
+      "properties": {
+        "receiptId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "target": { "type": "string", "enum": ["memory-chain", "profile"] },
+        "targetId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "mode": { "type": "string", "enum": ["memory-only", "privacy-erasure"] },
+        "activeProjectionRemoved": { "const": true },
+        "sessionLogChanged": { "const": false },
+        "providerCopiesChanged": { "const": false },
+        "provenanceHandling": { "type": "string", "enum": ["orphan", "redact-derived-excerpts"] },
+        "backupDisposition": { "type": "string", "enum": ["not-applicable", "scheduled-compaction", "compacted"] },
+        "completedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "privacy-erasure" } }, "required": ["mode"] },
+          "then": { "properties": { "backupDisposition": { "type": "string", "enum": ["scheduled-compaction", "compacted"] } } }
+        }
+      ]
+    },
+    "exportDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exportId", "assetId", "bundleSchemaVersion", "format", "contentHash", "byteLength", "createdAt", "expiresAt", "provenance", "includedStatuses"],
+      "properties": {
+        "exportId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "assetId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "bundleSchemaVersion": { "const": 1 },
+        "format": { "type": "string", "enum": ["json", "markdown"] },
+        "contentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+        "byteLength": { "type": "integer", "minimum": 1, "maximum": 104857600 },
+        "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+        "expiresAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+        "provenance": { "type": "string", "enum": ["references-only", "omitted"] },
+        "includedStatuses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["active", "paused", "disputed", "superseded", "expired", "archived"] }
+        }
+      }
+    },
+    "resultBase": {
+      "type": "object",
+      "required": ["schemaVersion", "resultType", "profileId", "action", "status"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "personalization-command" },
+        "profileId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "action": {},
+        "status": {}
+      }
+    },
+    "result": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        { "$ref": "#/$defs/resultBase" },
+        {
+          "oneOf": [
+            {
+              "required": ["sessionPolicy"],
+              "properties": {
+                "action": { "const": "set-session-policy" },
+                "status": { "type": "string", "enum": ["applied", "replayed"] },
+                "sessionPolicy": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memorySessionPolicy" }
+              }
+            },
+            {
+              "required": ["memoryVersion"],
+              "properties": {
+                "action": { "const": "set-preference" },
+                "status": { "type": "string", "enum": ["created", "replayed"] },
+                "memoryVersion": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryVersion" }
+              }
+            },
+            {
+              "required": ["candidate"],
+              "properties": {
+                "action": { "const": "review-candidate" },
+                "status": { "type": "string", "enum": ["updated", "replayed"] },
+                "candidate": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryCandidate" },
+                "memoryVersion": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryVersion" }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "candidate": {
+                        "type": "object",
+                        "properties": { "decision": { "const": "promote" } },
+                        "required": ["decision"]
+                      }
+                    },
+                    "required": ["candidate"]
+                  },
+                  "then": {
+                    "required": ["memoryVersion"],
+                    "properties": { "memoryVersion": {} }
+                  },
+                  "else": { "properties": { "memoryVersion": false } }
+                }
+              ]
+            },
+            {
+              "required": ["memoryVersion"],
+              "properties": {
+                "action": { "type": "string", "enum": ["pause", "resume", "edit"] },
+                "status": { "type": "string", "enum": ["updated", "replayed"] },
+                "memoryVersion": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryVersion" }
+              }
+            },
+            {
+              "required": ["receipt"],
+              "properties": {
+                "action": { "const": "forget" },
+                "status": { "type": "string", "enum": ["accepted", "completed", "replayed"] },
+                "receipt": { "$ref": "#/$defs/forgetReceipt" }
+              }
+            },
+            {
+              "required": ["export"],
+              "properties": {
+                "action": { "const": "export" },
+                "status": { "type": "string", "enum": ["created", "replayed"] },
+                "export": { "$ref": "#/$defs/exportDescriptor" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

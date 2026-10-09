@@ -1,0 +1,110 @@
+/* Office Intelligence-inspired editorial system. Local licensed fonts, real product state. */
+:root[data-docatlas-ui="live"], [data-docatlas-ui="live"] .live-app,
+[data-docatlas-ui="live"] .document-map-dialog {
+  --ink: #303a33; --muted: #62675f; --line: #dedfd6;
+  --accent: #47644c; --accent-soft: #e8eee2;
+  --paper: #fffefa; --canvas: #fbfaf7; --soft: #f1f3eb;
+  --editorial-rust: #925d43; --editorial-rule: #c7cfbf;
+  --editorial-sans: 'DM Sans Variable', 'Noto Sans SC Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --editorial-serif: 'Newsreader Variable', 'Noto Sans SC Variable', Georgia, serif;
+  --shadow: 0 12px 34px #303a3308, 0 1px 3px #303a3306;
+  font-family: var(--editorial-sans); color: var(--ink); background: var(--canvas);
+}
+[data-docatlas-ui="live"] body { background: var(--canvas); }
+[data-docatlas-ui="live"] :focus-visible { outline: 2px solid #47644c; outline-offset: 4px; }
+[data-docatlas-ui="live"] .live-app .app-header {
+  height: 72px; padding-inline: clamp(20px, 3vw, 48px);
+  border-bottom: 1px solid var(--line); background: #fbfaf7ed;
+}
+[data-docatlas-ui="live"] .live-app .brand { font-family: var(--editorial-serif); font-size: 27px; letter-spacing: -.6px; gap: 8px; }
+[data-docatlas-ui="live"] .live-app .brand strong { font-weight: 560; }
+[data-docatlas-ui="live"] .live-app .brand-mark { color: var(--accent); width: 29px; }
+[data-docatlas-ui="live"] .live-app .header-action { color: #535f50; font-size: 12px; min-height: 40px; }
+[data-docatlas-ui="live"] .live-app .header-action:hover { background: #eaf0e4; }
+[data-docatlas-ui="live"] .ui-locale-switch { border-color: var(--line); background: #fffefa; }
+[data-docatlas-ui="live"] .ui-locale-switch button[aria-pressed="true"] { background: #e5ecdf; color: #38553f; }
+[data-docatlas-ui="live"] .live-chat.is-landing { position: relative; background: linear-gradient(150deg, #f0f3ea55, #fbfaf7 48%, #f7efe766); }
+[data-docatlas-ui="live"] .live-chat.is-landing .live-chat-heading { width: min(800px, calc(100% - 64px)); }
+[data-docatlas-ui="live"] .editorial-eyebrow { display: flex; gap: 9px; align-items: center; justify-content: center; font-size: 11px; font-weight: 550; color: #54684d; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 20px; }
+[data-docatlas-ui="live"] .editorial-eyebrow > span { height: 6px; width: 6px; border-radius: 50%; background: var(--editorial-rust); }
+[data-docatlas-ui="live"] .live-chat.is-landing .live-chat-heading h1 { font: 450 clamp(36px, 3.8vw, 54px)/1.14 var(--editorial-serif); letter-spacing: -.035em; max-width: 720px; margin-inline: auto; text-wrap: balance; }
+[data-docatlas-ui="live"]:lang(zh) .live-chat.is-landing .live-chat-heading h1 { font-family: var(--editorial-sans); font-size: clamp(29px, 3vw, 39px); line-height: 1.5; font-weight: 520; letter-spacing: -.025em; }
+[data-docatlas-ui="live"] .live-chat.is-landing .live-chat-heading p { color: #65705f; font-size: 15px; line-height: 1.85; margin-top: 18px; }
+[data-docatlas-ui="live"] .live-chat.is-landing .live-composer-wrap { width: min(740px, calc(100% - 64px)); max-width: 740px; margin-top: 34px; }
+[data-docatlas-ui="live"] .live-app .live-composer-wrap { background: transparent; }
+[data-docatlas-ui="live"] .live-composer-shell { background: #fffefa; border: 1px solid #d9dfd0; border-radius: 17px; box-shadow: var(--shadow); }
+[data-docatlas-ui="live"] .live-composer-shell:focus-within { border-color: #97ac8e; box-shadow: 0 0 0 3px #e8eee2, var(--shadow); }
+[data-docatlas-ui="live"] .live-composer-shell textarea { color: #303a33; font-size: 16px; line-height: 1.8; }
+[data-docatlas-ui="live"] .live-composer-shell textarea::placeholder { color: #73796e; }
+[data-docatlas-ui="live"] .live-upload-button, [data-docatlas-ui="live"] .live-library-button { color: #50664d; }
+[data-docatlas-ui="live"] .live-upload-button:hover:not(:disabled) { background: #eaf0e4; }
+[data-docatlas-ui="live"] .live-composer-shell .send-button { color: white; background: #47644c; border-radius: 12px; }
+[data-docatlas-ui="live"] .live-composer-shell .send-button:hover:not(:disabled) { background: #334f39; }
+[data-docatlas-ui="live"] .live-composer-shell .send-button:disabled { background: #e9ece5; color: #7e8879; }
+[data-docatlas-ui="live"] .live-composer-shell .stop-button { background: #f1e4db; color: #87543c; }
+[data-docatlas-ui="live"] .live-source-chip { background: #eef2e7; border-color: #d8e1ce; border-radius: 8px; }
+[data-docatlas-ui="live"] .live-source-chip > button { color: #46613e; }
+[data-docatlas-ui="live"] .live-footnote, [data-docatlas-ui="live"] .live-input-hint { color: #65705f; }
+[data-docatlas-ui="live"] .search-mode-hint { display: block; width: 100%; font-size: 11px; line-height: 1.7; color: var(--muted); }
+[data-docatlas-ui="live"] .live-messages { padding-top: 34px; scrollbar-color: #c9d3c2 transparent; }
+[data-docatlas-ui="live"] .live-message.user { background: #eaf0e3; color: #354532; border-radius: 15px 15px 4px 15px; }
+[data-docatlas-ui="live"] .live-message.assistant { color: var(--ink); }
+[data-docatlas-ui="live"] .live-markdown { font-size: 16px; line-height: 1.85; }
+[data-docatlas-ui="live"] .live-markdown :is(h1,h2,h3,h4) { color: #354b38; letter-spacing: -.015em; line-height: 1.45; }
+[data-docatlas-ui="live"] .live-markdown h2 { border-bottom: 1px solid #e0e4d8; padding-bottom: .45em; }
+[data-docatlas-ui="live"] .live-markdown blockquote { border-left-color: #bdcbb1; color: #5c6855; background: #f0f3eaaa; padding-block: 4px; }
+[data-docatlas-ui="live"] .live-markdown :is(pre,code) { background: #eef0e8; color: #354532; }
+[data-docatlas-ui="live"] .live-markdown th { background: #edf2e5; color: #42573d; }
+[data-docatlas-ui="live"] .live-markdown :is(th,td) { border-color: #dce2d4; }
+[data-docatlas-ui="live"] .live-citation { color: #47643d; border-color: #ccd9bd; background: #edf3e4; }
+[data-docatlas-ui="live"] .live-citation.refute { color: #87463b; border-color: #e7ccc2; background: #f7ece8; }
+[data-docatlas-ui="live"] .live-citation.qualify { color: #735925; border-color: #e5d8b4; background: #f7f2e4; }
+[data-docatlas-ui="live"] .live-activity { color: #52664b; }
+[data-docatlas-ui="live"] .live-readers { background: #f2f2eb; border-color: #d8ded0; }
+[data-docatlas-ui="live"] :is(.live-reader-controls,.live-reader-pane-heading,.reader-header,.reader-toolbar) { background: #fbfaf5; border-color: #dce1d5; }
+[data-docatlas-ui="live"] .live-reader-controls button[aria-pressed="true"], [data-docatlas-ui="live"] .live-reader-pane-heading button[aria-pressed="true"] { background: #e4ecdc; color: #405a39; }
+[data-docatlas-ui="live"] .continuous-pdf-scroll { background: #eeefe8; }
+[data-docatlas-ui="live"] .live-pane-selection { background: #edf2e6; border-color: #dbe2d0; }
+[data-docatlas-ui="live"] .reader-location.is-exact { color: #5d603c; background: #f7f3dd; }
+[data-docatlas-ui="live"] :is(.drawer,.live-more-panel.is-open) { background: #fffefa; border-color: #d9dfd1; }
+[data-docatlas-ui="live"] .drawer-heading h2 { color: #354b38; letter-spacing: -.025em; }
+[data-docatlas-ui="live"] .drawer-heading p { color: var(--muted); }
+[data-docatlas-ui="live"] :is(.document-card,.upload-area) { background: #f3f5ed; border-color: #d6dfcb; }
+[data-docatlas-ui="live"] .document-card:hover { background: #eaf0e1; border-color: #b5c8a5; }
+[data-docatlas-ui="live"] .primary-button, [data-docatlas-ui="live"] .map-primary { background: #47644c; color: white; }
+[data-docatlas-ui="live"] .document-map-dialog { border-color: #d8dece; background: #fffefa; box-shadow: 0 26px 100px #35452f35; }
+[data-docatlas-ui="live"] .document-map-dialog::backdrop { background: #35432c38; }
+[data-docatlas-ui="live"] .map-brand { background: #e8efde; color: #4d6845; }
+[data-docatlas-ui="live"] .map-exploration { background: #f6f7f0; }
+[data-docatlas-ui="live"] .map-canvas { background-image: radial-gradient(#b7c4a880 .8px, transparent .8px); scrollbar-color: #c3d0b7 transparent; }
+[data-docatlas-ui="live"] .map-view-switch { background: #eef2e7; }
+[data-docatlas-ui="live"] .map-node { border-color: #d8e0ce; box-shadow: 0 3px 10px #384a2e08; }
+[data-docatlas-ui="live"] .map-node.is-document { background: #47644c; border-color: #47644c; color: white; }
+[data-docatlas-ui="live"] .branch-0 { --branch: #58794d; --branch-soft: #ebf1e2; }
+[data-docatlas-ui="live"] .branch-1 { --branch: #8c674a; --branch-soft: #f3e9df; }
+[data-docatlas-ui="live"] .branch-2 { --branch: #786286; --branch-soft: #efe9f4; }
+[data-docatlas-ui="live"] .map-connections path { stroke: #c2cfb5; }
+[data-docatlas-ui="live"] .map-connections path.is-on-path { stroke: #658657; }
+[data-docatlas-ui="live"] .map-search { background: #f3f5ed; }
+@media (min-width: 1600px) {
+  [data-docatlas-ui="live"] .live-messages { padding-inline: max(36px, calc((100% - 780px) / 2)); }
+  [data-docatlas-ui="live"] .live-composer-wrap { max-width: 860px; }
+}
+@media (max-width: 760px) {
+  [data-docatlas-ui="live"] .live-app .app-header { min-height: 62px; height: 62px; padding: 8px 12px; gap: 8px; }
+  [data-docatlas-ui="live"] .live-app .brand { font-size: 23px; gap: 4px; }
+  [data-docatlas-ui="live"] .live-app .brand-mark { width: 22px; }
+  [data-docatlas-ui="live"] .live-app .header-action { padding: 7px 5px; font-size: 11px; }
+  [data-docatlas-ui="live"] .live-chat.is-landing .live-chat-heading,
+  [data-docatlas-ui="live"] .live-chat.is-landing .live-composer-wrap { width: calc(100% - 32px); }
+  [data-docatlas-ui="live"] .live-chat.is-landing .live-chat-heading h1 { font-size: 38px; line-height: 1.18; }
+  [data-docatlas-ui="live"]:lang(zh) .live-chat.is-landing .live-chat-heading h1 { font-size: 29px; line-height: 1.5; }
+  [data-docatlas-ui="live"] .live-chat.is-landing .live-chat-heading p { font-size: 13px; }
+  [data-docatlas-ui="live"] .editorial-eyebrow { font-size: 10px; letter-spacing: .1em; margin-bottom: 16px; }
+  [data-docatlas-ui="live"] .live-chat.is-landing .live-composer-wrap { margin-top: 26px; }
+  [data-docatlas-ui="live"] .live-messages { padding: 22px 18px 12px; }
+  [data-docatlas-ui="live"] .live-composer-shell textarea { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-docatlas-ui="live"] *, [data-docatlas-ui="live"] *::before, [data-docatlas-ui="live"] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

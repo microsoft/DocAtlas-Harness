@@ -1,0 +1,88 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "requestType": "reader-page-get",
+    "sessionId": "session:reader",
+    "workspaceId": "workspace:reader",
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "physicalPage": 2,
+    "maxPixels": 2000000
+  },
+  "result": {
+    "schemaVersion": 1,
+    "resultType": "reader-page",
+    "workspaceId": "workspace:reader",
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "representationId": "rep:m1:text",
+    "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "physicalPage": 2,
+    "totalPages": 3,
+    "textQuality": "usable",
+    "blocks": [
+      {
+        "itemType": "block",
+        "blockId": "p00002.b00001.text.fixture",
+        "physicalPage": 2,
+        "kind": "paragraph",
+        "text": "Revenue increased.",
+        "locator": {
+          "schemaVersion": 1,
+          "locatorId": "loc:m1:p2:b1",
+          "documentId": "doc:m1",
+          "revisionId": "rev:m1:1",
+          "representationId": "rep:m1:text",
+          "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "physicalPage": 2,
+          "selectors": [
+            { "type": "block", "blockId": "p00002.b00001.text.fixture" }
+          ],
+          "createdAt": "2026-08-30T02:02:00Z"
+        }
+      }
+    ],
+    "visual": {
+      "itemType": "visual",
+      "physicalPage": 2,
+      "asset": {
+        "assetId": "asset:m1:p2",
+        "contentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "mediaType": "image/png",
+        "byteLength": 100,
+        "width": 100,
+        "height": 100
+      },
+      "locator": {
+        "schemaVersion": 1,
+        "locatorId": "loc:m1:p2:visual",
+        "documentId": "doc:m1",
+        "revisionId": "rev:m1:1",
+        "representationId": "rep:m1:text",
+        "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "physicalPage": 2,
+        "selectors": [
+          {
+            "type": "bbox",
+            "unit": "ratio",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "rotation": 0
+          }
+        ],
+        "createdAt": "2026-08-30T02:02:00Z"
+      }
+    },
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 200,
+      "returned": 1,
+      "total": 1,
+      "usedChars": 18,
+      "truncated": false,
+      "completeness": "complete"
+    }
+  }
+}

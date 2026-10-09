@@ -1,0 +1,37 @@
+.review-graph-intro h3 { font-size: 17px; margin: 0 0 6px; color: #345269; }
+.review-graph-intro p { color: #617183; font-size: 12px; line-height: 1.7; }
+.review-graph-canvas { border: 1px solid #dce6ed; border-radius: 12px; overflow: auto; max-height: 560px; background: radial-gradient(#c9d6e080 .8px, transparent .8px) 0 0 / 18px 18px, #f5f8fb; scrollbar-width: thin; }
+.review-graph-world { position: relative; }
+.review-graph-column { position: absolute; top: 0; width: 228px; margin: 12px 0; padding-left: 6px; font-size: 11px; color: #536f84; font-weight: 600; letter-spacing: .4px; }
+.review-graph-edges { position: absolute; inset: 0; pointer-events: none; }
+.review-graph-edges path { stroke: #a5b8c7; stroke-width: 1.5; fill: none; }
+.review-graph-edges path.supports { stroke: #43867d; }
+.review-graph-edges path.refutes { stroke: #b97060; stroke-dasharray: 5 3; }
+.review-graph-edges path.qualifies { stroke: #8b78a7; stroke-dasharray: 2 3; }
+.review-graph-edges path.is-muted { opacity: .25; }
+.review-graph-node { position: absolute; width: 228px; height: 92px; background: white; border: 1px solid #cedce7; border-left: 3px solid #84a5bd; border-radius: 9px; padding: 10px 11px; text-align: left; box-shadow: 0 3px 8px #24415a05; }
+.review-graph-node.kind-claim { border-left-color: #94a38b; }
+.review-graph-node.kind-artifact { border-left-color: #9c91b2; }
+.review-graph-node.kind-review { border-left-color: #b29a70; }
+.review-graph-node.is-selected { border-color: #648fab; box-shadow: 0 0 0 2px #b7d0e1; }
+.review-graph-node small { display: flex; align-items: center; gap: 8px; font-size: 9px; color: #617183; }
+.review-graph-node small > span { margin-left: auto; text-align: right; }
+.review-graph-node strong { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 5px; font-size: 12px; line-height: 1.5; color: #304f66; font-weight: 500; overflow-wrap: anywhere; }
+.review-graph-preview { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 4px; color: #617183; font-size: 10px; }
+.review-graph-legend { display: flex; flex-wrap: wrap; gap: 18px; margin: 12px 0; font-size: 11px; color: #526b7f; }
+.review-graph-legend span::before { content: ''; display: inline-block; width: 18px; margin-right: 6px; vertical-align: middle; border-top: 2px solid #a5b8c7; }
+.review-graph-legend .supports::before { border-color: #43867d; }.review-graph-legend .refutes::before { border-color: #b97060; border-top-style: dashed; }.review-graph-legend .qualifies::before { border-color: #8b78a7; border-top-style: dotted; }
+.review-graph-inspector { display: flex; align-items: flex-start; gap: 20px; justify-content: space-between; padding: 18px; border: 1px solid #dce6ed; background: white; border-radius: 10px; }
+.review-graph-inspector > div { min-width: 0; }
+.review-graph-inspector h4 { font-size: 14px; line-height: 1.7; margin: 6px 0; overflow-wrap: anywhere; }.review-graph-inspector p { white-space: pre-wrap; overflow-wrap: anywhere; color: #617183; font-size: 12px; }
+.review-graph-inspector button { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.review-gates .review-gate-progress { height: 5px; border-radius: 4px; background: #e3eaf0; overflow: hidden; margin: 12px 0; }.review-gate-progress i { display: block; height: 100%; background: #6a93ad; }
+.review-gates > ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; padding: 0; }
+.review-gates > ul > li { list-style: none; padding: 12px; border: 1px solid #dbe5ec; border-top: 3px solid #a8b6c0; border-radius: 8px; background: white; min-width: 0; }
+.review-gates > ul > li[data-gate-status="pass"] { border-top-color: #659486; }.review-gates > ul > li[data-gate-status="fail"] { border-top-color: #b87968; }
+.review-gates li > strong, .review-gates li > span { display: block; font-size: 11px; }.review-gates li p { font-size: 11px; line-height: 1.7; }
+@media (max-width:760px) { .review-graph-canvas { max-height: 480px; }.review-graph-inspector { flex-direction: column; }.review-gates > ul { grid-template-columns: 1fr; }.review-graph-node { min-height: 92px; }.review-graph-legend { gap: 12px; } }
+.review-graph-direct-links { list-style: none; padding: 0; margin: 12px 0 0; }
+.review-graph-direct-links li { display: flex; gap: 10px; align-items: baseline; font-size: 12px; margin-top: 6px; }
+.review-graph-direct-links li > span { flex-shrink: 0; color: #536b7f; }
+.review-graph-direct-links button { text-align: left; overflow-wrap: anywhere; min-width: 0; flex-shrink: 1; }

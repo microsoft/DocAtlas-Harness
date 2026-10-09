@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/protocol-error.v1.json",
+  "title": "DocAtlas protocol error v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "code", "message", "retryable"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "code": {
+      "type": "string",
+      "enum": [
+        "invalid-request",
+        "invalid-params",
+        "not-found",
+        "conflict",
+        "stale",
+        "permission-denied",
+        "limit-exceeded",
+        "cancelled",
+        "unavailable",
+        "integrity-error",
+        "internal"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "retryable": { "type": "boolean" },
+    "correlationId": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+    },
+    "details": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {
+          "path": { "type": "string", "maxLength": 512 },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "expected": { "type": "string", "maxLength": 1000 },
+          "actual": { "type": "string", "maxLength": 1000 }
+        }
+      }
+    },
+    "nextActions": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "retry",
+          "reduce-scope",
+          "request-access",
+          "open-old-revision",
+          "re-anchor",
+          "load-next",
+          "choose-candidate",
+          "contact-operator"
+        ]
+      }
+    }
+  }
+}

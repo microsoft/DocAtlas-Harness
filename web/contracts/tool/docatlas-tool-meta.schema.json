@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/docatlas-tool-meta.v1.json",
+  "title": "DocAtlas durable tool presentation metadata v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "schema",
+    "operation",
+    "scopeVersionId",
+    "documentIds",
+    "uiSummary",
+    "truncated"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "schema": { "const": "docatlas.tool-meta.v1" },
+    "operation": { "type": "string", "enum": ["search", "read"] },
+    "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "documentIds": {
+      "type": "array",
+      "maxItems": 100,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "candidateIds": {
+      "type": "array",
+      "maxItems": 50,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "assetIds": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "locators": {
+      "type": "array",
+      "maxItems": 50,
+      "items": { "$ref": "https://docatlas.dev/schemas/document-locator.v1.json" }
+    },
+    "uiSummary": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "truncated": { "type": "boolean" },
+    "nextCursor": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+  }
+}

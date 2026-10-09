@@ -1,0 +1,246 @@
+{
+  "context": {
+    "schemaVersion": 1,
+    "selectionContextId": "selection-context:northstar:1",
+    "sessionId": "session:northstar",
+    "workspaceId": "workspace:northstar",
+    "investigationId": "investigation:northstar",
+    "scopeVersionId": "scope:northstar:1",
+    "intent": "ask",
+    "sourcePolicy": "focus",
+    "retention": "one-shot",
+    "selections": [
+      {
+        "selectionId": "selection:northstar:revenue",
+        "kind": "text",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "representationId": "rep:northstar:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "locators": [
+          {
+            "schemaVersion": 1,
+            "locatorId": "locator:northstar:revenue",
+            "documentId": "doc:northstar",
+            "revisionId": "rev:northstar:1",
+            "representationId": "rep:northstar:text",
+            "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "physicalPage": 2,
+            "selectors": [
+              {
+                "type": "text-quote",
+                "exact": "USD 15.2 million",
+                "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+              }
+            ],
+            "createdAt": "2026-08-30T16:00:00Z"
+          }
+        ],
+        "content": {
+          "mediaType": "text/plain",
+          "text": "USD 15.2 million",
+          "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+          "actualLength": 16,
+          "lengthUnit": "unicode-scalar",
+          "completeness": "complete",
+          "truncated": false
+        },
+        "createdAt": "2026-08-30T16:00:00Z"
+      }
+    ],
+    "createdBy": { "kind": "user", "actorId": "user:northstar" },
+    "createdAt": "2026-08-30T16:00:00Z"
+  },
+  "stageRequest": {
+    "schemaVersion": 1,
+    "requestType": "selection-stage",
+    "sessionId": "session:northstar",
+    "scopeVersionId": "scope:northstar:1",
+    "intent": "ask",
+    "sourcePolicy": "focus",
+    "selections": [
+      {
+        "proposalId": "proposal:northstar:revenue",
+        "kind": "text",
+        "source": {
+          "documentId": "doc:northstar",
+          "revisionId": "rev:northstar:1",
+          "representationId": "rep:northstar:text",
+          "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "ranges": [
+          {
+            "physicalPage": 2,
+            "selectors": [
+              {
+                "type": "text-quote",
+                "exact": "USD 15.2 million",
+                "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+              }
+            ],
+            "selectedText": "USD 15.2 million",
+            "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+          }
+        ]
+      }
+    ]
+  },
+  "stageResult": {
+    "schemaVersion": 1,
+    "resultType": "selection-staged",
+    "selectionContextId": "selection-context:northstar:1",
+    "nonce": "seln_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "expiresAt": "2026-08-30T16:10:00Z",
+    "intent": "ask",
+    "sourcePolicy": "focus",
+    "previews": [
+      {
+        "selectionId": "selection:northstar:revenue",
+        "kind": "text",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "physicalPageStart": 2,
+        "physicalPageEnd": 2,
+        "label": "Northstar · p.2",
+        "text": "USD 15.2 million",
+        "truncated": false
+      }
+    ]
+  },
+  "prepareRequest": {
+    "schemaVersion": 1,
+    "requestType": "selection-prepare",
+    "sessionId": "session:northstar",
+    "selectionContextId": "selection-context:northstar:1"
+  },
+  "prepareResult": {
+    "schemaVersion": 1,
+    "resultType": "selection-prepared",
+    "selectionContextId": "selection-context:northstar:1",
+    "marker": "[[docatlas.selection.v1:selection-context:northstar:1]]",
+    "expiresAt": "2026-08-30T16:10:00Z",
+    "previews": [
+      {
+        "selectionId": "selection:northstar:revenue",
+        "kind": "text",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "physicalPageStart": 2,
+        "physicalPageEnd": 2,
+        "label": "Northstar · p.2",
+        "text": "USD 15.2 million",
+        "truncated": false
+      }
+    ]
+  },
+  "statusRequest": {
+    "schemaVersion": 1,
+    "requestType": "selection-status",
+    "sessionId": "session:northstar",
+    "selectionContextId": "selection-context:northstar:1"
+  },
+  "statusResult": {
+    "schemaVersion": 1,
+    "resultType": "selection-status",
+    "selectionContextId": "selection-context:northstar:1",
+    "status": "staged",
+    "expiresAt": "2026-08-30T16:10:00Z",
+    "intent": "ask",
+    "sourcePolicy": "focus",
+    "previews": [
+      {
+        "selectionId": "selection:northstar:revenue",
+        "kind": "text",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "physicalPageStart": 2,
+        "physicalPageEnd": 2,
+        "label": "Northstar · p.2",
+        "text": "USD 15.2 million",
+        "truncated": false
+      }
+    ]
+  },
+  "cancelRequest": {
+    "schemaVersion": 1,
+    "requestType": "selection-cancel",
+    "sessionId": "session:northstar",
+    "selectionContextId": "selection-context:northstar:1",
+    "nonce": "seln_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "cancelResult": {
+    "schemaVersion": 1,
+    "resultType": "selection-cancelled",
+    "selectionContextId": "selection-context:northstar:1",
+    "status": "cancelled"
+  },
+  "actionRequest": {
+    "schemaVersion": 1,
+    "requestType": "selection-action",
+    "sessionId": "session:northstar",
+    "selectionContextId": "selection-context:northstar:1",
+    "idempotencyKey": "selection-action:northstar:1",
+    "nonce": "seln_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "action": "save-evidence"
+  },
+  "actionResult": {
+    "schemaVersion": 1,
+    "resultType": "selection-action-recorded",
+    "sessionId": "session:northstar",
+    "selectionContextId": "selection-context:northstar:1",
+    "actionId": "selection-action:northstar:1",
+    "action": "save-evidence",
+    "status": "created",
+    "locators": [
+      {
+        "schemaVersion": 1,
+        "locatorId": "locator:northstar:revenue",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "representationId": "rep:northstar:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "physicalPage": 2,
+        "selectors": [
+          {
+            "type": "text-quote",
+            "exact": "USD 15.2 million",
+            "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+          }
+        ],
+        "createdAt": "2026-08-30T16:00:00Z"
+      }
+    ],
+    "evidence": [
+      {
+        "schemaVersion": 1,
+        "evidenceId": "evidence:northstar:revenue",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "representationId": "rep:northstar:text",
+        "locatorId": "locator:northstar:revenue",
+        "kind": "quote",
+        "content": { "mediaType": "text/plain", "text": "USD 15.2 million" },
+        "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+        "sourceRole": "primary",
+        "resolutionStatus": "resolved",
+        "status": "current",
+        "createdBy": { "kind": "user", "actorId": "user:northstar" },
+        "provenanceActivityId": "selection-action:northstar:1",
+        "createdAt": "2026-08-30T16:01:00Z"
+      }
+    ],
+    "record": {
+      "schemaVersion": 1,
+      "recordType": "evidence-bookmark",
+      "bookmarkId": "bookmark:northstar:revenue",
+      "workspaceId": "workspace:northstar",
+      "investigationId": "investigation:northstar",
+      "selectionContextId": "selection-context:northstar:1",
+      "evidenceIds": ["evidence:northstar:revenue"],
+      "locatorIds": ["locator:northstar:revenue"],
+      "status": "active",
+      "createdBy": { "kind": "user", "actorId": "user:northstar" },
+      "createdAt": "2026-08-30T16:01:00Z"
+    }
+  }
+}

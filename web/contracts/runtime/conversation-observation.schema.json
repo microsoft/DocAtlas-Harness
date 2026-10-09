@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/conversation-observation.v1.json",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/event"
+    },
+    {
+      "$ref": "#/$defs/snapshot"
+    }
+  ],
+  "$defs": {
+    "cursor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "streamId",
+        "sequence"
+      ],
+      "properties": {
+        "streamId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint",
+        "messages",
+        "hasEarlier"
+      ],
+      "properties": {
+        "checkpoint": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/checkpoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectedHead": { "$ref": "https://docatlas.dev/schemas/native-lineage.v1.json#/$defs/head" },
+        "messages": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entryId",
+              "role",
+              "text",
+              "truncated"
+            ],
+            "properties": {
+              "origin": { "$ref": "https://docatlas.dev/schemas/native-lineage.v1.json#/$defs/origin" },
+              "entryId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "role": {
+                "enum": [
+                  "user",
+                  "assistant"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "hasEarlier": {
+          "type": "boolean"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "generation",
+        "cursor",
+        "update"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "conversation-observation"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "cursor": {
+          "$ref": "#/$defs/cursor"
+        },
+        "update": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "receipt"
+              ],
+              "properties": {
+                "type": {
+                  "const": "receipt"
+                },
+                "receipt": {
+                  "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/receipt"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "submissionId",
+                "progress"
+              ],
+              "properties": {
+                "type": {
+                  "const": "progress"
+                },
+                "submissionId": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "progress": {
+                  "$ref": "https://docatlas.dev/schemas/runtime-progress.v1.json"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "reason"
+              ],
+              "properties": {
+                "type": {
+                  "const": "resync"
+                },
+                "reason": {
+                  "enum": [
+                    "initial",
+                    "gap",
+                    "epoch",
+                    "overflow"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "binding",
+        "cursor",
+        "runs",
+        "nextRunsCursor",
+        "history",
+        "live",
+        "activity",
+        "liveIncomplete"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "conversation-snapshot"
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "cursor": {
+          "$ref": "#/$defs/cursor"
+        },
+        "runs": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "receipt",
+              "text"
+            ],
+            "properties": {
+              "receipt": {
+                "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/receipt"
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 6000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "nextRunsCursor": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "history": {
+          "$ref": "#/$defs/history"
+        },
+        "live": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "submissionId",
+              "messageId",
+              "text",
+              "truncated"
+            ],
+            "properties": {
+              "submissionId": {
+                "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+              },
+              "messageId": {
+                "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "activity": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "submissionId",
+              "toolCallId",
+              "toolName",
+              "state"
+            ],
+            "properties": {
+              "submissionId": {
+                "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+              },
+              "toolCallId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "toolName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "state": {
+                "enum": [
+                  "running",
+                  "ended"
+                ]
+              }
+            }
+          }
+        },
+        "liveIncomplete": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

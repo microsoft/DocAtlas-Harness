@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/sidecar-envelope.v1.2.json",
+  "title": "DocAtlas sidecar JSON-RPC envelope v1.2",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "method", "params"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "ingest" },
+        "params": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/ingestRequest" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "method", "params"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "search" },
+        "params": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/searchRequest" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "method", "params"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "read" },
+        "params": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/readRequest" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "method", "params"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "resolve" },
+        "params": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/resolveRequest" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "method"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "capabilities" },
+        "params": {
+          "type": "object",
+          "additionalProperties": false,
+          "default": {}
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "result"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "result": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/ingestResult" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "result"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "result": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/searchResult" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "result"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "result": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/readResult" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "result"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "result": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/resolveResult" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "method"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "health" },
+        "params": {
+          "type": "object",
+          "additionalProperties": false,
+          "default": {}
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "result"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "result": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["protocolVersion", "service", "status"],
+          "properties": {
+            "protocolVersion": { "const": "1.2.0" },
+            "service": { "const": "docatlas-sidecar" },
+            "status": { "const": "ok" }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "result"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "result": { "$ref": "https://docatlas.dev/schemas/sidecar-capabilities.v1.json" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonrpc", "id", "error"],
+      "properties": {
+        "jsonrpc": { "const": "2.0" },
+        "id": { "type": ["string", "null"] },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message", "data"],
+          "properties": {
+            "code": { "type": "integer" },
+            "message": { "type": "string", "minLength": 1 },
+            "data": { "$ref": "https://docatlas.dev/schemas/protocol-error.v1.json" }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "vectors": [
+    { "name": "compact with empty optional guidance", "base": 0, "patches": [{ "path": [], "value": { "kind": "compact", "instructions": "" } }] },
+    { "name": "compact preserves Unicode guidance", "base": 0, "patches": [{ "path": [], "value": { "kind": "compact", "instructions": "保留未完成的核验与文件路径。\n🔬 Do not turn old notes into evidence." } }] },
+    { "name": "SDK preparation reports eligible", "base": 3, "patches": [{ "path": ["compaction"], "value": { "canCompact": true } }] },
+    { "name": "exact compact apply", "base": 4, "patches": [{ "path": ["action"], "value": { "kind": "compact", "instructions": "" } }] },
+    { "name": "successful compact has actual entry identity and summary hash only", "base": 5, "patches": [
+      { "path": ["proof", "action"], "value": { "kind": "compact", "instructions": "" } },
+      { "path": ["proof", "compaction"], "value": { "entryId": "entry:compact", "firstKeptEntryId": "entry:initial", "tokensBefore": 32768, "summaryHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" } }
+    ] },
+    { "name": "frozen product compact command", "base": 6, "patches": [{ "path": ["action"], "value": { "kind": "compact", "instructions": "" } }] },
+    { "name": "successful product compact receipt", "base": 7, "patches": [
+      { "path": ["request", "action"], "value": { "kind": "compact", "instructions": "" } },
+      { "path": ["result", "action"], "value": { "kind": "compact", "instructions": "" } },
+      { "path": ["result", "compaction"], "value": { "entryId": "entry:compact", "firstKeptEntryId": "entry:initial", "tokensBefore": 32768, "summaryHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" } }
+    ] },
+    { "name": "native proved non-application is not success", "base": 5, "patches": [
+      { "path": ["status"], "value": "not-applied" }, { "path": ["proof"], "remove": true },
+      { "path": ["failureProof"], "value": {
+        "operationId": "native:operation-fixture", "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "action": { "kind": "compact", "instructions": "" },
+        "beforeHead": { "version": 1, "sessionId": "session:native-fixture", "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "byteLength": 210, "entryCount": 2, "leafEntryId": "entry:initial" },
+        "afterHead": { "version": 1, "sessionId": "session:native-fixture", "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "byteLength": 1900, "entryCount": 4, "leafEntryId": "entry:not-applied" },
+        "intentEntryId": "entry:intent", "markerEntryId": "entry:not-applied", "reason": "cancelled"
+      } }
+    ] },
+    { "name": "failed receipt keeps the original meaning of success result", "base": 7, "patches": [
+      { "path": ["request", "action"], "value": { "kind": "compact", "instructions": "" } },
+      { "path": ["state"], "value": "failed" }, { "path": ["result"], "value": null }, { "path": ["errorCode"], "value": "execution-interrupted" },
+      { "path": ["failureProof"], "value": {
+        "operationId": "native:operation-fixture", "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "action": { "kind": "compact", "instructions": "" },
+        "beforeHead": { "version": 1, "sessionId": "session:native-fixture", "transcriptHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "byteLength": 210, "entryCount": 2, "leafEntryId": "entry:initial" },
+        "afterHead": { "version": 1, "sessionId": "session:native-fixture", "transcriptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "byteLength": 1900, "entryCount": 4, "leafEntryId": "entry:not-applied" },
+        "intentEntryId": "entry:intent", "markerEntryId": "entry:not-applied", "reason": "sdk-rejected"
+      } }
+    ] },
+    { "name": "new inspection advertises unavailable compaction without changing old settings", "base": 8, "patches": [{ "path": ["state", "compaction"], "value": { "canCompact": false } }] }
+  ],
+  "invalidShape": [
+    { "name": "instructions are explicit even when empty", "vector": 0, "patches": [{ "path": ["instructions"], "remove": true }] },
+    { "name": "guidance is bounded", "vector": 1, "patches": [{ "path": ["instructions"], "value": "文", "repeat": 4097 }] },
+    { "name": "guidance cannot pick an endpoint", "vector": 1, "patches": [{ "path": ["endpoint"], "value": "https://not-allowed.invalid" }] },
+    { "name": "eligibility is a boolean", "vector": 2, "patches": [{ "path": ["compaction", "canCompact"], "value": "yes" }] },
+    { "name": "summary content must not leak through compact proof", "vector": 4, "patches": [{ "path": ["proof", "compaction", "summary"], "value": "private native context" }] },
+    { "name": "summary hash is a digest", "vector": 4, "patches": [{ "path": ["proof", "compaction", "summaryHash"], "value": "not-a-hash" }] },
+    { "name": "retained entry must be identified", "vector": 4, "patches": [{ "path": ["proof", "compaction", "firstKeptEntryId"], "value": null }] },
+    { "name": "native token record is bounded and nonnegative", "vector": 4, "patches": [{ "path": ["proof", "compaction", "tokensBefore"], "value": -1 }] },
+    { "name": "non-application cannot be a legacy successful outcome", "vector": 7, "patches": [{ "path": ["status"], "value": "applied" }] },
+    { "name": "failure reason cannot forward SDK errors", "vector": 7, "patches": [{ "path": ["failureProof", "reason"], "value": "raw-provider-error" }] },
+    { "name": "non-application is only defined for compact", "vector": 7, "patches": [{ "path": ["failureProof", "action"], "value": { "kind": "set-thinking", "level": "off" } }] },
+    { "name": "failure proof cannot carry a summary or extra native changes", "vector": 8, "patches": [{ "path": ["failureProof", "summary"], "value": "no" }] }
+  ],
+  "invalidSemantic": [
+    { "name": "compact success requires a compaction entry", "vector": 4, "patches": [{ "path": ["proof", "compaction"], "remove": true }] },
+    { "name": "ordinary settings cannot claim a compaction", "vector": 4, "patches": [{ "path": ["proof", "action"], "value": { "kind": "set-thinking", "level": "max" } }] },
+    { "name": "compaction is not its intent marker", "vector": 4, "patches": [{ "path": ["proof", "compaction", "entryId"], "value": "entry:intent" }] },
+    { "name": "compaction is not its completion marker", "vector": 4, "patches": [{ "path": ["proof", "compaction", "entryId"], "value": "entry:committed" }] },
+    { "name": "retained entry cannot be the new summary itself", "vector": 4, "patches": [{ "path": ["proof", "compaction", "firstKeptEntryId"], "value": "entry:compact" }] },
+    { "name": "compact needs at least intent plus actual entry plus completion", "vector": 4, "patches": [{ "path": ["proof", "afterHead", "entryCount"], "value": 4 }] },
+    { "name": "product result must preserve original instructions", "vector": 6, "patches": [{ "path": ["result", "action", "instructions"], "value": "different instructions" }] },
+    { "name": "non-application suffix cannot hide other appends", "vector": 7, "patches": [{ "path": ["failureProof", "afterHead", "entryCount"], "value": 5 }] },
+    { "name": "non-application needs both durable markers", "vector": 7, "patches": [{ "path": ["failureProof", "afterHead", "entryCount"], "value": 3 }] },
+    { "name": "non-application is in the same native session", "vector": 7, "patches": [{ "path": ["failureProof", "afterHead", "sessionId"], "value": "session:other" }] },
+    { "name": "terminal marker is the new sealed head", "vector": 7, "patches": [{ "path": ["failureProof", "markerEntryId"], "value": "entry:other" }] },
+    { "name": "known failure is not outcome unknown", "vector": 8, "patches": [{ "path": ["state"], "value": "outcome-unknown" }] },
+    { "name": "failure proof remains the original operation", "vector": 8, "patches": [{ "path": ["failureProof", "operationId"], "value": "native:other" }] },
+    { "name": "failure proof must bind the full request hash", "vector": 8, "patches": [{ "path": ["failureProof", "requestHash"], "value": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" }] },
+    { "name": "failure proof must preserve original instructions", "vector": 8, "patches": [{ "path": ["failureProof", "action", "instructions"], "value": "different instructions" }] },
+    { "name": "failure proof cannot certify preflight rejection", "vector": 8, "patches": [{ "path": ["errorCode"], "value": "stale-state" }] }
+  ]
+}

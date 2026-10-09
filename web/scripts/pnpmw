@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+workspace_root=$(cd "$script_dir/.." && pwd)
+node_version=22.19.0
+
+system_node=$(command -v node || true)
+if [[ -n "$system_node" ]] && [[ "$($system_node --version)" == "v${node_version}" ]]; then
+  node_bin=$(dirname "$system_node")
+else
+  "$script_dir/bootstrap-node.sh"
+  case "$(uname -s):$(uname -m)" in
+    Linux:x86_64) platform=linux-x64 ;;
+    Linux:aarch64|Linux:arm64) platform=linux-arm64 ;;
+    Darwin:x86_64) platform=darwin-x64 ;;
+    Darwin:arm64) platform=darwin-arm64 ;;
+    *) echo "unsupported platform for local Node wrapper" >&2; exit 1 ;;
+  esac
+  node_bin="$workspace_root/.cache/tools/node-v${node_version}-${platform}/bin"
+fi
+
+export PATH="$script_dir/tool-bin:$node_bin:$PATH"
+export COREPACK_HOME="$workspace_root/.cache/corepack"
+mkdir -p "$COREPACK_HOME"
+cd "$workspace_root"
+exec pnpm "$@"

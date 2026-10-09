@@ -1,0 +1,645 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-personalization.v1.json",
+  "title": "DocAtlas trusted-host personalization controls (no model-application claim) v1",
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "expectedGeneration",
+        "command"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "preference-command"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "command": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "expectedVersion",
+                "policy"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "set-session-policy"
+                },
+                "expectedVersion": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "policy": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "useExisting",
+                    "contributeToFuture"
+                  ],
+                  "properties": {
+                    "useExisting": {
+                      "type": "boolean"
+                    },
+                    "contributeToFuture": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "preference"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "set-preference"
+                },
+                "preference": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "effect",
+                    "scope"
+                  ],
+                  "properties": {
+                    "effect": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "answer-order"
+                            },
+                            "value": {
+                              "enum": [
+                                "conclusion-first",
+                                "evidence-first"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "explanation-depth"
+                            },
+                            "value": {
+                              "enum": [
+                                "brief",
+                                "standard",
+                                "teaching"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "preferred-representation"
+                            },
+                            "value": {
+                              "enum": [
+                                "pdf",
+                                "page-image",
+                                "table",
+                                "comparison"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "terminology-depth"
+                            },
+                            "value": {
+                              "enum": [
+                                "professional",
+                                "explain-on-first-use",
+                                "teaching"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "artifact-format"
+                            },
+                            "value": {
+                              "enum": [
+                                "brief",
+                                "matrix",
+                                "timeline"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "comparison-layout"
+                            },
+                            "value": {
+                              "enum": [
+                                "side-by-side",
+                                "stacked"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "scope": {
+                      "enum": [
+                        "global",
+                        "workspace"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "memoryVersionId",
+                "expectedVersion",
+                "replacement",
+                "statusAfterEdit"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "edit"
+                },
+                "memoryVersionId": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "expectedVersion": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "replacement": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "effect",
+                    "scope"
+                  ],
+                  "properties": {
+                    "effect": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "answer-order"
+                            },
+                            "value": {
+                              "enum": [
+                                "conclusion-first",
+                                "evidence-first"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "explanation-depth"
+                            },
+                            "value": {
+                              "enum": [
+                                "brief",
+                                "standard",
+                                "teaching"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "preferred-representation"
+                            },
+                            "value": {
+                              "enum": [
+                                "pdf",
+                                "page-image",
+                                "table",
+                                "comparison"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "terminology-depth"
+                            },
+                            "value": {
+                              "enum": [
+                                "professional",
+                                "explain-on-first-use",
+                                "teaching"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "artifact-format"
+                            },
+                            "value": {
+                              "enum": [
+                                "brief",
+                                "matrix",
+                                "timeline"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "properties": {
+                            "key": {
+                              "const": "comparison-layout"
+                            },
+                            "value": {
+                              "enum": [
+                                "side-by-side",
+                                "stacked"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "scope": {
+                      "enum": [
+                        "global",
+                        "workspace"
+                      ]
+                    }
+                  }
+                },
+                "statusAfterEdit": {
+                  "enum": [
+                    "active",
+                    "paused"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "memoryVersionId",
+                "expectedVersion"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "pause"
+                },
+                "memoryVersionId": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "expectedVersion": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "memoryVersionId",
+                "expectedVersion"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "resume"
+                },
+                "memoryVersionId": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "expectedVersion": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "target",
+                "memoryVersionId",
+                "expectedVersion",
+                "mode",
+                "provenanceHandling",
+                "acknowledgeExternalRetention"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "forget"
+                },
+                "target": {
+                  "const": "memory-chain"
+                },
+                "memoryVersionId": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "expectedVersion": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "mode": {
+                  "enum": [
+                    "memory-only"
+                  ]
+                },
+                "provenanceHandling": {
+                  "enum": [
+                    "orphan",
+                    "redact-derived-excerpts"
+                  ]
+                },
+                "acknowledgeExternalRetention": {
+                  "const": true
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "target",
+                "expectedProfileRevision",
+                "mode",
+                "provenanceHandling",
+                "acknowledgeExternalRetention"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "forget"
+                },
+                "target": {
+                  "const": "profile"
+                },
+                "expectedProfileRevision": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "mode": {
+                  "enum": [
+                    "memory-only",
+                    "privacy-erasure"
+                  ]
+                },
+                "provenanceHandling": {
+                  "enum": [
+                    "orphan",
+                    "redact-derived-excerpts"
+                  ]
+                },
+                "acknowledgeExternalRetention": {
+                  "const": true
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "idempotencyKey",
+                "action",
+                "format",
+                "includeProvenanceRefs",
+                "includeStatuses"
+              ],
+              "properties": {
+                "idempotencyKey": {
+                  "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+                },
+                "action": {
+                  "const": "export"
+                },
+                "format": {
+                  "enum": [
+                    "json",
+                    "markdown"
+                  ]
+                },
+                "includeProvenanceRefs": {
+                  "type": "boolean"
+                },
+                "includeStatuses": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "active",
+                      "paused",
+                      "disputed",
+                      "superseded",
+                      "expired",
+                      "archived"
+                    ]
+                  },
+                  "maxItems": 6,
+                  "minItems": 1,
+                  "uniqueItems": true
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "inspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "modelApplication",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "preference-inspection"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "modelApplication": {
+          "const": "not-connected"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/personalization-inspect.v1.json#/$defs/result"
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "preference-result"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/personalization-command.v1.json#/$defs/result"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/command"
+    },
+    {
+      "$ref": "#/$defs/inspection"
+    },
+    {
+      "$ref": "#/$defs/result"
+    }
+  ]
+}

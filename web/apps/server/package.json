@@ -1,0 +1,22 @@
+{
+  "name": "@docatlas/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": { ".": { "types": "./lib/index.d.ts", "default": "./lib/index.js" } },
+  "files": ["lib"],
+  "scripts": {
+    "prebuild": "pnpm --filter @docatlas/runtime-document build && pnpm --filter @docatlas/runtime-pi build",
+    "pretypecheck": "pnpm --filter @docatlas/runtime-document build && pnpm --filter @docatlas/runtime-pi build",
+    "build": "tsc --project tsconfig.build.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@docatlas/runtime-document": "workspace:*",
+    "@docatlas/contracts": "workspace:*",
+    "@docatlas/core": "workspace:*",
+    "@docatlas/runtime-pi": "workspace:*"
+  }
+}

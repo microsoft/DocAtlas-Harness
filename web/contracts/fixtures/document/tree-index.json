@@ -1,0 +1,573 @@
+{
+  "valid": [
+    {
+      "schemaVersion": 1,
+      "kind": "build-tree",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "config": {
+        "mode": "raw",
+        "useEmbeddedToc": true,
+        "workers": 1
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "read-tree",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "offset": 0,
+      "limit": 50
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "tree-data",
+      "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "pageCount": 6,
+      "nodes": [
+        {
+          "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "parentId": null,
+          "title": "Revenue",
+          "startPage": 1,
+          "endPage": 6,
+          "sourceNodeId": "0000",
+          "keyItems": []
+        },
+        {
+          "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00001",
+          "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "title": "Europe",
+          "startPage": 3,
+          "endPage": 4,
+          "sourceNodeId": "0000",
+          "keyItems": []
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "tree-generation",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "parentGenerationId": null,
+      "config": {
+        "mode": "raw",
+        "useEmbeddedToc": true,
+        "workers": 1
+      },
+      "provider": {
+        "name": "pageindex-flash",
+        "version": "0.2.10",
+        "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+        "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "status": "ready",
+      "pageCount": 6,
+      "nodeCount": 2,
+      "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "createdAt": "2026-09-08T12:00:00Z",
+      "tocSource": "hybrid",
+      "warnings": [],
+      "optimization": {
+        "mergeCount": 0,
+        "samePageMergeCount": 0,
+        "samePageDroppedCount": 0,
+        "rounds": 0,
+        "costBefore": 7,
+        "costAfter": 7
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "tree-page",
+      "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "offset": 1,
+      "total": 2,
+      "nextOffset": null,
+      "nodes": [
+        {
+          "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00001",
+          "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "title": "Europe",
+          "startPage": 3,
+          "endPage": 4,
+          "sourceNodeId": "0000",
+          "keyItems": []
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "tree-generation",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "parentGenerationId": "tree:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "config": {
+        "mode": "merge",
+        "useEmbeddedToc": true,
+        "workers": 1
+      },
+      "provider": {
+        "name": "pageindex-flash",
+        "version": "0.2.10",
+        "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+        "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "status": "ready",
+      "pageCount": 6,
+      "nodeCount": 2,
+      "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "createdAt": "2026-09-08T12:00:00Z",
+      "tocSource": "hybrid",
+      "warnings": [],
+      "optimization": {
+        "mergeCount": 0,
+        "samePageMergeCount": 0,
+        "samePageDroppedCount": 0,
+        "rounds": 0,
+        "costBefore": 7,
+        "costAfter": 7
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "tree-generation",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "parentGenerationId": null,
+      "config": {
+        "mode": "raw",
+        "useEmbeddedToc": true,
+        "workers": 1
+      },
+      "provider": {
+        "name": "pageindex-flash",
+        "version": "0.2.10",
+        "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+        "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "status": "empty",
+      "pageCount": 6,
+      "nodeCount": 0,
+      "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "createdAt": "2026-09-08T12:00:00Z",
+      "tocSource": "hybrid",
+      "warnings": [
+        "empty-tree",
+        "no-readable-text"
+      ],
+      "optimization": {
+        "mergeCount": 0,
+        "samePageMergeCount": 0,
+        "samePageDroppedCount": 0,
+        "rounds": 0,
+        "costBefore": 7,
+        "costAfter": 7
+      }
+    }
+  ],
+  "invalidShape": [
+    {
+      "name": "raw paths",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "build-tree",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "config": {
+          "mode": "raw",
+          "useEmbeddedToc": true,
+          "workers": 1
+        },
+        "path": "/private/file.pdf"
+      }
+    },
+    {
+      "name": "hidden model mode",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "build-tree",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "config": {
+          "mode": "full",
+          "useEmbeddedToc": true,
+          "workers": 1
+        }
+      }
+    },
+    {
+      "name": "unbounded workers",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "build-tree",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "config": {
+          "mode": "raw",
+          "useEmbeddedToc": true,
+          "workers": 64
+        }
+      }
+    },
+    {
+      "name": "negative read",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "read-tree",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "offset": -1,
+        "limit": 50
+      }
+    },
+    {
+      "name": "geometry fabrication",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "Revenue",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": [],
+            "bbox": [
+              0,
+              0,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "ready without nodes",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-generation",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "parentGenerationId": null,
+        "config": {
+          "mode": "raw",
+          "useEmbeddedToc": true,
+          "workers": 1
+        },
+        "provider": {
+          "name": "pageindex-flash",
+          "version": "0.2.10",
+          "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+          "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "status": "ready",
+        "pageCount": 6,
+        "nodeCount": 0,
+        "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "tocSource": "hybrid",
+        "warnings": [],
+        "optimization": {
+          "mergeCount": 0,
+          "samePageMergeCount": 0,
+          "samePageDroppedCount": 0,
+          "rounds": 0,
+          "costBefore": 7,
+          "costAfter": 7
+        }
+      }
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "duplicate node",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "Revenue",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          },
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "Revenue",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "duplicate-node"
+      ]
+    },
+    {
+      "name": "foreign generation",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:n00000",
+            "parentId": null,
+            "title": "Revenue",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "node-generation"
+      ]
+    },
+    {
+      "name": "blank BOM title",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "﻿",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "empty-title"
+      ]
+    },
+    {
+      "name": "range overflow",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "Revenue",
+            "startPage": 1,
+            "endPage": 7,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "page-range"
+      ]
+    },
+    {
+      "name": "missing parent",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00001",
+            "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "title": "Europe",
+            "startPage": 3,
+            "endPage": 4,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "hierarchy"
+      ]
+    },
+    {
+      "name": "parent range",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-data",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageCount": 6,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "Revenue",
+            "startPage": 1,
+            "endPage": 2,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          },
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00001",
+            "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "title": "Europe",
+            "startPage": 3,
+            "endPage": 4,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "parent-range"
+      ]
+    },
+    {
+      "name": "wrong generation parent",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-generation",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "parentGenerationId": "tree:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "config": {
+          "mode": "raw",
+          "useEmbeddedToc": true,
+          "workers": 1
+        },
+        "provider": {
+          "name": "pageindex-flash",
+          "version": "0.2.10",
+          "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+          "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "status": "ready",
+        "pageCount": 6,
+        "nodeCount": 2,
+        "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "tocSource": "hybrid",
+        "warnings": [],
+        "optimization": {
+          "mergeCount": 0,
+          "samePageMergeCount": 0,
+          "samePageDroppedCount": 0,
+          "rounds": 0,
+          "costBefore": 7,
+          "costAfter": 7
+        }
+      },
+      "codes": [
+        "parent-generation"
+      ]
+    },
+    {
+      "name": "empty warning mismatch",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-generation",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "parentGenerationId": null,
+        "config": {
+          "mode": "raw",
+          "useEmbeddedToc": true,
+          "workers": 1
+        },
+        "provider": {
+          "name": "pageindex-flash",
+          "version": "0.2.10",
+          "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+          "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "status": "ready",
+        "pageCount": 6,
+        "nodeCount": 2,
+        "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "tocSource": "hybrid",
+        "warnings": [
+          "empty-tree"
+        ],
+        "optimization": {
+          "mergeCount": 0,
+          "samePageMergeCount": 0,
+          "samePageDroppedCount": 0,
+          "rounds": 0,
+          "costBefore": 7,
+          "costAfter": 7
+        }
+      },
+      "codes": [
+        "empty-warning"
+      ]
+    },
+    {
+      "name": "bad next page",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "tree-page",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "treeHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "offset": 1,
+        "total": 2,
+        "nextOffset": 3,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00001",
+            "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "title": "Europe",
+            "startPage": 3,
+            "endPage": 4,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      },
+      "codes": [
+        "pagination"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "valid": [
+    { "schemaVersion": 1, "kind": "conversation-create", "idempotencyKey": "create:browser-conversation" },
+    {
+      "schemaVersion": 1,
+      "kind": "auth-exchange",
+      "code": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "bootstrap",
+      "actor": {
+        "actorId": "actor:one",
+        "workspaceId": "workspace:one"
+      },
+      "csrfToken": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "api-error",
+      "code": "forbidden"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "runtime-stopped",
+      "conversationId": "conversation:one",
+      "generation": 1
+    }
+  ],
+  "invalid": [
+    { "schemaVersion": 1, "kind": "conversation-create", "idempotencyKey": "tiny" },
+    { "schemaVersion": 1, "kind": "conversation-create", "idempotencyKey": "create:browser-conversation", "workspaceRoot": "/arbitrary" },
+    { "schemaVersion": 1, "kind": "conversation-create", "idempotencyKey": "create:browser-conversation", "actorId": "actor:forged" },
+    {
+      "schemaVersion": 1,
+      "kind": "auth-exchange",
+      "code": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actorId": "actor:forged"
+    },
+    {
+      "schemaVersion": 2,
+      "kind": "auth-exchange",
+      "code": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "bootstrap",
+      "actor": {
+        "actorId": "actor:one",
+        "workspaceId": "workspace:one"
+      },
+      "csrfToken": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "cookie": "secret"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "api-error",
+      "code": "internal-stack"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "runtime-stopped",
+      "conversationId": "conversation:one",
+      "generation": 0
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "auth-exchange",
+      "code": "https://example.invalid/key"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "bootstrap",
+      "actor": {
+        "actorId": "",
+        "workspaceId": "workspace:one"
+      },
+      "csrfToken": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ]
+}

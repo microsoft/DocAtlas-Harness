@@ -1,0 +1,748 @@
+{
+  "sessionPolicy": {
+    "schemaVersion": 1,
+    "recordType": "memory-session-policy",
+    "policyId": "policy:personalization:session-one:v1",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:one",
+    "version": 1,
+    "useExisting": true,
+    "contributeToFuture": true,
+    "updatedBy": { "kind": "user", "actorId": "user:local" },
+    "updatedAt": "2026-08-31T13:00:00Z"
+  },
+  "explicitObservation": {
+    "schemaVersion": 1,
+    "recordType": "personalization-observation",
+    "observationId": "observation:table-context:one",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:one",
+    "occurredAt": "2026-08-31T13:01:00Z",
+    "observedActor": { "kind": "user", "actorId": "user:local" },
+    "sourceRef": {
+      "kind": "ui-action",
+      "sessionId": "session:personalization:one",
+      "actionId": "action:preference:table-context",
+      "actionType": "set-preference",
+      "payloadHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "lineageKey": "lineage:user-setting:table-context",
+    "taskContext": {
+      "mode": "verify",
+      "workspaceId": "workspace:finance",
+      "investigationId": "investigation:finance:q3",
+      "taskFamily": "financial-verification",
+      "domain": "finance"
+    },
+    "scope": {
+      "kind": "workspace",
+      "profileId": "profile:local-default",
+      "workspaceId": "workspace:finance"
+    },
+    "consent": { "retention": "eligible", "basis": "user-explicit" },
+    "signal": "explicit-setting",
+    "detail": {
+      "effect": { "key": "evidence-presentation", "value": "table-context" },
+      "appliesBeyondTurn": true
+    }
+  },
+  "sessionOnlyObservation": {
+    "schemaVersion": 1,
+    "recordType": "personalization-observation",
+    "observationId": "observation:reader:session-only",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:one",
+    "occurredAt": "2026-08-31T13:02:00Z",
+    "observedActor": { "kind": "user", "actorId": "user:local" },
+    "sourceRef": {
+      "kind": "ui-action",
+      "sessionId": "session:personalization:one",
+      "actionId": "action:reader:pdf",
+      "actionType": "switch-representation",
+      "payloadHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "lineageKey": "lineage:reader:session-one",
+    "taskContext": {
+      "mode": "explore",
+      "workspaceId": "workspace:finance",
+      "investigationId": "investigation:finance:q3"
+    },
+    "scope": {
+      "kind": "workspace",
+      "profileId": "profile:local-default",
+      "workspaceId": "workspace:finance"
+    },
+    "consent": { "retention": "session-only", "basis": "session-policy" },
+    "signal": "reader-action",
+    "detail": { "action": "switch-representation", "representation": "pdf" }
+  },
+  "inferredObservation": {
+    "schemaVersion": 1,
+    "recordType": "personalization-observation",
+    "observationId": "observation:terminology:healthcare",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:one",
+    "occurredAt": "2026-08-31T13:02:10Z",
+    "observedActor": { "kind": "user", "actorId": "user:local" },
+    "sourceRef": {
+      "kind": "ui-action",
+      "sessionId": "session:personalization:one",
+      "actionId": "action:reader:expand-healthcare-term",
+      "actionType": "expand-context",
+      "payloadHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "lineageKey": "lineage:healthcare:terminology:one",
+    "taskContext": {
+      "mode": "explore",
+      "workspaceId": "workspace:healthcare",
+      "investigationId": "investigation:healthcare:one",
+      "taskFamily": "clinical-literature-review",
+      "domain": "healthcare"
+    },
+    "scope": {
+      "kind": "domain",
+      "profileId": "profile:local-default",
+      "domain": "healthcare"
+    },
+    "consent": { "retention": "eligible", "basis": "session-policy" },
+    "signal": "reader-action",
+    "detail": { "action": "expand-context" }
+  },
+  "candidate": {
+    "schemaVersion": 1,
+    "recordType": "memory-candidate",
+    "candidateId": "candidate:table-context:one",
+    "profileId": "profile:local-default",
+    "version": 1,
+    "proposedMemoryType": "evidence-preference",
+    "proposedEffect": { "key": "evidence-presentation", "value": "table-context" },
+    "proposedScope": {
+      "kind": "workspace",
+      "profileId": "profile:local-default",
+      "workspaceId": "workspace:finance"
+    },
+    "observationIds": ["observation:table-context:one"],
+    "independentLineageCount": 1,
+    "counterObservationIds": [],
+    "formation": "explicit-setting",
+    "risk": "low",
+    "sensitivity": "ordinary",
+    "decision": "promote",
+    "rationaleCode": "explicit-user-setting",
+    "decidedBy": { "kind": "user", "actorId": "user:local" },
+    "decidedAt": "2026-08-31T13:03:00Z",
+    "createdAt": "2026-08-31T13:02:30Z"
+  },
+  "sensitiveCandidate": {
+    "schemaVersion": 1,
+    "recordType": "memory-candidate",
+    "candidateId": "candidate:familiarity:review",
+    "profileId": "profile:local-default",
+    "version": 1,
+    "proposedMemoryType": "familiarity-estimate",
+    "proposedEffect": { "key": "terminology-depth", "value": "teaching" },
+    "proposedScope": {
+      "kind": "domain",
+      "profileId": "profile:local-default",
+      "domain": "healthcare"
+    },
+    "observationIds": ["observation:terminology:healthcare"],
+    "independentLineageCount": 1,
+    "counterObservationIds": [],
+    "formation": "inferred-behavior",
+    "risk": "high",
+    "sensitivity": "sensitive",
+    "decision": "needs-review",
+    "rationaleCode": "sensitive-review-required",
+    "decidedBy": { "kind": "rule", "actorId": "rule:personalization:v1" },
+    "decidedAt": "2026-08-31T13:03:00Z",
+    "createdAt": "2026-08-31T13:02:30Z"
+  },
+  "memoryVersion": {
+    "schemaVersion": 1,
+    "recordType": "memory-version",
+    "memoryVersionId": "memory:table-context:v1",
+    "chainId": "memory-chain:table-context",
+    "version": 1,
+    "profileId": "profile:local-default",
+    "status": "active",
+    "transactionTime": { "recordedAt": "2026-08-31T13:04:00Z" },
+    "memoryType": "evidence-preference",
+    "effect": { "key": "evidence-presentation", "value": "table-context" },
+    "summary": "Show key figures with their table context.",
+    "scope": {
+      "kind": "workspace",
+      "profileId": "profile:local-default",
+      "workspaceId": "workspace:finance"
+    },
+    "sensitivity": "ordinary",
+    "observationIds": ["observation:table-context:one"],
+    "candidateId": "candidate:table-context:one",
+    "contentSafety": { "secretScan": "passed", "sensitiveInference": "none" },
+    "retentionConsent": "eligible",
+    "validTime": { "from": "2026-08-31T13:01:00Z" },
+    "activation": {
+      "kind": "explicit-setting",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "activatedAt": "2026-08-31T13:04:00Z"
+    },
+    "policy": { "apply": "disclose" }
+  },
+  "decision": {
+    "schemaVersion": 1,
+    "recordType": "personalization-decision",
+    "decisionId": "personalization-decision:turn-four",
+    "profileId": "profile:local-default",
+    "memoryVersionIds": ["memory:table-context:v1"],
+    "appliesTo": {
+      "sessionId": "session:personalization:two",
+      "turn": 4,
+      "mode": "verify",
+      "workspaceId": "workspace:finance",
+      "investigationId": "investigation:finance:q4",
+      "taskFamily": "financial-verification",
+      "domain": "finance"
+    },
+    "effects": [{ "key": "evidence-presentation", "value": "table-context" }],
+    "why": [{ "memoryVersionId": "memory:table-context:v1", "reason": "scope-match" }],
+    "factTraceGuard": {
+      "sourceScopeVersionId": "scope:finance:q4:v2",
+      "baselineDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "evidenceSupportInvariant": true,
+      "contradictionDisclosureInvariant": true,
+      "publicationGateInvariant": true,
+      "sourceScopeInvariant": true
+    },
+    "expiresAfterTurn": 4,
+    "createdAt": "2026-08-31T14:00:00Z"
+  },
+  "memoryUse": {
+    "schemaVersion": 1,
+    "recordType": "memory-use",
+    "memoryUseId": "memory-use:turn-four:table-context",
+    "decisionId": "personalization-decision:turn-four",
+    "memoryVersionId": "memory:table-context:v1",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:two",
+    "turn": 4,
+    "effect": { "key": "evidence-presentation", "value": "table-context" },
+    "affectedActions": ["evidence-context-render", "answer-render"],
+    "usedAt": "2026-08-31T14:00:01Z",
+    "outcome": {
+      "status": "accepted",
+      "observedAt": "2026-08-31T14:03:00Z",
+      "savedSteps": 2,
+      "timeToEvidenceMs": 12000,
+      "causedMiss": false
+    }
+  },
+  "preferenceProbe": {
+    "schemaVersion": 1,
+    "recordType": "preference-probe",
+    "probeId": "probe:answer-order:one",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:two",
+    "turn": 5,
+    "taskContext": {
+      "mode": "verify",
+      "workspaceId": "workspace:finance",
+      "investigationId": "investigation:finance:q4",
+      "taskFamily": "financial-verification",
+      "domain": "finance"
+    },
+    "axis": "answer-order",
+    "trigger": "low-confidence",
+    "investigationId": "investigation:finance:q4",
+    "automaticOrdinal": 1,
+    "backbone": {
+      "sourceScopeVersionId": "scope:finance:q4:v2",
+      "claimVersionIds": ["claim:cash-flow:v2"],
+      "evidenceAtomIds": ["evidence:cash-flow:table-row"],
+      "uncertaintyIds": ["uncertainty:cash-flow-guidance"],
+      "conflictIds": [],
+      "factTraceDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "variants": [
+      {
+        "variantKey": "variant:conclusion-first",
+        "effect": { "key": "answer-order", "value": "conclusion-first" },
+        "artifactId": "artifact:probe:conclusion-first",
+        "factTraceDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "invariantCheck": "passed"
+      },
+      {
+        "variantKey": "variant:evidence-first",
+        "effect": { "key": "answer-order", "value": "evidence-first" },
+        "artifactId": "artifact:probe:evidence-first",
+        "factTraceDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "invariantCheck": "passed"
+      }
+    ],
+    "presentationOrder": ["variant:evidence-first", "variant:conclusion-first"],
+    "generatedAt": "2026-08-31T14:05:00Z"
+  },
+  "preferenceChoice": {
+    "schemaVersion": 1,
+    "recordType": "preference-choice-observation",
+    "choiceObservationId": "choice:answer-order:one",
+    "probeId": "probe:answer-order:one",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:two",
+    "turn": 5,
+    "selected": "variant:evidence-first",
+    "scopeIntent": "workspace",
+    "reasonTags": ["easier-verification"],
+    "consent": { "retention": "eligible", "basis": "user-explicit" },
+    "occurredAt": "2026-08-31T14:06:00Z"
+  },
+  "pairwiseObservation": {
+    "schemaVersion": 1,
+    "recordType": "personalization-observation",
+    "observationId": "observation:answer-order:choice-one",
+    "profileId": "profile:local-default",
+    "sessionId": "session:personalization:two",
+    "occurredAt": "2026-08-31T14:06:00Z",
+    "observedActor": { "kind": "user", "actorId": "user:local" },
+    "sourceRef": { "kind": "preference-probe", "probeId": "probe:answer-order:one" },
+    "lineageKey": "lineage:probe:answer-order:one",
+    "taskContext": {
+      "mode": "verify",
+      "workspaceId": "workspace:finance",
+      "investigationId": "investigation:finance:q4",
+      "taskFamily": "financial-verification",
+      "domain": "finance"
+    },
+    "scope": {
+      "kind": "workspace",
+      "profileId": "profile:local-default",
+      "workspaceId": "workspace:finance"
+    },
+    "consent": { "retention": "eligible", "basis": "user-explicit" },
+    "signal": "pairwise-preference-choice",
+    "detail": {
+      "probeId": "probe:answer-order:one",
+      "choiceObservationId": "choice:answer-order:one",
+      "selected": "variant:evidence-first"
+    }
+  },
+  "commands": {
+    "setSessionPolicyRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:one",
+      "idempotencyKey": "idempotency:policy:set:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "set-session-policy",
+      "expectedVersion": 0,
+      "policy": { "useExisting": true, "contributeToFuture": true }
+    },
+    "setSessionPolicyResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "set-session-policy",
+      "status": "applied",
+      "sessionPolicy": {
+        "schemaVersion": 1,
+        "recordType": "memory-session-policy",
+        "policyId": "policy:personalization:session-one:v1",
+        "profileId": "profile:local-default",
+        "sessionId": "session:personalization:one",
+        "version": 1,
+        "useExisting": true,
+        "contributeToFuture": true,
+        "updatedBy": { "kind": "user", "actorId": "user:local" },
+        "updatedAt": "2026-08-31T13:00:00Z"
+      }
+    },
+    "setPreferenceRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:one",
+      "idempotencyKey": "idempotency:preference:set:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "set-preference",
+      "preference": {
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "table-context" },
+        "summary": "Show key figures with their table context.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "policy": { "apply": "disclose" }
+      }
+    },
+    "setPreferenceResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "set-preference",
+      "status": "created",
+      "memoryVersion": {
+        "schemaVersion": 1,
+        "recordType": "memory-version",
+        "memoryVersionId": "memory:table-context:v1",
+        "chainId": "memory-chain:table-context",
+        "version": 1,
+        "profileId": "profile:local-default",
+        "status": "active",
+        "transactionTime": { "recordedAt": "2026-08-31T13:04:00Z" },
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "table-context" },
+        "summary": "Show key figures with their table context.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "observationIds": ["observation:table-context:one"],
+        "candidateId": "candidate:table-context:one",
+        "contentSafety": { "secretScan": "passed", "sensitiveInference": "none" },
+        "retentionConsent": "eligible",
+        "validTime": { "from": "2026-08-31T13:01:00Z" },
+        "activation": {
+          "kind": "explicit-setting",
+          "actor": { "kind": "user", "actorId": "user:local" },
+          "activatedAt": "2026-08-31T13:04:00Z"
+        },
+        "policy": { "apply": "disclose" }
+      }
+    },
+    "reviewCandidateRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:one",
+      "idempotencyKey": "idempotency:candidate:accept:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "review-candidate",
+      "candidateId": "candidate:table-context:one",
+      "expectedVersion": 1,
+      "decision": "accept"
+    },
+    "reviewCandidateResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "review-candidate",
+      "status": "updated",
+      "candidate": {
+        "schemaVersion": 1,
+        "recordType": "memory-candidate",
+        "candidateId": "candidate:table-context:one",
+        "profileId": "profile:local-default",
+        "version": 2,
+        "proposedMemoryType": "evidence-preference",
+        "proposedEffect": { "key": "evidence-presentation", "value": "table-context" },
+        "proposedScope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "observationIds": ["observation:table-context:one"],
+        "independentLineageCount": 1,
+        "counterObservationIds": [],
+        "formation": "explicit-setting",
+        "risk": "low",
+        "sensitivity": "ordinary",
+        "decision": "promote",
+        "rationaleCode": "explicit-user-setting",
+        "decidedBy": { "kind": "user", "actorId": "user:local" },
+        "decidedAt": "2026-08-31T13:03:00Z",
+        "createdAt": "2026-08-31T13:02:30Z"
+      },
+      "memoryVersion": {
+        "schemaVersion": 1,
+        "recordType": "memory-version",
+        "memoryVersionId": "memory:table-context:confirmed:v1",
+        "chainId": "memory-chain:table-context:confirmed",
+        "version": 1,
+        "profileId": "profile:local-default",
+        "status": "active",
+        "transactionTime": { "recordedAt": "2026-08-31T13:04:00Z" },
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "table-context" },
+        "summary": "Show key figures with their table context.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "observationIds": ["observation:table-context:one"],
+        "candidateId": "candidate:table-context:one",
+        "contentSafety": { "secretScan": "passed", "sensitiveInference": "none" },
+        "retentionConsent": "eligible",
+        "validTime": { "from": "2026-08-31T13:01:00Z" },
+        "activation": {
+          "kind": "explicit-confirmation",
+          "actor": { "kind": "user", "actorId": "user:local" },
+          "activatedAt": "2026-08-31T13:04:00Z"
+        },
+        "policy": { "apply": "disclose" }
+      }
+    },
+    "pauseRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:two",
+      "idempotencyKey": "idempotency:memory:pause:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "pause",
+      "memoryVersionId": "memory:table-context:v1",
+      "expectedVersion": 1
+    },
+    "pauseResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "pause",
+      "status": "updated",
+      "memoryVersion": {
+        "schemaVersion": 1,
+        "recordType": "memory-version",
+        "memoryVersionId": "memory:table-context:v2",
+        "chainId": "memory-chain:table-context",
+        "version": 2,
+        "profileId": "profile:local-default",
+        "status": "paused",
+        "previousMemoryVersionId": "memory:table-context:v1",
+        "transactionTime": { "recordedAt": "2026-08-31T14:10:00Z" },
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "table-context" },
+        "summary": "Show key figures with their table context.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "observationIds": ["observation:table-context:one"],
+        "candidateId": "candidate:table-context:one",
+        "contentSafety": { "secretScan": "passed", "sensitiveInference": "none" },
+        "retentionConsent": "eligible",
+        "validTime": { "from": "2026-08-31T13:01:00Z" },
+        "activation": {
+          "kind": "explicit-setting",
+          "actor": { "kind": "user", "actorId": "user:local" },
+          "activatedAt": "2026-08-31T13:04:00Z"
+        },
+        "policy": { "apply": "disclose" }
+      }
+    },
+    "resumeRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:two",
+      "idempotencyKey": "idempotency:memory:resume:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "resume",
+      "memoryVersionId": "memory:table-context:v2",
+      "expectedVersion": 2
+    },
+    "resumeResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "resume",
+      "status": "updated",
+      "memoryVersion": {
+        "schemaVersion": 1,
+        "recordType": "memory-version",
+        "memoryVersionId": "memory:table-context:v3",
+        "chainId": "memory-chain:table-context",
+        "version": 3,
+        "profileId": "profile:local-default",
+        "status": "active",
+        "previousMemoryVersionId": "memory:table-context:v2",
+        "transactionTime": { "recordedAt": "2026-08-31T14:11:00Z" },
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "table-context" },
+        "summary": "Show key figures with their table context.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "observationIds": ["observation:table-context:one"],
+        "candidateId": "candidate:table-context:one",
+        "contentSafety": { "secretScan": "passed", "sensitiveInference": "none" },
+        "retentionConsent": "eligible",
+        "validTime": { "from": "2026-08-31T13:01:00Z" },
+        "activation": {
+          "kind": "explicit-setting",
+          "actor": { "kind": "user", "actorId": "user:local" },
+          "activatedAt": "2026-08-31T13:04:00Z"
+        },
+        "policy": { "apply": "disclose" }
+      }
+    },
+    "editRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:two",
+      "idempotencyKey": "idempotency:memory:edit:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "edit",
+      "memoryVersionId": "memory:table-context:v1",
+      "expectedVersion": 1,
+      "replacement": {
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "quote" },
+        "summary": "Show key figures with exact quotes.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "policy": { "apply": "disclose" }
+      },
+      "statusAfterEdit": "active"
+    },
+    "editResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "edit",
+      "status": "updated",
+      "memoryVersion": {
+        "schemaVersion": 1,
+        "recordType": "memory-version",
+        "memoryVersionId": "memory:table-context:edited:v2",
+        "chainId": "memory-chain:table-context",
+        "version": 2,
+        "profileId": "profile:local-default",
+        "status": "active",
+        "previousMemoryVersionId": "memory:table-context:v1",
+        "transactionTime": { "recordedAt": "2026-08-31T14:12:00Z" },
+        "memoryType": "evidence-preference",
+        "effect": { "key": "evidence-presentation", "value": "quote" },
+        "summary": "Show key figures with exact quotes.",
+        "scope": {
+          "kind": "workspace",
+          "profileId": "profile:local-default",
+          "workspaceId": "workspace:finance"
+        },
+        "sensitivity": "ordinary",
+        "observationIds": ["observation:table-context:one"],
+        "contentSafety": { "secretScan": "passed", "sensitiveInference": "none" },
+        "retentionConsent": "eligible",
+        "validTime": { "from": "2026-08-31T13:01:00Z" },
+        "activation": {
+          "kind": "explicit-confirmation",
+          "actor": { "kind": "user", "actorId": "user:local" },
+          "activatedAt": "2026-08-31T14:12:00Z"
+        },
+        "policy": { "apply": "disclose" }
+      }
+    },
+    "forgetChainRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:two",
+      "idempotencyKey": "idempotency:memory:forget:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "forget",
+      "target": "memory-chain",
+      "memoryVersionId": "memory:table-context:v2",
+      "expectedVersion": 2,
+      "mode": "memory-only",
+      "provenanceHandling": "orphan",
+      "acknowledgeExternalRetention": true
+    },
+    "forgetChainResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "forget",
+      "status": "completed",
+      "receipt": {
+        "receiptId": "forget-receipt:chain:one",
+        "target": "memory-chain",
+        "targetId": "memory:table-context:v2",
+        "mode": "memory-only",
+        "activeProjectionRemoved": true,
+        "sessionLogChanged": false,
+        "providerCopiesChanged": false,
+        "provenanceHandling": "orphan",
+        "backupDisposition": "not-applicable",
+        "completedAt": "2026-08-31T14:15:00Z"
+      }
+    },
+    "forgetProfileRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:two",
+      "idempotencyKey": "idempotency:profile:forget:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "forget",
+      "target": "profile",
+      "expectedProfileRevision": 7,
+      "mode": "privacy-erasure",
+      "provenanceHandling": "redact-derived-excerpts",
+      "acknowledgeExternalRetention": true
+    },
+    "forgetProfileResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "forget",
+      "status": "accepted",
+      "receipt": {
+        "receiptId": "forget-receipt:profile:one",
+        "target": "profile",
+        "targetId": "profile:local-default",
+        "mode": "privacy-erasure",
+        "activeProjectionRemoved": true,
+        "sessionLogChanged": false,
+        "providerCopiesChanged": false,
+        "provenanceHandling": "redact-derived-excerpts",
+        "backupDisposition": "scheduled-compaction"
+      }
+    },
+    "exportRequest": {
+      "schemaVersion": 1,
+      "requestType": "personalization-command",
+      "profileId": "profile:local-default",
+      "sessionId": "session:personalization:two",
+      "idempotencyKey": "idempotency:profile:export:one",
+      "actor": { "kind": "user", "actorId": "user:local" },
+      "action": "export",
+      "format": "json",
+      "includeProvenanceRefs": true,
+      "includeStatuses": ["active", "paused", "disputed", "superseded", "expired", "archived"]
+    },
+    "exportResult": {
+      "schemaVersion": 1,
+      "resultType": "personalization-command",
+      "profileId": "profile:local-default",
+      "action": "export",
+      "status": "created",
+      "export": {
+        "exportId": "personalization-export:one",
+        "assetId": "asset:personalization-export:one",
+        "bundleSchemaVersion": 1,
+        "format": "json",
+        "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "byteLength": 4096,
+        "createdAt": "2026-08-31T14:20:00Z",
+        "expiresAt": "2026-08-31T14:30:00Z",
+        "provenance": "references-only",
+        "includedStatuses": ["active", "paused", "disputed", "superseded", "expired", "archived"]
+      }
+    }
+  }
+}

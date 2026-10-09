@@ -1,0 +1,2810 @@
+{
+  "description": "Shared product research vectors: clone a base and apply set/remove paths. Shape validity never authorizes a command or makes note text a verified fact. The research-call-provenance kind is private host storage, not a browser or model operation. TypeScript consumers enforce cross-field semantics after shape validation; Python only checks canonical shapes.",
+  "bases": {
+    "query": {
+      "schemaVersion": 1,
+      "kind": "notebook-query",
+      "expectedGeneration": 1,
+      "view": "workspace",
+      "maxItems": 20,
+      "maxChars": 8000
+    },
+    "response": {
+      "schemaVersion": 1,
+      "kind": "notebook-response",
+      "conversationId": "session:northstar",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "research-notebook",
+        "workspaceId": "workspace:governance",
+        "investigationId": "investigation:governance:one",
+        "scopeVersionId": "scope:governance:1",
+        "view": "workspace",
+        "queryHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "items": [
+          {
+            "itemId": "notebook:decision:one",
+            "recordId": "decision:governance:one",
+            "recordType": "project-decision",
+            "recordStatus": "active",
+            "recordVersion": 1,
+            "sourceInvestigationId": "investigation:governance:one",
+            "sourceSessionId": "session:governance:one",
+            "sourceScopeVersionId": "scope:governance:1",
+            "layer": "working",
+            "preview": "Page numbering convention — Use physical PDF page numbers in every deliverable.",
+            "sourceIdentities": [],
+            "sourceState": "none",
+            "useStatus": "user-governance",
+            "updatedAt": "2026-08-31T12:00:00Z"
+          },
+          {
+            "itemId": "notebook:note:prior",
+            "recordId": "note:prior:one",
+            "recordType": "research-note",
+            "recordStatus": "active",
+            "recordVersion": 2,
+            "sourceInvestigationId": "investigation:prior",
+            "sourceSessionId": "session:prior",
+            "sourceScopeVersionId": "scope:prior:1",
+            "layer": "research",
+            "preview": "Prior margin hypothesis remains unverified.",
+            "sourceIdentities": [],
+            "sourceState": "none",
+            "useStatus": "unverified-lead",
+            "updatedAt": "2026-08-31T11:00:00Z"
+          }
+        ],
+        "pageInfo": {
+          "schemaVersion": 1,
+          "limit": 10,
+          "returned": 2,
+          "total": 2,
+          "usedChars": 122,
+          "truncated": false,
+          "completeness": "complete"
+        }
+      }
+    },
+    "save": {
+      "schemaVersion": 1,
+      "kind": "note-save",
+      "expectedGeneration": 1,
+      "idempotencyKey": "note:save:one",
+      "selectionContextId": "selection-context:northstar:1",
+      "noteKind": "commentary",
+      "body": "This is a user note, not a verified conclusion."
+    },
+    "saved": {
+      "schemaVersion": 1,
+      "kind": "note-saved",
+      "conversationId": "session:northstar",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "selection-action-recorded",
+        "sessionId": "session:northstar",
+        "selectionContextId": "selection-context:northstar:1",
+        "actionId": "selection-action:northstar:1",
+        "action": "create-note",
+        "status": "created",
+        "locators": [
+          {
+            "schemaVersion": 1,
+            "locatorId": "locator:northstar:revenue",
+            "documentId": "doc:northstar",
+            "revisionId": "rev:northstar:1",
+            "representationId": "rep:northstar:text",
+            "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "physicalPage": 2,
+            "selectors": [
+              {
+                "type": "text-quote",
+                "exact": "USD 15.2 million",
+                "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+              }
+            ],
+            "createdAt": "2026-08-30T16:00:00Z"
+          }
+        ],
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "evidence:northstar:revenue",
+            "documentId": "doc:northstar",
+            "revisionId": "rev:northstar:1",
+            "representationId": "rep:northstar:text",
+            "locatorId": "locator:northstar:revenue",
+            "kind": "quote",
+            "content": {
+              "mediaType": "text/plain",
+              "text": "USD 15.2 million"
+            },
+            "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+            "sourceRole": "primary",
+            "resolutionStatus": "resolved",
+            "status": "current",
+            "createdBy": {
+              "kind": "user",
+              "actorId": "user:northstar"
+            },
+            "provenanceActivityId": "selection-action:northstar:1",
+            "createdAt": "2026-08-30T16:01:00Z"
+          }
+        ],
+        "record": {
+          "schemaVersion": 1,
+          "recordType": "research-note",
+          "workspaceId": "workspace:northstar",
+          "investigationId": "investigation:northstar",
+          "selectionContextId": "selection-context:northstar:1",
+          "evidenceIds": [
+            "evidence:northstar:revenue"
+          ],
+          "locatorIds": [
+            "locator:northstar:revenue"
+          ],
+          "status": "active",
+          "createdBy": {
+            "kind": "user",
+            "actorId": "user:northstar"
+          },
+          "createdAt": "2026-08-30T16:01:00Z",
+          "noteId": "note:product:one",
+          "version": 1,
+          "noteKind": "commentary",
+          "body": "This is a user note, not a verified conclusion."
+        }
+      }
+    },
+    "mutate": {
+      "schemaVersion": 1,
+      "kind": "notebook-mutate",
+      "expectedGeneration": 1,
+      "idempotencyKey": "note:mutate:one",
+      "recordId": "note:product:one",
+      "expectedVersion": 1,
+      "action": "edit",
+      "text": "Edited but still unverified."
+    },
+    "updated": {
+      "schemaVersion": 1,
+      "kind": "notebook-updated",
+      "conversationId": "session:northstar",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "research-record-lifecycle",
+        "status": "updated",
+        "state": {
+          "schemaVersion": 1,
+          "recordId": "note:lifecycle:1",
+          "workspaceId": "workspace:lifecycle",
+          "investigationId": "investigation:lifecycle",
+          "recordType": "research-note",
+          "version": 2,
+          "previousVersion": 1,
+          "status": "active",
+          "epistemicStatus": "unverified",
+          "text": "Corrected but still unverified checkpoint.",
+          "updatedBy": {
+            "kind": "user",
+            "actorId": "session:lifecycle"
+          },
+          "updatedAt": "2026-08-31T12:10:00Z"
+        }
+      }
+    },
+    "entry": {
+      "schemaVersion": 1,
+      "kind": "notebook-entry",
+      "conversationId": "session:northstar",
+      "recordId": "note:product:one",
+      "recordType": "research-note",
+      "investigationId": "investigation:northstar",
+      "sourceSessionId": "session:northstar",
+      "scopeVersionId": "scope:northstar:1",
+      "version": 1,
+      "status": "active",
+      "text": "This is a user note, not a verified conclusion.",
+      "locators": [
+        {
+          "schemaVersion": 1,
+          "locatorId": "locator:northstar:revenue",
+          "documentId": "doc:northstar",
+          "revisionId": "rev:northstar:1",
+          "representationId": "rep:northstar:text",
+          "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "physicalPage": 2,
+          "selectors": [
+            {
+              "type": "text-quote",
+              "exact": "USD 15.2 million",
+              "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+            }
+          ],
+          "createdAt": "2026-08-30T16:00:00Z"
+        }
+      ],
+      "evidence": [
+        {
+          "schemaVersion": 1,
+          "evidenceId": "evidence:northstar:revenue",
+          "documentId": "doc:northstar",
+          "revisionId": "rev:northstar:1",
+          "representationId": "rep:northstar:text",
+          "locatorId": "locator:northstar:revenue",
+          "kind": "quote",
+          "content": {
+            "mediaType": "text/plain",
+            "text": "USD 15.2 million"
+          },
+          "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+          "sourceRole": "primary",
+          "resolutionStatus": "resolved",
+          "status": "current",
+          "createdBy": {
+            "kind": "user",
+            "actorId": "user:northstar"
+          },
+          "provenanceActivityId": "selection-action:northstar:1",
+          "createdAt": "2026-08-30T16:01:00Z"
+        }
+      ],
+      "authoredBy": "user",
+      "verificationStatus": "unverified-lead"
+    },
+    "focus": {
+      "schemaVersion": 1,
+      "kind": "research-focus",
+      "conversationId": "session:northstar",
+      "recordId": "note:product:one",
+      "status": "resolved",
+      "locator": {
+        "schemaVersion": 1,
+        "locatorId": "locator:northstar:revenue",
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "representationId": "rep:northstar:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "physicalPage": 2,
+        "selectors": [
+          {
+            "type": "text-quote",
+            "exact": "USD 15.2 million",
+            "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+          }
+        ],
+        "createdAt": "2026-08-30T16:00:00Z"
+      },
+      "physicalPage": 2,
+      "exactText": "USD 15.2 million",
+      "original": {
+        "documentId": "doc:northstar",
+        "revisionId": "rev:northstar:1",
+        "name": "northstar.pdf",
+        "contentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "byteLength": 4096,
+        "pageCount": 3
+      }
+    },
+    "policy": {
+      "schemaVersion": 1,
+      "kind": "research-session-policy",
+      "conversationId": "session:northstar",
+      "version": 0,
+      "recallPriorResearch": false,
+      "contributeResearchState": false
+    },
+    "policySet": {
+      "schemaVersion": 1,
+      "kind": "research-policy-set",
+      "expectedGeneration": 1,
+      "idempotencyKey": "research:policy:one",
+      "expectedVersion": 0,
+      "recallPriorResearch": true,
+      "contributeResearchState": false
+    },
+    "lineage": {
+      "schemaVersion": 1,
+      "kind": "research-call-provenance",
+      "workspaceId": "workspace:northstar",
+      "actorId": "user:northstar",
+      "conversationId": "session:northstar",
+      "runtimeSessionId": "runtime:research",
+      "submissionId": "submission:research",
+      "bindingId": "binding:research",
+      "generation": 1,
+      "investigationId": "investigation:northstar",
+      "scopeVersionId": "scope:northstar:1",
+      "nativeToolCallId": "call/provider:1|tool.0",
+      "wireCallId": "wire:tool:1",
+      "idempotencyKey": "research:host:one",
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "recordId": null
+    }
+  },
+  "valid": [
+    {
+      "name": "accept query kind",
+      "base": "query"
+    },
+    {
+      "name": "accept response kind",
+      "base": "response"
+    },
+    {
+      "name": "accept save kind",
+      "base": "save"
+    },
+    {
+      "name": "accept saved kind",
+      "base": "saved"
+    },
+    {
+      "name": "accept mutate kind",
+      "base": "mutate"
+    },
+    {
+      "name": "accept updated kind",
+      "base": "updated"
+    },
+    {
+      "name": "accept entry kind",
+      "base": "entry"
+    },
+    {
+      "name": "accept focus kind",
+      "base": "focus"
+    },
+    {
+      "name": "accept policy kind",
+      "base": "policy"
+    },
+    {
+      "name": "accept policySet kind",
+      "base": "policySet"
+    },
+    {
+      "name": "accept lineage kind",
+      "base": "lineage"
+    },
+    {
+      "name": "working notebook query",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "view"
+          ],
+          "value": "working"
+        }
+      ]
+    },
+    {
+      "name": "bounded query cursor",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "cursor"
+          ],
+          "value": "cursor:research:next"
+        }
+      ]
+    },
+    {
+      "name": "explicit hypothesis note",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "noteKind"
+          ],
+          "value": "hypothesis"
+        }
+      ]
+    },
+    {
+      "name": "explicit scratch note",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "noteKind"
+          ],
+          "value": "scratch"
+        }
+      ]
+    },
+    {
+      "name": "explicit archive mutation",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "archive"
+        }
+      ],
+      "remove": [
+        [
+          "text"
+        ]
+      ]
+    },
+    {
+      "name": "explicit delete mutation",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "delete"
+        }
+      ],
+      "remove": [
+        [
+          "text"
+        ]
+      ]
+    },
+    {
+      "name": "explicit resolve mutation",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "resolve"
+        }
+      ],
+      "remove": [
+        [
+          "text"
+        ]
+      ]
+    },
+    {
+      "name": "deleted lifecycle result is a tombstone",
+      "base": "updated",
+      "set": [
+        {
+          "path": [
+            "result"
+          ],
+          "value": {
+            "schemaVersion": 1,
+            "resultType": "research-record-lifecycle",
+            "status": "updated",
+            "state": {
+              "schemaVersion": 1,
+              "recordId": "note:lifecycle:1",
+              "workspaceId": "workspace:lifecycle",
+              "investigationId": "investigation:lifecycle",
+              "recordType": "research-note",
+              "version": 3,
+              "previousVersion": 2,
+              "status": "deleted",
+              "epistemicStatus": "unverified",
+              "updatedBy": {
+                "kind": "user",
+                "actorId": "session:lifecycle"
+              },
+              "updatedAt": "2026-08-31T12:11:00Z"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "deleted note entry erases active content",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "deleted"
+        },
+        {
+          "path": [
+            "text"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "locators"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "evidence"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "prior research keeps its source conversation",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "sourceSessionId"
+          ],
+          "value": "conversation:prior"
+        },
+        {
+          "path": [
+            "authoredBy"
+          ],
+          "value": "agent"
+        }
+      ]
+    },
+    {
+      "name": "open-question open state",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "open-question"
+        },
+        {
+          "path": [
+            "status"
+          ],
+          "value": "open"
+        }
+      ]
+    },
+    {
+      "name": "open-question resolved state",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "open-question"
+        },
+        {
+          "path": [
+            "status"
+          ],
+          "value": "resolved"
+        }
+      ]
+    },
+    {
+      "name": "open-question archived state",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "open-question"
+        },
+        {
+          "path": [
+            "status"
+          ],
+          "value": "archived"
+        }
+      ]
+    },
+    {
+      "name": "one research note may retain several exact sources",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "locators"
+          ],
+          "value": [
+            {
+              "schemaVersion": 1,
+              "locatorId": "locator:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "physicalPage": 2,
+              "selectors": [
+                {
+                  "type": "text-quote",
+                  "exact": "USD 15.2 million",
+                  "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+                }
+              ],
+              "createdAt": "2026-08-30T16:00:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "locatorId": "locator:other",
+              "documentId": "doc:other",
+              "revisionId": "rev:other",
+              "representationId": "rep:other",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "physicalPage": 2,
+              "selectors": [
+                {
+                  "type": "text-quote",
+                  "exact": "USD 15.2 million",
+                  "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+                }
+              ],
+              "createdAt": "2026-08-30T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "path": [
+            "evidence"
+          ],
+          "value": [
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:other",
+              "documentId": "doc:other",
+              "revisionId": "rev:other",
+              "representationId": "rep:other",
+              "locatorId": "locator:other",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "page-only focus does not guess text",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "page-only"
+        },
+        {
+          "path": [
+            "exactText"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "ambiguous focus does not guess text",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "ambiguous"
+        },
+        {
+          "path": [
+            "exactText"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "independent research controls false false",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "recallPriorResearch"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "contributeResearchState"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "independent research controls false true",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "recallPriorResearch"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "contributeResearchState"
+          ],
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "independent research controls true false",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "recallPriorResearch"
+          ],
+          "value": true
+        },
+        {
+          "path": [
+            "contributeResearchState"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "independent research controls true true",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "recallPriorResearch"
+          ],
+          "value": true
+        },
+        {
+          "path": [
+            "contributeResearchState"
+          ],
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "private host lineage records a committed record",
+      "base": "lineage",
+      "set": [
+        {
+          "path": [
+            "recordId"
+          ],
+          "value": "note:product:one"
+        }
+      ]
+    }
+  ],
+  "invalidShape": [
+    {
+      "name": "deleted lifecycle result contains no text",
+      "base": "updated",
+      "set": [{ "path": ["result", "state", "status"], "value": "deleted" }]
+    },
+    {
+      "name": "query rejects unknown schema version",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "query rejects an arbitrary filesystem path",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "response rejects unknown schema version",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "response rejects an arbitrary filesystem path",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "save rejects unknown schema version",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "save rejects an arbitrary filesystem path",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "saved rejects unknown schema version",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "saved rejects an arbitrary filesystem path",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "mutate rejects unknown schema version",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "mutate rejects an arbitrary filesystem path",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "updated rejects unknown schema version",
+      "base": "updated",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "updated rejects an arbitrary filesystem path",
+      "base": "updated",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "entry rejects unknown schema version",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "entry rejects an arbitrary filesystem path",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "focus rejects unknown schema version",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "focus rejects an arbitrary filesystem path",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "policy rejects unknown schema version",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "policy rejects an arbitrary filesystem path",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "policySet rejects unknown schema version",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "policySet rejects an arbitrary filesystem path",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "lineage rejects unknown schema version",
+      "base": "lineage",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "lineage rejects an arbitrary filesystem path",
+      "base": "lineage",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.md"
+        }
+      ]
+    },
+    {
+      "name": "query cannot inject actorId",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "query cannot inject workspaceId",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "query cannot inject profileId",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "query cannot inject sessionId",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "query cannot inject conversationId",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "conversationId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "query cannot inject scopeVersionId",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "scopeVersionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "query requires current generation",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "save cannot inject actorId",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "save cannot inject workspaceId",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "save cannot inject profileId",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "save cannot inject sessionId",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "save cannot inject conversationId",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "conversationId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "save cannot inject scopeVersionId",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "scopeVersionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "save requires current generation",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "mutate cannot inject actorId",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "mutate cannot inject workspaceId",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "mutate cannot inject profileId",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "mutate cannot inject sessionId",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "mutate cannot inject conversationId",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "conversationId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "mutate cannot inject scopeVersionId",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "scopeVersionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "mutate requires current generation",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "policySet cannot inject actorId",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policySet cannot inject workspaceId",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policySet cannot inject profileId",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policySet cannot inject sessionId",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policySet cannot inject conversationId",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "conversationId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policySet cannot inject scopeVersionId",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "scopeVersionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policySet requires current generation",
+      "base": "policySet",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "query item limit is bounded",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "maxItems"
+          ],
+          "value": 51
+        }
+      ]
+    },
+    {
+      "name": "query character limit is bounded",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "maxChars"
+          ],
+          "value": 20001
+        }
+      ]
+    },
+    {
+      "name": "query cannot use filesystem cursor",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "cursor"
+          ],
+          "value": "/private/cursor"
+        }
+      ]
+    },
+    {
+      "name": "note must use a selection ticket not a locator payload",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "locator"
+          ],
+          "value": {
+            "schemaVersion": 1,
+            "locatorId": "locator:northstar:revenue",
+            "documentId": "doc:northstar",
+            "revisionId": "rev:northstar:1",
+            "representationId": "rep:northstar:text",
+            "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "physicalPage": 2,
+            "selectors": [
+              {
+                "type": "text-quote",
+                "exact": "USD 15.2 million",
+                "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+              }
+            ],
+            "createdAt": "2026-08-30T16:00:00Z"
+          }
+        }
+      ]
+    },
+    {
+      "name": "note cannot inject evidence support",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "evidence"
+          ],
+          "value": {
+            "schemaVersion": 1,
+            "evidenceId": "evidence:northstar:revenue",
+            "documentId": "doc:northstar",
+            "revisionId": "rev:northstar:1",
+            "representationId": "rep:northstar:text",
+            "locatorId": "locator:northstar:revenue",
+            "kind": "quote",
+            "content": {
+              "mediaType": "text/plain",
+              "text": "USD 15.2 million"
+            },
+            "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+            "sourceRole": "primary",
+            "resolutionStatus": "resolved",
+            "status": "current",
+            "createdBy": {
+              "kind": "user",
+              "actorId": "user:northstar"
+            },
+            "provenanceActivityId": "selection-action:northstar:1",
+            "createdAt": "2026-08-30T16:01:00Z"
+          }
+        }
+      ]
+    },
+    {
+      "name": "note text is bounded",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "body"
+          ],
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      ]
+    },
+    {
+      "name": "checkpoint notes cannot be forged through user note action",
+      "base": "save",
+      "set": [
+        {
+          "path": [
+            "noteKind"
+          ],
+          "value": "checkpoint"
+        }
+      ]
+    },
+    {
+      "name": "selection ticket is required",
+      "base": "save",
+      "remove": [
+        [
+          "selectionContextId"
+        ]
+      ]
+    },
+    {
+      "name": "edit requires new text",
+      "base": "mutate",
+      "remove": [
+        [
+          "text"
+        ]
+      ]
+    },
+    {
+      "name": "archive must not smuggle replacement text",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "archive"
+        }
+      ]
+    },
+    {
+      "name": "delete must not smuggle replacement text",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "delete"
+        }
+      ]
+    },
+    {
+      "name": "resolve must not smuggle replacement text",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "resolve"
+        }
+      ]
+    },
+    {
+      "name": "mutation requires exact version CAS",
+      "base": "mutate",
+      "remove": [
+        [
+          "expectedVersion"
+        ]
+      ]
+    },
+    {
+      "name": "mutation version is positive",
+      "base": "mutate",
+      "set": [
+        {
+          "path": [
+            "expectedVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "research policy requires expected revision CAS",
+      "base": "policySet",
+      "remove": [
+        [
+          "expectedVersion"
+        ]
+      ]
+    },
+    {
+      "name": "research controls remain separate booleans",
+      "base": "policySet",
+      "remove": [
+        [
+          "contributeResearchState"
+        ]
+      ]
+    },
+    {
+      "name": "notes cannot claim verified conclusion status",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "verificationStatus"
+          ],
+          "value": "verified"
+        }
+      ]
+    },
+    {
+      "name": "note preview cannot embed a provider actor",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "authoredBy"
+          ],
+          "value": "provider"
+        }
+      ]
+    },
+    {
+      "name": "evidence cannot be substituted with a raw path",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence",
+            0,
+            "path"
+          ],
+          "value": "/secret"
+        }
+      ]
+    },
+    {
+      "name": "note evidence count bounded",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence"
+          ],
+          "value": [
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "source original must be PDF not markdown",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "original",
+            "name"
+          ],
+          "value": "source.md"
+        }
+      ]
+    },
+    {
+      "name": "source original never accepts arbitrary URL",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "original",
+            "url"
+          ],
+          "value": "https://untrusted.example/source.pdf"
+        }
+      ]
+    },
+    {
+      "name": "original byte budget retained",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "original",
+            "byteLength"
+          ],
+          "value": 26214401
+        }
+      ]
+    },
+    {
+      "name": "research highlight text bounded",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "exactText"
+          ],
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      ]
+    },
+    {
+      "name": "physical pages begin at one",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "physicalPage"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "private provenance requires native tool identity",
+      "base": "lineage",
+      "remove": [
+        [
+          "nativeToolCallId"
+        ]
+      ]
+    },
+    {
+      "name": "private provenance native ID has no control bytes",
+      "base": "lineage",
+      "set": [
+        {
+          "path": [
+            "nativeToolCallId"
+          ],
+          "value": "call\nbad"
+        }
+      ]
+    },
+    {
+      "name": "private provenance native ID is bounded",
+      "base": "lineage",
+      "set": [
+        {
+          "path": [
+            "nativeToolCallId"
+          ],
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      ]
+    },
+    {
+      "name": "private provenance seals use sha256",
+      "base": "lineage",
+      "set": [
+        {
+          "path": [
+            "requestHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "notebook counts must match projection",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "result",
+            "pageInfo",
+            "returned"
+          ],
+          "value": 1
+        }
+      ],
+      "codes": [
+        "research-notebook-count"
+      ]
+    },
+    {
+      "name": "notebook character counts are actual usage",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "result",
+            "pageInfo",
+            "usedChars"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "research-notebook-count"
+      ]
+    },
+    {
+      "name": "notebook prior item retains research layer",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "result",
+            "items",
+            1,
+            "layer"
+          ],
+          "value": "working"
+        }
+      ],
+      "codes": [
+        "research-notebook-layer"
+      ]
+    },
+    {
+      "name": "notebook source state cannot claim absent sources",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "result",
+            "items",
+            1,
+            "sourceState"
+          ],
+          "value": "current-scope"
+        }
+      ],
+      "codes": [
+        "research-notebook-source-state"
+      ]
+    },
+    {
+      "name": "notebook notes are unverified leads",
+      "base": "response",
+      "set": [
+        {
+          "path": [
+            "result",
+            "items",
+            1,
+            "useStatus"
+          ],
+          "value": "user-governance"
+        }
+      ],
+      "codes": [
+        "research-notebook-use"
+      ]
+    },
+    {
+      "name": "saved note session belongs to envelope",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "result",
+            "sessionId"
+          ],
+          "value": "conversation:foreign"
+        }
+      ],
+      "codes": [
+        "note-identity"
+      ]
+    },
+    {
+      "name": "saved note cannot masquerade as pin action",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "result",
+            "action"
+          ],
+          "value": "save-evidence"
+        }
+      ],
+      "codes": [
+        "selection-action-record-mismatch",
+        "note-identity"
+      ]
+    },
+    {
+      "name": "saved note source evidence must match locator",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "result",
+            "evidence",
+            0,
+            "revisionId"
+          ],
+          "value": "rev:foreign"
+        }
+      ],
+      "codes": [
+        "selection-action-evidence-identity"
+      ]
+    },
+    {
+      "name": "saved note evidence IDs must match stored record",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "result",
+            "record",
+            "evidenceIds"
+          ],
+          "value": ["evidence:foreign"]
+        }
+      ],
+      "codes": [
+        "selection-action-record-mismatch"
+      ]
+    },
+    {
+      "name": "saved note is an explicit user action",
+      "base": "saved",
+      "set": [
+        {
+          "path": [
+            "result",
+            "record",
+            "createdBy",
+            "kind"
+          ],
+          "value": "agent"
+        },
+        {
+          "path": [
+            "result",
+            "evidence",
+            0,
+            "createdBy",
+            "kind"
+          ],
+          "value": "agent"
+        }
+      ],
+      "codes": [
+        "note-identity"
+      ]
+    },
+    {
+      "name": "lifecycle cannot skip record versions",
+      "base": "updated",
+      "set": [
+        {
+          "path": [
+            "result",
+            "state",
+            "version"
+          ],
+          "value": 4
+        }
+      ],
+      "codes": [
+        "research-lifecycle-version"
+      ]
+    },
+    {
+      "name": "lifecycle result cannot claim model mutation authority",
+      "base": "updated",
+      "set": [
+        {
+          "path": [
+            "result",
+            "state",
+            "updatedBy",
+            "kind"
+          ],
+          "value": "agent"
+        }
+      ],
+      "codes": [
+        "research-lifecycle-actor"
+      ]
+    },
+    {
+      "name": "active entry requires readable text",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "text"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "note-state"
+      ]
+    },
+    {
+      "name": "blank entry is not readable text",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "text"
+          ],
+          "value": " \n "
+        }
+      ],
+      "codes": [
+        "note-state"
+      ]
+    },
+    {
+      "name": "deleted entry contains no retained evidence",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "deleted"
+        },
+        {
+          "path": [
+            "text"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "note-state"
+      ]
+    },
+    {
+      "name": "research note cannot be open-question state",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "open"
+        }
+      ],
+      "codes": [
+        "note-kind"
+      ]
+    },
+    {
+      "name": "open question cannot be active note state",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "recordType"
+          ],
+          "value": "open-question"
+        }
+      ],
+      "codes": [
+        "note-kind"
+      ]
+    },
+    {
+      "name": "duplicate note locators rejected",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "locators"
+          ],
+          "value": [
+            {
+              "schemaVersion": 1,
+              "locatorId": "locator:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "physicalPage": 2,
+              "selectors": [
+                {
+                  "type": "text-quote",
+                  "exact": "USD 15.2 million",
+                  "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+                }
+              ],
+              "createdAt": "2026-08-30T16:00:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "locatorId": "locator:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "physicalPage": 2,
+              "selectors": [
+                {
+                  "type": "text-quote",
+                  "exact": "USD 15.2 million",
+                  "normalizedHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2"
+                }
+              ],
+              "createdAt": "2026-08-30T16:00:00Z"
+            }
+          ]
+        }
+      ],
+      "codes": [
+        "note-duplicate"
+      ]
+    },
+    {
+      "name": "duplicate evidence rejected",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence"
+          ],
+          "value": [
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            },
+            {
+              "schemaVersion": 1,
+              "evidenceId": "evidence:northstar:revenue",
+              "documentId": "doc:northstar",
+              "revisionId": "rev:northstar:1",
+              "representationId": "rep:northstar:text",
+              "locatorId": "locator:northstar:revenue",
+              "kind": "quote",
+              "content": {
+                "mediaType": "text/plain",
+                "text": "USD 15.2 million"
+              },
+              "contentHash": "e1fdc8a832a4877925cd72c8d817beb1691e009e2f366248567be0d19aea82a2",
+              "sourceRole": "primary",
+              "resolutionStatus": "resolved",
+              "status": "current",
+              "createdBy": {
+                "kind": "user",
+                "actorId": "user:northstar"
+              },
+              "provenanceActivityId": "selection-action:northstar:1",
+              "createdAt": "2026-08-30T16:01:00Z"
+            }
+          ]
+        }
+      ],
+      "codes": [
+        "note-duplicate"
+      ]
+    },
+    {
+      "name": "note evidence retains source documentId",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence",
+            0,
+            "documentId"
+          ],
+          "value": "foreign:identity"
+        }
+      ],
+      "codes": [
+        "note-evidence"
+      ]
+    },
+    {
+      "name": "note evidence retains source revisionId",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence",
+            0,
+            "revisionId"
+          ],
+          "value": "foreign:identity"
+        }
+      ],
+      "codes": [
+        "note-evidence"
+      ]
+    },
+    {
+      "name": "note evidence retains source representationId",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence",
+            0,
+            "representationId"
+          ],
+          "value": "foreign:identity"
+        }
+      ],
+      "codes": [
+        "note-evidence"
+      ]
+    },
+    {
+      "name": "note evidence retains source locatorId",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "evidence",
+            0,
+            "locatorId"
+          ],
+          "value": "foreign:identity"
+        }
+      ],
+      "codes": [
+        "note-evidence"
+      ]
+    },
+    {
+      "name": "note locator scalar positions ordered",
+      "base": "entry",
+      "set": [
+        {
+          "path": [
+            "locators",
+            0,
+            "selectors"
+          ],
+          "value": [
+            {
+              "type": "text-position",
+              "start": 9,
+              "end": 2,
+              "unit": "unicode-scalar"
+            }
+          ]
+        }
+      ],
+      "codes": [
+        "locator-text-position-order"
+      ]
+    },
+    {
+      "name": "resolved focus requires real exact text",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "exactText"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "citation-text"
+      ]
+    },
+    {
+      "name": "page-only focus cannot manufacture text",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "page-only"
+        }
+      ],
+      "codes": [
+        "citation-text"
+      ]
+    },
+    {
+      "name": "ambiguous focus cannot manufacture text",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "status"
+          ],
+          "value": "ambiguous"
+        }
+      ],
+      "codes": [
+        "citation-text"
+      ]
+    },
+    {
+      "name": "focus original documentId matches locator",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "original",
+            "documentId"
+          ],
+          "value": "foreign:source"
+        }
+      ],
+      "codes": [
+        "citation-source"
+      ]
+    },
+    {
+      "name": "focus original revisionId matches locator",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "original",
+            "revisionId"
+          ],
+          "value": "foreign:source"
+        }
+      ],
+      "codes": [
+        "citation-source"
+      ]
+    },
+    {
+      "name": "focus uses same physical page as locator",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "physicalPage"
+          ],
+          "value": 3
+        }
+      ],
+      "codes": [
+        "citation-page"
+      ]
+    },
+    {
+      "name": "focus page exists in original",
+      "base": "focus",
+      "set": [
+        {
+          "path": [
+            "original",
+            "pageCount"
+          ],
+          "value": 1
+        }
+      ],
+      "codes": [
+        "citation-page"
+      ]
+    }
+  ]
+}

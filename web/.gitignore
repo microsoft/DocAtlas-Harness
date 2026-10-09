@@ -1,0 +1,14 @@
+node_modules/
+.cache/
+.sources/
+.venv/
+**/lib/
+**/dist/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+/apps/web/public/documents/
+/apps/web/public/pdfjs/
+/apps/web/public/legal/
+*.log

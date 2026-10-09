@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/research-record-rpc.v1.json",
+  "title": "DocAtlas typed Research Memory record RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "request": {
+      "oneOf": [
+        { "$ref": "#/$defs/checkpointRequest" },
+        { "$ref": "#/$defs/openQuestionRequest" }
+      ]
+    },
+    "requestCommon": {
+      "type": "object",
+      "required": [
+        "schemaVersion", "requestType", "sessionId", "workspaceId",
+        "investigationId", "scopeVersionId", "callId", "idempotencyKey", "kind"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "research-record" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "callId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "kind": { "type": "string", "enum": ["checkpoint", "open-question"] }
+      }
+    },
+    "checkpointRequest": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/$defs/requestCommon" },
+        {
+          "type": "object",
+          "required": ["kind", "body"],
+          "properties": {
+            "kind": { "const": "checkpoint" },
+            "body": { "type": "string", "minLength": 1, "maxLength": 8000 }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "openQuestionRequest": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/$defs/requestCommon" },
+        {
+          "type": "object",
+          "required": ["kind", "question"],
+          "properties": {
+            "kind": { "const": "open-question" },
+            "question": { "type": "string", "minLength": 1, "maxLength": 4000 }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "recordCommon": {
+      "type": "object",
+      "required": [
+        "schemaVersion", "recordId", "workspaceId", "investigationId",
+        "sourceSessionId", "sourceScopeVersionId", "provenanceCallId", "version", "recordType",
+        "createdBy", "createdAt", "epistemicStatus"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceSessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "provenanceCallId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "version": { "const": 1 },
+        "recordType": { "type": "string", "enum": ["research-note", "open-question"] },
+        "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+        "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+        "epistemicStatus": { "const": "unverified" }
+      }
+    },
+    "checkpointRecord": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/$defs/recordCommon" },
+        {
+          "type": "object",
+          "required": ["recordType", "noteKind", "body", "status"],
+          "properties": {
+            "recordType": { "const": "research-note" },
+            "noteKind": { "const": "checkpoint" },
+            "body": { "type": "string", "minLength": 1, "maxLength": 8000 },
+            "status": { "const": "active" }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "openQuestionRecord": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/$defs/recordCommon" },
+        {
+          "type": "object",
+          "required": ["recordType", "question", "status"],
+          "properties": {
+            "recordType": { "const": "open-question" },
+            "question": { "type": "string", "minLength": 1, "maxLength": 4000 },
+            "status": { "const": "open" }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "record": {
+      "oneOf": [
+        { "$ref": "#/$defs/checkpointRecord" },
+        { "$ref": "#/$defs/openQuestionRecord" }
+      ]
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "resultType", "status", "record"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "research-recorded" },
+        "status": { "type": "string", "enum": ["created", "replayed"] },
+        "record": { "$ref": "#/$defs/record" }
+      }
+    }
+  }
+}

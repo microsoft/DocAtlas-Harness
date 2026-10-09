@@ -1,0 +1,34 @@
+/* PDF.js 6 text-layer layout rules, adapted from Mozilla pdfjs-dist (Apache-2.0).
+   This layer overlays real PDF pixels for selection; it is never a Markdown replacement.
+   Continuous pages retain pdf-page-text even when they are not the current pdf-text-layer. */
+:is(.pdf-text-layer, .pdf-page-text) {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: clip;
+  color: transparent;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: initial;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  z-index: 2;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+:is(.pdf-text-layer, .pdf-page-text) :is(span, br) { color: transparent; position: absolute; white-space: pre; cursor: text; transform-origin: 0 0; user-select: text; }
+:is(.pdf-text-layer, .pdf-page-text) > :not(.markedContent), :is(.pdf-text-layer, .pdf-page-text) .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+:is(.pdf-text-layer, .pdf-page-text) .markedContent { display: contents; }
+:is(.pdf-text-layer, .pdf-page-text) ::selection { background: rgb(83 142 199 / 32%); color: transparent; }
+:is(.pdf-text-layer, .pdf-page-text) br::selection { background: transparent; }

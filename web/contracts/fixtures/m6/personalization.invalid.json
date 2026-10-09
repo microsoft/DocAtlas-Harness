@@ -1,0 +1,211 @@
+{
+  "shapeCases": [
+    {
+      "name": "core records reject browser paths",
+      "schema": "core",
+      "base": "/memoryVersion",
+      "mutations": [{ "path": "/path", "value": "/private/profile.sqlite3" }]
+    },
+    {
+      "name": "secret cannot be represented as memory sensitivity",
+      "schema": "core",
+      "base": "/memoryVersion",
+      "mutations": [{ "path": "/sensitivity", "value": "secret" }]
+    },
+    {
+      "name": "Fact Trace gates cannot be relaxed",
+      "schema": "core",
+      "base": "/decision",
+      "mutations": [{ "path": "/factTraceGuard/evidenceSupportInvariant", "value": false }]
+    },
+    {
+      "name": "a failed probe invariant cannot be displayed",
+      "schema": "core",
+      "base": "/preferenceProbe",
+      "mutations": [{ "path": "/variants/0/invariantCheck", "value": "failed" }]
+    },
+    {
+      "name": "both cannot create a workspace preference",
+      "schema": "core",
+      "base": "/preferenceChoice",
+      "mutations": [{ "path": "/selected", "value": "both" }]
+    },
+    {
+      "name": "a tombstone cannot retain active memory content",
+      "schema": "core",
+      "base": "/memoryVersion",
+      "mutations": [{ "path": "/status", "value": "deleted" }]
+    },
+    {
+      "name": "inferred sensitive memory cannot be promoted",
+      "schema": "core",
+      "base": "/sensitiveCandidate",
+      "mutations": [
+        { "path": "/decision", "value": "promote" },
+        { "path": "/decidedBy", "value": { "kind": "user", "actorId": "user:local" } }
+      ]
+    },
+    {
+      "name": "commands reject Agent authority",
+      "schema": "command",
+      "base": "/commands/pauseRequest",
+      "mutations": [{ "path": "/actor/kind", "value": "agent" }]
+    },
+    {
+      "name": "forget requires external-retention acknowledgement",
+      "schema": "command",
+      "base": "/commands/forgetChainRequest",
+      "mutations": [{ "path": "/acknowledgeExternalRetention", "value": false }]
+    },
+    {
+      "name": "profile forget cannot forge a per-memory CAS",
+      "schema": "command",
+      "base": "/commands/forgetChainRequest",
+      "mutations": [{ "path": "/target", "value": "profile" }]
+    },
+    {
+      "name": "export returns an opaque asset rather than a URL",
+      "schema": "command",
+      "base": "/commands/exportResult",
+      "mutations": [{ "path": "/export/url", "value": "https://example.invalid/export" }]
+    }
+  ],
+  "semanticCases": [
+    {
+      "name": "a rule cannot author an explicit user setting",
+      "kind": "core",
+      "base": "/explicitObservation",
+      "mutations": [{ "path": "/observedActor", "value": { "kind": "rule", "actorId": "rule:extractor" } }],
+      "expectedIssueCodes": ["personalization-observation-actor"]
+    },
+    {
+      "name": "observation scope cannot cross profiles",
+      "kind": "core",
+      "base": "/explicitObservation",
+      "mutations": [{ "path": "/scope/profileId", "value": "profile:other" }],
+      "expectedIssueCodes": ["personalization-observation-scope"]
+    },
+    {
+      "name": "pairwise observation must resolve the same probe",
+      "kind": "core",
+      "base": "/pairwiseObservation",
+      "mutations": [{ "path": "/sourceRef/probeId", "value": "probe:other" }],
+      "expectedIssueCodes": ["personalization-observation-source"]
+    },
+    {
+      "name": "candidate lineage count is recomputed",
+      "kind": "core",
+      "base": "/candidate",
+      "mutations": [{ "path": "/independentLineageCount", "value": 2 }],
+      "expectedIssueCodes": ["personalization-candidate-lineage"]
+    },
+    {
+      "name": "session-only observations cannot promote future memory",
+      "kind": "core",
+      "base": "/candidate",
+      "mutations": [{ "path": "/observationIds", "value": ["observation:reader:session-only"] }],
+      "expectedIssueCodes": ["personalization-observation-consent"]
+    },
+    {
+      "name": "candidate category must admit its effect",
+      "kind": "core",
+      "base": "/candidate",
+      "mutations": [{ "path": "/proposedMemoryType", "value": "reader-preference" }],
+      "expectedIssueCodes": ["personalization-memory-effect"]
+    },
+    {
+      "name": "contribution-disabled Session cannot retain an eligible observation",
+      "kind": "core-policy-off",
+      "base": "/inferredObservation",
+      "mutations": [],
+      "expectedIssueCodes": ["personalization-observation-consent"]
+    },
+    {
+      "name": "low-risk rule cannot activate an evidence policy",
+      "kind": "core",
+      "base": "/memoryVersion",
+      "mutations": [
+        { "path": "/activation/kind", "value": "low-risk-rule" },
+        { "path": "/activation/actor", "value": { "kind": "rule", "actorId": "rule:personalization:v1" } }
+      ],
+      "expectedIssueCodes": ["personalization-memory-activation"]
+    },
+    {
+      "name": "why-used cannot explain a different memory",
+      "kind": "core",
+      "base": "/decision",
+      "mutations": [{ "path": "/why/0/memoryVersionId", "value": "memory:other:v1" }],
+      "expectedIssueCodes": ["personalization-decision-why"]
+    },
+    {
+      "name": "decision cannot expire before use",
+      "kind": "core",
+      "base": "/decision",
+      "mutations": [{ "path": "/expiresAfterTurn", "value": 3 }],
+      "expectedIssueCodes": ["personalization-decision-expiry"]
+    },
+    {
+      "name": "workspace-scoped memory cannot cross workspace",
+      "kind": "core",
+      "base": "/decision",
+      "mutations": [{ "path": "/appliesTo/workspaceId", "value": "workspace:legal" }],
+      "expectedIssueCodes": ["personalization-decision-reference"]
+    },
+    {
+      "name": "accepted outcome cannot conceal a miss",
+      "kind": "core",
+      "base": "/memoryUse",
+      "mutations": [{ "path": "/outcome/causedMiss", "value": true }],
+      "expectedIssueCodes": ["personalization-use-outcome"]
+    },
+    {
+      "name": "probe variants must retain the same Fact Trace digest",
+      "kind": "core",
+      "base": "/preferenceProbe",
+      "mutations": [{ "path": "/variants/0/factTraceDigest", "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" }],
+      "expectedIssueCodes": ["personalization-probe-backbone"]
+    },
+    {
+      "name": "probe order cannot name an unknown variant",
+      "kind": "core",
+      "base": "/preferenceProbe",
+      "mutations": [{ "path": "/presentationOrder/0", "value": "variant:unknown" }],
+      "expectedIssueCodes": ["personalization-probe-variant"]
+    },
+    {
+      "name": "a second automatic probe exceeds the investigation budget",
+      "kind": "core-prior-probe",
+      "base": "/preferenceProbe",
+      "mutations": [],
+      "expectedIssueCodes": ["personalization-probe-budget"]
+    },
+    {
+      "name": "choice cannot name an unknown probe variant",
+      "kind": "core",
+      "base": "/preferenceChoice",
+      "mutations": [{ "path": "/selected", "value": "variant:unknown" }],
+      "expectedIssueCodes": ["personalization-probe-variant"]
+    },
+    {
+      "name": "explicit command scope cannot cross profiles",
+      "kind": "command-request",
+      "base": "/commands/setPreferenceRequest",
+      "mutations": [{ "path": "/preference/scope/profileId", "value": "profile:other" }],
+      "expectedIssueCodes": ["personalization-memory-scope"]
+    },
+    {
+      "name": "export result must preserve requested format",
+      "kind": "command-result-export",
+      "base": "/commands/exportResult",
+      "mutations": [{ "path": "/export/format", "value": "markdown" }],
+      "expectedIssueCodes": ["personalization-export-boundary"]
+    },
+    {
+      "name": "forget receipt must preserve the requested mode",
+      "kind": "command-result-forget",
+      "base": "/commands/forgetProfileResult",
+      "mutations": [{ "path": "/receipt/mode", "value": "memory-only" }],
+      "expectedIssueCodes": ["personalization-forget-boundary"]
+    }
+  ]
+}

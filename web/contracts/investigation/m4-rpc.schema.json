@@ -1,0 +1,580 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/m4-rpc.v1.json",
+  "title": "DocAtlas authenticated Claim, Review and Artifact RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "requestType": {
+      "type": "string",
+      "enum": [
+        "m4-claim-record",
+        "m4-claim-ledger-get",
+        "m4-artifact-draft",
+        "m4-conflict-search-assure",
+        "m4-review-run",
+        "m4-human-decision",
+        "m4-artifact-publish",
+        "m4-artifact-get",
+        "m4-review-get"
+      ]
+    },
+    "resultType": {
+      "type": "string",
+      "enum": [
+        "m4-claim-record",
+        "m4-claim-ledger",
+        "m4-artifact-draft",
+        "m4-conflict-search-assurance",
+        "m4-review-run",
+        "m4-human-decision",
+        "m4-artifact-publish",
+        "m4-artifact",
+        "m4-review"
+      ]
+    },
+    "requestBase": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "requestType",
+        "sessionId",
+        "workspaceId",
+        "investigationId",
+        "scopeVersionId"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "$ref": "#/$defs/requestType" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "mutationStatus": { "type": "string", "enum": ["created", "replayed"] },
+    "idArray": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "claimScopeDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entityIds": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "jurisdiction": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "\\S" },
+        "section": { "type": "string", "minLength": 1, "maxLength": 1000, "pattern": "\\S" },
+        "validTime": { "$ref": "https://docatlas.dev/schemas/claim-version.v1.json#/$defs/validTime" }
+      }
+    },
+    "claimDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "claimVersionId",
+        "claimChainId",
+        "version",
+        "statement",
+        "basis",
+        "scope",
+        "epistemicStatus",
+        "reviewStatus"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "claimVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "claimChainId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "version": { "type": "integer", "minimum": 1 },
+        "previousClaimVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "statement": { "type": "string", "minLength": 1, "maxLength": 8000, "pattern": "\\S" },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "document-supported",
+            "derived-from-claims",
+            "user-assumption",
+            "project-decision",
+            "external-knowledge"
+          ]
+        },
+        "proposition": { "$ref": "https://docatlas.dev/schemas/claim-version.v1.json#/$defs/proposition" },
+        "scope": { "$ref": "#/$defs/claimScopeDraft" },
+        "epistemicStatus": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "supported",
+            "partially-supported",
+            "contested",
+            "contradicted",
+            "unresolved",
+            "stale",
+            "withdrawn"
+          ]
+        },
+        "reviewStatus": {
+          "type": "string",
+          "enum": ["unreviewed", "accepted", "needs-changes", "rejected"]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "version": { "const": 1 } }, "required": ["version"] },
+          "then": { "properties": { "previousClaimVersionId": false } },
+          "else": {
+            "properties": { "previousClaimVersionId": {} },
+            "required": ["previousClaimVersionId"]
+          }
+        }
+      ]
+    },
+    "derivationDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "derivationActivityId",
+        "operation",
+        "inputEvidenceIds",
+        "inputClaimVersionIds"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "derivationActivityId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "operation": {
+          "type": "string",
+          "enum": ["extract", "normalize", "calculate", "compare", "aggregate", "infer", "human-edit", "verify"]
+        },
+        "inputEvidenceIds": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "inputClaimVersionIds": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "expression": { "type": "string", "minLength": 1, "maxLength": 8000, "pattern": "\\S" },
+        "rounding": { "$ref": "https://docatlas.dev/schemas/derivation-activity.v1.json#/$defs/rounding" }
+      },
+      "anyOf": [
+        { "properties": { "inputEvidenceIds": { "type": "array", "minItems": 1 } } },
+        { "properties": { "inputClaimVersionIds": { "type": "array", "minItems": 1 } } }
+      ],
+      "allOf": [
+        {
+          "if": { "properties": { "operation": { "const": "extract" } }, "required": ["operation"] },
+          "then": { "properties": { "inputEvidenceIds": { "type": "array", "minItems": 1 } } }
+        },
+        {
+          "if": { "properties": { "operation": { "const": "calculate" } }, "required": ["operation"] },
+          "then": {
+            "properties": { "expression": {}, "rounding": {} },
+            "required": ["expression", "rounding"]
+          }
+        }
+      ]
+    },
+    "evidenceRelationDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "evidenceRelationId",
+        "evidenceId",
+        "kind",
+        "coverage"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "evidenceRelationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "evidenceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "kind": {
+          "type": "string",
+          "enum": ["supports", "refutes", "qualifies", "contextualizes", "defines", "derived-input"]
+        },
+        "coverage": { "type": "string", "enum": ["full", "partial"] },
+        "rationale": { "type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S" }
+      }
+    },
+    "artifactDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "artifactManifestId",
+        "artifactId",
+        "version",
+        "kind",
+        "title",
+        "content",
+        "personalizationUseIds"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "artifactManifestId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "artifactId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "version": { "type": "integer", "minimum": 1 },
+        "previousArtifactManifestId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "kind": { "type": "string", "enum": ["brief", "matrix"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 1000, "pattern": "\\S" },
+        "content": {
+          "oneOf": [
+            { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json#/$defs/briefContent" },
+            { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json#/$defs/matrixContent" }
+          ]
+        },
+        "personalizationUseIds": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "version": { "const": 1 } }, "required": ["version"] },
+          "then": { "properties": { "previousArtifactManifestId": false } },
+          "else": {
+            "properties": { "previousArtifactManifestId": {} },
+            "required": ["previousArtifactManifestId"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "brief" } }, "required": ["kind"] },
+          "then": {
+            "properties": {
+              "content": { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json#/$defs/briefContent" }
+            }
+          },
+          "else": {
+            "properties": {
+              "content": { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json#/$defs/matrixContent" }
+            }
+          }
+        }
+      ]
+    },
+    "request": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        { "$ref": "#/$defs/requestBase" },
+        {
+          "oneOf": [
+            {
+              "required": ["idempotencyKey", "expectedCurrentClaimVersionId", "claim", "provenance", "evidenceRelations"],
+              "properties": {
+                "requestType": { "const": "m4-claim-record" },
+                "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedCurrentClaimVersionId": {
+                  "oneOf": [
+                    { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                    { "type": "null" }
+                  ]
+                },
+                "claim": { "$ref": "#/$defs/claimDraft" },
+                "provenance": { "$ref": "#/$defs/derivationDraft" },
+                "evidenceRelations": {
+                  "type": "array",
+                  "maxItems": 256,
+                  "items": { "$ref": "#/$defs/evidenceRelationDraft" }
+                }
+              }
+            },
+            {
+              "properties": { "requestType": { "const": "m4-claim-ledger-get" } }
+            },
+            {
+              "required": ["idempotencyKey", "expectedPreviousArtifactManifestId", "manifest"],
+              "properties": {
+                "requestType": { "const": "m4-artifact-draft" },
+                "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedPreviousArtifactManifestId": {
+                  "oneOf": [
+                    { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                    { "type": "null" }
+                  ]
+                },
+                "manifest": { "$ref": "#/$defs/artifactDraft" }
+              }
+            },
+            {
+              "required": ["idempotencyKey", "claimVersionIds", "evidenceIds"],
+              "properties": {
+                "requestType": { "const": "m4-conflict-search-assure" },
+                "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "claimVersionIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1000,
+                  "uniqueItems": true,
+                  "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+                },
+                "evidenceIds": { "$ref": "#/$defs/idArray" }
+              }
+            },
+            {
+              "required": ["idempotencyKey", "artifactManifestId", "reviewResultId", "ruleset", "signoffRequirement"],
+              "properties": {
+                "requestType": { "const": "m4-review-run" },
+                "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "artifactManifestId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "reviewResultId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "ruleset": { "$ref": "https://docatlas.dev/schemas/review-result.v1.json#/$defs/ruleset" },
+                "signoffRequirement": { "type": "string", "enum": ["not-required", "required"] }
+              }
+            },
+            {
+              "required": ["idempotencyKey", "reviewDecisionId", "reviewResultId", "decision"],
+              "properties": {
+                "requestType": { "const": "m4-human-decision" },
+                "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "reviewDecisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "reviewResultId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "decision": { "type": "string", "enum": ["approved", "rejected"] },
+                "rationale": { "type": "string", "minLength": 1, "maxLength": 10000, "pattern": "\\S" }
+              }
+            },
+            {
+              "required": ["idempotencyKey", "artifactManifestId", "expectedStatus", "reviewResultId"],
+              "properties": {
+                "requestType": { "const": "m4-artifact-publish" },
+                "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "artifactManifestId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "expectedStatus": { "const": "draft" },
+                "reviewResultId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+                "humanReviewDecisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+              }
+            },
+            {
+              "required": ["artifactManifestId"],
+              "properties": {
+                "requestType": { "const": "m4-artifact-get" },
+                "artifactManifestId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+              }
+            },
+            {
+              "required": ["reviewResultId"],
+              "properties": {
+                "requestType": { "const": "m4-review-get" },
+                "reviewResultId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "userActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "actorId"],
+      "properties": {
+        "kind": { "const": "user" },
+        "actorId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "humanReviewDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "reviewDecisionId",
+        "workspaceId",
+        "investigationId",
+        "reviewResultId",
+        "decision",
+        "decidedBy",
+        "decidedAt"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "reviewDecisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "reviewResultId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "decision": { "type": "string", "enum": ["approved", "rejected"] },
+        "rationale": { "type": "string", "minLength": 1, "maxLength": 10000, "pattern": "\\S" },
+        "decidedBy": { "$ref": "#/$defs/userActor" },
+        "decidedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      }
+    },
+    "conflictSearchAssurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "assuranceId",
+        "workspaceId",
+        "investigationId",
+        "sourceScopeVersionId",
+        "claimVersionIds",
+        "evidenceIds",
+        "assuredBy",
+        "assuredAt"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "assuranceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "claimVersionIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "evidenceIds": { "$ref": "#/$defs/idArray" },
+        "assuredBy": { "$ref": "#/$defs/userActor" },
+        "assuredAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      }
+    },
+    "claimLedger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claims", "evidenceRelations", "derivations"],
+      "properties": {
+        "claims": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "https://docatlas.dev/schemas/claim-version.v1.json" }
+        },
+        "evidenceRelations": {
+          "type": "array",
+          "maxItems": 20000,
+          "items": { "$ref": "https://docatlas.dev/schemas/evidence-relation.v1.json" }
+        },
+        "derivations": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "https://docatlas.dev/schemas/derivation-activity.v1.json" }
+        },
+        "knownEvidenceIds": { "$ref": "#/$defs/idArray" }
+      }
+    },
+    "draftArtifactManifest": {
+      "allOf": [
+        { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json" },
+        { "type": "object", "properties": { "status": { "const": "draft" } } }
+      ]
+    },
+    "publishedArtifactManifest": {
+      "allOf": [
+        { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json" },
+        { "type": "object", "properties": { "status": { "const": "published" } } }
+      ]
+    },
+    "resultBase": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "resultType",
+        "workspaceId",
+        "investigationId",
+        "scopeVersionId"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "$ref": "#/$defs/resultType" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        { "$ref": "#/$defs/resultBase" },
+        {
+          "oneOf": [
+            {
+              "required": ["status", "claim"],
+              "properties": {
+                "resultType": { "const": "m4-claim-record" },
+                "status": { "$ref": "#/$defs/mutationStatus" },
+                "claim": { "$ref": "https://docatlas.dev/schemas/claim-version.v1.json" }
+              }
+            },
+            {
+              "required": ["ledger"],
+              "properties": {
+                "resultType": { "const": "m4-claim-ledger" },
+                "ledger": { "$ref": "#/$defs/claimLedger" }
+              }
+            },
+            {
+              "required": ["status", "manifest"],
+              "properties": {
+                "resultType": { "const": "m4-artifact-draft" },
+                "status": { "$ref": "#/$defs/mutationStatus" },
+                "manifest": { "$ref": "#/$defs/draftArtifactManifest" }
+              }
+            },
+            {
+              "required": ["status", "assurance"],
+              "properties": {
+                "resultType": { "const": "m4-conflict-search-assurance" },
+                "status": { "$ref": "#/$defs/mutationStatus" },
+                "assurance": { "$ref": "#/$defs/conflictSearchAssurance" }
+              }
+            },
+            {
+              "required": ["status", "review"],
+              "properties": {
+                "resultType": { "const": "m4-review-run" },
+                "status": { "$ref": "#/$defs/mutationStatus" },
+                "review": { "$ref": "https://docatlas.dev/schemas/review-result.v1.json" }
+              }
+            },
+            {
+              "required": ["status", "reviewDecision"],
+              "properties": {
+                "resultType": { "const": "m4-human-decision" },
+                "status": { "$ref": "#/$defs/mutationStatus" },
+                "reviewDecision": { "$ref": "#/$defs/humanReviewDecision" }
+              }
+            },
+            {
+              "required": ["status", "manifest"],
+              "properties": {
+                "resultType": { "const": "m4-artifact-publish" },
+                "status": { "$ref": "#/$defs/mutationStatus" },
+                "manifest": { "$ref": "#/$defs/publishedArtifactManifest" }
+              }
+            },
+            {
+              "required": ["manifest"],
+              "properties": {
+                "resultType": { "const": "m4-artifact" },
+                "manifest": { "$ref": "https://docatlas.dev/schemas/artifact-manifest.v1.json" }
+              }
+            },
+            {
+              "required": ["review"],
+              "properties": {
+                "resultType": { "const": "m4-review" },
+                "review": { "$ref": "https://docatlas.dev/schemas/review-result.v1.json" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

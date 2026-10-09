@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-continuity.v1.json",
+  "title": "Authenticated continuity of one explicitly selected prior research record",
+  "$defs": {
+    "id": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "source": { "type": "object", "additionalProperties": false, "required": ["documentId", "revisionId"], "properties": {
+      "documentId": { "$ref": "#/$defs/id" }, "revisionId": { "$ref": "#/$defs/id" }
+    } },
+    "inspect": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "expectedGeneration", "recordId"], "properties": {
+      "schemaVersion": { "const": 1 }, "kind": { "const": "continuity-inspect" }, "expectedGeneration": { "$ref": "#/$defs/generation" },
+      "recordId": { "$ref": "#/$defs/id" }, "scopeVersionId": { "$ref": "#/$defs/id" }
+    } },
+    "impact": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "expectedGeneration", "recordId", "previousSource", "currentSource"], "properties": {
+      "schemaVersion": { "const": 1 }, "kind": { "const": "continuity-impact" }, "expectedGeneration": { "$ref": "#/$defs/generation" },
+      "recordId": { "$ref": "#/$defs/id" }, "previousSource": { "$ref": "#/$defs/source" }, "currentSource": { "$ref": "#/$defs/source" }
+    } },
+    "evidenceIds": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "assess": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "expectedGeneration", "scopeVersionId", "priorRecordId", "expectedPriorVersion", "currentSources", "priorEvidenceIds", "currentEvidenceIds", "proposedState", "rationale", "idempotencyKey"], "properties": {
+      "schemaVersion": { "const": 1 }, "kind": { "const": "continuity-assess" }, "expectedGeneration": { "$ref": "#/$defs/generation" },
+      "scopeVersionId": { "$ref": "#/$defs/id" }, "priorRecordId": { "$ref": "#/$defs/id" }, "idempotencyKey": { "$ref": "#/$defs/id" },
+      "expectedPriorVersion": { "$ref": "#/$defs/generation" },
+      "currentSources": { "type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/source" } },
+      "priorEvidenceIds": { "$ref": "#/$defs/evidenceIds" }, "currentEvidenceIds": { "$ref": "#/$defs/evidenceIds" },
+      "proposedState": { "enum": ["continuing", "changed", "conflicted", "unknown"] }, "rationale": { "type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S" }
+    } },
+    "record": { "type": "object", "additionalProperties": false, "required": ["recordId", "recordType", "version", "scopeVersionId", "sourceReferencesComplete", "sources"], "properties": {
+      "recordId": { "$ref": "#/$defs/id" }, "recordType": { "enum": ["evidence-bookmark", "research-note", "open-question", "claim-proposal", "project-decision", "research-policy", "claim-version", "artifact-brief", "artifact-matrix"] },
+      "version": { "$ref": "#/$defs/generation" }, "scopeVersionId": { "$ref": "#/$defs/id" }, "sourceReferencesComplete": { "type": "boolean" },
+      "sources": { "type": "array", "maxItems": 32, "items": { "type": "object", "additionalProperties": false, "required": ["documentId", "revisionId", "name"], "properties": {
+        "documentId": { "$ref": "#/$defs/id" }, "revisionId": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1, "maxLength": 256 }
+      } } }
+    } },
+    "inspection": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "conversationId", "bindingId", "generation", "record", "scopeVersionId", "scopeOptions", "evidence", "truncated", "scopeOptionsTruncated"], "properties": {
+      "schemaVersion": { "const": 1 }, "kind": { "const": "continuity-inspection" }, "conversationId": { "$ref": "#/$defs/id" }, "record": { "$ref": "#/$defs/record" },
+      "bindingId": { "$ref": "#/$defs/id" }, "generation": { "$ref": "#/$defs/generation" },
+      "scopeVersionId": { "anyOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }] },
+      "scopeOptions": { "type": "array", "maxItems": 32, "items": { "type": "object", "additionalProperties": false, "required": ["scopeVersionId", "version", "sourceCount", "current"], "properties": {
+        "scopeVersionId": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/generation" }, "sourceCount": { "type": "integer", "minimum": 1, "maximum": 32 }, "current": { "type": "boolean" }
+      } } },
+      "evidence": { "type": "array", "maxItems": 64, "items": { "$ref": "https://docatlas.dev/schemas/product-review.v1.json#/$defs/workspace/properties/evidence/items" } },
+      "truncated": { "type": "boolean" }, "scopeOptionsTruncated": { "type": "boolean" }
+    } },
+    "impactResult": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "conversationId", "bindingId", "generation", "recordId", "recordVersion", "previousSource", "currentSource", "dependencyOnly", "status", "reason"], "properties": {
+      "schemaVersion": { "const": 1 }, "kind": { "const": "continuity-impact-result" }, "conversationId": { "$ref": "#/$defs/id" },
+      "bindingId": { "$ref": "#/$defs/id" }, "generation": { "$ref": "#/$defs/generation" },
+      "recordId": { "$ref": "#/$defs/id" }, "recordVersion": { "$ref": "#/$defs/generation" }, "previousSource": { "$ref": "#/$defs/source" }, "currentSource": { "$ref": "#/$defs/source" },
+      "dependencyOnly": { "const": true }, "status": { "enum": ["needs-reverify", "unaffected", "missing-source"] }, "reason": { "type": "string", "minLength": 1, "maxLength": 4000 }
+    } },
+    "assessment": { "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "conversationId", "bindingId", "generation", "idempotencyKey", "requestHash", "result"], "properties": {
+      "schemaVersion": { "const": 1 }, "kind": { "const": "continuity-assessment" }, "conversationId": { "$ref": "#/$defs/id" }, "idempotencyKey": { "$ref": "#/$defs/id" },
+      "bindingId": { "$ref": "#/$defs/id" }, "generation": { "$ref": "#/$defs/generation" },
+      "requestHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" }, "result": { "$ref": "https://docatlas.dev/schemas/continuity-rpc.v1.json#/$defs/assessResult" }
+    } }
+  },
+  "oneOf": [{ "$ref": "#/$defs/inspect" }, { "$ref": "#/$defs/impact" }, { "$ref": "#/$defs/assess" }, { "$ref": "#/$defs/inspection" }, { "$ref": "#/$defs/impactResult" }, { "$ref": "#/$defs/assessment" }]
+}

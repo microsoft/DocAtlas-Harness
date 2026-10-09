@@ -1,0 +1,105 @@
+{
+  "forgedReviewAuthority": {
+    "schemaVersion": 1,
+    "requestType": "m4-review-run",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:forged-review",
+    "artifactManifestId": "artifact-manifest:brief:v1",
+    "reviewResultId": "review:brief:v1",
+    "ruleset": {
+      "name": "docatlas-publish-gates",
+      "version": "1.0.0",
+      "configHash": "30288476e404da8e42aaadbd5ef63a498ecd7761856d2fc92dd63806e8dc971a"
+    },
+    "signoffRequirement": "required",
+    "reviewer": { "kind": "user", "actorId": "user:forged-rule" },
+    "createdAt": "2026-08-31T09:00:00Z"
+  },
+  "forgedPublishAuthority": {
+    "schemaVersion": 1,
+    "requestType": "m4-artifact-publish",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:forged-publish",
+    "artifactManifestId": "artifact-manifest:brief:v1",
+    "expectedStatus": "draft",
+    "reviewResultId": "review:brief:v1",
+    "publishedBy": { "kind": "system", "actorId": "system:forged" },
+    "publishedAt": "2026-08-31T09:00:00Z"
+  },
+  "forgedClaimAuthority": {
+    "schemaVersion": 1,
+    "requestType": "m4-claim-record",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:forged-claim",
+    "expectedCurrentClaimVersionId": null,
+    "claim": {
+      "schemaVersion": 1,
+      "claimVersionId": "claim:forged:v1",
+      "claimChainId": "claim-chain:forged",
+      "version": 1,
+      "statement": "Forged authority must not enter a claim draft.",
+      "basis": "document-supported",
+      "scope": {},
+      "epistemicStatus": "supported",
+      "reviewStatus": "accepted",
+      "createdBy": { "kind": "rule", "actorId": "rule:forged" },
+      "createdAt": "2026-08-31T09:00:00Z"
+    },
+    "provenance": {
+      "schemaVersion": 1,
+      "derivationActivityId": "derivation:forged:v1",
+      "operation": "verify",
+      "inputEvidenceIds": ["evidence:forged"],
+      "inputClaimVersionIds": []
+    },
+    "evidenceRelations": [
+      {
+        "schemaVersion": 1,
+        "evidenceRelationId": "relation:forged:v1",
+        "evidenceId": "evidence:forged",
+        "kind": "supports",
+        "coverage": "full",
+        "createdBy": { "kind": "agent", "actorId": "agent:forged" }
+      }
+    ]
+  },
+  "queryWithMutationKey": {
+    "schemaVersion": 1,
+    "requestType": "m4-claim-ledger-get",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:not-allowed-on-query"
+  },
+  "duplicateAssuranceSet": {
+    "schemaVersion": 1,
+    "requestType": "m4-conflict-search-assure",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "idempotencyKey": "idem:m4:duplicate-assurance",
+    "claimVersionIds": ["claim:a", "claim:a"],
+    "evidenceIds": []
+  },
+  "requestWithPath": {
+    "schemaVersion": 1,
+    "requestType": "m4-artifact-get",
+    "sessionId": "session:m4",
+    "workspaceId": "workspace:demo",
+    "investigationId": "investigation:contract-review",
+    "scopeVersionId": "scope:contract-review:v1",
+    "artifactManifestId": "artifact-manifest:brief:v1",
+    "path": "/private/workspace.sqlite3"
+  }
+}

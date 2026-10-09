@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/evidence-relation.v1.json",
+  "title": "DocAtlas evidence-to-claim relation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "evidenceRelationId",
+    "workspaceId",
+    "investigationId",
+    "claimVersionId",
+    "evidenceId",
+    "kind",
+    "coverage",
+    "createdBy",
+    "createdAt",
+    "reviewStatus"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "evidenceRelationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "claimVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "evidenceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "kind": {
+      "type": "string",
+      "enum": ["supports", "refutes", "qualifies", "contextualizes", "defines", "derived-input"]
+    },
+    "coverage": { "type": "string", "enum": ["full", "partial"] },
+    "rationale": { "type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S" },
+    "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "reviewStatus": {
+      "type": "string",
+      "enum": ["machine-proposed", "human-confirmed", "human-rejected"]
+    },
+    "reviewedBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "reviewedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "reviewStatus": { "const": "machine-proposed" } },
+        "required": ["reviewStatus"]
+      },
+      "then": {
+        "properties": {
+          "reviewedBy": false,
+          "reviewedAt": false
+        }
+      },
+      "else": {
+        "required": ["reviewedBy", "reviewedAt"],
+        "properties": {
+          "reviewedBy": {
+            "type": "object",
+            "required": ["kind"],
+            "properties": { "kind": { "const": "user" } }
+          },
+          "reviewedAt": {}
+        }
+      }
+    }
+  ]
+}

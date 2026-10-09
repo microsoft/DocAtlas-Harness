@@ -1,0 +1,56 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "requestType": "reader-focus-resolve",
+    "sessionId": "session:reader",
+    "workspaceId": "workspace:reader",
+    "focusId": "loc:m1:p2:b1",
+    "locator": {
+      "schemaVersion": 1,
+      "locatorId": "loc:m1:p2:b1",
+      "documentId": "doc:m1",
+      "revisionId": "rev:m1:1",
+      "representationId": "rep:m1:text",
+      "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "physicalPage": 2,
+      "selectors": [
+        { "type": "block", "blockId": "p00002.b00001.text.fixture" }
+      ],
+      "createdAt": "2026-08-30T02:02:00Z"
+    }
+  },
+  "result": {
+    "schemaVersion": 1,
+    "resultType": "reader-focus-resolution",
+    "workspaceId": "workspace:reader",
+    "focusId": "loc:m1:p2:b1",
+    "access": "source-scope",
+    "resolution": {
+      "schemaVersion": 1,
+      "resultType": "resolve",
+      "resolutionId": "resolution:m1:1",
+      "locatorId": "loc:m1:p2:b1",
+      "documentId": "doc:m1",
+      "revisionId": "rev:m1:1",
+      "representationId": "rep:m1:text",
+      "status": "resolved",
+      "checkedRepresentationHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "checkedAt": "2026-08-30T02:03:00Z",
+      "exactText": "Revenue increased.",
+      "resolvedLocator": {
+        "schemaVersion": 1,
+        "locatorId": "loc:m1:p2:b1",
+        "documentId": "doc:m1",
+        "revisionId": "rev:m1:1",
+        "representationId": "rep:m1:text",
+        "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "physicalPage": 2,
+        "selectors": [
+          { "type": "block", "blockId": "p00002.b00001.text.fixture" }
+        ],
+        "createdAt": "2026-08-30T02:02:00Z"
+      },
+      "candidates": []
+    }
+  }
+}

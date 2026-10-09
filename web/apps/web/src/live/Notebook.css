@@ -1,0 +1,21 @@
+.live-notebook { color: var(--ink); font-size: 13px; line-height: 1.8; }
+.live-notebook h3 { font-size: 14px; margin: 0 0 8px; }
+.live-notebook label { display: grid; gap: 6px; margin: 10px 0; }
+.live-notebook select, .live-notebook textarea { width: 100%; border: 1px solid #b9c7d2; border-radius: 7px; background: white; color: var(--ink); padding: 9px; font: inherit; }
+.live-notebook textarea { resize: vertical; min-height: 90px; }
+.live-notebook .notebook-confirm, .notebook-policy label { display: flex; align-items: flex-start; gap: 8px; }
+.notebook-policy input, .notebook-confirm input { margin-top: 6px; }
+.notebook-policy, .notebook-create, .notebook-entry { border-top: 1px solid var(--line); margin: 18px 0; padding-top: 16px; }
+.notebook-policy summary { cursor: pointer; font-weight: 550; }
+.notebook-muted, .notebook-records small { color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+.notebook-notice, .notebook-pending { padding: 10px 12px; border: 1px solid #e4d4b5; border-radius: 8px; background: #faf6ed; color: #725c35; overflow-wrap: anywhere; }
+.notebook-pending button, .notebook-actions button { padding: 8px; min-height: 40px; text-decoration: underline; }
+.notebook-view, .notebook-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.notebook-view button { padding: 9px 10px; border-radius: 7px; }
+.notebook-view button[aria-pressed=true] { background: var(--accent-soft); color: var(--accent); }
+.notebook-records article { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.notebook-records header, .notebook-entry header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.notebook-records header span, .notebook-entry header span { color: var(--muted); font-size: 11px; }
+.notebook-records p { white-space: pre-wrap; overflow-wrap: anywhere; margin: 6px 0; }
+.notebook-records .text-action, .notebook-source-links button { display: block; margin-top: 8px; }
+@media (max-width: 760px) { .live-notebook select, .live-notebook textarea { font-size: 16px; } .live-notebook button { min-height: 44px; } }

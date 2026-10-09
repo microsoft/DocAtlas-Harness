@@ -1,0 +1,37 @@
+# ADR-049: Manual native compaction with provable completion and non-application
+
+- Status: Accepted bounded implementation; real SDK, host joins, shared wire and PDF browser journey verified (execution tracker batch 23)
+- Date: 2026-09-09
+- Extends: ADR-048; preserves ADR-021/029/033/035/039/043
+
+## Decision
+
+Expose manual Pi context compaction in the existing authenticated native-operation workbench. Call the real public `AgentSession.compact(instructions)` API, preserving native model routing, compaction hooks, cancellation and native JSONL. It is not a question, a second conversation loop, an Evidence source or a personalization learning event. Keep the conversation, binding, generation, native session and existing Answer publications unchanged. Branch/fork/selected-head handoff remains separate required work, not a prerequisite for this same-session operation.
+
+Extend `native-control.v1` additively: old actions and successful setting proofs keep their exact meanings and remain readable. The new action is `{kind: 'compact', instructions: string}`; instructions are explicit, may be empty and have a 4096-Unicode-code-point limit. They are operation data, not a saved preference. New workers report optional `state.compaction.canCompact` from the actual public SDK preparation rules. An older worker/state without this capability cannot enable the browser action. Host and worker recheck eligibility before effect admission; eligibility can change and is not a successful compaction proof.
+
+Deploy the updated server/worker/static browser together. Older strict parsers may reject the new union members and fields; this is not a claim of forward compatibility. Never strip the new proof fields or reinterpret a new operation to make old code accept it. Old stored settings/operations remain readable by the new implementation without a database-schema migration.
+
+Successful compact proofs add `compaction: {entryId, firstKeptEntryId, tokensBefore, summaryHash}`. That field is required only for compact and forbidden for other successful actions. Independently verify the immutable original prefix, intent, the one actual new SDK compaction entry on the selected branch, its retained-entry identity, recorded token count and SHA-256 of the actual summary, then the terminal marker and effective native configuration. `tokensBefore` is native recorded metadata, not measured savings or a quality claim. Do not return the summary, raw transcript, provider data or a fabricated post-compaction token count to the browser.
+
+## Cancellation and rejected work
+
+Normal cancellation must not permanently block all future questions merely because an intent was written. Add a distinct `NativeCompactFailureProof` with the original operation/request/action/before/after identities, intent and terminal IDs, and a bounded reason (`cancelled` or `sdk-rejected`). Its native terminal marker is `not-applied`; its outcome is `{status: 'not-applied', failureProof}`. Only a failed product operation may carry optional `failureProof`, with `result: null` and `errorCode: 'execution-interrupted'`. Existing success `result` is never reinterpreted as failure.
+
+Non-application is provable only after the actual SDK compact promise and cancellation work have joined, the selected native state remains consistent, and the full appended suffix consists of exactly the original intent and terminal metadata entries with an unchanged parent/configuration context. No compaction, conversation message, alternate branch or unrelated append may be hidden between them. This proves that this compact operation appended no compaction; it does not undo model charges or extension/native external effects. If the SDK has already appended a valid compaction before an after-hook rejects or cancellation arrives, report the independently proved actual compaction, not a guessed rollback.
+
+Missing terminal markers, unjoined effects, malformed/replaced prefixes or ambiguous extra native changes remain `outcome-unknown`. Do not infer safety from error strings, PID/TTL or current settings. An exact-original-key recovery may resolve either a success proof or a non-application proof from the already-clean native file without starting a worker, model or extension factory. Status GET remains read-only. Proven failed receipts are immutable and replay only their original proof; `unknown → failed` requires this independent non-application proof. Genuine uncertain state continues to fence new effects.
+
+## Product boundaries
+
+Use the existing single-writer SubmissionCoordinator barrier, resource approval/version, whole-command hash and original-key outbox. Stop continues to wait for real native/namespace joins even if an operation receipt settles earlier. Invalidate the previous completed question's active document invocation before compaction; the next explicit question must prepare and consume its own document/research scope. Historical publications remain authorized in their original frames. Native summary metadata cannot admit a source, consume a selection ticket, attest a new Read or create answer-generation MemoryUse.
+
+On every compact exit, including a lost/unknown IPC reply, fence new brokered effects before draining already-admitted host handlers; if the pipe is closed, also await the actual worker namespace. Retain the whole-operation deadline through that drain and recheck authority afterward. The deadline triggers termination, never a guessed join. Inspection/reconciliation does not reopen late background effects; only a later explicit operation does. This covers brokered effects, not rollback of arbitrary trusted extension JavaScript. `applying` alone is host admission, not proof that IPC was dispatched; a known pre-dispatch stop may safely fail without inventing a native failure proof, while unknown recovery always requires real proof.
+
+Do not insert a fake user/assistant checkpoint or replace historical chat with summary prose. Existing checkpoint history and old original-PDF citations remain available; a later question produces its own normal Read attestations and Answer checkpoint. Unsupported automatic in-turn compaction/steering attribution still fails closed until its own reviewed provenance design is implemented. Do not disable those native SDK capabilities to avoid the gap.
+
+The Web control lives inside the existing on-demand runtime drawer. Explain that compaction shortens future model context, preserves the full native history and original citations, can invoke the configured model, and is neither privacy erasure nor durable research memory. Allow optional instructions, show eligibility/busy state and truthful completion/non-application receipts, preserve question drafts and source selections, and never automatically retry an uncertain operation on reload.
+
+## Verification gates
+
+Run shared Node/static-browser/Python contract vectors; real SDK compact/instructions/hooks/restore/cancellation/no-op/rejection tests; independent proof tampering and partial-prefix tests; host writer/approval/source admission, known cancellation followed by a fresh question, lost reply and cold metadata-only reconciliation. Exercise the real paired browser with a PDF Answer before compaction, a durable native receipt, refresh without task/model replay, the same historical PDF citation, and a new question/Read afterward. Scripted provider text is not a real-model summary-quality evaluation. Record exact focused/full checks and remaining branch/fork/quality/deployment gaps in the tracker.

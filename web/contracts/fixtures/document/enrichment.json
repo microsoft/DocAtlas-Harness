@@ -1,0 +1,3743 @@
+{
+  "description": "Shared enrichment wire vectors. Clone the named base, apply set paths, then remove paths. Shape vectors run identically in Node/static-browser/Python. invalidSemantic vectors remain shape-valid; only TypeScript enrichmentIssues and the browser/owning consumers enforce these cross-field rules. Hashes are lexical fixtures, not cryptographic attestations.",
+  "bases": {
+    "request": {
+      "schemaVersion": 1,
+      "kind": "enrichment-start",
+      "idempotencyKey": "enrichment-fixture-key",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "baseMode": "merge",
+      "nodeIds": [
+        "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000"
+      ],
+      "mode": "full",
+      "budget": {
+        "maxNodes": 32,
+        "maxPages": 24,
+        "maxModelCalls": 16,
+        "maxInputChars": 120000,
+        "maxOutputTokens": 16384,
+        "maxOutputChars": 50000,
+        "wallMs": 180000
+      }
+    },
+    "result": {
+      "schemaVersion": 1,
+      "kind": "tree-enrichment",
+      "enrichmentId": "enrichment:fixture-overlay",
+      "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "representationId": "representation:text-v1",
+      "representationHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "recipe": "docatlas-flash-enrichment.v1",
+      "navigationOnly": true,
+      "inputHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "provider": {
+        "provider": "fixture-only",
+        "model": "test-model"
+      },
+      "upstreamCommit": "ae169566b3148792776531d987f543edcad92321",
+      "nodes": [
+        {
+          "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "parentId": null,
+          "title": "年度报告",
+          "startPage": 1,
+          "endPage": 6,
+          "sourceNodeId": "0000",
+          "keyItems": [],
+          "summary": "经营表现与研究投入。",
+          "summaryKind": "model"
+        },
+        {
+          "nodeId": "enrichment:fixture-overlay:europe",
+          "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "title": "经营表现",
+          "startPage": 1,
+          "endPage": 3,
+          "sourceNodeId": null,
+          "keyItems": [
+            "原始标题"
+          ],
+          "summary": "收入稳步增长。",
+          "summaryKind": "source-excerpt"
+        },
+        {
+          "nodeId": "enrichment:fixture-overlay:research",
+          "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "title": "研究投入",
+          "startPage": 3,
+          "endPage": 6,
+          "sourceNodeId": null,
+          "keyItems": [],
+          "summary": "涵盖研究投入与方法。",
+          "summaryKind": "model"
+        }
+      ],
+      "usage": {
+        "calls": 3,
+        "inputChars": 5400,
+        "outputTokens": 240,
+        "outputChars": 300,
+        "inputTokens": 1100
+      },
+      "decisions": [
+        {
+          "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "decision": "expanded",
+          "costBefore": 6,
+          "costAfter": 5
+        }
+      ]
+    },
+    "job": {
+      "schemaVersion": 1,
+      "kind": "enrichment-job",
+      "jobId": "job:enrichment:fixture",
+      "conversationId": "conversation:fixture",
+      "bindingId": "binding:fixture",
+      "runtimeSessionId": "runtime:fixture",
+      "actorId": "actor:fixture",
+      "workspaceId": "workspace:fixture",
+      "generation": 1,
+      "request": {
+        "schemaVersion": 1,
+        "kind": "enrichment-start",
+        "idempotencyKey": "enrichment-fixture-key",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "baseMode": "merge",
+        "nodeIds": [
+          "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000"
+        ],
+        "mode": "full",
+        "budget": {
+          "maxNodes": 32,
+          "maxPages": 24,
+          "maxModelCalls": 16,
+          "maxInputChars": 120000,
+          "maxOutputTokens": 16384,
+          "maxOutputChars": 50000,
+          "wallMs": 180000
+        }
+      },
+      "state": "completed",
+      "createdAt": "2026-09-09T08:00:00Z",
+      "updatedAt": "2026-09-09T08:01:00Z",
+      "result": {
+        "schemaVersion": 1,
+        "kind": "tree-enrichment",
+        "enrichmentId": "enrichment:fixture-overlay",
+        "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "representationId": "representation:text-v1",
+        "representationHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "recipe": "docatlas-flash-enrichment.v1",
+        "navigationOnly": true,
+        "inputHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "provider": {
+          "provider": "fixture-only",
+          "model": "test-model"
+        },
+        "upstreamCommit": "ae169566b3148792776531d987f543edcad92321",
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "年度报告",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": [],
+            "summary": "经营表现与研究投入。",
+            "summaryKind": "model"
+          },
+          {
+            "nodeId": "enrichment:fixture-overlay:europe",
+            "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "title": "经营表现",
+            "startPage": 1,
+            "endPage": 3,
+            "sourceNodeId": null,
+            "keyItems": [
+              "原始标题"
+            ],
+            "summary": "收入稳步增长。",
+            "summaryKind": "source-excerpt"
+          },
+          {
+            "nodeId": "enrichment:fixture-overlay:research",
+            "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "title": "研究投入",
+            "startPage": 3,
+            "endPage": 6,
+            "sourceNodeId": null,
+            "keyItems": [],
+            "summary": "涵盖研究投入与方法。",
+            "summaryKind": "model"
+          }
+        ],
+        "usage": {
+          "calls": 3,
+          "inputChars": 5400,
+          "outputTokens": 240,
+          "outputChars": 300,
+          "inputTokens": 1100
+        },
+        "decisions": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "decision": "expanded",
+            "costBefore": 6,
+            "costAfter": 5
+          }
+        ]
+      },
+      "error": null
+    },
+    "tree": {
+      "schemaVersion": 1,
+      "kind": "enrichment-tree",
+      "conversationId": "conversation:fixture",
+      "generation": {
+        "schemaVersion": 1,
+        "kind": "tree-generation",
+        "documentId": "doc:tree",
+        "revisionId": "rev:tree",
+        "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "parentGenerationId": "tree:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "config": {
+          "mode": "merge",
+          "useEmbeddedToc": true,
+          "workers": 1
+        },
+        "provider": {
+          "name": "pageindex-flash",
+          "version": "0.2.10",
+          "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+          "fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "status": "ready",
+        "pageCount": 6,
+        "nodeCount": 1,
+        "treeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "createdAt": "2026-09-09T08:00:00Z",
+        "tocSource": "hybrid",
+        "warnings": [],
+        "optimization": {
+          "mergeCount": 0,
+          "samePageMergeCount": 0,
+          "samePageDroppedCount": 0,
+          "rounds": 0,
+          "costBefore": 7,
+          "costAfter": 7
+        }
+      },
+      "tree": {
+        "schemaVersion": 1,
+        "kind": "tree-page",
+        "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "treeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "offset": 0,
+        "total": 1,
+        "nextOffset": null,
+        "nodes": [
+          {
+            "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "parentId": null,
+            "title": "年度报告",
+            "startPage": 1,
+            "endPage": 6,
+            "sourceNodeId": "0000",
+            "keyItems": []
+          }
+        ]
+      }
+    },
+    "list": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:fixture",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "representationId": "representation:text-v1",
+      "representationHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "navigationOnly": true,
+      "kind": "enrichment-list",
+      "offset": 0,
+      "total": 1,
+      "nextOffset": null,
+      "jobs": [
+        {
+          "jobId": "job:enrichment:fixture",
+          "enrichmentId": "enrichment:fixture-overlay",
+          "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "mode": "full",
+          "nodeCount": 3,
+          "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ]
+    },
+    "page": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:fixture",
+      "documentId": "doc:tree",
+      "revisionId": "rev:tree",
+      "sourceHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "representationId": "representation:text-v1",
+      "representationHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "navigationOnly": true,
+      "kind": "enrichment-page",
+      "offset": 1,
+      "total": 3,
+      "nextOffset": null,
+      "jobId": "job:enrichment:fixture",
+      "enrichmentId": "enrichment:fixture-overlay",
+      "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "inputHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "recipe": "docatlas-flash-enrichment.v1",
+      "nodes": [
+        {
+          "nodeId": "enrichment:fixture-overlay:europe",
+          "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "title": "经营表现",
+          "startPage": 1,
+          "endPage": 3,
+          "sourceNodeId": null,
+          "keyItems": [
+            "原始标题"
+          ],
+          "summary": "收入稳步增长。",
+          "summaryKind": "source-excerpt"
+        },
+        {
+          "nodeId": "enrichment:fixture-overlay:research",
+          "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+          "title": "研究投入",
+          "startPage": 3,
+          "endPage": 6,
+          "sourceNodeId": null,
+          "keyItems": [],
+          "summary": "涵盖研究投入与方法。",
+          "summaryKind": "model"
+        }
+      ]
+    }
+  },
+  "valid": [
+    { "name": "explicit serial recipe preserves v1", "base": "request", "set": [{ "path": ["recipe"], "value": "docatlas-flash-enrichment.v1" }] },
+    { "name": "explicit bounded parallel recipe", "base": "request", "set": [{ "path": ["recipe"], "value": "docatlas-flash-enrichment.v2" }] },
+    { "name": "parallel result is separately identified", "base": "result", "set": [{ "path": ["recipe"], "value": "docatlas-flash-enrichment.v2" }] },
+    { "name": "parallel read-only page retains recipe", "base": "page", "set": [{ "path": ["recipe"], "value": "docatlas-flash-enrichment.v2" }] },
+    { "name": "completed parallel job matches explicit request", "base": "job", "set": [{ "path": ["request", "recipe"], "value": "docatlas-flash-enrichment.v2" }, { "path": ["result", "recipe"], "value": "docatlas-flash-enrichment.v2" }] },
+    {
+      "name": "accept request union",
+      "base": "request"
+    },
+    {
+      "name": "accept result union",
+      "base": "result"
+    },
+    {
+      "name": "accept job union",
+      "base": "job"
+    },
+    {
+      "name": "accept tree union",
+      "base": "tree"
+    },
+    {
+      "name": "accept list union",
+      "base": "list"
+    },
+    {
+      "name": "accept page union",
+      "base": "page"
+    },
+    {
+      "name": "explicit summary mode",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "mode"
+          ],
+          "value": "summary"
+        }
+      ]
+    },
+    {
+      "name": "explicit expand mode",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "mode"
+          ],
+          "value": "expand"
+        }
+      ]
+    },
+    {
+      "name": "raw base navigation",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "baseMode"
+          ],
+          "value": "raw"
+        }
+      ]
+    },
+    {
+      "name": "minimum bounded request",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxNodes"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "budget",
+            "maxPages"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "budget",
+            "maxModelCalls"
+          ],
+          "value": 1
+        },
+        {
+          "path": [
+            "budget",
+            "maxInputChars"
+          ],
+          "value": 1000
+        },
+        {
+          "path": [
+            "budget",
+            "maxOutputTokens"
+          ],
+          "value": 128
+        },
+        {
+          "path": [
+            "budget",
+            "maxOutputChars"
+          ],
+          "value": 128
+        },
+        {
+          "path": [
+            "budget",
+            "wallMs"
+          ],
+          "value": 1000
+        }
+      ]
+    },
+    {
+      "name": "maximum bounded request",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxNodes"
+          ],
+          "value": 64
+        },
+        {
+          "path": [
+            "budget",
+            "maxPages"
+          ],
+          "value": 50
+        },
+        {
+          "path": [
+            "budget",
+            "maxModelCalls"
+          ],
+          "value": 64
+        },
+        {
+          "path": [
+            "budget",
+            "maxInputChars"
+          ],
+          "value": 300000
+        },
+        {
+          "path": [
+            "budget",
+            "maxOutputTokens"
+          ],
+          "value": 32768
+        },
+        {
+          "path": [
+            "budget",
+            "maxOutputChars"
+          ],
+          "value": 100000
+        },
+        {
+          "path": [
+            "budget",
+            "wallMs"
+          ],
+          "value": 300000
+        }
+      ]
+    },
+    {
+      "name": "queued job has no published result",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "queued"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "preparing job has no published result",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "preparing"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "generating job has no published result",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "generating"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "cancelled job has no published result",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "cancelled"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "failed job budget-exceeded",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "failed"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "error"
+          ],
+          "value": "budget-exceeded"
+        }
+      ]
+    },
+    {
+      "name": "failed job invalid-output",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "failed"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "error"
+          ],
+          "value": "invalid-output"
+        }
+      ]
+    },
+    {
+      "name": "failed job unavailable",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "failed"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "error"
+          ],
+          "value": "unavailable"
+        }
+      ]
+    },
+    {
+      "name": "failed job source-changed",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "failed"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "error"
+          ],
+          "value": "source-changed"
+        }
+      ]
+    },
+    {
+      "name": "expansion may omit summaries",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "summary"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "nodes",
+            0,
+            "summaryKind"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "nodes",
+            1,
+            "summary"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "nodes",
+            1,
+            "summaryKind"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "nodes",
+            2,
+            "summary"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "nodes",
+            2,
+            "summaryKind"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "no gain keeps collapsed cost",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "decisions",
+            0,
+            "decision"
+          ],
+          "value": "kept-collapsed"
+        },
+        {
+          "path": [
+            "decisions",
+            0,
+            "costAfter"
+          ],
+          "value": 6
+        }
+      ]
+    },
+    {
+      "name": "selected subtree can omit base ancestor",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "parentId"
+          ],
+          "value": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:not-selected-ancestor"
+        }
+      ]
+    },
+    {
+      "name": "empty list",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "jobs"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "total"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "nonfinal list",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "total"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "empty terminal node page",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "offset"
+          ],
+          "value": 3
+        },
+        {
+          "path": [
+            "nodes"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "paginated generated parent need not be present",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "parentId"
+          ],
+          "value": "enrichment:fixture-overlay:off-page-parent"
+        }
+      ]
+    },
+    {
+      "name": "overlapping page ranges fit six physical pages",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "request",
+            "budget",
+            "maxPages"
+          ],
+          "value": 6
+        }
+      ]
+    }
+  ],
+  "invalidShape": [
+    { "name": "unknown request recipe is rejected", "base": "request", "set": [{ "path": ["recipe"], "value": "parallel-unversioned" }] },
+    { "name": "null recipe is not a v1 default", "base": "request", "set": [{ "path": ["recipe"], "value": null }] },
+    { "name": "unknown read-only recipe is rejected", "base": "page", "set": [{ "path": ["recipe"], "value": "parallel-unversioned" }] },
+    {
+      "name": "extra path field in request",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/secret.pdf"
+        }
+      ]
+    },
+    {
+      "name": "future schema for request",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "extra path field in result",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/secret.pdf"
+        }
+      ]
+    },
+    {
+      "name": "future schema for result",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "extra path field in job",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/secret.pdf"
+        }
+      ]
+    },
+    {
+      "name": "future schema for job",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "extra path field in tree",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/secret.pdf"
+        }
+      ]
+    },
+    {
+      "name": "future schema for tree",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "extra path field in list",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/secret.pdf"
+        }
+      ]
+    },
+    {
+      "name": "future schema for list",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "extra path field in page",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/secret.pdf"
+        }
+      ]
+    },
+    {
+      "name": "future schema for page",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "maxNodes below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxNodes"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "maxNodes above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxNodes"
+          ],
+          "value": 65
+        }
+      ]
+    },
+    {
+      "name": "maxPages below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxPages"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "maxPages above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxPages"
+          ],
+          "value": 51
+        }
+      ]
+    },
+    {
+      "name": "maxModelCalls below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxModelCalls"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "maxModelCalls above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxModelCalls"
+          ],
+          "value": 65
+        }
+      ]
+    },
+    {
+      "name": "maxInputChars below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxInputChars"
+          ],
+          "value": 999
+        }
+      ]
+    },
+    {
+      "name": "maxInputChars above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxInputChars"
+          ],
+          "value": 300001
+        }
+      ]
+    },
+    {
+      "name": "maxOutputTokens below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxOutputTokens"
+          ],
+          "value": 127
+        }
+      ]
+    },
+    {
+      "name": "maxOutputTokens above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxOutputTokens"
+          ],
+          "value": 32769
+        }
+      ]
+    },
+    {
+      "name": "maxOutputChars below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxOutputChars"
+          ],
+          "value": 127
+        }
+      ]
+    },
+    {
+      "name": "maxOutputChars above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxOutputChars"
+          ],
+          "value": 100001
+        }
+      ]
+    },
+    {
+      "name": "wallMs below bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "wallMs"
+          ],
+          "value": 999
+        }
+      ]
+    },
+    {
+      "name": "wallMs above bounded range",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "wallMs"
+          ],
+          "value": 300001
+        }
+      ]
+    },
+    {
+      "name": "fractional model call budget",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "maxModelCalls"
+          ],
+          "value": 1.5
+        }
+      ]
+    },
+    {
+      "name": "provider cannot be selected by request",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "provider"
+          ],
+          "value": {
+            "model": "browser-owned"
+          }
+        }
+      ]
+    },
+    {
+      "name": "credential cannot enter budget",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "budget",
+            "apiKey"
+          ],
+          "value": "forbidden-fixture"
+        }
+      ]
+    },
+    {
+      "name": "missing hard wall budget",
+      "base": "request",
+      "remove": [
+        [
+          "budget",
+          "wallMs"
+        ]
+      ]
+    },
+    {
+      "name": "no selected node",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "nodeIds"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "duplicate selected node",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "nodeIds"
+          ],
+          "value": [
+            "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+            "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "too many explicit targets",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "nodeIds"
+          ],
+          "value": [
+            "node:0",
+            "node:1",
+            "node:2",
+            "node:3",
+            "node:4",
+            "node:5",
+            "node:6",
+            "node:7",
+            "node:8",
+            "node:9",
+            "node:10",
+            "node:11",
+            "node:12",
+            "node:13",
+            "node:14",
+            "node:15",
+            "node:16",
+            "node:17",
+            "node:18",
+            "node:19",
+            "node:20",
+            "node:21",
+            "node:22",
+            "node:23",
+            "node:24",
+            "node:25",
+            "node:26",
+            "node:27",
+            "node:28",
+            "node:29",
+            "node:30",
+            "node:31",
+            "node:32"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "browser paths are not document IDs",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "documentId"
+          ],
+          "value": "/tmp/source.pdf"
+        }
+      ]
+    },
+    {
+      "name": "short idempotency key",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "idempotencyKey"
+          ],
+          "value": "short"
+        }
+      ]
+    },
+    {
+      "name": "nonexistent automatic enrichment mode",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "mode"
+          ],
+          "value": "auto"
+        }
+      ]
+    },
+    {
+      "name": "model-enhanced tree is not a base mode",
+      "base": "request",
+      "set": [
+        {
+          "path": [
+            "baseMode"
+          ],
+          "value": "full"
+        }
+      ]
+    },
+    {
+      "name": "malformed baseTreeHash",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "baseTreeHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    },
+    {
+      "name": "malformed sourceHash",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "sourceHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    },
+    {
+      "name": "malformed representationHash",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "representationHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    },
+    {
+      "name": "malformed inputHash",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "inputHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    },
+    {
+      "name": "malformed resultHash",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "resultHash"
+          ],
+          "value": "not-a-hash"
+        }
+      ]
+    },
+    {
+      "name": "uppercase digest rejected",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "sourceHash"
+          ],
+          "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ]
+    },
+    {
+      "name": "mutable vendor ref rejected",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "upstreamCommit"
+          ],
+          "value": "main"
+        }
+      ]
+    },
+    {
+      "name": "navigation cannot claim evidence authority",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "navigationOnly"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "geometry cannot be added to navigation nodes",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "bbox"
+          ],
+          "value": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "model secret cannot enter result",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "provider",
+            "apiKey"
+          ],
+          "value": "forbidden-fixture"
+        }
+      ]
+    },
+    {
+      "name": "negative provider usage",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "usage",
+            "calls"
+          ],
+          "value": -1
+        }
+      ]
+    },
+    {
+      "name": "invalid result recipe",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "recipe"
+          ],
+          "value": "pageindex-unversioned"
+        }
+      ]
+    },
+    {
+      "name": "result requires at least one node",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "zero physical page is invalid",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "startPage"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "oversized summary rejected",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "summary"
+          ],
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      ]
+    },
+    {
+      "name": "job requires a known state",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "running"
+        }
+      ]
+    },
+    {
+      "name": "job must use a real timestamp",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "createdAt"
+          ],
+          "value": "not-a-date"
+        }
+      ]
+    },
+    {
+      "name": "job has bounded error vocabulary",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "error"
+          ],
+          "value": "provider-stack-trace"
+        }
+      ]
+    },
+    {
+      "name": "job generation begins at one",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "generation"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "tree preview must be a page",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "tree"
+          ],
+          "value": {
+            "schemaVersion": 1,
+            "kind": "tree-data",
+            "generationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "pageCount": 6,
+            "nodes": [
+              {
+                "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+                "parentId": null,
+                "title": "年度报告",
+                "startPage": 1,
+                "endPage": 6,
+                "sourceNodeId": "0000",
+                "keyItems": []
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "negative tree page offset",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "tree",
+            "offset"
+          ],
+          "value": -1
+        }
+      ]
+    },
+    {
+      "name": "list offset is bounded",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "offset"
+          ],
+          "value": 257
+        }
+      ]
+    },
+    {
+      "name": "list next offset is bounded",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": -1
+        }
+      ]
+    },
+    {
+      "name": "list has required scope identity",
+      "base": "list",
+      "remove": [
+        [
+          "scopeVersionId"
+        ]
+      ]
+    },
+    {
+      "name": "list cannot claim evidence",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "navigationOnly"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "page offset is bounded",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "offset"
+          ],
+          "value": 257
+        }
+      ]
+    },
+    {
+      "name": "page next offset is bounded",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": -1
+        }
+      ]
+    },
+    {
+      "name": "page has required scope identity",
+      "base": "page",
+      "remove": [
+        [
+          "scopeVersionId"
+        ]
+      ]
+    },
+    {
+      "name": "page cannot claim evidence",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "navigationOnly"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "list has at most 50 descriptors",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "jobs"
+          ],
+          "value": [
+            {
+              "jobId": "job:0",
+              "enrichmentId": "enrichment:0",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:1",
+              "enrichmentId": "enrichment:1",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:2",
+              "enrichmentId": "enrichment:2",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:3",
+              "enrichmentId": "enrichment:3",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:4",
+              "enrichmentId": "enrichment:4",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:5",
+              "enrichmentId": "enrichment:5",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:6",
+              "enrichmentId": "enrichment:6",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:7",
+              "enrichmentId": "enrichment:7",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:8",
+              "enrichmentId": "enrichment:8",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:9",
+              "enrichmentId": "enrichment:9",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:10",
+              "enrichmentId": "enrichment:10",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:11",
+              "enrichmentId": "enrichment:11",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:12",
+              "enrichmentId": "enrichment:12",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:13",
+              "enrichmentId": "enrichment:13",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:14",
+              "enrichmentId": "enrichment:14",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:15",
+              "enrichmentId": "enrichment:15",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:16",
+              "enrichmentId": "enrichment:16",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:17",
+              "enrichmentId": "enrichment:17",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:18",
+              "enrichmentId": "enrichment:18",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:19",
+              "enrichmentId": "enrichment:19",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:20",
+              "enrichmentId": "enrichment:20",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:21",
+              "enrichmentId": "enrichment:21",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:22",
+              "enrichmentId": "enrichment:22",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:23",
+              "enrichmentId": "enrichment:23",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:24",
+              "enrichmentId": "enrichment:24",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:25",
+              "enrichmentId": "enrichment:25",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:26",
+              "enrichmentId": "enrichment:26",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:27",
+              "enrichmentId": "enrichment:27",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:28",
+              "enrichmentId": "enrichment:28",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:29",
+              "enrichmentId": "enrichment:29",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:30",
+              "enrichmentId": "enrichment:30",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:31",
+              "enrichmentId": "enrichment:31",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:32",
+              "enrichmentId": "enrichment:32",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:33",
+              "enrichmentId": "enrichment:33",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:34",
+              "enrichmentId": "enrichment:34",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:35",
+              "enrichmentId": "enrichment:35",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:36",
+              "enrichmentId": "enrichment:36",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:37",
+              "enrichmentId": "enrichment:37",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:38",
+              "enrichmentId": "enrichment:38",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:39",
+              "enrichmentId": "enrichment:39",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:40",
+              "enrichmentId": "enrichment:40",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:41",
+              "enrichmentId": "enrichment:41",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:42",
+              "enrichmentId": "enrichment:42",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:43",
+              "enrichmentId": "enrichment:43",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:44",
+              "enrichmentId": "enrichment:44",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:45",
+              "enrichmentId": "enrichment:45",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:46",
+              "enrichmentId": "enrichment:46",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:47",
+              "enrichmentId": "enrichment:47",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:48",
+              "enrichmentId": "enrichment:48",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:49",
+              "enrichmentId": "enrichment:49",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:50",
+              "enrichmentId": "enrichment:50",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list descriptor has bounded node count",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "jobs",
+            0,
+            "nodeCount"
+          ],
+          "value": 65
+        }
+      ]
+    },
+    {
+      "name": "list descriptor cannot expose request or owner",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "jobs",
+            0,
+            "actorId"
+          ],
+          "value": "actor:private"
+        }
+      ]
+    },
+    {
+      "name": "read page has at most 50 complete nodes",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nodes"
+          ],
+          "value": [
+            {
+              "nodeId": "enrichment:fixture-overlay:0",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:1",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:2",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:3",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:4",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:5",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:6",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:7",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:8",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:9",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:10",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:11",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:12",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:13",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:14",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:15",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:16",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:17",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:18",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:19",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:20",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:21",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:22",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:23",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:24",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:25",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:26",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:27",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:28",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:29",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:30",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:31",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:32",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:33",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:34",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:35",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:36",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:37",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:38",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:39",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:40",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:41",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:42",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:43",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:44",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:45",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:46",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:47",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:48",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:49",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            },
+            {
+              "nodeId": "enrichment:fixture-overlay:50",
+              "parentId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "title": "经营表现",
+              "startPage": 1,
+              "endPage": 3,
+              "sourceNodeId": null,
+              "keyItems": [
+                "原始标题"
+              ],
+              "summary": "收入稳步增长。",
+              "summaryKind": "source-excerpt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "read page result hash has canonical form",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "resultHash"
+          ],
+          "value": "bad"
+        }
+      ]
+    }
+  ],
+  "invalidSemantic": [
+    { "name": "old absent-recipe job cannot be silently upgraded", "base": "job", "set": [{ "path": ["result", "recipe"], "value": "docatlas-flash-enrichment.v2" }], "codes": ["job-recipe"] },
+    { "name": "parallel request cannot return serial result", "base": "job", "set": [{ "path": ["request", "recipe"], "value": "docatlas-flash-enrichment.v2" }], "codes": ["job-recipe"] },
+    {
+      "name": "completed job must publish a result",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "job-state"
+      ]
+    },
+    {
+      "name": "queued job cannot contain result",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "queued"
+        }
+      ],
+      "codes": [
+        "job-state"
+      ]
+    },
+    {
+      "name": "failed job requires error",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "failed"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "job-state"
+      ]
+    },
+    {
+      "name": "cancelled job cannot claim failure reason",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "state"
+          ],
+          "value": "cancelled"
+        },
+        {
+          "path": [
+            "result"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "error"
+          ],
+          "value": "unavailable"
+        }
+      ],
+      "codes": [
+        "job-state"
+      ]
+    },
+    {
+      "name": "completed job cannot contain failure reason",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "error"
+          ],
+          "value": "source-changed"
+        }
+      ],
+      "codes": [
+        "job-state"
+      ]
+    },
+    {
+      "name": "job time cannot move backwards",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "updatedAt"
+          ],
+          "value": "2026-09-09T07:59:00Z"
+        }
+      ],
+      "codes": [
+        "job-time"
+      ]
+    },
+    {
+      "name": "job result must retain documentId",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result",
+            "documentId"
+          ],
+          "value": "different:source"
+        }
+      ],
+      "codes": [
+        "job-source"
+      ]
+    },
+    {
+      "name": "job result must retain revisionId",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result",
+            "revisionId"
+          ],
+          "value": "different:source"
+        }
+      ],
+      "codes": [
+        "job-source"
+      ]
+    },
+    {
+      "name": "aggregate calls respects job budget",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result",
+            "usage",
+            "calls"
+          ],
+          "value": 17
+        }
+      ],
+      "codes": [
+        "job-budget"
+      ]
+    },
+    {
+      "name": "aggregate inputChars respects job budget",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result",
+            "usage",
+            "inputChars"
+          ],
+          "value": 120001
+        }
+      ],
+      "codes": [
+        "job-budget"
+      ]
+    },
+    {
+      "name": "aggregate outputTokens respects job budget",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result",
+            "usage",
+            "outputTokens"
+          ],
+          "value": 16385
+        }
+      ],
+      "codes": [
+        "job-budget"
+      ]
+    },
+    {
+      "name": "aggregate outputChars respects job budget",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "result",
+            "usage",
+            "outputChars"
+          ],
+          "value": 50001
+        }
+      ],
+      "codes": [
+        "job-budget"
+      ]
+    },
+    {
+      "name": "aggregate node count respects job budget",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "request",
+            "budget",
+            "maxNodes"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "job-budget"
+      ]
+    },
+    {
+      "name": "overlapping page ranges count once but exceed five",
+      "base": "job",
+      "set": [
+        {
+          "path": [
+            "request",
+            "budget",
+            "maxPages"
+          ],
+          "value": 5
+        }
+      ],
+      "codes": [
+        "job-budget"
+      ]
+    },
+    {
+      "name": "blank title",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "title"
+          ],
+          "value": " \n "
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "blank summary",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "summary"
+          ],
+          "value": " \t "
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "reversed physical page range",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            1,
+            "startPage"
+          ],
+          "value": 4
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "summary must declare its kind",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "summaryKind"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "null summary cannot declare model origin",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "summary"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "duplicate result nodes",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            2,
+            "nodeId"
+          ],
+          "value": "enrichment:fixture-overlay:europe"
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "foreign node generation",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            1,
+            "nodeId"
+          ],
+          "value": "foreign:node"
+        }
+      ],
+      "codes": [
+        "node-lineage"
+      ]
+    },
+    {
+      "name": "self parent",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "parentId"
+          ],
+          "value": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000"
+        }
+      ],
+      "codes": [
+        "node-hierarchy"
+      ]
+    },
+    {
+      "name": "cyclic parent graph",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "parentId"
+          ],
+          "value": "enrichment:fixture-overlay:europe"
+        },
+        {
+          "path": [
+            "nodes",
+            1,
+            "endPage"
+          ],
+          "value": 6
+        }
+      ],
+      "codes": [
+        "node-hierarchy"
+      ]
+    },
+    {
+      "name": "child escapes visible parent",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            1,
+            "endPage"
+          ],
+          "value": 7
+        }
+      ],
+      "codes": [
+        "node-parent-range"
+      ]
+    },
+    {
+      "name": "foreign parent identity",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "parentId"
+          ],
+          "value": "foreign:ancestor"
+        }
+      ],
+      "codes": [
+        "node-hierarchy"
+      ]
+    },
+    {
+      "name": "complete result lacks generated ancestor",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            1,
+            "parentId"
+          ],
+          "value": "enrichment:fixture-overlay:missing-parent"
+        }
+      ],
+      "codes": [
+        "node-hierarchy"
+      ]
+    },
+    {
+      "name": "expansion must strictly reduce cost",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "decisions",
+            0,
+            "costAfter"
+          ],
+          "value": 6
+        }
+      ],
+      "codes": [
+        "expansion-cost"
+      ]
+    },
+    {
+      "name": "collapsed decision cannot change cost",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "decisions",
+            0,
+            "decision"
+          ],
+          "value": "kept-collapsed"
+        }
+      ],
+      "codes": [
+        "expansion-cost"
+      ]
+    },
+    {
+      "name": "decision must name an included node",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "decisions",
+            0,
+            "nodeId"
+          ],
+          "value": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:missing-node"
+        }
+      ],
+      "codes": [
+        "expansion-cost"
+      ]
+    },
+    {
+      "name": "duplicate decisions rejected",
+      "base": "result",
+      "set": [
+        {
+          "path": [
+            "decisions"
+          ],
+          "value": [
+            {
+              "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "decision": "expanded",
+              "costBefore": 6,
+              "costAfter": 5
+            },
+            {
+              "nodeId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:n00000",
+              "decision": "expanded",
+              "costBefore": 6,
+              "costAfter": 5
+            }
+          ]
+        }
+      ],
+      "codes": [
+        "expansion-cost"
+      ]
+    },
+    {
+      "name": "tree generation ID must match",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "generation",
+            "generationId"
+          ],
+          "value": "tree:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "codes": [
+        "tree-identity"
+      ]
+    },
+    {
+      "name": "tree full seal must match",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "tree",
+            "treeHash"
+          ],
+          "value": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        }
+      ],
+      "codes": [
+        "tree-identity"
+      ]
+    },
+    {
+      "name": "tree count must match generation",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "generation",
+            "nodeCount"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "tree-identity"
+      ]
+    },
+    {
+      "name": "tree page cannot repeat final offset",
+      "base": "tree",
+      "set": [
+        {
+          "path": [
+            "tree",
+            "nextOffset"
+          ],
+          "value": 1
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "list premature final offset",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "total"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "list unexpected next offset",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "list page cannot exceed total",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "total"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "list empty nonfinal page cannot loop",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "jobs"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "page premature final offset",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "total"
+          ],
+          "value": 4
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "page unexpected next offset",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "page page cannot exceed total",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "total"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "page empty nonfinal page cannot loop",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nodes"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "nextOffset"
+          ],
+          "value": 1
+        }
+      ],
+      "codes": [
+        "pagination"
+      ]
+    },
+    {
+      "name": "list duplicate job identity",
+      "base": "list",
+      "set": [
+        {
+          "path": [
+            "jobs"
+          ],
+          "value": [
+            {
+              "jobId": "job:enrichment:fixture",
+              "enrichmentId": "enrichment:fixture-overlay",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            },
+            {
+              "jobId": "job:enrichment:fixture",
+              "enrichmentId": "enrichment:fixture-overlay",
+              "baseGenerationId": "tree:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "baseTreeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "mode": "full",
+              "nodeCount": 3,
+              "resultHash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            }
+          ]
+        },
+        {
+          "path": [
+            "total"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "duplicate-job"
+      ]
+    },
+    {
+      "name": "page node summary kind is checked",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "summaryKind"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    },
+    {
+      "name": "page node generation is checked",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            0,
+            "nodeId"
+          ],
+          "value": "foreign:node"
+        }
+      ],
+      "codes": [
+        "node-lineage"
+      ]
+    },
+    {
+      "name": "page duplicate nodes are rejected",
+      "base": "page",
+      "set": [
+        {
+          "path": [
+            "nodes",
+            1,
+            "nodeId"
+          ],
+          "value": "enrichment:fixture-overlay:europe"
+        }
+      ],
+      "codes": [
+        "node"
+      ]
+    }
+  ]
+}

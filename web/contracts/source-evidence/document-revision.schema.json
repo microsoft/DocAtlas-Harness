@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/document-revision.v1.json",
+  "title": "DocAtlas immutable document revision v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "documentId",
+    "revisionId",
+    "contentHash",
+    "byteLength",
+    "mediaType",
+    "displayName",
+    "origin",
+    "ingestedAt",
+    "status"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "contentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "byteLength": { "type": "integer", "minimum": 1 },
+    "mediaType": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+$",
+      "maxLength": 127
+    },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["local-file", "upload", "remote-url", "provider", "generated"]
+        },
+        "providerId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "externalId": { "type": "string", "minLength": 1, "maxLength": 512 }
+      }
+    },
+    "ingestedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "sourceModifiedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "previousRevisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "supersededByRevisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "pageCount": { "type": "integer", "minimum": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "deleted", "quarantined"]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "mediaType": { "const": "application/pdf" } }, "required": ["mediaType"] },
+      "then": {
+        "required": ["pageCount"],
+        "properties": { "pageCount": { "type": "integer", "minimum": 1 } }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "superseded" } }, "required": ["status"] },
+      "then": {
+        "required": ["supersededByRevisionId"],
+        "properties": {
+          "supersededByRevisionId": {
+            "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+          }
+        }
+      }
+    }
+  ]
+}

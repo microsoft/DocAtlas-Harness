@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/asset-descriptor.v1.json",
+  "title": "DocAtlas immutable binary asset descriptor v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "assetId",
+    "kind",
+    "documentId",
+    "revisionId",
+    "representationId",
+    "representationContentHash",
+    "contentHash",
+    "mediaType",
+    "byteLength",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "assetId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "kind": { "type": "string", "enum": ["original-bytes", "page-image", "figure-crop"] },
+    "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "representationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "representationContentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "contentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "mediaType": {
+      "type": "string",
+      "enum": ["application/pdf", "text/markdown", "text/plain", "image/png", "image/jpeg"]
+    },
+    "byteLength": { "type": "integer", "minimum": 0, "maximum": 536870912 },
+    "physicalPage": { "type": "integer", "minimum": 1 },
+    "width": { "type": "integer", "minimum": 1, "maximum": 40000000 },
+    "height": { "type": "integer", "minimum": 1, "maximum": 40000000 },
+    "figureId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "configHash"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "version": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "configHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" }
+      }
+    },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "original-bytes" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "mediaType": { "enum": ["application/pdf", "text/markdown", "text/plain"] }
+        }
+      },
+      "else": {
+        "required": ["physicalPage", "width", "height", "generator"],
+        "properties": {
+          "physicalPage": true,
+          "width": true,
+          "height": true,
+          "generator": true,
+          "mediaType": { "enum": ["image/png", "image/jpeg"] }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "figure-crop" } }, "required": ["kind"] },
+      "then": { "required": ["figureId"], "properties": { "figureId": true } }
+    }
+  ]
+}

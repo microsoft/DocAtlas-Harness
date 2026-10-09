@@ -1,0 +1,28 @@
+.live-preferences { display: grid; gap: 20px; color: var(--ink, #26342f); }
+.preference-boundary { margin: 0; padding: 12px 14px; border: 1px solid #dfe7df; border-radius: 10px; background: #f2f6f0; font-size: 13px; line-height: 1.65; }
+.preference-scope-note, .preference-help { margin: 6px 0; color: #66716a; font-size: 12px; line-height: 1.65; }
+.preference-section { display: grid; gap: 12px; padding-top: 17px; border-top: 1px solid #e4e9e2; }
+.preference-section h3, .preference-pending h3 { margin: 0; font-size: 14px; font-weight: 650; }
+.preference-switch { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; }
+.preference-switch input { flex: none; margin-top: 4px; accent-color: #53705d; }
+.preference-switch span, .preference-switch small { display: block; }
+.preference-switch small { margin-top: 2px; color: #69736c; font-size: 12px; }
+.preference-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.preference-fields label, .preference-actions label { display: grid; gap: 6px; min-width: 0; font-size: 12px; }
+.preference-fields label:last-child { grid-column: 1 / -1; }
+.live-preferences select { width: 100%; max-width: 100%; padding: 9px 10px; border: 1px solid #dbe3d8; border-radius: 8px; background: #fff; color: #26342f; font: inherit; }
+.preference-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.preference-pending { display: grid; gap: 10px; padding: 14px; border: 1px solid #eadbbd; border-radius: 10px; background: #fbf7ed; font-size: 12px; line-height: 1.6; }
+.preference-pending p { margin: 0; }
+.preference-memory-list { display: grid; gap: 10px; }
+.preference-memory-list article { display: grid; gap: 7px; padding: 12px; border: 1px solid #e2e8df; border-radius: 9px; background: #fff; overflow-wrap: anywhere; }
+.preference-memory-list strong, .preference-use-list strong { font-size: 13px; font-weight: 600; }
+.preference-memory-list small { color: #6a756d; font-size: 11px; line-height: 1.5; }
+.preference-use-list { display: grid; gap: 10px; margin: 0; padding-left: 18px; }
+.preference-use-list li > * { display: block; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.preference-use-list small { color: #6a756d; }
+.preference-download { display: block; width: fit-content; color: #41634c; font-size: 12px; line-height: 1.6; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.preference-danger { justify-self: start; padding: 8px 10px; border: 1px solid #ddc8c2; border-radius: 8px; background: transparent; color: #8a4d43; font: inherit; font-size: 12px; }
+.live-preferences :focus-visible { outline: 2px solid #6d8a74; outline-offset: 3px; }
+.live-preferences button:disabled { cursor: not-allowed; opacity: .5; }
+@media (max-width: 520px) { .preference-fields { grid-template-columns: 1fr; } .preference-fields label:last-child { grid-column: auto; } .preference-actions { gap: 8px; } }

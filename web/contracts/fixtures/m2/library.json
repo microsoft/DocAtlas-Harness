@@ -1,0 +1,109 @@
+{
+  "document": {
+    "schemaVersion": 1,
+    "workspaceId": "workspace:library",
+    "documentId": "doc:library:report",
+    "displayName": "Report.pdf",
+    "mediaType": "application/pdf",
+    "sourceRole": "primary",
+    "status": "ready",
+    "revisionCount": 1,
+    "currentRevision": {
+      "schemaVersion": 1,
+      "documentId": "doc:library:report",
+      "revisionId": "rev:library:report:1",
+      "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 1000,
+      "mediaType": "application/pdf",
+      "displayName": "Report.pdf",
+      "origin": { "kind": "local-file" },
+      "ingestedAt": "2026-08-30T20:00:00Z",
+      "pageCount": 3,
+      "status": "active"
+    },
+    "representations": [
+      {
+        "schemaVersion": 1,
+        "representationId": "rep:library:report:pdf",
+        "documentId": "doc:library:report",
+        "revisionId": "rev:library:report:1",
+        "kind": "original-bytes",
+        "mediaType": "application/pdf",
+        "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "byteLength": 1000,
+        "pageCount": 3,
+        "textQuality": "not-applicable",
+        "derivedFromRepresentationIds": [],
+        "createdAt": "2026-08-30T20:00:00Z",
+        "status": "current"
+      },
+      {
+        "schemaVersion": 1,
+        "representationId": "rep:library:report:text",
+        "documentId": "doc:library:report",
+        "revisionId": "rev:library:report:1",
+        "kind": "embedded-text",
+        "mediaType": "text/plain",
+        "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "byteLength": 500,
+        "pageCount": 3,
+        "textQuality": "usable",
+        "derivedFromRepresentationIds": ["rep:library:report:pdf"],
+        "generator": {
+          "name": "docatlas-sidecar",
+          "version": "0.0.0",
+          "configHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "createdAt": "2026-08-30T20:00:01Z",
+        "status": "current"
+      }
+    ],
+    "activeRepresentationId": "rep:library:report:text",
+    "capabilities": ["original", "text"],
+    "createdAt": "2026-08-30T20:00:00Z",
+    "updatedAt": "2026-08-30T20:00:01Z"
+  },
+  "discoverRequest": {
+    "schemaVersion": 1,
+    "requestType": "library-discover",
+    "sessionId": "session:library",
+    "workspaceId": "workspace:library",
+    "limit": 20
+  },
+  "discoverResult": {
+    "schemaVersion": 1,
+    "resultType": "library-candidates",
+    "workspaceId": "workspace:library",
+    "candidates": [
+      {
+        "candidateId": "candidate:library:report",
+        "rootId": "root:library",
+        "displayName": "Report.pdf",
+        "mediaType": "application/pdf",
+        "byteLength": 1000,
+        "modifiedAt": "2026-08-30T19:59:00Z",
+        "observedAt": "2026-08-30T20:00:00Z",
+        "expiresAt": "2026-08-30T20:05:00Z"
+      }
+    ],
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 20,
+      "returned": 1,
+      "total": 1,
+      "usedChars": 0,
+      "truncated": false,
+      "completeness": "complete"
+    }
+  },
+  "jobResult": {
+    "schemaVersion": 1,
+    "resultType": "library-job",
+    "workspaceId": "workspace:library",
+    "jobId": "job:library:report",
+    "status": "queued",
+    "phase": "queued",
+    "createdAt": "2026-08-30T20:00:00Z",
+    "updatedAt": "2026-08-30T20:00:02Z"
+  }
+}

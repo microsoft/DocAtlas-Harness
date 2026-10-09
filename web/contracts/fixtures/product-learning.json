@@ -1,0 +1,2726 @@
+{
+  "description": "Shared bounded invitation/accumulation wire fixtures; test-only imports expand recursively. Shapes and semantic counters are not host publication, real invitation exposure, consent, cryptographic equality or learning utility.",
+  "imports": {
+    "answer": "m2/answer-manifest.json",
+    "probe": "product-probe.json"
+  },
+  "bases": {
+    "query": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:learning",
+      "expectedGeneration": 1,
+      "kind": "learning-query"
+    },
+    "configure": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:learning",
+      "expectedGeneration": 1,
+      "kind": "learning-command",
+      "expectedProfileEpoch": 0,
+      "idempotencyKey": "learning:command:fixture",
+      "action": "configure",
+      "expectedSettingsVersion": 0,
+      "enabled": true
+    },
+    "prepare": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:learning",
+      "expectedGeneration": 1,
+      "kind": "learning-command",
+      "expectedProfileEpoch": 0,
+      "idempotencyKey": "learning:command:fixture",
+      "action": "prepare",
+      "expectedPolicyVersion": 1,
+      "messageId": "message:answer:revenue",
+      "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8"
+    },
+    "choose": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:learning",
+      "expectedGeneration": 1,
+      "kind": "learning-command",
+      "expectedProfileEpoch": 0,
+      "idempotencyKey": "learning:command:fixture",
+      "action": "choose",
+      "expectedPolicyVersion": 1,
+      "messageId": "message:answer:revenue",
+      "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+      "probeId": "learning-probe:contract",
+      "selected": "variant:answer-first",
+      "scopeIntent": "workspace",
+      "reasonTags": []
+    },
+    "dismiss": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:learning",
+      "expectedGeneration": 1,
+      "kind": "learning-command",
+      "expectedProfileEpoch": 0,
+      "idempotencyKey": "learning:command:fixture",
+      "action": "dismiss",
+      "offerId": "learning-offer:one",
+      "expectedOfferVersion": 1
+    },
+    "review": {
+      "schemaVersion": 1,
+      "expectedBindingId": "binding:learning",
+      "expectedGeneration": 1,
+      "kind": "learning-command",
+      "expectedProfileEpoch": 0,
+      "idempotencyKey": "learning:command:fixture",
+      "action": "review",
+      "groupId": "learning-group:one",
+      "candidateId": "candidate:learning:group",
+      "expectedCandidateVersion": 1,
+      "expectedGroupDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision": "accept"
+    },
+    "empty": {
+      "schemaVersion": 1,
+      "kind": "learning-view",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "settings": {
+        "version": 0,
+        "enabled": false
+      },
+      "contributionAllowed": false,
+      "policyVersion": 0,
+      "offers": [],
+      "groups": [],
+      "messageId": null,
+      "comparison": null
+    },
+    "ready": {
+      "schemaVersion": 1,
+      "kind": "learning-view",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "settings": {
+        "version": 1,
+        "enabled": true
+      },
+      "contributionAllowed": true,
+      "policyVersion": 1,
+      "offers": [],
+      "groups": [],
+      "messageId": "message:answer:revenue",
+      "comparison": {
+        "reason": "ready",
+        "material": {
+          "$fixture": "probe",
+          "path": [
+            "bases",
+            "ready",
+            "material"
+          ]
+        },
+        "probe": {
+          "schemaVersion": 1,
+          "recordType": "preference-probe",
+          "probeId": "learning-probe:contract",
+          "profileId": "profile:probe",
+          "sessionId": "session:answer",
+          "turn": 1,
+          "taskContext": {
+            "mode": "explore",
+            "workspaceId": "workspace:answer",
+            "investigationId": "investigation:answer"
+          },
+          "axis": "answer-order",
+          "trigger": "user-requested",
+          "investigationId": "investigation:answer",
+          "backbone": {
+            "sourceScopeVersionId": "scope:answer:1",
+            "claimVersionIds": [],
+            "evidenceAtomIds": [
+              "evidence:revenue-growth"
+            ],
+            "uncertaintyIds": [],
+            "conflictIds": [],
+            "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8"
+          },
+          "variants": [
+            {
+              "variantKey": "variant:answer-first",
+              "effect": {
+                "key": "answer-order",
+                "value": "conclusion-first"
+              },
+              "artifactId": "presentation:answer",
+              "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+              "invariantCheck": "passed"
+            },
+            {
+              "variantKey": "variant:evidence-first",
+              "effect": {
+                "key": "answer-order",
+                "value": "evidence-first"
+              },
+              "artifactId": "presentation:evidence",
+              "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+              "invariantCheck": "passed"
+            }
+          ],
+          "presentationOrder": [
+            "variant:answer-first",
+            "variant:evidence-first"
+          ],
+          "generatedAt": "2026-09-09T23:00:00.000Z"
+        },
+        "choiceReceipt": null
+      }
+    },
+    "collected": {
+      "schemaVersion": 1,
+      "kind": "learning-view",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "settings": {
+        "version": 0,
+        "enabled": false
+      },
+      "contributionAllowed": false,
+      "policyVersion": 0,
+      "offers": [],
+      "groups": [
+        {
+          "groupId": "learning-group:one",
+          "mode": "explore",
+          "axis": "answer-order",
+          "status": "candidate",
+          "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "counts": {
+            "conclusionFirst": 3,
+            "evidenceFirst": 0,
+            "independentInvestigations": 3
+          },
+          "members": [
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:1",
+                "conversationId": "session:answer:1",
+                "messageId": "message:answer:1",
+                "manifestId": "manifest:answer:1",
+                "investigationId": "investigation:answer:1",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:1",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:2",
+                "conversationId": "session:answer:2",
+                "messageId": "message:answer:2",
+                "manifestId": "manifest:answer:2",
+                "investigationId": "investigation:answer:2",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:2",
+              "value": "conclusion-first"
+            }
+          ],
+          "candidate": {
+            "schemaVersion": 1,
+            "recordType": "memory-candidate",
+            "candidateId": "candidate:learning:group",
+            "profileId": "profile:probe",
+            "version": 1,
+            "proposedMemoryType": "presentation-preference",
+            "proposedEffect": {
+              "key": "answer-order",
+              "value": "conclusion-first"
+            },
+            "proposedScope": {
+              "kind": "workspace",
+              "profileId": "profile:probe",
+              "workspaceId": "workspace:answer"
+            },
+            "observationIds": [
+              "observation:learning:0",
+              "observation:learning:1",
+              "observation:learning:2"
+            ],
+            "independentLineageCount": 3,
+            "counterObservationIds": [],
+            "formation": "preference-probe",
+            "risk": "low",
+            "sensitivity": "ordinary",
+            "decision": "pending",
+            "rationaleCode": "controlled-probe-choice",
+            "createdAt": "2026-09-09T23:00:00.000Z"
+          }
+        }
+      ],
+      "messageId": null,
+      "comparison": null
+    },
+    "unavailable": {
+      "schemaVersion": 1,
+      "kind": "learning-view",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "settings": {
+        "version": 0,
+        "enabled": false
+      },
+      "contributionAllowed": false,
+      "policyVersion": 0,
+      "offers": [],
+      "groups": [
+        {
+          "groupId": "learning-group:one",
+          "mode": "explore",
+          "axis": "answer-order",
+          "status": "unavailable",
+          "digest": null,
+          "counts": null,
+          "members": [],
+          "candidate": null
+        }
+      ],
+      "messageId": null,
+      "comparison": null
+    },
+    "offered": {
+      "schemaVersion": 1,
+      "kind": "learning-view",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "settings": {
+        "version": 1,
+        "enabled": true
+      },
+      "contributionAllowed": true,
+      "policyVersion": 0,
+      "offers": [
+        {
+          "offerId": "learning-offer:one",
+          "version": 1,
+          "original": {
+            "profileEpoch": 0,
+            "probeId": "learning-probe:contract",
+            "conversationId": "session:answer",
+            "messageId": "message:answer:revenue",
+            "manifestId": "answer:manifest:revenue",
+            "investigationId": "investigation:answer",
+            "sourceScopeVersionId": "scope:answer:1",
+            "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+            "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "mode": "explore",
+            "turn": 1
+          },
+          "status": "offered",
+          "createdAt": "2026-09-09T23:00:00.000Z"
+        }
+      ],
+      "groups": [],
+      "messageId": null,
+      "comparison": null
+    },
+    "chosen": {
+      "schemaVersion": 1,
+      "kind": "learning-view",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "settings": {
+        "version": 1,
+        "enabled": true
+      },
+      "contributionAllowed": true,
+      "policyVersion": 1,
+      "offers": [],
+      "groups": [],
+      "messageId": "message:answer:revenue",
+      "comparison": {
+        "reason": "ready",
+        "material": {
+          "$fixture": "probe",
+          "path": [
+            "bases",
+            "ready",
+            "material"
+          ]
+        },
+        "probe": {
+          "schemaVersion": 1,
+          "recordType": "preference-probe",
+          "probeId": "learning-probe:contract",
+          "profileId": "profile:probe",
+          "sessionId": "session:answer",
+          "turn": 1,
+          "taskContext": {
+            "mode": "explore",
+            "workspaceId": "workspace:answer",
+            "investigationId": "investigation:answer"
+          },
+          "axis": "answer-order",
+          "trigger": "user-requested",
+          "investigationId": "investigation:answer",
+          "backbone": {
+            "sourceScopeVersionId": "scope:answer:1",
+            "claimVersionIds": [],
+            "evidenceAtomIds": [
+              "evidence:revenue-growth"
+            ],
+            "uncertaintyIds": [],
+            "conflictIds": [],
+            "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8"
+          },
+          "variants": [
+            {
+              "variantKey": "variant:answer-first",
+              "effect": {
+                "key": "answer-order",
+                "value": "conclusion-first"
+              },
+              "artifactId": "presentation:answer",
+              "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+              "invariantCheck": "passed"
+            },
+            {
+              "variantKey": "variant:evidence-first",
+              "effect": {
+                "key": "answer-order",
+                "value": "evidence-first"
+              },
+              "artifactId": "presentation:evidence",
+              "factTraceDigest": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+              "invariantCheck": "passed"
+            }
+          ],
+          "presentationOrder": [
+            "variant:answer-first",
+            "variant:evidence-first"
+          ],
+          "generatedAt": "2026-09-09T23:00:00.000Z"
+        },
+        "choiceReceipt": {
+          "idempotencyKey": "learning:command:fixture",
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "choice": {
+            "schemaVersion": 1,
+            "recordType": "preference-choice-observation",
+            "choiceObservationId": "choice:learning:one",
+            "probeId": "learning-probe:contract",
+            "profileId": "profile:probe",
+            "sessionId": "session:answer",
+            "turn": 1,
+            "selected": "variant:answer-first",
+            "scopeIntent": "workspace",
+            "reasonTags": [],
+            "consent": {
+              "retention": "eligible",
+              "basis": "session-policy"
+            },
+            "occurredAt": "2026-09-09T23:00:00.000Z"
+          },
+          "candidateId": null,
+          "groupId": "learning-group:one"
+        }
+      }
+    },
+    "receipt": {
+      "schemaVersion": 1,
+      "kind": "learning-receipt",
+      "operationId": "learning-op:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "idempotencyKey": "learning:command:fixture",
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actorId": "actor:learning",
+      "workspaceId": "workspace:answer",
+      "conversationId": "session:answer",
+      "bindingId": "binding:learning",
+      "generation": 1,
+      "profileEpoch": 0,
+      "action": "choose",
+      "committedAt": "2026-09-09T23:00:00.000Z",
+      "targetId": "choice:learning:one",
+      "targetVersion": 1,
+      "groupId": "learning-group:one",
+      "candidateId": null,
+      "memoryVersionId": null
+    },
+    "operation": {
+      "schemaVersion": 1,
+      "kind": "learning-operation",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:learning",
+        "conversationId": "session:answer",
+        "workspaceId": "workspace:answer",
+        "ownerActorId": "actor:learning",
+        "investigationId": "investigation:answer",
+        "runtimeSessionId": "runtime:learning",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-09T23:00:00.000Z",
+        "updatedAt": "2026-09-09T23:00:00.000Z"
+      },
+      "profileId": "profile:probe",
+      "profileEpoch": 0,
+      "operationId": "learning-op:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "receipt": {
+        "schemaVersion": 1,
+        "kind": "learning-receipt",
+        "operationId": "learning-op:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "idempotencyKey": "learning:command:fixture",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "actorId": "actor:learning",
+        "workspaceId": "workspace:answer",
+        "conversationId": "session:answer",
+        "bindingId": "binding:learning",
+        "generation": 1,
+        "profileEpoch": 0,
+        "action": "choose",
+        "committedAt": "2026-09-09T23:00:00.000Z",
+        "targetId": "choice:learning:one",
+        "targetVersion": 1,
+        "groupId": "learning-group:one",
+        "candidateId": null,
+        "memoryVersionId": null
+      }
+    }
+  },
+  "valid": [
+    {
+      "name": "valid query",
+      "base": "query"
+    },
+    {
+      "name": "valid configure",
+      "base": "configure"
+    },
+    {
+      "name": "valid prepare",
+      "base": "prepare"
+    },
+    {
+      "name": "valid choose",
+      "base": "choose"
+    },
+    {
+      "name": "valid dismiss",
+      "base": "dismiss"
+    },
+    {
+      "name": "valid review",
+      "base": "review"
+    },
+    {
+      "name": "valid empty",
+      "base": "empty"
+    },
+    {
+      "name": "valid ready",
+      "base": "ready"
+    },
+    {
+      "name": "valid collected",
+      "base": "collected"
+    },
+    {
+      "name": "valid unavailable",
+      "base": "unavailable"
+    },
+    {
+      "name": "valid offered",
+      "base": "offered"
+    },
+    {
+      "name": "valid chosen",
+      "base": "chosen"
+    },
+    {
+      "name": "valid receipt",
+      "base": "receipt"
+    },
+    {
+      "name": "valid operation",
+      "base": "operation"
+    },
+    {
+      "name": "optional comparison query",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "messageId"
+          ],
+          "value": "message:answer:revenue"
+        }
+      ]
+    },
+    {
+      "name": "null operation is not committed success",
+      "base": "operation",
+      "set": [
+        {
+          "path": [
+            "receipt"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "both means turn only",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "selected"
+          ],
+          "value": "both"
+        },
+        {
+          "path": [
+            "scopeIntent"
+          ],
+          "value": "turn"
+        }
+      ]
+    },
+    {
+      "name": "unprepared original material remains readable",
+      "base": "ready",
+      "set": [
+        {
+          "path": [
+            "comparison",
+            "probe"
+          ],
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "dismissed invitation is not feedback",
+      "base": "offered",
+      "set": [
+        {
+          "path": [
+            "offers",
+            0,
+            "status"
+          ],
+          "value": "dismissed"
+        }
+      ]
+    },
+    {
+      "name": "suppressed group discloses no forgotten support",
+      "base": "unavailable",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "status"
+          ],
+          "value": "suppressed"
+        }
+      ]
+    },
+    {
+      "name": "original binding receipt may reconcile under later generation",
+      "base": "operation",
+      "set": [
+        {
+          "path": [
+            "binding",
+            "bindingId"
+          ],
+          "value": "binding:next"
+        },
+        {
+          "path": [
+            "binding",
+            "generation"
+          ],
+          "value": 2
+        },
+        {
+          "path": [
+            "binding",
+            "version"
+          ],
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "invalidShape": [
+    {
+      "name": "browser cannot choose actor",
+      "base": "configure",
+      "set": [
+        {
+          "path": [
+            "actorId"
+          ],
+          "value": "actor:other"
+        }
+      ]
+    },
+    {
+      "name": "browser cannot choose profile",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "profileId"
+          ],
+          "value": "profile:other"
+        }
+      ]
+    },
+    {
+      "name": "browser cannot pass a source path",
+      "base": "prepare",
+      "set": [
+        {
+          "path": [
+            "path"
+          ],
+          "value": "/private/document.pdf"
+        }
+      ]
+    },
+    {
+      "name": "settings requires explicit boolean",
+      "base": "configure",
+      "set": [
+        {
+          "path": [
+            "enabled"
+          ],
+          "value": "true"
+        }
+      ]
+    },
+    {
+      "name": "query rejects mutations",
+      "base": "query",
+      "set": [
+        {
+          "path": [
+            "enabled"
+          ],
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "binding generation must be positive",
+      "base": "configure",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "profile epoch is required nonnegative",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "expectedProfileEpoch"
+          ],
+          "value": -1
+        }
+      ]
+    },
+    {
+      "name": "short command key rejected",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "idempotencyKey"
+          ],
+          "value": "short"
+        }
+      ]
+    },
+    {
+      "name": "one-axis controlled values only admit opaque variant keys",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "selected"
+          ],
+          "value": "<script>"
+        }
+      ]
+    },
+    {
+      "name": "global scope is not this learning protocol",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "scopeIntent"
+          ],
+          "value": "global"
+        }
+      ]
+    },
+    {
+      "name": "candidate needs exact positive version",
+      "base": "review",
+      "set": [
+        {
+          "path": [
+            "expectedCandidateVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "digest is a hash not prose",
+      "base": "review",
+      "set": [
+        {
+          "path": [
+            "expectedGroupDigest"
+          ],
+          "value": "trust me"
+        }
+      ]
+    },
+    {
+      "name": "offer CAS required positive version",
+      "base": "dismiss",
+      "set": [
+        {
+          "path": [
+            "expectedOfferVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "group member bound",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "members"
+          ],
+          "value": [
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            },
+            {
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract:0",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:0",
+                "manifestId": "manifest:answer:0",
+                "investigationId": "investigation:answer:0",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "observationId": "observation:learning:0",
+              "value": "conclusion-first"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "invitation bound",
+      "base": "offered",
+      "set": [
+        {
+          "path": [
+            "offers"
+          ],
+          "value": [
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            },
+            {
+              "offerId": "learning-offer:one",
+              "version": 1,
+              "original": {
+                "profileEpoch": 0,
+                "probeId": "learning-probe:contract",
+                "conversationId": "session:answer",
+                "messageId": "message:answer:revenue",
+                "manifestId": "answer:manifest:revenue",
+                "investigationId": "investigation:answer",
+                "sourceScopeVersionId": "scope:answer:1",
+                "materialHash": "820e7e7bdd768e52c75c7e0f2998b0b5e60313125d7fc0b1b669a949edf7b8d8",
+                "nativeTextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "mode": "explore",
+                "turn": 1
+              },
+              "status": "offered",
+              "createdAt": "2026-09-09T23:00:00.000Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "material cannot carry arbitrary tool output",
+      "base": "ready",
+      "set": [
+        {
+          "path": [
+            "comparison",
+            "material",
+            "tools"
+          ],
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "receipt never duplicates prose",
+      "base": "receipt",
+      "set": [
+        {
+          "path": [
+            "text"
+          ],
+          "value": "old note text"
+        }
+      ]
+    },
+    {
+      "name": "operation ID is not arbitrary key",
+      "base": "operation",
+      "set": [
+        {
+          "path": [
+            "operationId"
+          ],
+          "value": "some-key"
+        }
+      ]
+    },
+    {
+      "name": "unknown command action",
+      "base": "configure",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "auto-activate"
+        }
+      ]
+    },
+    {
+      "name": "unknown settings version kind",
+      "base": "empty",
+      "set": [
+        {
+          "path": [
+            "settings",
+            "version"
+          ],
+          "value": 1.5
+        }
+      ]
+    },
+    {
+      "name": "configure cannot omit expectedSettingsVersion",
+      "base": "configure",
+      "remove": [
+        [
+          "expectedSettingsVersion"
+        ]
+      ]
+    },
+    {
+      "name": "choose cannot omit expectedProfileEpoch",
+      "base": "choose",
+      "remove": [
+        [
+          "expectedProfileEpoch"
+        ]
+      ]
+    },
+    {
+      "name": "prepare cannot omit materialHash",
+      "base": "prepare",
+      "remove": [
+        [
+          "materialHash"
+        ]
+      ]
+    },
+    {
+      "name": "review cannot omit expectedGroupDigest",
+      "base": "review",
+      "remove": [
+        [
+          "expectedGroupDigest"
+        ]
+      ]
+    },
+    {
+      "name": "dismiss cannot omit expectedOfferVersion",
+      "base": "dismiss",
+      "remove": [
+        [
+          "expectedOfferVersion"
+        ]
+      ]
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "both never contributes to future",
+      "base": "choose",
+      "set": [
+        {
+          "path": [
+            "selected"
+          ],
+          "value": "both"
+        }
+      ],
+      "codes": [
+        "learning-choice-scope"
+      ]
+    },
+    {
+      "name": "zero-version setting cannot silently opt in",
+      "base": "empty",
+      "set": [
+        {
+          "path": [
+            "settings",
+            "enabled"
+          ],
+          "value": true
+        }
+      ],
+      "codes": [
+        "learning-default-consent"
+      ]
+    },
+    {
+      "name": "private comparison needs its message target",
+      "base": "empty",
+      "set": [
+        {
+          "path": [
+            "messageId"
+          ],
+          "value": "message:answer:revenue"
+        }
+      ],
+      "codes": [
+        "learning-comparison-target"
+      ]
+    },
+    {
+      "name": "offer cannot move to another conversation",
+      "base": "offered",
+      "set": [
+        {
+          "path": [
+            "offers",
+            0,
+            "original",
+            "conversationId"
+          ],
+          "value": "session:other"
+        }
+      ],
+      "codes": [
+        "learning-offer-owner"
+      ]
+    },
+    {
+      "name": "offer cannot survive an erasure epoch mismatch",
+      "base": "offered",
+      "set": [
+        {
+          "path": [
+            "offers",
+            0,
+            "original",
+            "profileEpoch"
+          ],
+          "value": 1
+        }
+      ],
+      "codes": [
+        "learning-offer-owner"
+      ]
+    },
+    {
+      "name": "unavailable groups cannot disclose filtered counts",
+      "base": "unavailable",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "counts"
+          ],
+          "value": {
+            "conclusionFirst": 3,
+            "evidenceFirst": 0,
+            "independentInvestigations": 3
+          }
+        }
+      ],
+      "codes": [
+        "learning-hidden-group"
+      ]
+    },
+    {
+      "name": "candidate requires a actual pending record",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "candidate"
+          ],
+          "value": null
+        }
+      ],
+      "codes": [
+        "learning-candidate-state"
+      ]
+    },
+    {
+      "name": "incorrect distinct support count is rejected",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "counts",
+            "independentInvestigations"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "learning-group-counts"
+      ]
+    },
+    {
+      "name": "wrong group mode cannot count a member",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "members",
+            0,
+            "original",
+            "mode"
+          ],
+          "value": "publish"
+        }
+      ],
+      "codes": [
+        "learning-group-owner"
+      ]
+    },
+    {
+      "name": "ordinary low-risk rule cannot become high impact",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "candidate",
+            "risk"
+          ],
+          "value": "high"
+        }
+      ],
+      "codes": [
+        "learning-candidate"
+      ]
+    },
+    {
+      "name": "settled candidate is not awaiting confirmation",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "candidate",
+            "decision"
+          ],
+          "value": "reject"
+        },
+        {
+          "path": [
+            "groups",
+            0,
+            "candidate",
+            "decidedBy"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:learning"
+          }
+        },
+        {
+          "path": [
+            "groups",
+            0,
+            "candidate",
+            "decidedAt"
+          ],
+          "value": "2026-09-09T23:01:00.000Z"
+        }
+      ],
+      "codes": [
+        "learning-candidate-state"
+      ]
+    },
+    {
+      "name": "legacy Probe cannot silently become new learning",
+      "base": "ready",
+      "set": [
+        {
+          "path": [
+            "comparison",
+            "probe",
+            "probeId"
+          ],
+          "value": "probe:legacy"
+        }
+      ],
+      "codes": [
+        "learning-probe"
+      ]
+    },
+    {
+      "name": "comparison preserves exact material identity",
+      "base": "ready",
+      "set": [
+        {
+          "path": [
+            "comparison",
+            "probe",
+            "backbone",
+            "factTraceDigest"
+          ],
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "codes": [
+        "learning-probe"
+      ]
+    },
+    {
+      "name": "only confirm may return a MemoryVersion",
+      "base": "receipt",
+      "set": [
+        {
+          "path": [
+            "memoryVersionId"
+          ],
+          "value": "memory:forged"
+        }
+      ],
+      "codes": [
+        "learning-activation"
+      ]
+    },
+    {
+      "name": "original receipt belongs to its actor",
+      "base": "operation",
+      "set": [
+        {
+          "path": [
+            "receipt",
+            "actorId"
+          ],
+          "value": "actor:other"
+        }
+      ],
+      "codes": [
+        "learning-operation-owner"
+      ]
+    },
+    {
+      "name": "original receipt belongs to its profile epoch",
+      "base": "operation",
+      "set": [
+        {
+          "path": [
+            "receipt",
+            "profileEpoch"
+          ],
+          "value": 1
+        }
+      ],
+      "codes": [
+        "learning-operation-owner"
+      ]
+    },
+    {
+      "name": "prepare cannot adopt candidate references",
+      "base": "receipt",
+      "set": [
+        {
+          "path": [
+            "action"
+          ],
+          "value": "prepare"
+        }
+      ],
+      "codes": [
+        "learning-receipt-action"
+      ]
+    },
+    {
+      "name": "choice creation receipt cannot invent later version",
+      "base": "receipt",
+      "set": [
+        {
+          "path": [
+            "targetVersion"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "learning-receipt-version"
+      ]
+    }
+  ],
+  "hostOnly": [
+    {
+      "name": "a matching lexical digest is not cryptographic group authority",
+      "base": "collected",
+      "set": [
+        {
+          "path": [
+            "groups",
+            0,
+            "digest"
+          ],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "authority": "Core recomputes the exact authorized retained membership and the complete current group digest."
+    }
+  ]
+}

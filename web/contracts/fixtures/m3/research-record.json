@@ -1,0 +1,69 @@
+{
+  "checkpointRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-record",
+    "sessionId": "session:record",
+    "workspaceId": "workspace:record",
+    "investigationId": "investigation:record",
+    "scopeVersionId": "scope:record:1",
+    "callId": "call:record:checkpoint:1",
+    "idempotencyKey": "idempotency:record:checkpoint:1",
+    "kind": "checkpoint",
+    "body": "Margin definition remains unverified; inspect the audited note before use."
+  },
+  "checkpointResult": {
+    "schemaVersion": 1,
+    "resultType": "research-recorded",
+    "status": "created",
+    "record": {
+      "schemaVersion": 1,
+      "recordId": "note:record:checkpoint:1",
+      "workspaceId": "workspace:record",
+      "investigationId": "investigation:record",
+      "sourceSessionId": "session:record",
+      "sourceScopeVersionId": "scope:record:1",
+      "provenanceCallId": "call:record:checkpoint:1",
+      "version": 1,
+      "recordType": "research-note",
+      "noteKind": "checkpoint",
+      "body": "Margin definition remains unverified; inspect the audited note before use.",
+      "status": "active",
+      "createdBy": { "kind": "agent", "actorId": "session:record" },
+      "createdAt": "2026-08-31T11:20:00Z",
+      "epistemicStatus": "unverified"
+    }
+  },
+  "questionRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-record",
+    "sessionId": "session:record",
+    "workspaceId": "workspace:record",
+    "investigationId": "investigation:record",
+    "scopeVersionId": "scope:record:1",
+    "callId": "call:record:question:1",
+    "idempotencyKey": "idempotency:record:question:1",
+    "kind": "open-question",
+    "question": "Which margin definition was audited?"
+  },
+  "questionResult": {
+    "schemaVersion": 1,
+    "resultType": "research-recorded",
+    "status": "created",
+    "record": {
+      "schemaVersion": 1,
+      "recordId": "question:record:1",
+      "workspaceId": "workspace:record",
+      "investigationId": "investigation:record",
+      "sourceSessionId": "session:record",
+      "sourceScopeVersionId": "scope:record:1",
+      "provenanceCallId": "call:record:question:1",
+      "version": 1,
+      "recordType": "open-question",
+      "question": "Which margin definition was audited?",
+      "status": "open",
+      "createdBy": { "kind": "agent", "actorId": "session:record" },
+      "createdAt": "2026-08-31T11:21:00Z",
+      "epistemicStatus": "unverified"
+    }
+  }
+}

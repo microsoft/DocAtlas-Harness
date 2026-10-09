@@ -1,0 +1,66 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "requestType": "research-notebook",
+    "sessionId": "session:notebook:current",
+    "workspaceId": "workspace:governance",
+    "investigationId": "investigation:governance:one",
+    "scopeVersionId": "scope:governance:1",
+    "view": "workspace",
+    "recordTypes": ["research-note", "project-decision", "research-policy"],
+    "recordStatuses": ["active", "archived"],
+    "limits": { "maxItems": 10, "maxChars": 2000 }
+  },
+  "result": {
+    "schemaVersion": 1,
+    "resultType": "research-notebook",
+    "workspaceId": "workspace:governance",
+    "investigationId": "investigation:governance:one",
+    "scopeVersionId": "scope:governance:1",
+    "view": "workspace",
+    "queryHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "items": [
+      {
+        "itemId": "notebook:decision:one",
+        "recordId": "decision:governance:one",
+        "recordType": "project-decision",
+        "recordStatus": "active",
+        "recordVersion": 1,
+        "sourceInvestigationId": "investigation:governance:one",
+        "sourceSessionId": "session:governance:one",
+        "sourceScopeVersionId": "scope:governance:1",
+        "layer": "working",
+        "preview": "Page numbering convention — Use physical PDF page numbers in every deliverable.",
+        "sourceIdentities": [],
+        "sourceState": "none",
+        "useStatus": "user-governance",
+        "updatedAt": "2026-08-31T12:00:00Z"
+      },
+      {
+        "itemId": "notebook:note:prior",
+        "recordId": "note:prior:one",
+        "recordType": "research-note",
+        "recordStatus": "active",
+        "recordVersion": 2,
+        "sourceInvestigationId": "investigation:prior",
+        "sourceSessionId": "session:prior",
+        "sourceScopeVersionId": "scope:prior:1",
+        "layer": "research",
+        "preview": "Prior margin hypothesis remains unverified.",
+        "sourceIdentities": [],
+        "sourceState": "none",
+        "useStatus": "unverified-lead",
+        "updatedAt": "2026-08-31T11:00:00Z"
+      }
+    ],
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 10,
+      "returned": 2,
+      "total": 2,
+      "usedChars": 122,
+      "truncated": false,
+      "completeness": "complete"
+    }
+  }
+}

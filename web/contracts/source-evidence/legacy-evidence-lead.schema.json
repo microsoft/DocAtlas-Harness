@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/legacy-evidence-lead.v1.json",
+  "title": "Unresolved legacy evidence import lead v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "leadId",
+    "legacyKind",
+    "sourceSessionId",
+    "rawSource",
+    "documentCandidates",
+    "resolutionStatus",
+    "verificationStatus",
+    "importedBy",
+    "importedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "leadId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "legacyKind": {
+      "type": "string",
+      "enum": ["note-evidence", "page-finding", "read-history", "search-history"]
+    },
+    "sourceSessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "rawSource": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "rawContent": { "type": "string", "maxLength": 20000 },
+    "physicalPageCandidate": { "type": "integer", "minimum": 1 },
+    "documentCandidates": {
+      "type": "array",
+      "maxItems": 100,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["documentId", "revisionId"],
+        "properties": {
+          "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+          "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        }
+      }
+    },
+    "resolutionStatus": { "const": "unresolved" },
+    "verificationStatus": { "const": "unverified" },
+    "importedBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "importedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  }
+}

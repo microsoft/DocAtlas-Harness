@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/page-info.v1.json",
+  "title": "DocAtlas bounded result page metadata v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "limit", "returned", "truncated", "completeness"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "limit": { "type": "integer", "minimum": 1, "maximum": 10000 },
+    "returned": { "type": "integer", "minimum": 0 },
+    "total": { "type": "integer", "minimum": 0 },
+    "usedChars": { "type": "integer", "minimum": 0 },
+    "truncated": { "type": "boolean" },
+    "completeness": {
+      "type": "string",
+      "enum": ["candidate", "partial", "complete"]
+    },
+    "nextCursor": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "truncated": { "const": true } }, "required": ["truncated"] },
+      "then": {
+        "required": ["nextCursor"],
+        "properties": {
+          "nextCursor": {
+            "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "completeness": { "const": "complete" } }, "required": ["completeness"] },
+      "then": { "properties": { "truncated": { "const": false } } }
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "revision": {
+    "schemaVersion": 1,
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byteLength": 1000,
+    "mediaType": "application/pdf",
+    "displayName": "M1 fixture.pdf",
+    "origin": { "kind": "upload" },
+    "ingestedAt": "2026-08-30T02:00:00Z",
+    "pageCount": 3,
+    "status": "active"
+  },
+  "representation": {
+    "schemaVersion": 1,
+    "representationId": "rep:m1:text",
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "kind": "embedded-text",
+    "mediaType": "text/plain",
+    "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "byteLength": 500,
+    "pageCount": 3,
+    "textQuality": "usable",
+    "derivedFromRepresentationIds": ["rep:m1:pdf"],
+    "generator": {
+      "name": "docatlas-sidecar",
+      "version": "0.0.0",
+      "configHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "createdAt": "2026-08-30T02:01:00Z",
+    "status": "current"
+  },
+  "locator": {
+    "schemaVersion": 1,
+    "locatorId": "loc:m1:p2:b1",
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "representationId": "rep:m1:text",
+    "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "physicalPage": 2,
+    "selectors": [{ "type": "block", "blockId": "p00002.b00001.text.fixture" }],
+    "createdAt": "2026-08-30T02:02:00Z"
+  },
+  "ingestRequest": {
+    "schemaVersion": 1,
+    "requestType": "ingest",
+    "idempotencyKey": "idempotency:m1:ingest",
+    "revision": {
+      "schemaVersion": 1,
+      "documentId": "doc:m1",
+      "revisionId": "rev:m1:1",
+      "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 1000,
+      "mediaType": "application/pdf",
+      "displayName": "M1 fixture.pdf",
+      "origin": { "kind": "upload" },
+      "ingestedAt": "2026-08-30T02:00:00Z",
+      "pageCount": 3,
+      "status": "active"
+    },
+    "sourceBinding": {
+      "schemaVersion": 1,
+      "bindingId": "binding:m1",
+      "rootId": "root:uploads",
+      "relativePath": "documents/m1-fixture.pdf",
+      "expectedContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 1000,
+      "mediaType": "application/pdf"
+    },
+    "requestedRepresentationKinds": ["embedded-text", "derived-markdown"],
+    "options": { "forceRebuild": false, "allowOcr": false }
+  },
+  "ingestResult": {
+    "schemaVersion": 1,
+    "resultType": "ingest",
+    "idempotencyKey": "idempotency:m1:ingest",
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "cacheStatus": "created",
+    "representations": [
+      {
+        "schemaVersion": 1,
+        "representationId": "rep:m1:text",
+        "documentId": "doc:m1",
+        "revisionId": "rev:m1:1",
+        "kind": "embedded-text",
+        "mediaType": "text/plain",
+        "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "byteLength": 500,
+        "pageCount": 3,
+        "textQuality": "usable",
+        "derivedFromRepresentationIds": ["rep:m1:pdf"],
+        "generator": {
+          "name": "docatlas-sidecar",
+          "version": "0.0.0",
+          "configHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "createdAt": "2026-08-30T02:01:00Z",
+        "status": "current"
+      }
+    ],
+    "index": {
+      "status": "ready",
+      "blockCount": 12,
+      "indexedPages": 3,
+      "totalPages": 3,
+      "textQuality": "usable"
+    },
+    "warnings": []
+  },
+  "searchRequest": {
+    "schemaVersion": 1,
+    "requestType": "search",
+    "scopeVersionId": "scope:m1:1",
+    "sources": [{ "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" }],
+    "query": "revenue growth",
+    "strategy": "combined",
+    "limits": { "maxItems": 8, "maxChars": 6000 }
+  },
+  "searchResult": {
+    "schemaVersion": 1,
+    "resultType": "search",
+    "scopeVersionId": "scope:m1:1",
+    "queryHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "candidates": [
+      {
+        "candidateId": "candidate:m1:1",
+        "documentId": "doc:m1",
+        "revisionId": "rev:m1:1",
+        "representationId": "rep:m1:text",
+        "physicalPageStart": 2,
+        "physicalPageEnd": 2,
+        "blockIds": ["p00002.b00001.text.fixture"],
+        "title": "Revenue",
+        "preview": "Revenue increased.",
+        "matchKind": "combined",
+        "score": 0.9,
+        "reason": "heading and lexical match"
+      }
+    ],
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 8,
+      "returned": 1,
+      "total": 1,
+      "usedChars": 18,
+      "truncated": false,
+      "completeness": "candidate"
+    }
+  },
+  "readRequests": [
+    {
+      "schemaVersion": 1,
+      "requestType": "read",
+      "mode": "locate",
+      "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+      "limits": { "maxItems": 8, "maxChars": 6000 },
+      "query": "revenue growth"
+    },
+    {
+      "schemaVersion": 1,
+      "requestType": "read",
+      "mode": "blocks",
+      "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+      "limits": { "maxItems": 8, "maxChars": 6000 },
+      "blockIds": ["p00002.b00001.text.fixture"]
+    },
+    {
+      "schemaVersion": 1,
+      "requestType": "read",
+      "mode": "expand",
+      "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+      "limits": { "maxItems": 8, "maxChars": 6000 },
+      "targetBlockId": "p00002.b00001.text.fixture",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "schemaVersion": 1,
+      "requestType": "read",
+      "mode": "sequential",
+      "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+      "limits": { "maxItems": 8, "maxChars": 6000 },
+      "cursor": "cursor:m1:2"
+    },
+    {
+      "schemaVersion": 1,
+      "requestType": "read",
+      "mode": "page",
+      "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+      "limits": { "maxItems": 200, "maxChars": 20000 },
+      "physicalPage": 2
+    },
+    {
+      "schemaVersion": 1,
+      "requestType": "read",
+      "mode": "visual",
+      "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+      "limits": { "maxItems": 1, "maxChars": 1 },
+      "physicalPage": 2,
+      "maxPixels": 2000000
+    }
+  ],
+  "readResult": {
+    "schemaVersion": 1,
+    "resultType": "read",
+    "mode": "blocks",
+    "source": { "documentId": "doc:m1", "revisionId": "rev:m1:1", "representationId": "rep:m1:text" },
+    "textQuality": "usable",
+    "items": [
+      {
+        "itemType": "block",
+        "blockId": "p00002.b00001.text.fixture",
+        "physicalPage": 2,
+        "kind": "paragraph",
+        "text": "Revenue increased.",
+        "locator": {
+          "schemaVersion": 1,
+          "locatorId": "loc:m1:p2:b1",
+          "documentId": "doc:m1",
+          "revisionId": "rev:m1:1",
+          "representationId": "rep:m1:text",
+          "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "physicalPage": 2,
+          "selectors": [{ "type": "block", "blockId": "p00002.b00001.text.fixture" }],
+          "createdAt": "2026-08-30T02:02:00Z"
+        }
+      }
+    ],
+    "pageInfo": { "schemaVersion": 1, "limit": 8, "returned": 1, "total": 1, "usedChars": 18, "truncated": false, "completeness": "complete" }
+  },
+  "resolveRequest": {
+    "schemaVersion": 1,
+    "requestType": "resolve",
+    "locator": {
+      "schemaVersion": 1,
+      "locatorId": "loc:m1:p2:b1",
+      "documentId": "doc:m1",
+      "revisionId": "rev:m1:1",
+      "representationId": "rep:m1:text",
+      "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "physicalPage": 2,
+      "selectors": [{ "type": "block", "blockId": "p00002.b00001.text.fixture" }],
+      "createdAt": "2026-08-30T02:02:00Z"
+    },
+    "allowCandidates": true,
+    "maxCandidates": 5
+  },
+  "resolveResult": {
+    "schemaVersion": 1,
+    "resultType": "resolve",
+    "resolutionId": "resolution:m1:1",
+    "locatorId": "loc:m1:p2:b1",
+    "documentId": "doc:m1",
+    "revisionId": "rev:m1:1",
+    "representationId": "rep:m1:text",
+    "status": "resolved",
+    "checkedRepresentationHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "checkedAt": "2026-08-30T02:03:00Z",
+    "exactText": "Revenue increased.",
+    "resolvedLocator": {
+      "schemaVersion": 1,
+      "locatorId": "loc:m1:p2:b1",
+      "documentId": "doc:m1",
+      "revisionId": "rev:m1:1",
+      "representationId": "rep:m1:text",
+      "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "physicalPage": 2,
+      "selectors": [{ "type": "block", "blockId": "p00002.b00001.text.fixture" }],
+      "createdAt": "2026-08-30T02:02:00Z"
+    },
+    "candidates": []
+  }
+}

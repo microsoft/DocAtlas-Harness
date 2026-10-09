@@ -1,0 +1,187 @@
+{
+  "description": "Shared Node/static-browser/Python product-review vectors. Test-only $fixture references expand named immutable fixture imports before set/remove patches. Shape validation is not host authority, original PDF verification, arithmetic verification, or proof of a durable review. invalidSemantic stays shape-valid; hostOnly intentionally passes parser guards and requires authenticated host/current-request checks.",
+  "imports": {
+    "m4": "m4/m4-rpc.json",
+    "ledger": "m4/claim-ledger.json",
+    "artifacts": "m4/artifacts.json",
+    "review": "m4/review-result.json",
+    "answer": "product-answer.json"
+  },
+  "bases": {
+    "claim": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:claim:one", "action": "claim-save",
+      "expectedClaimVersionId": null, "statement": "The agreement permits termination for convenience.",
+      "basis": "document-supported", "epistemicStatus": "supported", "reviewStatus": "accepted",
+      "evidenceRelations": [{ "evidenceId": "evidence:termination-support", "kind": "supports", "coverage": "full" }],
+      "derivation": { "operation": "verify", "inputClaimVersionIds": [] }
+    },
+    "calculate": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:claim:calculate", "action": "claim-save",
+      "expectedClaimVersionId": null, "statement": "The difference between the two reported figures is 1.2 million USD.",
+      "basis": "derived-from-claims", "epistemicStatus": "supported", "reviewStatus": "accepted",
+      "proposition": { "numericValue": 1.2, "unit": "USD million" },
+      "evidenceRelations": [],
+      "derivation": { "operation": "calculate", "inputClaimVersionIds": ["claim:revenue:one", "claim:revenue:two"], "expression": "15.2 - 14.0", "rounding": { "mode": "half-up", "decimalPlaces": 1 } }
+    },
+    "artifact": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:artifact:one", "action": "artifact-create",
+      "artifactKind": "brief", "title": "Termination evidence brief", "claims": [{ "claimVersionId": "claim:termination:v1", "useKind": "conflict-disclosure" }]
+    },
+    "attest": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:attest:one", "action": "review-attest",
+      "artifactManifestId": "artifact-manifest:brief:v1", "attestation": "listed-evidence-reviewed"
+    },
+    "run": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:run:one", "action": "review-run", "artifactManifestId": "artifact-manifest:brief:v1"
+    },
+    "decide": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:decide:one", "action": "review-decide", "reviewResultId": "review:brief:v1",
+      "decision": "approved", "rationale": "Both conflicting source provisions are disclosed."
+    },
+    "publish": {
+      "schemaVersion": 1, "kind": "review-command", "expectedGeneration": 1,
+      "scopeVersionId": "scope:contract-review:v1", "idempotencyKey": "command:publish:one", "action": "artifact-publish",
+      "artifactManifestId": "artifact-manifest:brief:v1", "reviewResultId": "review:brief:v1", "humanReviewDecisionId": "human-review:brief:v1"
+    },
+    "empty": {
+      "schemaVersion": 1, "kind": "review-workspace", "conversationId": "conversation:review", "bindingId": "binding:review", "generation": 1,
+      "scope": null, "scopeOptions": [], "claims": [], "evidenceRelations": [], "derivations": [], "evidence": [], "artifacts": [], "reviews": [], "decisions": [], "truncated": false
+    },
+    "workspace": {
+      "schemaVersion": 1, "kind": "review-workspace", "conversationId": "conversation:review", "bindingId": "binding:review", "generation": 1,
+      "scope": {
+        "schemaVersion": 1, "scopeVersionId": "scope:contract-review:v1", "workspaceId": "workspace:demo", "investigationId": "investigation:contract-review", "version": 1,
+        "included": [{ "documentId": "document:agreement", "revisionId": "revision:agreement:v2", "role": "primary" }, { "documentId": "document:amendment", "revisionId": "revision:amendment:v1", "role": "primary" }],
+        "excluded": [], "locked": true, "createdBy": { "kind": "user", "actorId": "user:reviewer" }, "createdAt": "2026-08-31T10:00:00Z"
+      },
+      "scopeOptions": [{ "scopeVersionId": "scope:contract-review:v1", "version": 1, "sourceCount": 2, "current": true }],
+      "claims": { "$fixture": "ledger", "path": ["claims"] },
+      "evidenceRelations": { "$fixture": "ledger", "path": ["evidenceRelations"] },
+      "derivations": { "$fixture": "ledger", "path": ["derivations"] },
+      "evidence": [
+        { "evidenceId": "evidence:termination-support", "documentId": "document:agreement", "revisionId": "revision:agreement:v2", "physicalPage": 2, "sourceName": "Agreement.pdf", "preview": "Section 8.2 permits termination for convenience.", "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        { "evidenceId": "evidence:termination-refute", "documentId": "document:amendment", "revisionId": "revision:amendment:v1", "physicalPage": 1, "sourceName": "Amendment.pdf", "preview": "Neither party may terminate for convenience.", "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }
+      ],
+      "artifacts": [{ "$fixture": "artifacts", "path": ["brief"] }, { "$fixture": "artifacts", "path": ["matrix"] }],
+      "reviews": [{ "$fixture": "review", "path": [] }],
+      "decisions": [{ "schemaVersion": 1, "reviewDecisionId": "human-review:brief:v1", "workspaceId": "workspace:demo", "investigationId": "investigation:contract-review", "reviewResultId": "review:brief:v1", "decision": "approved", "decidedBy": { "kind": "user", "actorId": "user:reviewer" }, "decidedAt": "2026-08-31T10:05:30Z" }],
+      "truncated": false
+    },
+    "result": {
+      "schemaVersion": 1, "kind": "review-result", "conversationId": "conversation:review", "idempotencyKey": "command:claim:one",
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "result": { "$fixture": "m4", "path": ["claimRecordResult"] }
+    },
+    "focus": {
+      "schemaVersion": 1, "kind": "review-focus", "conversationId": "conversation:review", "scopeVersionId": "scope:answer:1", "evidenceId": "evidence:revenue-growth", "status": "resolved",
+      "locator": { "$fixture": "answer", "path": ["bases", "focus", "locator"] }, "physicalPage": 17, "exactText": "Revenue increased by 12%.",
+      "original": { "$fixture": "answer", "path": ["bases", "focus", "original"] }
+    }
+  },
+  "valid": [
+    { "name": "scope metadata carries complete source identities without admitting them to Pi", "base": "workspace", "set": [{ "path": ["scopeOptions", 0, "sourceRefs"], "value": [{ "documentId": "document:agreement", "revisionId": "revision:agreement:v2" }, { "documentId": "document:amendment", "revisionId": "revision:amendment:v1" }] }] },
+    { "name": "claim save uses evidence IDs without browser actor authority", "base": "claim" },
+    { "name": "calculate retains explicit inputs expression and rounding", "base": "calculate" },
+    { "name": "compare uses explicit input Claims without pretending to calculate", "base": "calculate", "set": [{ "path": ["derivation", "operation"], "value": "compare" }], "remove": [["derivation", "expression"], ["derivation", "rounding"]] },
+    { "name": "brief creation names immutable Claim uses", "base": "artifact" },
+    { "name": "matrix creation uses the same reviewable Claim identities", "base": "artifact", "set": [{ "path": ["artifactKind"], "value": "matrix" }] },
+    { "name": "attestation is explicit listed-evidence-reviewed", "base": "attest" },
+    { "name": "review run cannot choose a ruleset", "base": "run" },
+    { "name": "human review decision carries no actor field", "base": "decide" },
+    { "name": "human rejection is distinct from approval", "base": "decide", "set": [{ "path": ["decision"], "value": "rejected" }] },
+    { "name": "publish pins exact review and human decision identities", "base": "publish" },
+    { "name": "empty unscoped workbench contains no data", "base": "empty" },
+    { "name": "published Brief includes its pinned Review beside draft Matrix", "base": "workspace" },
+    { "name": "historical workbench selection is not a native-current declaration", "base": "workspace", "set": [{ "path": ["scopeOptions", 0, "current"], "value": false }] },
+    { "name": "workspace truncation remains explicit", "base": "workspace", "set": [{ "path": ["truncated"], "value": true }] },
+    { "name": "claim command result preserves original domain receipt", "base": "result" },
+    { "name": "artifact draft result preserves original domain receipt", "base": "result", "set": [{ "path": ["result"], "value": { "$fixture": "m4", "path": ["artifactDraftResult"] } }] },
+    { "name": "attestation result preserves original domain receipt", "base": "result", "set": [{ "path": ["result"], "value": { "$fixture": "m4", "path": ["conflictAssureResult"] } }] },
+    { "name": "review result preserves deterministic gates", "base": "result", "set": [{ "path": ["result"], "value": { "$fixture": "m4", "path": ["reviewRunResult"] } }] },
+    { "name": "human decision result preserves signer identity", "base": "result", "set": [{ "path": ["result"], "value": { "$fixture": "m4", "path": ["humanDecisionResult"] } }] },
+    { "name": "publication result preserves immutable manifest identity", "base": "result", "set": [{ "path": ["result"], "value": { "$fixture": "m4", "path": ["publishResult"] } }] },
+    { "name": "original PDF focus has exact document revision and physical page", "base": "focus" },
+    { "name": "page-only focus explicitly has no exact text", "base": "focus", "set": [{ "path": ["status"], "value": "page-only" }, { "path": ["exactText"], "value": null }] },
+    { "name": "ambiguous focus does not claim exact resolution", "base": "focus", "set": [{ "path": ["status"], "value": "ambiguous" }, { "path": ["exactText"], "value": null }] }
+  ],
+  "invalidShape": [
+    { "name": "scope source metadata cannot accept a file path", "base": "workspace", "set": [{ "path": ["scopeOptions", 0, "sourceRefs"], "value": [{ "documentId": "document:agreement", "revisionId": "revision:agreement:v2", "path": "/private.pdf" }] }] },
+    { "name": "claim cannot inject actor", "base": "claim", "set": [{ "path": ["actor"], "value": { "kind": "user", "actorId": "user:other" } }] },
+    { "name": "artifact cannot inject workspace", "base": "artifact", "set": [{ "path": ["workspaceId"], "value": "workspace:other" }] },
+    { "name": "attestation cannot impersonate assuredBy", "base": "attest", "set": [{ "path": ["assuredBy"], "value": { "kind": "user", "actorId": "user:other" } }] },
+    { "name": "review run cannot downgrade ruleset", "base": "run", "set": [{ "path": ["ruleset"], "value": { "name": "none", "version": "0", "configHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" } }] },
+    { "name": "review decision cannot inject signer", "base": "decide", "set": [{ "path": ["decidedBy"], "value": { "kind": "user", "actorId": "user:other" } }] },
+    { "name": "publication cannot inject publisher", "base": "publish", "set": [{ "path": ["publishedBy"], "value": { "kind": "system", "actorId": "system:override" } }] },
+    { "name": "review cannot bypass mandatory human policy", "base": "run", "set": [{ "path": ["signoffRequirement"], "value": "not-required" }] },
+    { "name": "unknown action rejected", "base": "run", "set": [{ "path": ["action"], "value": "publish-without-review" }] },
+    { "name": "generation zero rejected", "base": "claim", "set": [{ "path": ["expectedGeneration"], "value": 0 }] },
+    { "name": "claim cannot inject source-scope override into scope draft", "base": "claim", "set": [{ "path": ["claimScope"], "value": { "sourceScopeVersionId": "scope:other" } }] },
+    { "name": "profile object cannot stand in for evidence relation", "base": "claim", "set": [{ "path": ["evidenceRelations", 0], "value": { "profileId": "profile:user", "memoryVersionId": "memory:one", "preference": "concise" } }] },
+    { "name": "browser cannot supply raw Evidence content", "base": "claim", "set": [{ "path": ["evidenceRelations", 0, "content"], "value": { "text": "A preferred conclusion" } }] },
+    { "name": "derivation cannot supply model actor", "base": "calculate", "set": [{ "path": ["derivation", "actor"], "value": { "kind": "agent", "actorId": "agent:fake" } }] },
+    { "name": "duplicate calculation input IDs violate wire uniqueness", "base": "calculate", "set": [{ "path": ["derivation", "inputClaimVersionIds"], "value": ["claim:one", "claim:one"] }] },
+    { "name": "empty artifact Claim list rejected", "base": "artifact", "set": [{ "path": ["claims"], "value": [] }] },
+    { "name": "publication requires human decision ID", "base": "publish", "remove": [["humanReviewDecisionId"]] },
+    { "name": "result cannot be a request", "base": "result", "set": [{ "path": ["result"], "value": { "$fixture": "m4", "path": ["claimRecordRequest"] } }] },
+    { "name": "result hash must be exact SHA256 shape", "base": "result", "set": [{ "path": ["requestHash"], "value": "not-a-hash" }] },
+    { "name": "workspace cannot inject browser resource paths", "base": "workspace", "set": [{ "path": ["rootPath"], "value": "/private/workspace" }] },
+    { "name": "workspace evidence cannot be a personal profile", "base": "workspace", "set": [{ "path": ["evidence", 0], "value": { "profileId": "profile:other", "memoryVersionId": "memory:one", "value": "support this" } }] },
+    { "name": "focus cannot direct arbitrary local file access", "base": "focus", "set": [{ "path": ["original", "path"], "value": "/private.pdf" }] },
+    { "name": "focus physical page is one-based", "base": "focus", "set": [{ "path": ["physicalPage"], "value": 0 }] },
+    { "name": "attestation cannot mean all conflict search completed automatically", "base": "attest", "set": [{ "path": ["attestation"], "value": "all-conflicts-exhausted" }] }
+  ],
+  "invalidSemantic": [
+    { "name": "scope source metadata cannot omit identities from its declared count", "base": "workspace", "set": [{ "path": ["scopeOptions", 0, "sourceRefs"], "value": [] }], "codes": ["review-scope-sources"] },
+    { "name": "scope source metadata cannot duplicate document revisions", "base": "workspace", "set": [{ "path": ["scopeOptions", 0, "sourceRefs"], "value": [{ "documentId": "document:agreement", "revisionId": "revision:agreement:v2" }, { "documentId": "document:agreement", "revisionId": "revision:agreement:v2" }] }], "codes": ["review-scope-sources"] },
+    { "name": "blank Claim statement rejected", "base": "claim", "set": [{ "path": ["statement"], "value": " \n\t " }], "codes": ["review-statement"] },
+    { "name": "calculation requires expression", "base": "calculate", "remove": [["derivation", "expression"]], "codes": ["review-calculation"] },
+    { "name": "calculation expression cannot be whitespace", "base": "calculate", "set": [{ "path": ["derivation", "expression"], "value": "   " }], "codes": ["review-calculation"] },
+    { "name": "calculation requires rounding", "base": "calculate", "remove": [["derivation", "rounding"]], "codes": ["review-calculation"] },
+    { "name": "duplicate scoped evidence relations rejected", "base": "claim", "set": [{ "path": ["evidenceRelations", 1], "value": { "evidenceId": "evidence:termination-support", "kind": "supports", "coverage": "partial" } }], "codes": ["review-input-duplicate"] },
+    { "name": "document-supported Claim cannot omit Evidence references", "base": "claim", "set": [{ "path": ["evidenceRelations"], "value": [] }], "codes": ["review-input-missing"] },
+    { "name": "derived Claim cannot omit original Claim inputs", "base": "calculate", "set": [{ "path": ["derivation", "inputClaimVersionIds"], "value": [] }], "codes": ["review-input-missing"] },
+    { "name": "blank artifact title rejected", "base": "artifact", "set": [{ "path": ["title"], "value": "  " }], "codes": ["review-artifact-input"] },
+    { "name": "duplicate artifact Claim references rejected", "base": "artifact", "set": [{ "path": ["claims", 1], "value": { "claimVersionId": "claim:termination:v1", "useKind": "assertion" } }], "codes": ["review-artifact-input"] },
+    { "name": "workspace data requires selected scope", "base": "workspace", "set": [{ "path": ["scope"], "value": null }], "codes": ["review-unscoped-data"] },
+    { "name": "selected scope must exist in scope options", "base": "workspace", "set": [{ "path": ["scopeOptions"], "value": [] }], "codes": ["review-scope-missing"] },
+    { "name": "duplicate scope options rejected", "base": "workspace", "set": [{ "path": ["scopeOptions", 1], "value": { "scopeVersionId": "scope:contract-review:v1", "version": 1, "sourceCount": 2, "current": false } }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate Claim identities rejected", "base": "workspace", "set": [{ "path": ["claims", 1], "value": { "$fixture": "ledger", "path": ["claims", 0] } }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate evidence relation identities rejected", "base": "workspace", "set": [{ "path": ["evidenceRelations", 2], "value": { "$fixture": "ledger", "path": ["evidenceRelations", 0] } }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate derivation identities rejected", "base": "workspace", "set": [{ "path": ["derivations", 1], "value": { "$fixture": "ledger", "path": ["derivations", 0] } }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate Evidence display identities rejected", "base": "workspace", "set": [{ "path": ["evidence", 1, "evidenceId"], "value": "evidence:termination-support" }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate artifact identities rejected", "base": "workspace", "set": [{ "path": ["artifacts", 2], "value": { "$fixture": "artifacts", "path": ["matrix"] } }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate review identities rejected", "base": "workspace", "set": [{ "path": ["reviews", 1], "value": { "$fixture": "review", "path": [] } }], "codes": ["review-object-duplicate"] },
+    { "name": "duplicate human decision identities rejected", "base": "workspace", "set": [{ "path": ["decisions", 1], "value": { "$fixture": "m4", "path": ["humanDecisionResult", "reviewDecision"] } }], "codes": ["review-object-duplicate"] },
+    { "name": "Claim workspace must agree with selected scope owner", "base": "workspace", "set": [{ "path": ["claims", 0, "workspaceId"], "value": "workspace:other" }], "codes": ["review-owner"] },
+    { "name": "relation Investigation must agree with selected scope owner", "base": "workspace", "set": [{ "path": ["evidenceRelations", 0, "investigationId"], "value": "investigation:other" }], "codes": ["review-owner"] },
+    { "name": "Claim source scope must agree with workbench snapshot", "base": "workspace", "set": [{ "path": ["claims", 0, "scope", "sourceScopeVersionId"], "value": "scope:other" }], "codes": ["review-scope"] },
+    { "name": "draft Matrix must agree with workbench source scope", "base": "workspace", "set": [{ "path": ["artifacts", 1, "sourceScopeVersionId"], "value": "scope:other" }], "codes": ["review-scope"] },
+    { "name": "published Brief cannot omit its pinned Review", "base": "workspace", "set": [{ "path": ["reviews"], "value": [] }], "codes": ["review-object-integrity"] },
+    { "name": "invalid Claim version lineage rejected", "base": "workspace", "set": [{ "path": ["claims", 0, "version"], "value": 2 }, { "path": ["claims", 0, "previousClaimVersionId"], "value": "claim:termination:v1" }], "codes": ["review-object-integrity"] },
+    { "name": "inner result source scope must agree with returned Claim", "base": "result", "set": [{ "path": ["result", "scopeVersionId"], "value": "scope:other" }], "codes": ["review-result-integrity"] },
+    { "name": "inner result workspace must agree with returned Claim", "base": "result", "set": [{ "path": ["result", "workspaceId"], "value": "workspace:other" }], "codes": ["review-result-integrity"] },
+    { "name": "recorded Claim result cannot impersonate human via model actor", "base": "result", "set": [{ "path": ["result", "claim", "createdBy", "kind"], "value": "agent" }], "codes": ["review-result-integrity"] },
+    { "name": "original focus document must match locator", "base": "focus", "set": [{ "path": ["original", "documentId"], "value": "document:other" }], "codes": ["review-focus"] },
+    { "name": "original focus revision must match locator", "base": "focus", "set": [{ "path": ["original", "revisionId"], "value": "revision:other" }], "codes": ["review-focus"] },
+    { "name": "focus physical page must match original locator page", "base": "focus", "set": [{ "path": ["physicalPage"], "value": 18 }], "codes": ["review-focus"] },
+    { "name": "focus page cannot exceed original PDF page count", "base": "focus", "set": [{ "path": ["original", "pageCount"], "value": 16 }], "codes": ["review-focus"] },
+    { "name": "resolved focus requires exact text", "base": "focus", "set": [{ "path": ["exactText"], "value": null }], "codes": ["review-focus"] },
+    { "name": "resolved focus cannot highlight whitespace as evidence", "base": "focus", "set": [{ "path": ["exactText"], "value": " \n\t " }], "codes": ["review-focus"] },
+    { "name": "page-only focus cannot carry exact-text authority", "base": "focus", "set": [{ "path": ["status"], "value": "page-only" }], "codes": ["review-focus"] },
+    { "name": "ambiguous focus cannot claim an exact quote", "base": "focus", "set": [{ "path": ["status"], "value": "ambiguous" }], "codes": ["review-focus"] },
+    { "name": "focus ratio box must stay inside original page", "base": "focus", "set": [{ "path": ["locator", "selectors", 3, "x"], "value": 0.9 }], "codes": ["review-focus"] }
+  ],
+  "hostOnly": [
+    { "name": "opaque Memory ID is not canonical Evidence authority", "base": "claim", "set": [{ "path": ["evidenceRelations", 0, "evidenceId"], "value": "memory:preference:one" }], "authority": "Host must resolve original canonical Evidence in the exact authorized scope; opaque ID syntax does not grant it." },
+    { "name": "well-shaped unavailable source scope requires host denial", "base": "claim", "set": [{ "path": ["scopeVersionId"], "value": "scope:not-authorized" }], "authority": "Only host-owned immutable source authorization can admit this scope." },
+    { "name": "old generation requires actual current binding comparison", "base": "claim", "set": [{ "path": ["expectedGeneration"], "value": 2 }], "authority": "The parser does not know the current durable conversation generation." },
+    { "name": "result conversation requires pending request correlation", "base": "result", "set": [{ "path": ["conversationId"], "value": "conversation:other" }], "authority": "The caller must compare its tab conversation, exact body hash and durable idempotency receipt." },
+    { "name": "synchronous calculation syntax does not prove arithmetic", "base": "calculate", "set": [{ "path": ["derivation", "expression"], "value": "15.2 - 14.0 = 900" }], "authority": "Neither schema acceptance nor expression presence is deterministic arithmetic verification." },
+    { "name": "old human approval ID is not latest decision authority", "base": "publish", "set": [{ "path": ["humanReviewDecisionId"], "value": "human-review:old-approval" }], "authority": "Host must check latest verified journal decision for the pinned Review, never lexically sort IDs." }
+  ]
+}

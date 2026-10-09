@@ -1,0 +1,924 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/human-research.v1.json",
+  "title": "Human-authored research, independent verified PDF anchors, governed records and commit metadata v1",
+  "$defs": {
+    "id": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+    },
+    "hash": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+    },
+    "key": {
+      "type": "string",
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId",
+      "minLength": 16
+    },
+    "operationId": {
+      "type": "string",
+      "pattern": "^human-op:[a-f0-9]{64}$"
+    },
+    "recordType": {
+      "enum": [
+        "research-note",
+        "open-question",
+        "project-decision",
+        "research-policy"
+      ]
+    },
+    "recordStatus": {
+      "enum": [
+        "active",
+        "open",
+        "resolved",
+        "archived"
+      ]
+    },
+    "noteDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recordType",
+        "noteKind",
+        "body"
+      ],
+      "properties": {
+        "recordType": {
+          "const": "research-note"
+        },
+        "noteKind": {
+          "enum": [
+            "commentary",
+            "hypothesis",
+            "scratch"
+          ]
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "questionDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recordType",
+        "question"
+      ],
+      "properties": {
+        "recordType": {
+          "const": "open-question"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "draft": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/noteDraft"
+        },
+        {
+          "$ref": "#/$defs/questionDraft"
+        },
+        {
+          "$ref": "https://docatlas.dev/schemas/research-governance-rpc.v1.json#/$defs/draft"
+        }
+      ]
+    },
+    "record": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "origin",
+            "recordId",
+            "workspaceId",
+            "investigationId",
+            "sourceSessionId",
+            "sourceScopeVersionId",
+            "provenanceCommandId",
+            "commandHash",
+            "version",
+            "createdBy",
+            "createdAt",
+            "epistemicStatus",
+            "anchors",
+            "sourceIdentities",
+            "recordType",
+            "noteKind",
+            "body",
+            "status"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": 1
+            },
+            "origin": {
+              "const": "human-command"
+            },
+            "recordId": {
+              "$ref": "#/$defs/id"
+            },
+            "workspaceId": {
+              "$ref": "#/$defs/id"
+            },
+            "investigationId": {
+              "$ref": "#/$defs/id"
+            },
+            "sourceSessionId": {
+              "$ref": "#/$defs/id"
+            },
+            "sourceScopeVersionId": {
+              "$ref": "#/$defs/id"
+            },
+            "provenanceCommandId": {
+              "$ref": "#/$defs/operationId"
+            },
+            "commandHash": {
+              "$ref": "#/$defs/hash"
+            },
+            "version": {
+              "const": 1
+            },
+            "createdBy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "actorId"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "user"
+                },
+                "actorId": {
+                  "$ref": "#/$defs/id"
+                }
+              }
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "epistemicStatus": {
+              "const": "unverified"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 8,
+              "items": {
+                "$ref": "https://docatlas.dev/schemas/document-http.v1.json#/$defs/selectionItem"
+              }
+            },
+            "sourceIdentities": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 64,
+              "items": {
+                "$ref": "https://docatlas.dev/schemas/research-recall-rpc.v1.json#/$defs/sourceIdentity"
+              },
+              "uniqueItems": true
+            },
+            "recordType": {
+              "const": "research-note"
+            },
+            "noteKind": {
+              "enum": [
+                "commentary",
+                "hypothesis",
+                "scratch"
+              ]
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "\\S"
+            },
+            "status": {
+              "const": "active"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "origin",
+            "recordId",
+            "workspaceId",
+            "investigationId",
+            "sourceSessionId",
+            "sourceScopeVersionId",
+            "provenanceCommandId",
+            "commandHash",
+            "version",
+            "createdBy",
+            "createdAt",
+            "epistemicStatus",
+            "anchors",
+            "sourceIdentities",
+            "recordType",
+            "question",
+            "status"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": 1
+            },
+            "origin": {
+              "const": "human-command"
+            },
+            "recordId": {
+              "$ref": "#/$defs/id"
+            },
+            "workspaceId": {
+              "$ref": "#/$defs/id"
+            },
+            "investigationId": {
+              "$ref": "#/$defs/id"
+            },
+            "sourceSessionId": {
+              "$ref": "#/$defs/id"
+            },
+            "sourceScopeVersionId": {
+              "$ref": "#/$defs/id"
+            },
+            "provenanceCommandId": {
+              "$ref": "#/$defs/operationId"
+            },
+            "commandHash": {
+              "$ref": "#/$defs/hash"
+            },
+            "version": {
+              "const": 1
+            },
+            "createdBy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "actorId"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "user"
+                },
+                "actorId": {
+                  "$ref": "#/$defs/id"
+                }
+              }
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "epistemicStatus": {
+              "const": "unverified"
+            },
+            "anchors": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 8,
+              "items": {
+                "$ref": "https://docatlas.dev/schemas/document-http.v1.json#/$defs/selectionItem"
+              }
+            },
+            "sourceIdentities": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 64,
+              "items": {
+                "$ref": "https://docatlas.dev/schemas/research-recall-rpc.v1.json#/$defs/sourceIdentity"
+              },
+              "uniqueItems": true
+            },
+            "recordType": {
+              "const": "open-question"
+            },
+            "question": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "\\S"
+            },
+            "status": {
+              "const": "open"
+            }
+          }
+        }
+      ]
+    },
+    "command": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "expectedBindingId",
+            "expectedGeneration",
+            "kind",
+            "idempotencyKey",
+            "action",
+            "entry",
+            "sourceRefs",
+            "selections"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": 1
+            },
+            "expectedBindingId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedGeneration": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kind": {
+              "const": "human-research-command"
+            },
+            "idempotencyKey": {
+              "$ref": "#/$defs/key"
+            },
+            "action": {
+              "const": "create"
+            },
+            "entry": {
+              "$ref": "#/$defs/draft"
+            },
+            "sourceRefs": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 64,
+              "items": {
+                "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/sourceRef"
+              },
+              "uniqueItems": true
+            },
+            "selections": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 8,
+              "items": {
+                "$ref": "https://docatlas.dev/schemas/document-http.v1.json#/$defs/proposal"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "expectedBindingId",
+            "expectedGeneration",
+            "kind",
+            "idempotencyKey",
+            "recordId",
+            "expectedVersion",
+            "action",
+            "text"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": 1
+            },
+            "expectedBindingId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedGeneration": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kind": {
+              "const": "human-research-command"
+            },
+            "idempotencyKey": {
+              "$ref": "#/$defs/key"
+            },
+            "recordId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "action": {
+              "const": "edit"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000,
+              "pattern": "\\S"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "expectedBindingId",
+            "expectedGeneration",
+            "kind",
+            "idempotencyKey",
+            "recordId",
+            "expectedVersion",
+            "action"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": 1
+            },
+            "expectedBindingId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedGeneration": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kind": {
+              "const": "human-research-command"
+            },
+            "idempotencyKey": {
+              "$ref": "#/$defs/key"
+            },
+            "recordId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "action": {
+              "enum": [
+                "resolve",
+                "archive",
+                "delete"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "expectedBindingId",
+            "expectedGeneration",
+            "kind",
+            "idempotencyKey",
+            "recordId",
+            "expectedVersion",
+            "action",
+            "entry"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": 1
+            },
+            "expectedBindingId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedGeneration": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kind": {
+              "const": "human-research-command"
+            },
+            "idempotencyKey": {
+              "$ref": "#/$defs/key"
+            },
+            "recordId": {
+              "$ref": "#/$defs/id"
+            },
+            "expectedVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "action": {
+              "const": "revise"
+            },
+            "entry": {
+              "$ref": "https://docatlas.dev/schemas/research-governance-rpc.v1.json#/$defs/draft"
+            }
+          }
+        }
+      ]
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "status",
+        "operationId",
+        "idempotencyKey",
+        "requestHash",
+        "actorId",
+        "workspaceId",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "action",
+        "recordId",
+        "recordType",
+        "recordVersion",
+        "committedAt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "human-research-receipt"
+        },
+        "status": {
+          "const": "committed"
+        },
+        "operationId": {
+          "$ref": "#/$defs/operationId"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "requestHash": {
+          "$ref": "#/$defs/hash"
+        },
+        "actorId": {
+          "$ref": "#/$defs/id"
+        },
+        "workspaceId": {
+          "$ref": "#/$defs/id"
+        },
+        "conversationId": {
+          "$ref": "#/$defs/id"
+        },
+        "bindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "action": {
+          "enum": [
+            "create",
+            "edit",
+            "resolve",
+            "archive",
+            "delete",
+            "revise"
+          ]
+        },
+        "recordId": {
+          "$ref": "#/$defs/id"
+        },
+        "recordType": {
+          "$ref": "#/$defs/recordType"
+        },
+        "recordVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "committedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "binding",
+        "operationId",
+        "receipt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "human-research-operation"
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "operationId": {
+          "$ref": "#/$defs/operationId"
+        },
+        "receipt": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/receipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "view",
+        "recordTypes",
+        "maxItems",
+        "maxChars",
+        "kind",
+        "recordStatuses"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "view": {
+          "enum": [
+            "working",
+            "workspace"
+          ]
+        },
+        "recordTypes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/recordType"
+          },
+          "uniqueItems": true
+        },
+        "maxItems": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "maxChars": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12000
+        },
+        "cursor": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "human-research-query"
+        },
+        "recordStatuses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/recordStatus"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "workspace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "binding",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "human-research-workspace"
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/research-notebook-rpc.v1.json#/$defs/result"
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "binding",
+        "entry",
+        "useStatus"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "human-research-entry"
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "entry": {
+          "oneOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/product-research.v1.json#/$defs/entry"
+            },
+            {
+              "$ref": "https://docatlas.dev/schemas/research-governance-rpc.v1.json#/$defs/record"
+            }
+          ]
+        },
+        "useStatus": {
+          "enum": [
+            "unverified-lead",
+            "user-governance"
+          ]
+        }
+      }
+    },
+    "overlayQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "view",
+        "recordTypes",
+        "maxItems",
+        "maxChars",
+        "kind",
+        "source"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "view": {
+          "enum": [
+            "working",
+            "workspace"
+          ]
+        },
+        "recordTypes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/recordType"
+          },
+          "uniqueItems": true
+        },
+        "maxItems": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "maxChars": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 20000
+        },
+        "cursor": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "human-research-overlay-query"
+        },
+        "source": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/sourceRef"
+        },
+        "physicalPage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        }
+      }
+    },
+    "overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "binding",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "human-research-overlay"
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/tree-overlay-rpc.v1.json#/$defs/result"
+        },
+        "recordVersions": {
+          "type": "array", "maxItems": 100,
+          "items": {"type": "object", "additionalProperties": false, "required": ["recordId", "version", "authoredBy"], "properties": {
+            "recordId": {"$ref": "#/$defs/id"}, "version": {"type": "integer", "minimum": 1}, "authoredBy": {"enum": ["user", "agent"]}
+          }}
+        }
+      }
+    },
+    "focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "binding",
+        "focus"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "human-research-focus"
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "focus": {
+          "$ref": "https://docatlas.dev/schemas/product-research.v1.json#/$defs/focus"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/command"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    },
+    {
+      "$ref": "#/$defs/operation"
+    },
+    {
+      "$ref": "#/$defs/query"
+    },
+    {
+      "$ref": "#/$defs/workspace"
+    },
+    {
+      "$ref": "#/$defs/entry"
+    },
+    {
+      "$ref": "#/$defs/overlayQuery"
+    },
+    {
+      "$ref": "#/$defs/overlay"
+    },
+    {
+      "$ref": "#/$defs/focus"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-08T00:00:00Z",
+  "sources": [
+    {
+      "name": "pi",
+      "path": ".sources/pi",
+      "url": "https://github.com/earendil-works/pi.git",
+      "branch": "main",
+      "release": "v0.85.1",
+      "commit": "d981de1229ef899957bbe968bc8dcda02a21f477",
+      "role": "Pinned upstream Pi source; published npm 0.85.1 uses reviewed native-I/O/message-identity patch tracked separately in compat/pi; full product integration/security pending",
+      "package_manager": "npm upstream (source inspection only; product dependencies use workspace pnpm)"
+    },
+    {
+      "name": "deepseek-harness",
+      "path": ".sources/deepseek-harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "branch": "master",
+      "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+      "role": "Host runtime, Web UI, plugin contracts, and agent loop",
+      "package_manager": "pnpm"
+    },
+    {
+      "name": "docatlas-harness",
+      "path": ".sources/docatlas-harness",
+      "url": "https://github.com/microsoft/DocAtlas-Harness.git",
+      "branch": "main",
+      "commit": "6786a17aa14576c9bd47d70842e49e44d2901457",
+      "role": "Complete DocAtlas implementation: preprocessing, skills, agent loop, session persistence, tests, and TUI",
+      "package_manager": "uv"
+    },
+    {
+      "name": "pageindex",
+      "path": ".sources/pageindex",
+      "url": "https://github.com/VectifyAI/PageIndex.git",
+      "branch": "main",
+      "commit": "ae169566b3148792776531d987f543edcad92321",
+      "role": "Updated PageIndex Flash/local SDK reference; raw Flash unchanged from prior pin, typed stream and multimodal tool-result improvements reviewed",
+      "package_manager": "uv workspace policy (upstream build metadata uses Poetry)"
+    },
+    {
+      "name": "pageindex-js-sdk",
+      "path": ".sources/pageindex-js-sdk",
+      "url": "https://github.com/VectifyAI/pageindex-js-sdk.git",
+      "branch": "main",
+      "commit": "9925e8a347a9985424f4bb4e95718a75814b9b67",
+      "role": "Official PageIndex TypeScript API client and object model",
+      "package_manager": "pnpm"
+    },
+    {
+      "name": "pageindex-mcp",
+      "path": ".sources/pageindex-mcp",
+      "url": "https://github.com/VectifyAI/pageindex-mcp.git",
+      "branch": "master",
+      "commit": "bda946b4b6fffaaf6926aa8809bc62e0098f30e8",
+      "role": "Official tool-oriented PageIndex integration reference",
+      "package_manager": "pnpm"
+    },
+    {
+      "name": "chatindex",
+      "path": ".sources/chatindex",
+      "url": "https://github.com/VectifyAI/ChatIndex.git",
+      "branch": "main",
+      "commit": "7df2c9208db6f113f85a6c09295bec7f0f2114e7",
+      "role": "Lossless multi-resolution conversation-index reference; incremental updates are not implemented",
+      "package_manager": "legacy requirements.txt (source inspection only; adapt to uv before execution)"
+    },
+    {
+      "name": "dsh-worktable",
+      "path": ".sources/dsh-worktable",
+      "url": "https://github.com/Aisland-SJL/dsh-worktable.git",
+      "branch": "main",
+      "commit": "de4c5e2bf8404ae06dd1d1a97313bf832f0489b3",
+      "role": "Third-party DSH host/client plugin, overlay workbench, and upgrade-compatibility reference",
+      "package_manager": "npm"
+    },
+    {
+      "name": "dsh-native-memory",
+      "path": ".sources/dsh-native-memory",
+      "url": "https://github.com/highland0971/dsh-native-memory.git",
+      "branch": "main",
+      "commit": "9acd2ca676fc58a8c8d7a17e59f2d39fcb4c9b58",
+      "role": "DSH storage-domain, approval-gated memory, and cited session-log provenance reference",
+      "package_manager": "npm"
+    },
+    {
+      "name": "dsh-memory-spaces",
+      "path": ".sources/dsh-memory-spaces",
+      "url": "https://github.com/icearia0219/dsh-memory-spaces.git",
+      "branch": "main",
+      "commit": "ac8b58d087ff5a50e9a32030bd56cffe61da069d",
+      "role": "Human-governed memory sharing, version lifecycle, provenance, and compatibility reference",
+      "package_manager": "pnpm"
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 # DocAtlas: Long-Document Understanding as Mutable-State Interaction
 
+> **New, opt-in local Web application:** [Grounded Web setup](web/README.md)
+> adds original-PDF reading, verified citations and research workspaces alongside
+> the unchanged CLI/TUI below. It has an independent Node/Pi/sidecar environment;
+> it is a local beta, not a claim of benchmark-performance reproduction or public deployment.
+
 <p align="center">
   <strong>An open-source agent harness for evidence-grounded reasoning over long, multimodal documents.</strong>
 </p>

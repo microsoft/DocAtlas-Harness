@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/personalization-inspect.v1.json",
+  "title": "DocAtlas authenticated personalization inspection v1",
+  "description": "A bounded, path-free profile snapshot for user controls and why-used inspection. It never contains document Evidence or source text.",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "requestType", "profileId", "sessionId", "maxItems"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "personalization-inspect" },
+        "profileId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "maxItems": { "type": "integer", "minimum": 1, "maximum": 100 }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["memories", "decisions", "uses"],
+      "properties": {
+        "memories": { "type": "integer", "minimum": 0 },
+        "decisions": { "type": "integer", "minimum": 0 },
+        "uses": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "truncated": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["memories", "decisions", "uses"],
+      "properties": {
+        "memories": { "type": "boolean" },
+        "decisions": { "type": "boolean" },
+        "uses": { "type": "boolean" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "resultType", "profileId", "sessionId", "profileRevision",
+        "memories", "decisions", "uses", "counts", "truncated"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "personalization-inspection" },
+        "profileId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "profileRevision": { "type": "integer", "minimum": 0 },
+        "sessionPolicy": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memorySessionPolicy" },
+        "memories": {
+          "type": "array",
+          "maxItems": 100,
+          "items": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryVersion" }
+        },
+        "decisions": {
+          "type": "array",
+          "maxItems": 100,
+          "items": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/personalizationDecision" }
+        },
+        "uses": {
+          "type": "array",
+          "maxItems": 100,
+          "items": { "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryUse" }
+        },
+        "counts": { "$ref": "#/$defs/counts" },
+        "truncated": { "$ref": "#/$defs/truncated" }
+      }
+    }
+  }
+}

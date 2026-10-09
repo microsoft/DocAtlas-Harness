@@ -1,0 +1,25 @@
+.version-history { color: var(--ink); font-size: 13px; line-height: 1.7; }
+.version-history h3 { margin: 0 0 9px; font-size: 15px; }
+.version-history p, .version-history small, .version-history code { overflow-wrap: anywhere; }
+.version-history button { min-height: 40px; }
+.version-history button:disabled { opacity: .5; cursor: not-allowed; }
+.version-history :focus-visible { outline: 2px solid var(--accent, #53715d); outline-offset: 3px; }
+.version-boundary { margin-top: 0; padding: 12px 14px; border: 1px solid #dce5dc; border-radius: 9px; background: #f3f6f0; }
+.version-notice, .version-pending { padding: 12px; border: 1px solid #e4d7bc; border-radius: 8px; background: #fbf7ee; color: #735c32; }
+.version-pending { margin: 15px 0; }
+.version-pending p { margin: 7px 0; }
+.version-pending code { display: block; font-size: 11px; }
+.version-pending summary { cursor: pointer; }
+.version-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; }
+.version-muted, .version-history small { color: var(--muted); font-size: 11px; }
+.version-upload, .version-list { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.version-upload .primary-button { display: block; margin-top: 14px; }
+.version-list article { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.version-list header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px; }
+.version-list header strong { overflow-wrap: anywhere; }
+.version-list header span { color: var(--muted); font-size: 11px; }
+.version-id { margin: 7px 0; font-size: 11px; color: var(--muted); }
+.version-source { display: flex; align-items: flex-start; gap: 8px; margin: 11px 0; }
+.version-source input { margin-top: 5px; accent-color: var(--accent, #53715d); }
+.version-job { color: var(--muted); font-size: 12px; }
+@media (max-width: 760px) { .version-history button { min-height: 44px; } .version-actions { gap: 6px 10px; } }

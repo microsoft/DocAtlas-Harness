@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/research-lifecycle-rpc.v1.json",
+  "title": "DocAtlas authenticated Research record lifecycle RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "requestType", "sessionId", "workspaceId", "investigationId",
+        "scopeVersionId", "recordId", "expectedVersion", "idempotencyKey", "action"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "research-record-lifecycle" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "expectedVersion": { "type": "integer", "minimum": 1 },
+        "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "action": { "type": "string", "enum": ["edit", "resolve", "archive", "delete"] },
+        "text": { "type": "string", "minLength": 1, "maxLength": 8000 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "action": { "const": "edit" } }, "required": ["action"] },
+          "then": { "properties": { "text": {} }, "required": ["text"] },
+          "else": { "properties": { "text": false } }
+        }
+      ]
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "recordId", "workspaceId", "investigationId", "recordType",
+        "version", "previousVersion", "status", "epistemicStatus", "updatedBy", "updatedAt"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "recordType": { "type": "string", "enum": ["research-note", "open-question"] },
+        "version": { "type": "integer", "minimum": 2 },
+        "previousVersion": { "type": "integer", "minimum": 1 },
+        "status": { "type": "string", "enum": ["active", "open", "resolved", "archived", "deleted"] },
+        "epistemicStatus": { "const": "unverified" },
+        "text": { "type": "string", "minLength": 1, "maxLength": 8000 },
+        "updatedBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+        "updatedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "deleted" } }, "required": ["status"] },
+          "then": { "properties": { "text": false } },
+          "else": { "properties": { "text": {} }, "required": ["text"] }
+        }
+      ]
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "resultType", "status", "state"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "research-record-lifecycle" },
+        "status": { "type": "string", "enum": ["updated", "replayed"] },
+        "state": { "$ref": "#/$defs/state" }
+      }
+    }
+  }
+}

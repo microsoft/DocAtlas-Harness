@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-library.v1.json",
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "expectedGeneration",
+        "idempotencyKey",
+        "uploadId",
+        "targetDocumentId",
+        "expectedCurrentRevisionId"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "revision-import"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId",
+          "minLength": 16
+        },
+        "uploadId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "targetDocumentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "expectedCurrentRevisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        }
+      }
+    },
+    "original": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "documentId",
+        "revisionId",
+        "name",
+        "contentHash",
+        "byteLength",
+        "pageCount"
+      ],
+      "properties": {
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "revisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 26214400
+        },
+        "pageCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "documentId",
+        "revisionId",
+        "representationId",
+        "representationContentHash"
+      ],
+      "properties": {
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "revisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "representationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "representationContentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/command"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "request",
+        "requestHash",
+        "job"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "revision-import-state"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "bindingId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "request": {
+          "$ref": "#/$defs/command"
+        },
+        "requestHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "job": {
+          "anyOf": [
+            {
+              "type": "object",
+              "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/jobResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "documentId",
+        "currentRevisionId",
+        "versions",
+        "nextCursor",
+        "truncated"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "revision-history"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "bindingId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "currentRevisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "versions": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "revision",
+              "source",
+              "original"
+            ],
+            "properties": {
+              "revision": {
+                "$ref": "https://docatlas.dev/schemas/document-revision.v1.json"
+              },
+              "source": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/source"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "original": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/original"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      }
+    }
+  ]
+}

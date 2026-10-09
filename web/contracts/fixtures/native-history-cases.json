@@ -1,0 +1,323 @@
+{
+  "invalidShape": [
+    {
+      "name": "unknown native action",
+      "contract": "native-control",
+      "index": 0,
+      "path": [
+        "kind"
+      ],
+      "value": "set-provider"
+    },
+    {
+      "name": "unknown reasoning value",
+      "contract": "native-control",
+      "index": 0,
+      "path": [
+        "level"
+      ],
+      "value": "ultra"
+    },
+    {
+      "name": "browser endpoint is forbidden",
+      "contract": "native-control",
+      "index": 1,
+      "path": [
+        "endpoint"
+      ],
+      "value": "https://private.invalid"
+    },
+    {
+      "name": "native filename not public",
+      "contract": "native-control",
+      "index": 3,
+      "path": [
+        "head",
+        "file"
+      ],
+      "value": "/private/session.jsonl"
+    },
+    {
+      "name": "unsafe native integer",
+      "contract": "native-control",
+      "index": 3,
+      "path": [
+        "head",
+        "byteLength"
+      ],
+      "value": 67108865
+    },
+    {
+      "name": "unknown native queue mode",
+      "contract": "native-control",
+      "index": 2,
+      "path": [
+        "mode"
+      ],
+      "value": "concurrent"
+    },
+    {
+      "name": "short command key",
+      "contract": "native-control",
+      "index": 6,
+      "path": [
+        "idempotencyKey"
+      ],
+      "value": "x"
+    },
+    {
+      "name": "empty capability levels",
+      "contract": "native-control",
+      "index": 3,
+      "path": [
+        "thinkingLevels"
+      ],
+      "value": []
+    },
+    {
+      "name": "model secret forbidden",
+      "contract": "native-control",
+      "index": 3,
+      "path": [
+        "models",
+        0,
+        "apiKey"
+      ],
+      "value": "fixture-not-a-secret"
+    },
+    {
+      "name": "missing display hash",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        0,
+        "nativeTextHash"
+      ],
+      "remove": true
+    },
+    {
+      "name": "raw history filename forbidden",
+      "contract": "product-history",
+      "index": 0,
+      "path": [
+        "file"
+      ],
+      "value": "/private/session.jsonl"
+    },
+    {
+      "name": "raw entry as page cursor forbidden",
+      "contract": "product-history",
+      "index": 0,
+      "path": [
+        "cursor"
+      ],
+      "value": "../../session.jsonl"
+    },
+    {
+      "name": "history generation invalid",
+      "contract": "product-history",
+      "index": 0,
+      "path": [
+        "expectedGeneration"
+      ],
+      "value": 0
+    },
+    {
+      "name": "unbounded history message",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        0,
+        "text"
+      ],
+      "repeat": 65537
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "native command session drift",
+      "contract": "native-control",
+      "index": 6,
+      "path": [
+        "runtimeSessionId"
+      ],
+      "value": "session:other"
+    },
+    {
+      "name": "operation proof required",
+      "contract": "native-control",
+      "index": 7,
+      "path": [
+        "result"
+      ],
+      "value": null
+    },
+    {
+      "name": "failure must have no success proof",
+      "contract": "native-control",
+      "index": 7,
+      "path": [
+        "state"
+      ],
+      "value": "failed"
+    },
+    {
+      "name": "request must match receipt binding",
+      "contract": "native-control",
+      "index": 7,
+      "path": [
+        "request",
+        "expectedGeneration"
+      ],
+      "value": 2
+    },
+    {
+      "name": "matching value not historical proof",
+      "contract": "native-control",
+      "index": 7,
+      "path": [
+        "result",
+        "beforeHead",
+        "transcriptHash"
+      ],
+      "value": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    {
+      "name": "commit must be the prefix leaf",
+      "contract": "native-control",
+      "index": 7,
+      "path": [
+        "result",
+        "markerEntryId"
+      ],
+      "value": "entry:other"
+    },
+    {
+      "name": "proof must advance native bytes",
+      "contract": "native-control",
+      "index": 7,
+      "path": [
+        "result",
+        "afterHead",
+        "byteLength"
+      ],
+      "value": 210
+    },
+    {
+      "name": "inspect native session must match binding",
+      "contract": "native-control",
+      "index": 8,
+      "path": [
+        "state",
+        "head",
+        "sessionId"
+      ],
+      "value": "session:other"
+    },
+    {
+      "name": "configured model must be allowlisted",
+      "contract": "native-control",
+      "index": 3,
+      "path": [
+        "configuration",
+        "model",
+        "id"
+      ],
+      "value": "other"
+    },
+    {
+      "name": "pending error must be absent",
+      "contract": "native-control",
+      "index": 9,
+      "path": [
+        "errorCode"
+      ],
+      "value": "execution-interrupted"
+    },
+    {
+      "name": "raw prepared user content is not display input",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        0,
+        "displayOrigin"
+      ],
+      "value": "native"
+    },
+    {
+      "name": "unavailable user input must be empty",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        0,
+        "displayOrigin"
+      ],
+      "value": "unavailable"
+    },
+    {
+      "name": "user original is never partial",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        0,
+        "truncated"
+      ],
+      "value": true
+    },
+    {
+      "name": "assistant display must stay native",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        1,
+        "displayOrigin"
+      ],
+      "value": "submission"
+    },
+    {
+      "name": "cursor must agree with hasEarlier",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "hasEarlier"
+      ],
+      "value": false
+    },
+    {
+      "name": "checkpoint session drift",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "checkpoint",
+        "runtimeSessionId"
+      ],
+      "value": "session:other"
+    },
+    {
+      "name": "duplicate history ID",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "messages",
+        1,
+        "entryId"
+      ],
+      "value": "message:user"
+    },
+    {
+      "name": "empty head cannot have messages",
+      "contract": "product-history",
+      "index": 1,
+      "path": [
+        "checkpoint"
+      ],
+      "value": null
+    }
+  ]
+}

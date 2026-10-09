@@ -1,0 +1,26 @@
+.human-research { color: var(--ink); font-size: 13px; line-height: 1.8; }
+.human-research h3 { font-size: 15px; margin: 0 0 10px; }
+.human-research label { display: grid; gap: 6px; margin: 12px 0; }
+.human-research :is(input:not([type=checkbox]),textarea,select) { width: 100%; padding: 10px; color: var(--ink); background: white; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+.human-research textarea { resize: vertical; }
+.human-research :is(code,pre) { overflow-wrap: anywhere; white-space: pre-wrap; font-size: 11px; }
+.human-research :is(button,summary) { cursor: pointer; }
+.human-research button { min-height: 40px; }
+.human-research .human-check { display: flex; align-items: flex-start; gap: 8px; }
+.human-check input { margin-top: 7px; }
+.human-muted,.human-research small { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.human-notice { padding: 12px; border: 1px solid #e3d6bb; border-radius: 10px; background: #faf7ee; overflow-wrap: anywhere; }
+.human-toolbar,.human-actions { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.human-toolbar { margin: 16px 0; }
+.human-actions button:not(.primary-button),.human-overlay button,.human-notice button { padding: 8px; color: var(--accent); text-decoration: underline; }
+.human-editor,.human-overlay { margin: 20px 0; padding: 18px 0; border-block: 1px solid var(--line); }
+.human-filters { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+.human-records article,.human-overlay article { padding: 15px 0; border-bottom: 1px solid var(--line); }
+.human-records header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.human-records header span { color: var(--muted); }
+.human-records p { margin: 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.human-records .text-action,.human-source-links button { display: block; margin-top: 8px; }
+.human-selections blockquote { margin: 12px 0 4px; padding-left: 12px; border-left: 2px solid #d6ba78; white-space: pre-wrap; overflow-wrap: anywhere; }
+.human-selections button { display: block; color: var(--accent); }
+.live-pane-selection { flex-wrap: wrap; gap: 8px; }
+@media (max-width:760px) { .human-research :is(input,textarea,select) { font-size: 16px; } .human-research button { min-height: 44px; } .human-filters { grid-template-columns: 1fr; } }

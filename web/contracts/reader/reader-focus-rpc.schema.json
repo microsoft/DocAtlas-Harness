@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/reader-focus-rpc.v1.json",
+  "title": "DocAtlas authenticated reader focus RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "requestType",
+        "sessionId",
+        "workspaceId",
+        "focusId",
+        "locator"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "reader-focus-resolve" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "focusId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "locator": { "$ref": "https://docatlas.dev/schemas/document-locator.v1.json" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "resultType",
+        "workspaceId",
+        "focusId",
+        "access",
+        "resolution"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "reader-focus-resolution" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "focusId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "access": { "type": "string", "enum": ["source-scope", "library", "both"] },
+        "resolution": { "$ref": "https://docatlas.dev/schemas/sidecar-document-rpc.v1.json#/$defs/resolveResult" },
+        "document": { "$ref": "https://docatlas.dev/schemas/library-document.v1.json" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "access": { "enum": ["library", "both"] } },
+            "required": ["access"]
+          },
+          "then": {
+            "required": ["document"],
+            "properties": { "document": true }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.question-context-anchor { min-height: 1px; }
+.question-context-card { margin: 0 0 12px; padding: 10px 12px; border: 1px solid #dbe5ec; border-radius: 10px; background: #f8fafc; color: #4c6275; max-width: 100%; }
+.question-context-heading { display: flex; width: 100%; align-items: center; gap: 7px; text-align: left; font-size: 11px; font-weight: 500; min-height: 24px; }
+.question-context-heading > small { margin-left: auto; color: #65778a; font-size: 10px; font-weight: 400; }
+.question-context-heading > svg:last-child { transition: transform 140ms ease-out; }
+.question-context-passages { padding-top: 8px; }
+.question-context-passage + .question-context-passage { border-top: 1px solid #e0e7ed; margin-top: 10px; padding-top: 9px; }
+.question-context-source { display: flex; align-items: center; width: 100%; gap: 6px; color: #476b88; text-align: left; font-size: 11px; min-height: 28px; }
+.question-context-source > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.question-context-source > small { white-space: nowrap; font-size: 10px; }
+.question-context-source > svg:last-child { margin-left: auto; flex-shrink: 0; }
+.question-context-quote { margin: 5px 0 0; padding-left: 10px; border-left: 2px solid #bdcdda; white-space: pre-wrap; overflow-wrap: anywhere; color: #526676; font-size: 12px; line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-weight: 400; }
+.question-context-quote.is-expanded { display: block; }
+.question-context-expand { display: block; margin: 5px 0 0; padding: 3px 0; color: #476b88; font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+.question-context-stage { display: block; margin-top: 6px; color: #65778a; font-size: 10px; }
+.is-answer-context { background: transparent; border-color: transparent; padding: 0; margin: -2px 0 14px; }
+.is-answer-context .question-context-heading { width: auto; max-width: 100%; gap: 8px; color: #526b7f; }
+.question-context-teaser { flex: 1; min-width: 0; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; color: #617183; }
+.is-answer-context .question-context-passages { border: 1px solid #e0e7ed; border-radius: 9px; margin-top: 7px; padding: 10px 12px; background: #f8fafc; }
+.question-context-error, .question-context-unavailable { display: flex; align-items: center; gap: 5px; font-size: 11px; line-height: 1.6; color: #746d63; margin: 6px 0; }
+@media (max-width: 760px) { .question-context-source, .question-context-heading { min-height: 36px; }.question-context-expand { min-height: 30px; }.question-context-quote { font-size: 12px; }.question-context-card { padding: 8px 10px; }.is-answer-context { padding: 0; } }
+@media (prefers-reduced-motion: reduce) { .question-context-heading > svg:last-child { transition: none; } }

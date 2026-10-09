@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-answer.v1.json",
+  "title": "DocAtlas read-only answer and original-PDF citation focus responses v1",
+  "$defs": {
+    "answer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "conversationId",
+        "messageId",
+        "kind",
+        "status",
+        "nativeTextHash",
+        "manifest"
+      ],
+      "properties": {
+        "origin": { "$ref": "https://docatlas.dev/schemas/native-lineage.v1.json#/$defs/origin" },
+        "schemaVersion": {
+          "const": 1
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "messageId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "kind": {
+          "const": "answer-response"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "nativeTextHash": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "manifest": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/answer-manifest.v1.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "nativeTextHash": {
+                "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+              },
+              "manifest": {
+                "$ref": "https://docatlas.dev/schemas/answer-manifest.v1.json"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "nativeTextHash": {
+                "type": "null"
+              },
+              "manifest": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "conversationId",
+        "messageId",
+        "kind",
+        "citationId",
+        "status",
+        "locator",
+        "physicalPage",
+        "exactText",
+        "original"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "messageId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "kind": {
+          "const": "citation-focus"
+        },
+        "citationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "status": {
+          "enum": [
+            "resolved",
+            "page-only",
+            "ambiguous"
+          ]
+        },
+        "locator": {
+          "$ref": "https://docatlas.dev/schemas/document-locator.v1.json"
+        },
+        "physicalPage": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "exactText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "original": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "documentId",
+            "revisionId",
+            "name",
+            "contentHash",
+            "byteLength",
+            "pageCount"
+          ],
+          "properties": {
+            "documentId": {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            "revisionId": {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            "name": {
+              "$ref": "https://docatlas.dev/schemas/document-http.v1.json#/$defs/name"
+            },
+            "contentHash": {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+            },
+            "byteLength": {
+              "$ref": "https://docatlas.dev/schemas/document-http.v1.json#/$defs/bytes"
+            },
+            "pageCount": {
+              "$ref": "https://docatlas.dev/schemas/document-revision.v1.json#/properties/pageCount"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "resolved"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "exactText": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20000
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "exactText": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/answer"
+    },
+    {
+      "$ref": "#/$defs/focus"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Retain Markdown hard breaks and historical source-document EOF formatting.
+web/**/*.md whitespace=-blank-at-eol,-blank-at-eof
+# This generated vendor file is accepted by exact upstream/local-patch hashes.
+web/python/docatlas-sidecar/src/docatlas_dsh_sidecar/_vendor/pageindex_flash/deterministic.py whitespace=-blank-at-eof

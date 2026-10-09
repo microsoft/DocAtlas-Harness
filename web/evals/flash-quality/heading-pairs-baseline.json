@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "corpus": "generated-heading-pairs.v1",
+  "observedAt": "2026-09-09",
+  "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+  "localNumberedHeadingPatchApplied": false,
+  "modelCalls": 0,
+  "fontSha256": "acb6440a713d880a13a21b468ba7cd43f5a2b2934972e51be791c880730777b8",
+  "note": "Observed real isolated Flash raw output over generated PDFs; not model or real-world corpus quality. Fixture hashes must remain unchanged for the before/after comparison.",
+  "results": [
+    {
+      "case": "no-cover-repeated",
+      "sourceHash": "da1608f6d9d81099bb8b5b5a32b070ea960fb7451a1227ddf18fccdda5b36ddf",
+      "pages": 8,
+      "coveredSections": 0,
+      "expectedSections": 4
+    },
+    {
+      "case": "cover-repeated",
+      "sourceHash": "7d075418c1279b921a87b89444bba9f00d8731cbe8facddcb64ef01ac7f480f2",
+      "pages": 9,
+      "coveredSections": 4,
+      "expectedSections": 4
+    },
+    {
+      "case": "no-cover-distinct",
+      "sourceHash": "3920938e36ae8870898fdf691957ef56b2a8edfb6a29719e24af124416819c07",
+      "pages": 8,
+      "coveredSections": 3,
+      "expectedSections": 4
+    },
+    {
+      "case": "cover-distinct",
+      "sourceHash": "c5e6d9d819d07a74e6b3d3b8566059282173ac80eaa14b7d3b0d410b8c3f61a6",
+      "pages": 9,
+      "coveredSections": 4,
+      "expectedSections": 4
+    }
+  ]
+}

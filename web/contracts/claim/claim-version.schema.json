@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/claim-version.v1.json",
+  "title": "DocAtlas immutable claim version v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "claimVersionId",
+    "claimChainId",
+    "version",
+    "workspaceId",
+    "investigationId",
+    "statement",
+    "basis",
+    "scope",
+    "epistemicStatus",
+    "reviewStatus",
+    "lifecycleStatus",
+    "createdBy",
+    "createdAt",
+    "provenanceActivityId"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "claimVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "claimChainId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "version": { "type": "integer", "minimum": 1 },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "statement": { "type": "string", "minLength": 1, "maxLength": 8000, "pattern": "\\S" },
+    "basis": {
+      "type": "string",
+      "enum": [
+        "document-supported",
+        "derived-from-claims",
+        "user-assumption",
+        "project-decision",
+        "external-knowledge"
+      ]
+    },
+    "proposition": { "$ref": "#/$defs/proposition" },
+    "scope": { "$ref": "#/$defs/claimScope" },
+    "epistemicStatus": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "supported",
+        "partially-supported",
+        "contested",
+        "contradicted",
+        "unresolved",
+        "stale",
+        "withdrawn"
+      ]
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": ["unreviewed", "accepted", "needs-changes", "rejected"]
+    },
+    "lifecycleStatus": {
+      "type": "string",
+      "enum": ["current", "superseded", "archived"]
+    },
+    "previousClaimVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "supersededByClaimVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "provenanceActivityId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "version": { "const": 1 } }, "required": ["version"] },
+      "then": { "properties": { "previousClaimVersionId": false } },
+      "else": {
+        "properties": { "previousClaimVersionId": {} },
+        "required": ["previousClaimVersionId"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "lifecycleStatus": { "const": "superseded" } },
+        "required": ["lifecycleStatus"]
+      },
+      "then": {
+        "properties": { "supersededByClaimVersionId": {} },
+        "required": ["supersededByClaimVersionId"]
+      },
+      "else": { "properties": { "supersededByClaimVersionId": false } }
+    }
+  ],
+  "$defs": {
+    "proposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "subject": { "type": "string", "minLength": 1, "maxLength": 1000, "pattern": "\\S" },
+        "predicate": { "type": "string", "minLength": 1, "maxLength": 1000, "pattern": "\\S" },
+        "object": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" }
+          ]
+        },
+        "numericValue": { "type": "number" },
+        "unit": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "\\S" },
+        "polarity": { "type": "string", "enum": ["positive", "negative"] },
+        "modality": {
+          "type": "string",
+          "enum": ["asserted", "estimated", "possible", "required", "prohibited"]
+        }
+      }
+    },
+    "claimScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceScopeVersionId"],
+      "properties": {
+        "sourceScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "entityIds": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "jurisdiction": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "\\S" },
+        "section": { "type": "string", "minLength": 1, "maxLength": 1000, "pattern": "\\S" },
+        "validTime": { "$ref": "#/$defs/validTime" }
+      }
+    },
+    "validTime": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "from": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+        "until": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      }
+    }
+  }
+}

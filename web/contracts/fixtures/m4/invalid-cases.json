@@ -1,0 +1,40 @@
+{
+  "format": "docatlas-json-pointer-set-cases-v1",
+  "cases": [
+    {
+      "schemaName": "claim-version",
+      "baseFixture": "claim-ledger.json#/claims/0",
+      "description": "version one cannot name a predecessor",
+      "path": "/previousClaimVersionId",
+      "value": "claim:termination:v0"
+    },
+    {
+      "schemaName": "evidence-relation",
+      "baseFixture": "claim-ledger.json#/evidenceRelations/0",
+      "description": "a machine proposal cannot retain human review fields",
+      "path": "/reviewStatus",
+      "value": "machine-proposed"
+    },
+    {
+      "schemaName": "derivation-activity",
+      "baseFixture": "claim-ledger.json#/derivations/0",
+      "description": "calculate requires expression and rounding",
+      "path": "/operation",
+      "value": "calculate"
+    },
+    {
+      "schemaName": "review-result",
+      "baseFixture": "review-result.json#",
+      "description": "the five gates have a fixed order",
+      "path": "/gates/0/gateId",
+      "value": "G1-grounding"
+    },
+    {
+      "schemaName": "artifact-manifest",
+      "baseFixture": "artifacts.json#/brief",
+      "description": "a draft cannot retain a publication record",
+      "path": "/status",
+      "value": "draft"
+    }
+  ]
+}

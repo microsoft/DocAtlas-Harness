@@ -1,0 +1,645 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-control.v1.json",
+  "title": "DocAtlas product binding, durable submission and run control v1",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/binding"
+    },
+    {
+      "$ref": "#/$defs/submission"
+    },
+    {
+      "$ref": "#/$defs/prepared"
+    },
+    {
+      "$ref": "#/$defs/checkpoint"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    },
+    {
+      "$ref": "#/$defs/transition"
+    }
+  ],
+  "$defs": {
+    "sourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "documentId",
+        "revisionId"
+      ],
+      "properties": {
+        "documentId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "revisionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "bindingId",
+        "conversationId",
+        "workspaceId",
+        "ownerActorId",
+        "investigationId",
+        "runtimeSessionId",
+        "branchEntryId",
+        "generation",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "binding"
+        },
+        "bindingId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "workspaceId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "ownerActorId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "investigationId": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "runtimeSessionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "branchEntryId": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp"
+        },
+        "updatedAt": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp"
+        }
+      }
+    },
+    "documentSearch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recipe", "strategy"],
+      "properties": {
+        "recipe": { "const": "tree-search.v1" },
+        "strategy": { "enum": ["fts", "tree", "combined"] }
+      }
+    },
+    "submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "idempotencyKey",
+        "expectedGeneration",
+        "mode",
+        "text",
+        "sourceRefs",
+        "selectionContextIds"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "submission"
+        },
+        "documentSearch": { "$ref": "#/$defs/documentSearch" },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId",
+          "minLength": 16
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "mode": {
+          "enum": [
+            "prompt",
+            "steer",
+            "follow-up"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6000
+        },
+        "sourceRefs": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sourceRef"
+          }
+        },
+        "selectionContextIds": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+          }
+        }
+      }
+    },
+    "prepared": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "submissionId",
+        "requestHash",
+        "bindingGeneration",
+        "scopeVersionId",
+        "sourceRefs",
+        "selectionContextIds"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "prepared"
+        },
+        "submissionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "bindingGeneration": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "scopeVersionId": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sourceRef"
+          }
+        },
+        "selectionContextIds": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+          }
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "submissionId",
+        "requestHash",
+        "runtimeSessionId",
+        "userEntryId",
+        "leafEntryId",
+        "transcriptHash",
+        "byteLength",
+        "entryCount",
+        "settledAt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "pi-checkpoint"
+        },
+        "submissionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "runtimeSessionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "userEntryId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "leafEntryId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "transcriptHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "entryCount": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 9007199254740991
+        },
+        "settledAt": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp"
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "submissionId",
+        "runId",
+        "conversationId",
+        "generation",
+        "mode",
+        "state",
+        "version",
+        "requestHash",
+        "createdAt",
+        "updatedAt",
+        "payloadRetained"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "run-receipt"
+        },
+        "submissionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "runId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "mode": {
+          "enum": [
+            "prompt",
+            "steer",
+            "follow-up"
+          ]
+        },
+        "state": {
+          "enum": [
+            "accepted",
+            "preparing",
+            "ready",
+            "dispatching",
+            "running",
+            "cancelling",
+            "completed",
+            "failed",
+            "cancelled",
+            "outcome-unknown"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "createdAt": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp"
+        },
+        "updatedAt": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp"
+        },
+        "payloadRetained": {
+          "type": "boolean"
+        },
+        "errorCode": {
+          "enum": [
+            "preparation-failed",
+            "runtime-rejected",
+            "runtime-failed",
+            "execution-interrupted",
+            "checkpoint-failed",
+            "stale-binding",
+            "selection-invalid",
+            "source-unavailable",
+            "internal"
+          ]
+        },
+        "checkpoint": {
+          "$ref": "#/$defs/checkpoint"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "completed"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "checkpoint"
+            ],
+            "not": {
+              "required": [
+                "errorCode"
+              ],
+              "properties": {
+                "errorCode": {}
+              }
+            },
+            "properties": {
+              "checkpoint": {}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "failed",
+                  "outcome-unknown"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "errorCode"
+            ],
+            "properties": {
+              "errorCode": {}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "payloadRetained": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "state": {
+                "const": "completed"
+              },
+              "checkpoint": {}
+            },
+            "required": [
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "checkpoint"
+            ],
+            "properties": {
+              "checkpoint": {}
+            }
+          },
+          "then": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "completed",
+                  "failed",
+                  "cancelled"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "run-transition"
+        },
+        "from": {
+          "enum": [
+            "accepted",
+            "preparing",
+            "ready",
+            "dispatching",
+            "running",
+            "cancelling",
+            "completed",
+            "failed",
+            "cancelled",
+            "outcome-unknown"
+          ]
+        },
+        "to": {
+          "enum": [
+            "accepted",
+            "preparing",
+            "ready",
+            "dispatching",
+            "running",
+            "cancelling",
+            "completed",
+            "failed",
+            "cancelled",
+            "outcome-unknown"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "from": {
+                  "const": "accepted"
+                },
+                "to": {
+                  "enum": [
+                    "preparing",
+                    "cancelled"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "from": {
+                  "const": "preparing"
+                },
+                "to": {
+                  "enum": [
+                    "ready",
+                    "failed",
+                    "cancelled"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "from": {
+                  "const": "ready"
+                },
+                "to": {
+                  "enum": [
+                    "preparing",
+                    "dispatching",
+                    "failed",
+                    "cancelled"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "from": {
+                  "const": "dispatching"
+                },
+                "to": {
+                  "enum": [
+                    "running",
+                    "cancelling",
+                    "outcome-unknown",
+                    "failed"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "from": {
+                  "const": "running"
+                },
+                "to": {
+                  "enum": [
+                    "cancelling",
+                    "completed",
+                    "failed",
+                    "outcome-unknown"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "from": {
+                  "const": "cancelling"
+                },
+                "to": {
+                  "enum": [
+                    "completed",
+                    "cancelled",
+                    "failed",
+                    "outcome-unknown"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "from": {
+                  "const": "outcome-unknown"
+                },
+                "to": {
+                  "enum": [
+                    "completed",
+                    "failed",
+                    "cancelled"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

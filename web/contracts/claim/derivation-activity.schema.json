@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/derivation-activity.v1.json",
+  "title": "DocAtlas claim derivation activity v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "derivationActivityId",
+    "workspaceId",
+    "investigationId",
+    "operation",
+    "inputEvidenceIds",
+    "inputClaimVersionIds",
+    "outputClaimVersionIds",
+    "actor",
+    "startedAt",
+    "completedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "derivationActivityId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "operation": {
+      "type": "string",
+      "enum": ["extract", "normalize", "calculate", "compare", "aggregate", "infer", "human-edit", "verify"]
+    },
+    "inputEvidenceIds": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "inputClaimVersionIds": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "outputClaimVersionIds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "expression": { "type": "string", "minLength": 1, "maxLength": 8000, "pattern": "\\S" },
+    "rounding": { "$ref": "#/$defs/rounding" },
+    "tool": { "$ref": "#/$defs/tool" },
+    "model": { "$ref": "#/$defs/model" },
+    "actor": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+    "startedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "completedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" },
+    "dsh": { "$ref": "#/$defs/dsh" }
+  },
+  "anyOf": [
+    { "properties": { "inputEvidenceIds": { "type": "array", "minItems": 1 } }, "required": ["inputEvidenceIds"] },
+    { "properties": { "inputClaimVersionIds": { "type": "array", "minItems": 1 } }, "required": ["inputClaimVersionIds"] }
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "operation": { "const": "calculate" } }, "required": ["operation"] },
+      "then": {
+        "properties": { "expression": {}, "rounding": {} },
+        "required": ["expression", "rounding"]
+      }
+    },
+    {
+      "if": { "properties": { "operation": { "const": "extract" } }, "required": ["operation"] },
+      "then": { "properties": { "inputEvidenceIds": { "type": "array", "minItems": 1 } } }
+    },
+    {
+      "if": { "properties": { "operation": { "const": "human-edit" } }, "required": ["operation"] },
+      "then": {
+        "properties": {
+          "actor": {
+            "type": "object",
+            "required": ["kind"],
+            "properties": { "kind": { "const": "user" } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "rounding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "decimalPlaces"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["half-even", "half-up", "floor", "ceiling", "truncate"] },
+        "decimalPlaces": { "type": "integer", "minimum": 0, "maximum": 18 }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "configHash"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "\\S" },
+        "version": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "\\S" },
+        "configHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "promptHash"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "\\S" },
+        "model": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "\\S" },
+        "promptHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" }
+      }
+    },
+    "dsh": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sessionId", "turn", "step"],
+      "properties": {
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "turn": { "type": "integer", "minimum": 1 },
+        "step": { "type": "integer", "minimum": 1 },
+        "callId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-history.v1.json",
+  "title": "DocAtlas verified native history pages v1",
+  "oneOf": [{ "$ref": "#/$defs/request" }, { "$ref": "#/$defs/page" }],
+  "$defs": {
+    "cursor": { "anyOf": [{ "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }, { "type": "null" }] },
+    "request": {
+      "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "expectedGeneration", "cursor"],
+      "properties": {
+        "schemaVersion": { "const": 1 }, "kind": { "const": "history-page-request" },
+        "expectedGeneration": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 }, "cursor": { "$ref": "#/$defs/cursor" }
+      }
+    },
+    "message": {
+      "type": "object", "additionalProperties": false, "required": ["entryId", "role", "text", "truncated", "nativeTextHash", "displayOrigin"],
+      "properties": {
+        "entryId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }, "role": { "enum": ["user", "assistant"] },
+        "text": { "type": "string", "maxLength": 65536 }, "truncated": { "type": "boolean" },
+        "nativeTextHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" }, "displayOrigin": { "enum": ["native", "submission", "unavailable"] },
+        "origin": { "$ref": "https://docatlas.dev/schemas/native-lineage.v1.json#/$defs/origin" }
+      }
+    },
+    "page": {
+      "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "binding", "checkpoint", "messages", "hasEarlier", "nextCursor"],
+      "properties": {
+        "schemaVersion": { "const": 1 }, "kind": { "const": "history-page" }, "binding": { "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding" },
+        "checkpoint": { "anyOf": [{ "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/checkpoint" }, { "type": "null" }] },
+        "selectedHead": { "$ref": "https://docatlas.dev/schemas/native-lineage.v1.json#/$defs/head" },
+        "messages": { "type": "array", "maxItems": 50, "items": { "$ref": "#/$defs/message" } },
+        "hasEarlier": { "type": "boolean" }, "nextCursor": { "$ref": "#/$defs/cursor" }
+      }
+    }
+  }
+}

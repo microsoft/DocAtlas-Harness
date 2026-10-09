@@ -1,0 +1,18 @@
+{
+  "valid": [
+    {"schemaVersion": 1, "kind": "selection-stage", "expectedGeneration": 1, "idempotencyKey": "selection:stage-example", "proposals": [{"documentId": "doc:one", "revisionId": "rev:one", "physicalPage": 1, "quote": "a"}]},
+    {"schemaVersion": 1, "kind": "selection-ticket", "selectionContextId": "selection:one", "conversationId": "conversation:one", "workspaceId": "workspace:one", "actorId": "actor:one", "bindingId": "binding:one", "generation": 1, "state": "staged", "createdAt": "2026-09-09T00:00:00Z", "expiresAt": "2026-09-09T00:15:00Z", "submissionId": null, "requestHash": null, "items": [{"text": "a", "locator": {"schemaVersion": 1, "locatorId": "loc:one", "documentId": "doc:one", "revisionId": "rev:one", "representationId": "rep:one", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "physicalPage": 1, "createdAt": "2026-09-09T00:00:00Z", "selectors": [{"type": "text-quote", "exact": "a", "normalizedHash": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"}]}}]},
+    {"schemaVersion": 1, "kind": "upload-start", "idempotencyKey": "upload:example-key", "name": "资料.pdf", "byteLength": 20, "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"schemaVersion": 1, "kind": "upload", "conversationId": "conversation:one", "uploadId": "upload:one", "name": "file.pdf", "byteLength": 20, "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "stored"}
+  ],
+  "invalid": [
+    {"schemaVersion": 1, "kind": "selection-stage", "expectedGeneration": 1, "idempotencyKey": "selection:stage-example", "actorId": "actor:forged", "proposals": [{"documentId": "doc:one", "revisionId": "rev:one", "physicalPage": 1, "quote": "a"}]},
+    {"schemaVersion": 1, "kind": "selection-stage", "expectedGeneration": 1, "idempotencyKey": "selection:stage-example", "proposals": [{"documentId": "doc:one", "revisionId": "rev:one", "physicalPage": 0, "quote": "a"}]},
+    {"schemaVersion": 1, "kind": "selection-stage", "expectedGeneration": 1, "idempotencyKey": "selection:stage-example", "proposals": []},
+    {"schemaVersion": 1, "kind": "upload-start", "idempotencyKey": "upload:example-key", "name": "../private.pdf", "byteLength": 20, "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"schemaVersion": 1, "kind": "upload-start", "idempotencyKey": "upload:example-key", "name": "file.pdf", "byteLength": 26214401, "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"schemaVersion": 1, "kind": "upload-start", "idempotencyKey": "upload:example-key", "name": "file.pdf", "byteLength": 20, "contentHash": "wrong"},
+    {"schemaVersion": 1, "kind": "upload", "conversationId": "conversation:one", "uploadId": "upload:one", "name": "file.pdf", "byteLength": 20, "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "ready"},
+    {"schemaVersion": 1, "kind": "library-response", "conversationId": "conversation:one", "result": {"schemaVersion": 1, "requestType": "library-list", "sessionId": "conversation:one", "workspaceId": "workspace:one", "limit": 10, "sort": "updated-desc"}}
+  ]
+}

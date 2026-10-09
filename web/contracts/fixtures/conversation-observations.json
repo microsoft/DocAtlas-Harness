@@ -1,0 +1,542 @@
+{
+  "valid": [
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "receipt",
+        "receipt": {
+          "schemaVersion": 1,
+          "kind": "run-receipt",
+          "submissionId": "submission:one",
+          "runId": "run:one",
+          "conversationId": "conversation:one",
+          "generation": 1,
+          "mode": "prompt",
+          "state": "running",
+          "version": 5,
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "createdAt": "2026-09-08T00:00:00Z",
+          "updatedAt": "2026-09-08T00:00:00Z",
+          "payloadRetained": true
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-snapshot",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:one",
+        "conversationId": "conversation:one",
+        "workspaceId": "workspace:one",
+        "ownerActorId": "actor:one",
+        "investigationId": null,
+        "runtimeSessionId": "session:one",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "runs": [
+        {
+          "receipt": {
+            "schemaVersion": 1,
+            "kind": "run-receipt",
+            "submissionId": "submission:one",
+            "runId": "run:one",
+            "conversationId": "conversation:one",
+            "generation": 1,
+            "mode": "prompt",
+            "state": "running",
+            "version": 5,
+            "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "createdAt": "2026-09-08T00:00:00Z",
+            "updatedAt": "2026-09-08T00:00:00Z",
+            "payloadRetained": true
+          },
+          "text": "question"
+        }
+      ],
+      "nextRunsCursor": null,
+      "history": {
+        "checkpoint": null,
+        "messages": [],
+        "hasEarlier": false
+      },
+      "live": [
+        {
+          "submissionId": "submission:one",
+          "messageId": "live:one",
+          "text": "hello",
+          "truncated": false
+        }
+      ],
+      "activity": [],
+      "liveIncomplete": false
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "progress",
+        "submissionId": "submission:one",
+        "progress": {
+          "type": "text",
+          "messageId": "live:one",
+          "delta": "hello 🌍"
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "progress",
+        "submissionId": "submission:one",
+        "progress": {
+          "type": "tool-start",
+          "toolName": "read",
+          "toolCallId": "call:one"
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "progress",
+        "submissionId": "submission:one",
+        "progress": {
+          "type": "tool-end",
+          "toolName": "read",
+          "toolCallId": "call:one"
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "progress",
+        "submissionId": "submission:one",
+        "progress": {
+          "type": "resync"
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "resync",
+        "reason": "gap"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "schemaVersion": 2,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "receipt",
+        "receipt": {
+          "schemaVersion": 1,
+          "kind": "run-receipt",
+          "submissionId": "submission:one",
+          "runId": "run:one",
+          "conversationId": "conversation:one",
+          "generation": 1,
+          "mode": "prompt",
+          "state": "running",
+          "version": 5,
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "createdAt": "2026-09-08T00:00:00Z",
+          "updatedAt": "2026-09-08T00:00:00Z",
+          "payloadRetained": true
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": -1
+      },
+      "update": {
+        "type": "receipt",
+        "receipt": {
+          "schemaVersion": 1,
+          "kind": "run-receipt",
+          "submissionId": "submission:one",
+          "runId": "run:one",
+          "conversationId": "conversation:one",
+          "generation": 1,
+          "mode": "prompt",
+          "state": "running",
+          "version": 5,
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "createdAt": "2026-09-08T00:00:00Z",
+          "updatedAt": "2026-09-08T00:00:00Z",
+          "payloadRetained": true
+        }
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "receipt",
+        "receipt": {
+          "schemaVersion": 1,
+          "kind": "run-receipt",
+          "submissionId": "submission:one",
+          "runId": "run:one",
+          "conversationId": "conversation:one",
+          "generation": 1,
+          "mode": "prompt",
+          "state": "running",
+          "version": 5,
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "createdAt": "2026-09-08T00:00:00Z",
+          "updatedAt": "2026-09-08T00:00:00Z",
+          "payloadRetained": true
+        }
+      },
+      "credentials": "secret"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-snapshot",
+      "binding": {
+        "schemaVersion": 1,
+        "kind": "binding",
+        "bindingId": "binding:one",
+        "conversationId": "conversation:one",
+        "workspaceId": "workspace:one",
+        "ownerActorId": "actor:one",
+        "investigationId": null,
+        "runtimeSessionId": "session:one",
+        "branchEntryId": null,
+        "generation": 1,
+        "version": 1,
+        "createdAt": "2026-09-08T00:00:00Z",
+        "updatedAt": "2026-09-08T00:00:00Z"
+      },
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "runs": [
+        {
+          "receipt": {
+            "schemaVersion": 1,
+            "kind": "run-receipt",
+            "submissionId": "submission:one",
+            "runId": "run:one",
+            "conversationId": "conversation:one",
+            "generation": 1,
+            "mode": "prompt",
+            "state": "running",
+            "version": 5,
+            "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "createdAt": "2026-09-08T00:00:00Z",
+            "updatedAt": "2026-09-08T00:00:00Z",
+            "payloadRetained": true
+          },
+          "text": "question"
+        }
+      ],
+      "nextRunsCursor": null,
+      "history": {
+        "checkpoint": null,
+        "messages": [
+          {
+            "entryId": "abc",
+            "role": "thinking",
+            "text": "private",
+            "truncated": false
+          }
+        ],
+        "hasEarlier": false
+      },
+      "live": [
+        {
+          "submissionId": "submission:one",
+          "messageId": "live:one",
+          "text": "hello",
+          "truncated": false
+        }
+      ],
+      "activity": [],
+      "liveIncomplete": false
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "conversation-observation",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "cursor": {
+        "streamId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      },
+      "update": {
+        "type": "progress",
+        "submissionId": "submission:one",
+        "progress": {
+          "type": "tool-start",
+          "toolName": "read",
+          "toolCallId": "call:one",
+          "arguments": {
+            "path": "/private"
+          }
+        }
+      }
+    }
+  ],
+  "semantic": [
+    {
+      "value": {
+        "schemaVersion": 1,
+        "kind": "conversation-observation",
+        "conversationId": "conversation:one",
+        "generation": 2,
+        "cursor": {
+          "streamId": "00000000-0000-4000-8000-000000000001",
+          "sequence": 1
+        },
+        "update": {
+          "type": "receipt",
+          "receipt": {
+            "schemaVersion": 1,
+            "kind": "run-receipt",
+            "submissionId": "submission:one",
+            "runId": "run:one",
+            "conversationId": "conversation:one",
+            "generation": 1,
+            "mode": "prompt",
+            "state": "running",
+            "version": 5,
+            "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "createdAt": "2026-09-08T00:00:00Z",
+            "updatedAt": "2026-09-08T00:00:00Z",
+            "payloadRetained": true
+          }
+        }
+      },
+      "codes": [
+        "receipt-scope"
+      ]
+    },
+    {
+      "value": {
+        "schemaVersion": 1,
+        "kind": "conversation-snapshot",
+        "binding": {
+          "schemaVersion": 1,
+          "kind": "binding",
+          "bindingId": "binding:one",
+          "conversationId": "conversation:one",
+          "workspaceId": "workspace:one",
+          "ownerActorId": "actor:one",
+          "investigationId": null,
+          "runtimeSessionId": "session:one",
+          "branchEntryId": null,
+          "generation": 1,
+          "version": 1,
+          "createdAt": "2026-09-08T00:00:00Z",
+          "updatedAt": "2026-09-08T00:00:00Z"
+        },
+        "cursor": {
+          "streamId": "00000000-0000-4000-8000-000000000001",
+          "sequence": 1
+        },
+        "runs": [
+          {
+            "receipt": {
+              "schemaVersion": 1,
+              "kind": "run-receipt",
+              "submissionId": "submission:one",
+              "runId": "run:one",
+              "conversationId": "conversation:one",
+              "generation": 1,
+              "mode": "prompt",
+              "state": "running",
+              "version": 5,
+              "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "createdAt": "2026-09-08T00:00:00Z",
+              "updatedAt": "2026-09-08T00:00:00Z",
+              "payloadRetained": true
+            },
+            "text": "question"
+          }
+        ],
+        "nextRunsCursor": null,
+        "history": {
+          "checkpoint": null,
+          "messages": [
+            {
+              "entryId": "a",
+              "role": "assistant",
+              "text": "not proved",
+              "truncated": false
+            }
+          ],
+          "hasEarlier": false
+        },
+        "live": [
+          {
+            "submissionId": "submission:one",
+            "messageId": "live:one",
+            "text": "hello",
+            "truncated": false
+          }
+        ],
+        "activity": [],
+        "liveIncomplete": false
+      },
+      "codes": [
+        "unverified-history"
+      ]
+    },
+    {
+      "value": {
+        "schemaVersion": 1,
+        "kind": "conversation-snapshot",
+        "binding": {
+          "schemaVersion": 1,
+          "kind": "binding",
+          "bindingId": "binding:one",
+          "conversationId": "conversation:one",
+          "workspaceId": "workspace:one",
+          "ownerActorId": "actor:one",
+          "investigationId": null,
+          "runtimeSessionId": "session:one",
+          "branchEntryId": null,
+          "generation": 1,
+          "version": 1,
+          "createdAt": "2026-09-08T00:00:00Z",
+          "updatedAt": "2026-09-08T00:00:00Z"
+        },
+        "cursor": {
+          "streamId": "00000000-0000-4000-8000-000000000001",
+          "sequence": 1
+        },
+        "runs": [
+          {
+            "receipt": {
+              "schemaVersion": 1,
+              "kind": "run-receipt",
+              "submissionId": "submission:one",
+              "runId": "run:one",
+              "conversationId": "conversation:one",
+              "generation": 1,
+              "mode": "prompt",
+              "state": "running",
+              "version": 5,
+              "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "createdAt": "2026-09-08T00:00:00Z",
+              "updatedAt": "2026-09-08T00:00:00Z",
+              "payloadRetained": true
+            },
+            "text": "question"
+          },
+          {
+            "receipt": {
+              "schemaVersion": 1,
+              "kind": "run-receipt",
+              "submissionId": "submission:one",
+              "runId": "run:one",
+              "conversationId": "conversation:one",
+              "generation": 1,
+              "mode": "prompt",
+              "state": "running",
+              "version": 5,
+              "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "createdAt": "2026-09-08T00:00:00Z",
+              "updatedAt": "2026-09-08T00:00:00Z",
+              "payloadRetained": true
+            },
+            "text": "question"
+          }
+        ],
+        "nextRunsCursor": null,
+        "history": {
+          "checkpoint": null,
+          "messages": [],
+          "hasEarlier": false
+        },
+        "live": [
+          {
+            "submissionId": "submission:one",
+            "messageId": "live:one",
+            "text": "hello",
+            "truncated": false
+          }
+        ],
+        "activity": [],
+        "liveIncomplete": false
+      },
+      "codes": [
+        "duplicate-run"
+      ]
+    }
+  ]
+}

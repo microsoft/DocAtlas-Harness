@@ -1,0 +1,86 @@
+{
+  "knownEvidenceIds": ["evidence:termination-support", "evidence:termination-refute"],
+  "claims": [
+    {
+      "schemaVersion": 1,
+      "claimVersionId": "claim:termination:v1",
+      "claimChainId": "claim-chain:termination",
+      "version": 1,
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "statement": "The agreement permits termination for convenience.",
+      "basis": "document-supported",
+      "proposition": {
+        "subject": "agreement",
+        "predicate": "permits termination for convenience",
+        "polarity": "positive",
+        "modality": "asserted"
+      },
+      "scope": {
+        "sourceScopeVersionId": "scope:contract-review:v1",
+        "jurisdiction": "New York",
+        "section": "Termination"
+      },
+      "epistemicStatus": "contested",
+      "reviewStatus": "accepted",
+      "lifecycleStatus": "current",
+      "createdBy": { "kind": "rule", "actorId": "rule:claim-verifier" },
+      "createdAt": "2026-08-31T10:03:00Z",
+      "provenanceActivityId": "derivation:termination-verify"
+    }
+  ],
+  "evidenceRelations": [
+    {
+      "schemaVersion": 1,
+      "evidenceRelationId": "relation:termination-support",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "claimVersionId": "claim:termination:v1",
+      "evidenceId": "evidence:termination-support",
+      "kind": "supports",
+      "coverage": "full",
+      "rationale": "Section 8.2 grants a convenience termination right.",
+      "createdBy": { "kind": "agent", "actorId": "agent:dsh-root" },
+      "createdAt": "2026-08-31T10:01:00Z",
+      "reviewStatus": "human-confirmed",
+      "reviewedBy": { "kind": "user", "actorId": "user:reviewer" },
+      "reviewedAt": "2026-08-31T10:02:00Z"
+    },
+    {
+      "schemaVersion": 1,
+      "evidenceRelationId": "relation:termination-refute",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "claimVersionId": "claim:termination:v1",
+      "evidenceId": "evidence:termination-refute",
+      "kind": "refutes",
+      "coverage": "full",
+      "rationale": "The amendment says neither party may terminate for convenience.",
+      "createdBy": { "kind": "agent", "actorId": "agent:dsh-root" },
+      "createdAt": "2026-08-31T10:01:30Z",
+      "reviewStatus": "human-confirmed",
+      "reviewedBy": { "kind": "user", "actorId": "user:reviewer" },
+      "reviewedAt": "2026-08-31T10:02:30Z"
+    }
+  ],
+  "derivations": [
+    {
+      "schemaVersion": 1,
+      "derivationActivityId": "derivation:termination-verify",
+      "workspaceId": "workspace:demo",
+      "investigationId": "investigation:contract-review",
+      "operation": "verify",
+      "inputEvidenceIds": ["evidence:termination-support", "evidence:termination-refute"],
+      "inputClaimVersionIds": [],
+      "outputClaimVersionIds": ["claim:termination:v1"],
+      "tool": {
+        "name": "docatlas-deterministic-review",
+        "version": "1.0.0",
+        "configHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "actor": { "kind": "rule", "actorId": "rule:claim-verifier" },
+      "startedAt": "2026-08-31T10:02:40Z",
+      "completedAt": "2026-08-31T10:02:50Z"
+    }
+  ]
+}

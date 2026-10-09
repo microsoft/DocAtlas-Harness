@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/browser-rpc.v1.json",
+  "title": "DocAtlas authenticated browser RPC result v1",
+  "oneOf": [
+    { "$ref": "#/$defs/success" },
+    { "$ref": "#/$defs/failure" }
+  ],
+  "$defs": {
+    "request": {
+      "oneOf": [
+        { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/getRequest" },
+        { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/commitRequest" },
+        { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/bindRequest" },
+        { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/unbindRequest" },
+        { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/overviewRequest" },
+        { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/patchRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/stageRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/prepareRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/statusRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/cancelRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/saveEvidenceRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/createNoteRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/openQuestionRequest" },
+        { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/proposeClaimRequest" },
+        { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/discoverRequest" },
+        { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/importRequest" },
+        { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/jobRequest" },
+        { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/listRequest" },
+        { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/getRequest" },
+        { "$ref": "https://docatlas.dev/schemas/reader-focus-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/reader-page-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/answer-rpc.v1.json#/$defs/getRequest" },
+        { "$ref": "https://docatlas.dev/schemas/research-lifecycle-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/research-governance-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/research-notebook-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/tree-overlay-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/m4-rpc.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/continuity-rpc.v1.json#/$defs/assessRequest" },
+        { "$ref": "https://docatlas.dev/schemas/continuity-rpc.v1.json#/$defs/impactRequest" },
+        { "$ref": "https://docatlas.dev/schemas/personalization-command.v1.json#/$defs/request" },
+        { "$ref": "https://docatlas.dev/schemas/personalization-inspect.v1.json#/$defs/request" }
+      ]
+    },
+    "success": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "result"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "ok": { "const": true },
+        "result": {
+          "oneOf": [
+            { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/getResult" },
+            { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/commitResult" },
+            { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/bindResult" },
+            { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/unbindResult" },
+            { "$ref": "https://docatlas.dev/schemas/source-scope-rpc.v1.json#/$defs/overviewResult" },
+            { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/stageResult" },
+            { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/prepareResult" },
+            { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/statusResult" },
+            { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/cancelResult" },
+            { "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/actionResult" },
+            { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/discoverResult" },
+            { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/importResult" },
+            { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/jobResult" },
+            { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/listResult" },
+            { "$ref": "https://docatlas.dev/schemas/library-rpc.v1.json#/$defs/getResult" },
+            { "$ref": "https://docatlas.dev/schemas/reader-focus-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/reader-page-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/answer-rpc.v1.json#/$defs/getResult" },
+            { "$ref": "https://docatlas.dev/schemas/research-lifecycle-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/research-governance-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/research-notebook-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/tree-overlay-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/m4-rpc.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/continuity-rpc.v1.json#/$defs/assessResult" },
+            { "$ref": "https://docatlas.dev/schemas/continuity-rpc.v1.json#/$defs/impactResult" },
+            { "$ref": "https://docatlas.dev/schemas/personalization-command.v1.json#/$defs/result" },
+            { "$ref": "https://docatlas.dev/schemas/personalization-inspect.v1.json#/$defs/result" }
+          ]
+        }
+      }
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "ok", "error"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "ok": { "const": false },
+        "error": { "$ref": "https://docatlas.dev/schemas/protocol-error.v1.json" }
+      }
+    }
+  }
+}

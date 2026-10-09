@@ -1,0 +1,49 @@
+{
+  "description": "Shared Node/static-browser/Python product continuity wire vectors. Shapes do not authorize prior records, claim Read completion, resolve original PDFs, infer semantic change, or prove a durable human decision.",
+  "bases": {
+    "inspect": { "schemaVersion": 1, "kind": "continuity-inspect", "expectedGeneration": 1, "recordId": "claim:prior:v1" },
+    "impact": { "schemaVersion": 1, "kind": "continuity-impact", "expectedGeneration": 1, "recordId": "claim:prior:v1", "previousSource": { "documentId": "document:annual", "revisionId": "revision:annual:1" }, "currentSource": { "documentId": "document:annual", "revisionId": "revision:annual:2" } },
+    "assess": { "schemaVersion": 1, "kind": "continuity-assess", "expectedGeneration": 1, "scopeVersionId": "scope:comparison", "priorRecordId": "claim:prior:v1", "expectedPriorVersion": 1, "currentSources": [{ "documentId": "document:annual", "revisionId": "revision:annual:2" }], "priorEvidenceIds": ["evidence:old:reread"], "currentEvidenceIds": ["evidence:new:read"], "proposedState": "changed", "rationale": "The explicitly reviewed figures differ.", "idempotencyKey": "continuity:human:one" },
+    "inspection": { "schemaVersion": 1, "kind": "continuity-inspection", "conversationId": "conversation:current", "bindingId": "binding:current", "generation": 1,
+      "record": { "recordId": "note:unanchored", "recordType": "research-note", "version": 2, "scopeVersionId": "scope:note", "sourceReferencesComplete": false, "sources": [] },
+      "scopeVersionId": null, "scopeOptions": [], "evidence": [], "truncated": false, "scopeOptionsTruncated": false },
+    "selected": { "schemaVersion": 1, "kind": "continuity-inspection", "conversationId": "conversation:current", "bindingId": "binding:current", "generation": 1,
+      "record": { "recordId": "claim:prior:v1", "recordType": "claim-version", "version": 1, "scopeVersionId": "scope:prior", "sourceReferencesComplete": true, "sources": [{ "documentId": "document:annual", "revisionId": "revision:annual:1", "name": "Annual.pdf" }] },
+      "scopeVersionId": "scope:comparison", "scopeOptions": [{ "scopeVersionId": "scope:comparison", "version": 2, "sourceCount": 2, "current": true }], "evidence": [{ "evidenceId": "evidence:new:read", "documentId": "document:annual", "revisionId": "revision:annual:2", "physicalPage": 17, "sourceName": "Annual.pdf", "preview": "Revenue increased by 18%.", "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }], "truncated": false, "scopeOptionsTruncated": false },
+    "impactResult": { "schemaVersion": 1, "kind": "continuity-impact-result", "conversationId": "conversation:current", "bindingId": "binding:current", "generation": 1, "recordId": "claim:prior:v1", "recordVersion": 1, "previousSource": { "documentId": "document:annual", "revisionId": "revision:annual:1" }, "currentSource": { "documentId": "document:annual", "revisionId": "revision:annual:2" }, "dependencyOnly": true, "status": "needs-reverify", "reason": "The record references the predecessor revision." },
+    "assessment": { "schemaVersion": 1, "kind": "continuity-assessment", "conversationId": "conversation:current", "bindingId": "binding:current", "generation": 1, "idempotencyKey": "continuity:human:unknown", "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "result": { "schemaVersion": 1, "resultType": "continuity-assessed", "status": "created", "link": { "schemaVersion": 1, "continuityLinkId": "continuity:saved", "workspaceId": "workspace:current", "investigationId": "investigation:current", "scopeVersionId": "scope:comparison", "priorRecordId": "note:unanchored", "priorRecordVersion": 2, "priorSources": [], "currentSources": [{ "documentId": "document:annual", "revisionId": "revision:annual:2", "representationId": "representation:annual:2", "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }], "state": "unknown", "verificationStatus": "missing-source", "priorEvidenceIds": [], "currentEvidenceIds": [], "rationale": "The prior note has no asserted source anchors.", "createdBy": { "kind": "user", "actorId": "actor:current" }, "createdAt": "2026-09-01T00:00:00.000Z" } } }
+  },
+  "valid": [
+    { "name": "inspect exact prior identity", "base": "inspect" },
+    { "name": "impact same document revisions", "base": "impact" },
+    { "name": "explicit changed determination", "base": "assess" },
+    { "name": "unknown without fabricated Evidence", "base": "assess", "set": [{ "path": ["proposedState"], "value": "unknown" }, { "path": ["priorEvidenceIds"], "value": [] }, { "path": ["currentEvidenceIds"], "value": [] }] },
+    { "name": "empty completed scope options", "base": "inspection" },
+    { "name": "selected authenticated comparison display", "base": "selected" },
+    { "name": "dependency-only result", "base": "impactResult" },
+    { "name": "version-pinned unknown decision", "base": "assessment" },
+    { "name": "historical decision reconciliation", "base": "assessment", "set": [{ "path": ["result", "status"], "value": "replayed" }] }
+  ],
+  "invalidShape": [
+    { "name": "browser actor injection", "base": "assess", "set": [{ "path": ["actorId"], "value": "actor:admin" }] },
+    { "name": "browser path injection", "base": "inspect", "set": [{ "path": ["path"], "value": "/private/state" }] },
+    { "name": "no implicit old Note version", "base": "assess", "remove": [["expectedPriorVersion"]] },
+    { "name": "no unfenced inspection response", "base": "inspection", "remove": [["bindingId"]] },
+    { "name": "no claimed semantic diff", "base": "impactResult", "set": [{ "path": ["dependencyOnly"], "value": false }] },
+    { "name": "no caller representation hash", "base": "impact", "set": [{ "path": ["currentSource", "representationContentHash"], "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }] },
+    { "name": "invalid version pin", "base": "assessment", "set": [{ "path": ["result", "link", "priorRecordVersion"], "value": 0 }] }
+  ],
+  "invalidSemantic": [
+    { "name": "impact cannot compare another document", "base": "impact", "set": [{ "path": ["currentSource", "documentId"], "value": "document:unrelated" }], "codes": ["continuity-revisions"] },
+    { "name": "comparison needs both Evidence sides", "base": "assess", "set": [{ "path": ["priorEvidenceIds"], "value": [] }], "codes": ["continuity-evidence-required"] },
+    { "name": "selected scope must be an advertised completed option", "base": "selected", "set": [{ "path": ["scopeVersionId"], "value": "scope:unadvertised" }], "codes": ["continuity-view-scope"] },
+    { "name": "product result cannot drop its Note version pin", "base": "assessment", "remove": [["result", "link", "priorRecordVersion"]], "codes": ["continuity-version-pin"] },
+    { "name": "product decision is explicitly human", "base": "assessment", "set": [{ "path": ["result", "link", "createdBy", "kind"], "value": "rule" }], "codes": ["continuity-human-actor"] }
+  ],
+  "hostOnly": [
+    { "name": "foreign but opaque prior record", "base": "inspect", "set": [{ "path": ["recordId"], "value": "claim:foreign:v1" }], "authority": "Authenticated original record, conversation, actor and complete source scopes are required." },
+    { "name": "prepared scope is not proof of a completed Read", "base": "assess", "set": [{ "path": ["scopeVersionId"], "value": "scope:prepared-not-consumed" }], "authority": "The host must find the exact completed privately published Answer scope, not the latest prepared frame." },
+    { "name": "Note identity is not canonical Evidence", "base": "assess", "set": [{ "path": ["priorEvidenceIds"], "value": ["note:interpretation"] }], "authority": "The host requires a current resolved canonical atom from the selected completed Read capture." }
+  ]
+}

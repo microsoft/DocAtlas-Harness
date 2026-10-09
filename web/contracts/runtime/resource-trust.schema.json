@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/resource-trust.v1.json",
+  "oneOf": [{"$ref": "#/$defs/snapshot"}, {"$ref": "#/$defs/approval"}],
+  "$defs": {
+    "file": {
+      "type": "object", "additionalProperties": false, "required": ["path", "contentHash", "byteLength", "executable"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[\\\\\\u0000-\\u001f]).+$"},
+        "contentHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "byteLength": {"type": "integer", "minimum": 0, "maximum": 33554432}, "executable": {"type": "boolean"}
+      }
+    },
+    "snapshot": {
+      "type": "object", "additionalProperties": false, "required": ["schemaVersion", "kind", "snapshotId", "manifestHash", "byteLength", "files"],
+      "properties": {
+        "schemaVersion": {"const": 1}, "kind": {"const": "resource-snapshot"},
+        "snapshotId": {"type": "string", "pattern": "^resources:[a-f0-9]{64}$"},
+        "manifestHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "byteLength": {"type": "integer", "minimum": 0, "maximum": 33554432},
+        "files": {"type": "array", "maxItems": 512, "items": {"$ref": "#/$defs/file"}}
+      }
+    },
+    "approval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "kind", "approvalId", "actorId", "workspaceId", "snapshotId", "manifestHash", "state", "version", "updatedAt"],
+      "properties": {
+        "schemaVersion": {"const": 1}, "kind": {"const": "resource-approval"},
+        "approvalId": {"type": "string", "pattern": "^approval:[a-f0-9-]{36}$"},
+        "actorId": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"},
+        "workspaceId": {"$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"},
+        "snapshotId": {"type": "string", "pattern": "^resources:[a-f0-9]{64}$"},
+        "manifestHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "state": {"enum": ["approved", "revoked"]}, "version": {"type": "integer", "minimum": 1},
+        "updatedAt": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

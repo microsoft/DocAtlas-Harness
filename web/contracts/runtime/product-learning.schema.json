@@ -1,0 +1,910 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-learning.v1.json",
+  "title": "Consented comparison invitations and accumulated human preference learning v1",
+  "$defs": {
+    "id": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+    },
+    "key": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:~-]*$"
+    },
+    "hash": {
+      "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positive": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "operationId": {
+      "type": "string",
+      "pattern": "^learning-op:[a-f0-9]{64}$"
+    },
+    "mode": {
+      "enum": [
+        "explore",
+        "verify",
+        "publish"
+      ]
+    },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "kind"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "kind": {
+          "const": "learning-query"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "configure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "kind",
+        "expectedProfileEpoch",
+        "idempotencyKey",
+        "action",
+        "expectedSettingsVersion",
+        "enabled"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "kind": {
+          "const": "learning-command"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "action": {
+          "const": "configure"
+        },
+        "expectedSettingsVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "prepare": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "kind",
+        "expectedProfileEpoch",
+        "idempotencyKey",
+        "action",
+        "expectedPolicyVersion",
+        "messageId",
+        "materialHash"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "kind": {
+          "const": "learning-command"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "action": {
+          "const": "prepare"
+        },
+        "expectedPolicyVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "materialHash": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    },
+    "choose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "kind",
+        "expectedProfileEpoch",
+        "idempotencyKey",
+        "action",
+        "expectedPolicyVersion",
+        "messageId",
+        "materialHash",
+        "probeId",
+        "selected",
+        "scopeIntent",
+        "reasonTags"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "kind": {
+          "const": "learning-command"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "action": {
+          "const": "choose"
+        },
+        "expectedPolicyVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "materialHash": {
+          "$ref": "#/$defs/hash"
+        },
+        "probeId": {
+          "$ref": "#/$defs/id"
+        },
+        "selected": {
+          "$ref": "#/$defs/id"
+        },
+        "scopeIntent": {
+          "enum": [
+            "turn",
+            "workspace"
+          ]
+        },
+        "reasonTags": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "enum": [
+              "faster-understanding",
+              "easier-verification",
+              "better-deliverable",
+              "less-cognitive-load"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "dismiss": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "kind",
+        "expectedProfileEpoch",
+        "idempotencyKey",
+        "action",
+        "offerId",
+        "expectedOfferVersion"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "kind": {
+          "const": "learning-command"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "action": {
+          "const": "dismiss"
+        },
+        "offerId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedOfferVersion": {
+          "$ref": "#/$defs/positive"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "expectedBindingId",
+        "expectedGeneration",
+        "kind",
+        "expectedProfileEpoch",
+        "idempotencyKey",
+        "action",
+        "groupId",
+        "candidateId",
+        "expectedCandidateVersion",
+        "expectedGroupDigest",
+        "decision"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "expectedBindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedGeneration": {
+          "$ref": "#/$defs/positive"
+        },
+        "kind": {
+          "const": "learning-command"
+        },
+        "expectedProfileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "action": {
+          "const": "review"
+        },
+        "groupId": {
+          "$ref": "#/$defs/id"
+        },
+        "candidateId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedCandidateVersion": {
+          "$ref": "#/$defs/positive"
+        },
+        "expectedGroupDigest": {
+          "$ref": "#/$defs/hash"
+        },
+        "decision": {
+          "enum": [
+            "accept",
+            "reject"
+          ]
+        }
+      }
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "enabled"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/count"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "original": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profileEpoch",
+        "probeId",
+        "conversationId",
+        "messageId",
+        "manifestId",
+        "investigationId",
+        "sourceScopeVersionId",
+        "materialHash",
+        "nativeTextHash",
+        "mode",
+        "turn"
+      ],
+      "properties": {
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "probeId": {
+          "$ref": "#/$defs/id"
+        },
+        "conversationId": {
+          "$ref": "#/$defs/id"
+        },
+        "messageId": {
+          "$ref": "#/$defs/id"
+        },
+        "manifestId": {
+          "$ref": "#/$defs/id"
+        },
+        "investigationId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceScopeVersionId": {
+          "$ref": "#/$defs/id"
+        },
+        "materialHash": {
+          "$ref": "#/$defs/hash"
+        },
+        "nativeTextHash": {
+          "$ref": "#/$defs/hash"
+        },
+        "mode": {
+          "$ref": "#/$defs/mode"
+        },
+        "turn": {
+          "$ref": "#/$defs/positive"
+        }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "offerId",
+        "version",
+        "original",
+        "status",
+        "createdAt"
+      ],
+      "properties": {
+        "offerId": {
+          "$ref": "#/$defs/id"
+        },
+        "version": {
+          "$ref": "#/$defs/positive"
+        },
+        "original": {
+          "$ref": "#/$defs/original"
+        },
+        "status": {
+          "enum": [
+            "offered",
+            "dismissed"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original",
+        "observationId",
+        "value"
+      ],
+      "properties": {
+        "original": {
+          "$ref": "#/$defs/original"
+        },
+        "observationId": {
+          "$ref": "#/$defs/id"
+        },
+        "value": {
+          "enum": [
+            "conclusion-first",
+            "evidence-first"
+          ]
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conclusionFirst",
+        "evidenceFirst",
+        "independentInvestigations"
+      ],
+      "properties": {
+        "conclusionFirst": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "evidenceFirst": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "independentInvestigations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "groupId",
+        "mode",
+        "axis",
+        "status",
+        "digest",
+        "counts",
+        "members",
+        "candidate"
+      ],
+      "properties": {
+        "groupId": {
+          "$ref": "#/$defs/id"
+        },
+        "mode": {
+          "$ref": "#/$defs/mode"
+        },
+        "axis": {
+          "const": "answer-order"
+        },
+        "status": {
+          "enum": [
+            "collecting",
+            "conflicted",
+            "candidate",
+            "settled",
+            "suppressed",
+            "unavailable"
+          ]
+        },
+        "digest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "counts": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/counts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "members": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/member"
+          }
+        },
+        "candidate": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/memoryCandidate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "choiceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "idempotencyKey",
+        "requestHash",
+        "choice",
+        "candidateId",
+        "groupId"
+      ],
+      "properties": {
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "requestHash": {
+          "$ref": "#/$defs/hash"
+        },
+        "choice": {
+          "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/preferenceChoiceObservation"
+        },
+        "candidateId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "groupId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reason",
+        "material",
+        "probe",
+        "choiceReceipt"
+      ],
+      "properties": {
+        "reason": {
+          "enum": [
+            "ready",
+            "answer-unavailable",
+            "no-evidence",
+            "too-large"
+          ]
+        },
+        "material": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/product-probe.v1.json#/$defs/material"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "probe": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/personalization-core.v1.json#/$defs/preferenceProbe"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "choiceReceipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/choiceReceipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "binding",
+        "profileId",
+        "profileEpoch",
+        "kind",
+        "settings",
+        "contributionAllowed",
+        "policyVersion",
+        "offers",
+        "groups",
+        "messageId",
+        "comparison"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "profileId": {
+          "$ref": "#/$defs/id"
+        },
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "kind": {
+          "const": "learning-view"
+        },
+        "settings": {
+          "$ref": "#/$defs/settings"
+        },
+        "contributionAllowed": {
+          "type": "boolean"
+        },
+        "policyVersion": {
+          "$ref": "#/$defs/count"
+        },
+        "offers": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/$defs/offer"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/group"
+          }
+        },
+        "messageId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "comparison": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/comparison"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "operationId",
+        "idempotencyKey",
+        "requestHash",
+        "actorId",
+        "workspaceId",
+        "conversationId",
+        "bindingId",
+        "generation",
+        "profileEpoch",
+        "action",
+        "committedAt",
+        "targetId",
+        "targetVersion",
+        "groupId",
+        "candidateId",
+        "memoryVersionId"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "learning-receipt"
+        },
+        "operationId": {
+          "$ref": "#/$defs/operationId"
+        },
+        "idempotencyKey": {
+          "$ref": "#/$defs/key"
+        },
+        "requestHash": {
+          "$ref": "#/$defs/hash"
+        },
+        "actorId": {
+          "$ref": "#/$defs/id"
+        },
+        "workspaceId": {
+          "$ref": "#/$defs/id"
+        },
+        "conversationId": {
+          "$ref": "#/$defs/id"
+        },
+        "bindingId": {
+          "$ref": "#/$defs/id"
+        },
+        "generation": {
+          "$ref": "#/$defs/positive"
+        },
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "action": {
+          "enum": [
+            "configure",
+            "prepare",
+            "choose",
+            "dismiss",
+            "review"
+          ]
+        },
+        "committedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "targetId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetVersion": {
+          "$ref": "#/$defs/positive"
+        },
+        "groupId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidateId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "memoryVersionId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "binding",
+        "profileId",
+        "profileEpoch",
+        "kind",
+        "operationId",
+        "receipt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "binding": {
+          "$ref": "https://docatlas.dev/schemas/product-control.v1.json#/$defs/binding"
+        },
+        "profileId": {
+          "$ref": "#/$defs/id"
+        },
+        "profileEpoch": {
+          "$ref": "#/$defs/count"
+        },
+        "kind": {
+          "const": "learning-operation"
+        },
+        "operationId": {
+          "$ref": "#/$defs/operationId"
+        },
+        "receipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/receipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/query"
+    },
+    {
+      "$ref": "#/$defs/configure"
+    },
+    {
+      "$ref": "#/$defs/prepare"
+    },
+    {
+      "$ref": "#/$defs/choose"
+    },
+    {
+      "$ref": "#/$defs/dismiss"
+    },
+    {
+      "$ref": "#/$defs/review"
+    },
+    {
+      "$ref": "#/$defs/view"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    },
+    {
+      "$ref": "#/$defs/operation"
+    }
+  ]
+}

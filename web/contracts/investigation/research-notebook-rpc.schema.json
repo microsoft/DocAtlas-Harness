@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/research-notebook-rpc.v1.json",
+  "title": "DocAtlas bounded Research Notebook query RPC v1",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "activeStatus": {
+      "type": "string",
+      "enum": ["active", "open", "proposed", "resolved", "superseded", "archived"]
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "requestType", "sessionId", "workspaceId", "investigationId",
+        "scopeVersionId", "view", "recordTypes", "recordStatuses", "limits"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "research-notebook" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "view": { "type": "string", "enum": ["working", "workspace"] },
+        "recordTypes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/research-recall-rpc.v1.json#/$defs/recordType" }
+        },
+        "recordStatuses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/activeStatus" }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxItems", "maxChars"],
+          "properties": {
+            "maxItems": { "type": "integer", "minimum": 1, "maximum": 50 },
+            "maxChars": { "type": "integer", "minimum": 1, "maximum": 12000 }
+          }
+        },
+        "cursor": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "itemId", "recordId", "recordType", "recordStatus", "recordVersion",
+        "sourceInvestigationId", "sourceSessionId", "layer", "preview", "sourceIdentities",
+        "sourceState", "useStatus", "updatedAt"
+      ],
+      "properties": {
+        "itemId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "recordType": { "$ref": "https://docatlas.dev/schemas/research-recall-rpc.v1.json#/$defs/recordType" },
+        "recordStatus": { "$ref": "#/$defs/activeStatus" },
+        "recordVersion": { "type": "integer", "minimum": 1 },
+        "sourceInvestigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceSessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "layer": { "type": "string", "enum": ["working", "research"] },
+        "preview": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "sourceIdentities": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/research-recall-rpc.v1.json#/$defs/sourceIdentity" }
+        },
+        "sourceState": {
+          "type": "string",
+          "enum": ["none", "current-scope", "outside-current-scope", "mixed"]
+        },
+        "useStatus": { "type": "string", "enum": ["unverified-lead", "user-governance"] },
+        "updatedAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "resultType", "workspaceId", "investigationId", "scopeVersionId",
+        "view", "queryHash", "items", "pageInfo"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "research-notebook" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "view": { "type": "string", "enum": ["working", "workspace"] },
+        "queryHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": { "$ref": "#/$defs/item" }
+        },
+        "pageInfo": { "$ref": "https://docatlas.dev/schemas/page-info.v1.json" }
+      }
+    }
+  }
+}

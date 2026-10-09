@@ -1,0 +1,87 @@
+{
+  "locatorA": {
+    "schemaVersion": 1,
+    "locatorId": "loc:document-a:page-2",
+    "documentId": "doc:a",
+    "revisionId": "rev:a:1",
+    "representationId": "rep:a:text",
+    "representationContentHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "physicalPage": 2,
+    "selectors": [
+      {
+        "type": "text-quote",
+        "exact": "Metric A",
+        "normalizedHash": "f630656765d6fb0c9969082453dffb60be03e8eeb62a8fa999d3083b61078ed5"
+      }
+    ],
+    "createdAt": "2026-08-30T01:00:00Z"
+  },
+  "locatorB": {
+    "schemaVersion": 1,
+    "locatorId": "loc:document-b:page-2",
+    "documentId": "doc:b",
+    "revisionId": "rev:b:1",
+    "representationId": "rep:b:text",
+    "representationContentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "physicalPage": 2,
+    "selectors": [
+      {
+        "type": "text-quote",
+        "exact": "Metric B",
+        "normalizedHash": "615d1af72cc73b8baa9a2537d8c3da435216d93524ac2db42e670dd51faeab9b"
+      }
+    ],
+    "createdAt": "2026-08-30T01:00:00Z"
+  },
+  "evidenceB": {
+    "schemaVersion": 1,
+    "evidenceId": "evidence:document-b:page-2",
+    "documentId": "doc:b",
+    "revisionId": "rev:b:1",
+    "representationId": "rep:b:text",
+    "locatorId": "loc:document-b:page-2",
+    "kind": "quote",
+    "content": { "mediaType": "text/plain", "text": "Metric B" },
+    "contentHash": "615d1af72cc73b8baa9a2537d8c3da435216d93524ac2db42e670dd51faeab9b",
+    "sourceRole": "primary",
+    "resolutionStatus": "resolved",
+    "status": "current",
+    "createdBy": { "kind": "agent", "actorId": "agent:docatlas" },
+    "provenanceActivityId": "activity:read:b",
+    "createdAt": "2026-08-30T01:01:00Z"
+  },
+  "staleEvidenceB": {
+    "schemaVersion": 1,
+    "evidenceId": "evidence:document-b:page-2:stale",
+    "documentId": "doc:b",
+    "revisionId": "rev:b:1",
+    "representationId": "rep:b:text",
+    "locatorId": "loc:document-b:page-2",
+    "kind": "quote",
+    "content": { "mediaType": "text/plain", "text": "Metric B" },
+    "contentHash": "615d1af72cc73b8baa9a2537d8c3da435216d93524ac2db42e670dd51faeab9b",
+    "sourceRole": "primary",
+    "resolutionStatus": "stale",
+    "status": "stale",
+    "createdBy": { "kind": "system", "actorId": "system:resolver" },
+    "provenanceActivityId": "activity:revalidate:b",
+    "createdAt": "2026-08-30T01:02:00Z"
+  },
+  "ambiguousEvidenceB": {
+    "schemaVersion": 1,
+    "evidenceId": "evidence:document-b:page-2:ambiguous",
+    "documentId": "doc:b",
+    "revisionId": "rev:b:1",
+    "representationId": "rep:b:text",
+    "locatorId": "loc:document-b:page-2",
+    "kind": "quote",
+    "content": { "mediaType": "text/plain", "text": "Metric B" },
+    "contentHash": "615d1af72cc73b8baa9a2537d8c3da435216d93524ac2db42e670dd51faeab9b",
+    "sourceRole": "primary",
+    "resolutionStatus": "ambiguous",
+    "status": "current",
+    "createdBy": { "kind": "system", "actorId": "system:resolver" },
+    "provenanceActivityId": "activity:resolve-conflict:b",
+    "createdAt": "2026-08-30T01:03:00Z"
+  }
+}

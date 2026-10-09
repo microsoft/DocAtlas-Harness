@@ -1,0 +1,2389 @@
+{
+  "description": "Shared product personalization vectors. Materialize a cloned base with set/remove paths. These controls save explicit settings; modelApplication remains not-connected. Syntactically valid settings/results do not prove model consumption or actual use. Result profile identity is checked without incorrectly restricting shared memories to their creation conversation.",
+  "bases": {
+    "policy": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:policy:set:one",
+        "action": "set-session-policy",
+        "expectedVersion": 0,
+        "policy": {
+          "useExisting": true,
+          "contributeToFuture": true
+        }
+      }
+    },
+    "preference": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:preference:set:one",
+        "action": "set-preference",
+        "preference": {
+          "effect": {
+            "key": "answer-order",
+            "value": "evidence-first"
+          },
+          "scope": "global"
+        }
+      }
+    },
+    "pause": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:memory:pause:one",
+        "action": "pause",
+        "memoryVersionId": "memory:table-context:v1",
+        "expectedVersion": 1
+      }
+    },
+    "resume": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:memory:resume:one",
+        "action": "resume",
+        "memoryVersionId": "memory:table-context:v2",
+        "expectedVersion": 2
+      }
+    },
+    "edit": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:memory:edit:one",
+        "action": "edit",
+        "memoryVersionId": "memory:table-context:v1",
+        "expectedVersion": 1,
+        "replacement": {
+          "effect": {
+            "key": "answer-order",
+            "value": "evidence-first"
+          },
+          "scope": "global"
+        },
+        "statusAfterEdit": "active"
+      }
+    },
+    "forgetChain": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:memory:forget:one",
+        "action": "forget",
+        "target": "memory-chain",
+        "memoryVersionId": "memory:table-context:v2",
+        "expectedVersion": 2,
+        "mode": "memory-only",
+        "provenanceHandling": "orphan",
+        "acknowledgeExternalRetention": true
+      }
+    },
+    "forgetProfile": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:profile:forget:one",
+        "action": "forget",
+        "target": "profile",
+        "expectedProfileRevision": 7,
+        "mode": "privacy-erasure",
+        "provenanceHandling": "redact-derived-excerpts",
+        "acknowledgeExternalRetention": true
+      }
+    },
+    "export": {
+      "schemaVersion": 1,
+      "kind": "preference-command",
+      "expectedGeneration": 1,
+      "command": {
+        "idempotencyKey": "idempotency:profile:export:one",
+        "action": "export",
+        "format": "json",
+        "includeProvenanceRefs": true,
+        "includeStatuses": [
+          "active",
+          "paused",
+          "disputed",
+          "superseded",
+          "expired",
+          "archived"
+        ]
+      }
+    },
+    "inspection": {
+      "schemaVersion": 1,
+      "kind": "preference-inspection",
+      "conversationId": "session:personalization:two",
+      "modelApplication": "not-connected",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-inspection",
+        "profileId": "profile:local-default",
+        "sessionId": "session:personalization:two",
+        "profileRevision": 5,
+        "sessionPolicy": {
+          "schemaVersion": 1,
+          "recordType": "memory-session-policy",
+          "policyId": "policy:personalization:session-one:v1",
+          "profileId": "profile:local-default",
+          "sessionId": "session:personalization:two",
+          "version": 1,
+          "useExisting": true,
+          "contributeToFuture": true,
+          "updatedBy": {
+            "kind": "user",
+            "actorId": "user:local"
+          },
+          "updatedAt": "2026-08-31T13:00:00Z"
+        },
+        "memories": [
+          {
+            "schemaVersion": 1,
+            "recordType": "memory-version",
+            "memoryVersionId": "memory:table-context:v1",
+            "chainId": "memory-chain:table-context",
+            "version": 1,
+            "profileId": "profile:local-default",
+            "status": "active",
+            "transactionTime": {
+              "recordedAt": "2026-08-31T13:04:00Z"
+            },
+            "memoryType": "evidence-preference",
+            "effect": {
+              "key": "evidence-presentation",
+              "value": "table-context"
+            },
+            "summary": "Show key figures with their table context.",
+            "scope": {
+              "kind": "workspace",
+              "profileId": "profile:local-default",
+              "workspaceId": "workspace:finance"
+            },
+            "sensitivity": "ordinary",
+            "observationIds": [
+              "observation:table-context:one"
+            ],
+            "candidateId": "candidate:table-context:one",
+            "contentSafety": {
+              "secretScan": "passed",
+              "sensitiveInference": "none"
+            },
+            "retentionConsent": "eligible",
+            "validTime": {
+              "from": "2026-08-31T13:01:00Z"
+            },
+            "activation": {
+              "kind": "explicit-setting",
+              "actor": {
+                "kind": "user",
+                "actorId": "user:local"
+              },
+              "activatedAt": "2026-08-31T13:04:00Z"
+            },
+            "policy": {
+              "apply": "disclose"
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "schemaVersion": 1,
+            "recordType": "personalization-decision",
+            "decisionId": "personalization-decision:turn-four",
+            "profileId": "profile:local-default",
+            "memoryVersionIds": [
+              "memory:table-context:v1"
+            ],
+            "appliesTo": {
+              "sessionId": "session:personalization:two",
+              "turn": 4,
+              "mode": "verify",
+              "workspaceId": "workspace:finance",
+              "investigationId": "investigation:finance:q4",
+              "taskFamily": "financial-verification",
+              "domain": "finance"
+            },
+            "effects": [
+              {
+                "key": "evidence-presentation",
+                "value": "table-context"
+              }
+            ],
+            "why": [
+              {
+                "memoryVersionId": "memory:table-context:v1",
+                "reason": "scope-match"
+              }
+            ],
+            "factTraceGuard": {
+              "sourceScopeVersionId": "scope:finance:q4:v2",
+              "baselineDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "evidenceSupportInvariant": true,
+              "contradictionDisclosureInvariant": true,
+              "publicationGateInvariant": true,
+              "sourceScopeInvariant": true
+            },
+            "expiresAfterTurn": 4,
+            "createdAt": "2026-08-31T14:00:00Z"
+          }
+        ],
+        "uses": [
+          {
+            "schemaVersion": 1,
+            "recordType": "memory-use",
+            "memoryUseId": "memory-use:turn-four:table-context",
+            "decisionId": "personalization-decision:turn-four",
+            "memoryVersionId": "memory:table-context:v1",
+            "profileId": "profile:local-default",
+            "sessionId": "session:personalization:two",
+            "turn": 4,
+            "effect": {
+              "key": "evidence-presentation",
+              "value": "table-context"
+            },
+            "affectedActions": [
+              "evidence-context-render",
+              "answer-render"
+            ],
+            "usedAt": "2026-08-31T14:00:01Z",
+            "outcome": {
+              "status": "accepted",
+              "observedAt": "2026-08-31T14:03:00Z",
+              "savedSteps": 2,
+              "timeToEvidenceMs": 12000,
+              "causedMiss": false
+            }
+          }
+        ],
+        "counts": {
+          "memories": 1,
+          "decisions": 1,
+          "uses": 1
+        },
+        "truncated": {
+          "memories": false,
+          "decisions": false,
+          "uses": false
+        }
+      }
+    },
+    "policyResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:one",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "set-session-policy",
+        "status": "applied",
+        "sessionPolicy": {
+          "schemaVersion": 1,
+          "recordType": "memory-session-policy",
+          "policyId": "policy:personalization:session-one:v1",
+          "profileId": "profile:local-default",
+          "sessionId": "session:personalization:one",
+          "version": 1,
+          "useExisting": true,
+          "contributeToFuture": true,
+          "updatedBy": {
+            "kind": "user",
+            "actorId": "user:local"
+          },
+          "updatedAt": "2026-08-31T13:00:00Z"
+        }
+      }
+    },
+    "preferenceResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "set-preference",
+        "status": "created",
+        "memoryVersion": {
+          "schemaVersion": 1,
+          "recordType": "memory-version",
+          "memoryVersionId": "memory:table-context:v1",
+          "chainId": "memory-chain:table-context",
+          "version": 1,
+          "profileId": "profile:local-default",
+          "status": "active",
+          "transactionTime": {
+            "recordedAt": "2026-08-31T13:04:00Z"
+          },
+          "memoryType": "evidence-preference",
+          "effect": {
+            "key": "evidence-presentation",
+            "value": "table-context"
+          },
+          "summary": "Show key figures with their table context.",
+          "scope": {
+            "kind": "workspace",
+            "profileId": "profile:local-default",
+            "workspaceId": "workspace:finance"
+          },
+          "sensitivity": "ordinary",
+          "observationIds": [
+            "observation:table-context:one"
+          ],
+          "candidateId": "candidate:table-context:one",
+          "contentSafety": {
+            "secretScan": "passed",
+            "sensitiveInference": "none"
+          },
+          "retentionConsent": "eligible",
+          "validTime": {
+            "from": "2026-08-31T13:01:00Z"
+          },
+          "activation": {
+            "kind": "explicit-setting",
+            "actor": {
+              "kind": "user",
+              "actorId": "user:local"
+            },
+            "activatedAt": "2026-08-31T13:04:00Z"
+          },
+          "policy": {
+            "apply": "disclose"
+          }
+        }
+      }
+    },
+    "pauseResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "pause",
+        "status": "updated",
+        "memoryVersion": {
+          "schemaVersion": 1,
+          "recordType": "memory-version",
+          "memoryVersionId": "memory:table-context:v2",
+          "chainId": "memory-chain:table-context",
+          "version": 2,
+          "profileId": "profile:local-default",
+          "status": "paused",
+          "previousMemoryVersionId": "memory:table-context:v1",
+          "transactionTime": {
+            "recordedAt": "2026-08-31T14:10:00Z"
+          },
+          "memoryType": "evidence-preference",
+          "effect": {
+            "key": "evidence-presentation",
+            "value": "table-context"
+          },
+          "summary": "Show key figures with their table context.",
+          "scope": {
+            "kind": "workspace",
+            "profileId": "profile:local-default",
+            "workspaceId": "workspace:finance"
+          },
+          "sensitivity": "ordinary",
+          "observationIds": [
+            "observation:table-context:one"
+          ],
+          "candidateId": "candidate:table-context:one",
+          "contentSafety": {
+            "secretScan": "passed",
+            "sensitiveInference": "none"
+          },
+          "retentionConsent": "eligible",
+          "validTime": {
+            "from": "2026-08-31T13:01:00Z"
+          },
+          "activation": {
+            "kind": "explicit-setting",
+            "actor": {
+              "kind": "user",
+              "actorId": "user:local"
+            },
+            "activatedAt": "2026-08-31T13:04:00Z"
+          },
+          "policy": {
+            "apply": "disclose"
+          }
+        }
+      }
+    },
+    "resumeResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "resume",
+        "status": "updated",
+        "memoryVersion": {
+          "schemaVersion": 1,
+          "recordType": "memory-version",
+          "memoryVersionId": "memory:table-context:v3",
+          "chainId": "memory-chain:table-context",
+          "version": 3,
+          "profileId": "profile:local-default",
+          "status": "active",
+          "previousMemoryVersionId": "memory:table-context:v2",
+          "transactionTime": {
+            "recordedAt": "2026-08-31T14:11:00Z"
+          },
+          "memoryType": "evidence-preference",
+          "effect": {
+            "key": "evidence-presentation",
+            "value": "table-context"
+          },
+          "summary": "Show key figures with their table context.",
+          "scope": {
+            "kind": "workspace",
+            "profileId": "profile:local-default",
+            "workspaceId": "workspace:finance"
+          },
+          "sensitivity": "ordinary",
+          "observationIds": [
+            "observation:table-context:one"
+          ],
+          "candidateId": "candidate:table-context:one",
+          "contentSafety": {
+            "secretScan": "passed",
+            "sensitiveInference": "none"
+          },
+          "retentionConsent": "eligible",
+          "validTime": {
+            "from": "2026-08-31T13:01:00Z"
+          },
+          "activation": {
+            "kind": "explicit-setting",
+            "actor": {
+              "kind": "user",
+              "actorId": "user:local"
+            },
+            "activatedAt": "2026-08-31T13:04:00Z"
+          },
+          "policy": {
+            "apply": "disclose"
+          }
+        }
+      }
+    },
+    "editResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "edit",
+        "status": "updated",
+        "memoryVersion": {
+          "schemaVersion": 1,
+          "recordType": "memory-version",
+          "memoryVersionId": "memory:table-context:edited:v2",
+          "chainId": "memory-chain:table-context",
+          "version": 2,
+          "profileId": "profile:local-default",
+          "status": "active",
+          "previousMemoryVersionId": "memory:table-context:v1",
+          "transactionTime": {
+            "recordedAt": "2026-08-31T14:12:00Z"
+          },
+          "memoryType": "evidence-preference",
+          "effect": {
+            "key": "evidence-presentation",
+            "value": "quote"
+          },
+          "summary": "Show key figures with exact quotes.",
+          "scope": {
+            "kind": "workspace",
+            "profileId": "profile:local-default",
+            "workspaceId": "workspace:finance"
+          },
+          "sensitivity": "ordinary",
+          "observationIds": [
+            "observation:table-context:one"
+          ],
+          "contentSafety": {
+            "secretScan": "passed",
+            "sensitiveInference": "none"
+          },
+          "retentionConsent": "eligible",
+          "validTime": {
+            "from": "2026-08-31T13:01:00Z"
+          },
+          "activation": {
+            "kind": "explicit-confirmation",
+            "actor": {
+              "kind": "user",
+              "actorId": "user:local"
+            },
+            "activatedAt": "2026-08-31T14:12:00Z"
+          },
+          "policy": {
+            "apply": "disclose"
+          }
+        }
+      }
+    },
+    "forgetChainResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "forget",
+        "status": "completed",
+        "receipt": {
+          "receiptId": "forget-receipt:chain:one",
+          "target": "memory-chain",
+          "targetId": "memory:table-context:v2",
+          "mode": "memory-only",
+          "activeProjectionRemoved": true,
+          "sessionLogChanged": false,
+          "providerCopiesChanged": false,
+          "provenanceHandling": "orphan",
+          "backupDisposition": "not-applicable",
+          "completedAt": "2026-08-31T14:15:00Z"
+        }
+      }
+    },
+    "forgetProfileResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "forget",
+        "status": "accepted",
+        "receipt": {
+          "receiptId": "forget-receipt:profile:one",
+          "target": "profile",
+          "targetId": "profile:local-default",
+          "mode": "privacy-erasure",
+          "activeProjectionRemoved": true,
+          "sessionLogChanged": false,
+          "providerCopiesChanged": false,
+          "provenanceHandling": "redact-derived-excerpts",
+          "backupDisposition": "scheduled-compaction"
+        }
+      }
+    },
+    "exportResult": {
+      "schemaVersion": 1,
+      "kind": "preference-result",
+      "conversationId": "session:personalization:two",
+      "result": {
+        "schemaVersion": 1,
+        "resultType": "personalization-command",
+        "profileId": "profile:local-default",
+        "action": "export",
+        "status": "created",
+        "export": {
+          "exportId": "personalization-export:one",
+          "assetId": "asset:personalization-export:one",
+          "bundleSchemaVersion": 1,
+          "format": "json",
+          "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "byteLength": 4096,
+          "createdAt": "2026-08-31T14:20:00Z",
+          "expiresAt": "2026-08-31T14:30:00Z",
+          "provenance": "references-only",
+          "includedStatuses": [
+            "active",
+            "paused",
+            "disputed",
+            "superseded",
+            "expired",
+            "archived"
+          ]
+        }
+      }
+    }
+  },
+  "valid": [
+    {
+      "name": "accept policy",
+      "base": "policy"
+    },
+    {
+      "name": "accept preference",
+      "base": "preference"
+    },
+    {
+      "name": "accept pause",
+      "base": "pause"
+    },
+    {
+      "name": "accept resume",
+      "base": "resume"
+    },
+    {
+      "name": "accept edit",
+      "base": "edit"
+    },
+    {
+      "name": "accept forgetChain",
+      "base": "forgetChain"
+    },
+    {
+      "name": "accept forgetProfile",
+      "base": "forgetProfile"
+    },
+    {
+      "name": "accept export",
+      "base": "export"
+    },
+    {
+      "name": "accept inspection",
+      "base": "inspection"
+    },
+    {
+      "name": "accept policyResult",
+      "base": "policyResult"
+    },
+    {
+      "name": "accept preferenceResult",
+      "base": "preferenceResult"
+    },
+    {
+      "name": "accept pauseResult",
+      "base": "pauseResult"
+    },
+    {
+      "name": "accept resumeResult",
+      "base": "resumeResult"
+    },
+    {
+      "name": "accept editResult",
+      "base": "editResult"
+    },
+    {
+      "name": "accept forgetChainResult",
+      "base": "forgetChainResult"
+    },
+    {
+      "name": "accept forgetProfileResult",
+      "base": "forgetProfileResult"
+    },
+    {
+      "name": "accept exportResult",
+      "base": "exportResult"
+    },
+    {
+      "name": "explicit answer-order conclusion-first",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "answer-order",
+            "value": "conclusion-first"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit answer-order evidence-first",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "answer-order",
+            "value": "evidence-first"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit explanation-depth brief",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "explanation-depth",
+            "value": "brief"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit explanation-depth standard",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "explanation-depth",
+            "value": "standard"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit explanation-depth teaching",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "explanation-depth",
+            "value": "teaching"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit preferred-representation pdf",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "preferred-representation",
+            "value": "pdf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit preferred-representation page-image",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "preferred-representation",
+            "value": "page-image"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit preferred-representation table",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "preferred-representation",
+            "value": "table"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit preferred-representation comparison",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "preferred-representation",
+            "value": "comparison"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit terminology-depth professional",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "terminology-depth",
+            "value": "professional"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit terminology-depth explain-on-first-use",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "terminology-depth",
+            "value": "explain-on-first-use"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit terminology-depth teaching",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "terminology-depth",
+            "value": "teaching"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit artifact-format brief",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "artifact-format",
+            "value": "brief"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit artifact-format matrix",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "artifact-format",
+            "value": "matrix"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit artifact-format timeline",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "artifact-format",
+            "value": "timeline"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit comparison-layout side-by-side",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "comparison-layout",
+            "value": "side-by-side"
+          }
+        }
+      ]
+    },
+    {
+      "name": "explicit comparison-layout stacked",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "comparison-layout",
+            "value": "stacked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "independent switches false false",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "policy"
+          ],
+          "value": {
+            "useExisting": false,
+            "contributeToFuture": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "independent switches false true",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "policy"
+          ],
+          "value": {
+            "useExisting": false,
+            "contributeToFuture": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "independent switches true false",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "policy"
+          ],
+          "value": {
+            "useExisting": true,
+            "contributeToFuture": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "independent switches true true",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "policy"
+          ],
+          "value": {
+            "useExisting": true,
+            "contributeToFuture": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "workspace is chosen without sending its ID",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "scope"
+          ],
+          "value": "workspace"
+        }
+      ]
+    },
+    {
+      "name": "editing can retain paused state",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "statusAfterEdit"
+          ],
+          "value": "paused"
+        }
+      ]
+    },
+    {
+      "name": "markdown profile export is not markdown citation preference",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "format"
+          ],
+          "value": "markdown"
+        }
+      ]
+    }
+  ],
+  "invalidShape": [
+    {
+      "name": "policy cannot inject actor",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "policy cannot inject profileId",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policy cannot inject workspaceId",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policy cannot inject sessionId",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "policy rejects unknown protocol version",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "policy requires current generation",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "preference cannot inject actor",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "preference cannot inject profileId",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "preference cannot inject workspaceId",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "preference cannot inject sessionId",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "preference rejects unknown protocol version",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "preference requires current generation",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "pause cannot inject actor",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pause cannot inject profileId",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "pause cannot inject workspaceId",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "pause cannot inject sessionId",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "pause rejects unknown protocol version",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "pause requires current generation",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "resume cannot inject actor",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "resume cannot inject profileId",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "resume cannot inject workspaceId",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "resume cannot inject sessionId",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "resume rejects unknown protocol version",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "resume requires current generation",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "edit cannot inject actor",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "edit cannot inject profileId",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "edit cannot inject workspaceId",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "edit cannot inject sessionId",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "edit rejects unknown protocol version",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "edit requires current generation",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "forgetChain cannot inject actor",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "forgetChain cannot inject profileId",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "forgetChain cannot inject workspaceId",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "forgetChain cannot inject sessionId",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "forgetChain rejects unknown protocol version",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "forgetChain requires current generation",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile cannot inject actor",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile cannot inject profileId",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile cannot inject workspaceId",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile cannot inject sessionId",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile rejects unknown protocol version",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile requires current generation",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "export cannot inject actor",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "actor"
+          ],
+          "value": {
+            "kind": "user",
+            "actorId": "actor:forged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "export cannot inject profileId",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "profileId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "export cannot inject workspaceId",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "workspaceId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "export cannot inject sessionId",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "sessionId"
+          ],
+          "value": "forged:identity"
+        }
+      ]
+    },
+    {
+      "name": "export rejects unknown protocol version",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "export requires current generation",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "expectedGeneration"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "inspection rejects unknown version",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "inspection has no hidden model state",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "modelCredentials"
+          ],
+          "value": {}
+        }
+      ]
+    },
+    {
+      "name": "preferenceResult rejects unknown version",
+      "base": "preferenceResult",
+      "set": [
+        {
+          "path": [
+            "schemaVersion"
+          ],
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "preferenceResult has no hidden model state",
+      "base": "preferenceResult",
+      "set": [
+        {
+          "path": [
+            "modelCredentials"
+          ],
+          "value": {}
+        }
+      ]
+    },
+    {
+      "name": "settings cannot claim model application",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "modelApplication"
+          ],
+          "value": "applied"
+        }
+      ]
+    },
+    {
+      "name": "inspection cannot omit nonconnection status",
+      "base": "inspection",
+      "remove": [
+        [
+          "modelApplication"
+        ]
+      ]
+    },
+    {
+      "name": "preferences cannot contain freeform summary",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "summary"
+          ],
+          "value": "inferred personality"
+        }
+      ]
+    },
+    {
+      "name": "preferences cannot contain sensitive inference",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "sensitivity"
+          ],
+          "value": "sensitive"
+        }
+      ]
+    },
+    {
+      "name": "preferences cannot set a profile-bearing scope object",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "scope"
+          ],
+          "value": {
+            "kind": "global",
+            "profileId": "profile:local-default"
+          }
+        }
+      ]
+    },
+    {
+      "name": "preferences cannot carry source evidence",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "evidenceAtom"
+          ],
+          "value": {
+            "text": "source"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new candidates cannot be promoted through controls",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command"
+          ],
+          "value": {
+            "action": "review-candidate",
+            "idempotencyKey": "review:forbidden",
+            "candidateId": "candidate:untrusted",
+            "expectedVersion": 1,
+            "decision": "accept"
+          }
+        }
+      ]
+    },
+    {
+      "name": "preference cannot prefer markdown citations",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "preferred-representation",
+            "value": "markdown"
+          }
+        }
+      ]
+    },
+    {
+      "name": "edit cannot prefer markdown citations",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "replacement",
+            "effect"
+          ],
+          "value": {
+            "key": "preferred-representation",
+            "value": "markdown"
+          }
+        }
+      ]
+    },
+    {
+      "name": "challenge depth is outside the explicit low-risk set",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "challenge-depth",
+            "value": "extra-counterevidence"
+          }
+        }
+      ]
+    },
+    {
+      "name": "effect value must belong to selected axis",
+      "base": "preference",
+      "set": [
+        {
+          "path": [
+            "command",
+            "preference",
+            "effect"
+          ],
+          "value": {
+            "key": "answer-order",
+            "value": "teaching"
+          }
+        }
+      ]
+    },
+    {
+      "name": "policy cannot collapse two switches",
+      "base": "policy",
+      "remove": [
+        [
+          "command",
+          "policy",
+          "contributeToFuture"
+        ]
+      ]
+    },
+    {
+      "name": "policy cannot add a source-ranking switch",
+      "base": "policy",
+      "set": [
+        {
+          "path": [
+            "command",
+            "policy",
+            "changeEvidence"
+          ],
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "pause does not promise an unimplemented expiry",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "command",
+            "until"
+          ],
+          "value": "2026-10-01T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "name": "pause requires exact version CAS",
+      "base": "pause",
+      "remove": [
+        [
+          "command",
+          "expectedVersion"
+        ]
+      ]
+    },
+    {
+      "name": "pause cannot use zero memory version",
+      "base": "pause",
+      "set": [
+        {
+          "path": [
+            "command",
+            "expectedVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "resume requires exact version CAS",
+      "base": "resume",
+      "remove": [
+        [
+          "command",
+          "expectedVersion"
+        ]
+      ]
+    },
+    {
+      "name": "resume cannot use zero memory version",
+      "base": "resume",
+      "set": [
+        {
+          "path": [
+            "command",
+            "expectedVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "edit requires exact version CAS",
+      "base": "edit",
+      "remove": [
+        [
+          "command",
+          "expectedVersion"
+        ]
+      ]
+    },
+    {
+      "name": "edit cannot use zero memory version",
+      "base": "edit",
+      "set": [
+        {
+          "path": [
+            "command",
+            "expectedVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "forgetChain requires exact version CAS",
+      "base": "forgetChain",
+      "remove": [
+        [
+          "command",
+          "expectedVersion"
+        ]
+      ]
+    },
+    {
+      "name": "forgetChain cannot use zero memory version",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "expectedVersion"
+          ],
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "chain erasure cannot promise profile compaction",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "mode"
+          ],
+          "value": "privacy-erasure"
+        }
+      ]
+    },
+    {
+      "name": "profile erasure requires profile revision CAS",
+      "base": "forgetProfile",
+      "remove": [
+        [
+          "command",
+          "expectedProfileRevision"
+        ]
+      ]
+    },
+    {
+      "name": "profile erasure cannot carry memory CAS",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "memoryVersionId"
+          ],
+          "value": "memory:foreign"
+        }
+      ]
+    },
+    {
+      "name": "profile revision cannot be negative",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "expectedProfileRevision"
+          ],
+          "value": -1
+        }
+      ]
+    },
+    {
+      "name": "forgetChain requires external-retention acknowledgement",
+      "base": "forgetChain",
+      "set": [
+        {
+          "path": [
+            "command",
+            "acknowledgeExternalRetention"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "forgetProfile requires external-retention acknowledgement",
+      "base": "forgetProfile",
+      "set": [
+        {
+          "path": [
+            "command",
+            "acknowledgeExternalRetention"
+          ],
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "export statuses must be unique",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "includeStatuses"
+          ],
+          "value": [
+            "active",
+            "active"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deleted memories are not exportable content",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "includeStatuses"
+          ],
+          "value": [
+            "deleted"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export has no filesystem destination",
+      "base": "export",
+      "set": [
+        {
+          "path": [
+            "command",
+            "path"
+          ],
+          "value": "/private/profile.json"
+        }
+      ]
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "policy receipt retains its authorized profile",
+      "base": "policyResult",
+      "set": [{ "path": ["result", "sessionPolicy", "profileId"], "value": "profile:foreign" }],
+      "codes": ["preference-session"]
+    },
+    {
+      "name": "memory receipt retains its authorized profile",
+      "base": "preferenceResult",
+      "set": [{ "path": ["result", "memoryVersion", "profileId"], "value": "profile:foreign" }],
+      "codes": ["preference-profile"]
+    },
+    {
+      "name": "inspection belongs to envelope conversation",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "conversationId"
+          ],
+          "value": "conversation:other"
+        }
+      ],
+      "codes": [
+        "preference-session"
+      ]
+    },
+    {
+      "name": "session policy cannot be from another conversation",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "sessionPolicy",
+            "sessionId"
+          ],
+          "value": "conversation:other"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection excludes foreign sessionPolicy.profileId",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "sessionPolicy",
+            "profileId"
+          ],
+          "value": "profile:foreign"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection excludes foreign memories.0.profileId",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "memories",
+            0,
+            "profileId"
+          ],
+          "value": "profile:foreign"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection excludes foreign decisions.0.profileId",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "decisions",
+            0,
+            "profileId"
+          ],
+          "value": "profile:foreign"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection excludes foreign uses.0.profileId",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "uses",
+            0,
+            "profileId"
+          ],
+          "value": "profile:foreign"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection excludes foreign decisions.0.appliesTo.sessionId",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "decisions",
+            0,
+            "appliesTo",
+            "sessionId"
+          ],
+          "value": "conversation:other"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection excludes foreign uses.0.sessionId",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "uses",
+            0,
+            "sessionId"
+          ],
+          "value": "conversation:other"
+        }
+      ],
+      "codes": [
+        "identity"
+      ]
+    },
+    {
+      "name": "inspection counts cannot understate memories",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "counts",
+            "memories"
+          ],
+          "value": 0
+        }
+      ],
+      "codes": [
+        "count"
+      ]
+    },
+    {
+      "name": "inspection truncation must be truthful",
+      "base": "inspection",
+      "set": [
+        {
+          "path": [
+            "result",
+            "counts",
+            "memories"
+          ],
+          "value": 2
+        }
+      ],
+      "codes": [
+        "truncation"
+      ]
+    },
+    {
+      "name": "policy receipt belongs to envelope conversation",
+      "base": "policyResult",
+      "set": [
+        {
+          "path": [
+            "conversationId"
+          ],
+          "value": "conversation:other"
+        }
+      ],
+      "codes": [
+        "preference-session"
+      ]
+    }
+  ]
+}

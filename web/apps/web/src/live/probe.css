@@ -1,0 +1,40 @@
+.probe-presentations { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 18px; }
+.probe-presentation { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); }
+.probe-position { font-size: 15px; font-weight: 600; margin: 0 0 18px; }
+.probe-sections { display: grid; gap: 22px; }
+.probe-section { min-width: 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.probe-section h4 { margin: 0 0 12px; font-size: 13px; font-weight: 600; }
+.probe-section .live-answer-body { font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.probe-section .live-answer-body p { margin: 0 0 12px; white-space: pre-wrap; }
+.probe-muted, .probe-uncertainty { color: var(--muted); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.probe-muted { margin: 8px 0; }
+.probe-uncertainty { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 14px; }
+.probe-uncertainty p { margin: 6px 0; }
+.probe-uncertainty ul { padding-left: 20px; margin: 8px 0; }
+.probe-evidence { margin-top: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.probe-evidence header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font-size: 12px; }
+.probe-evidence-text { font-size: 13px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; margin: 10px 0; }
+.probe-evidence small { display: block; font-size: 11px; line-height: 1.65; color: var(--muted); overflow-wrap: anywhere; }
+.probe-weak { font-size: 12px; line-height: 1.7; color: var(--muted); margin: 8px 0; }
+.probe-presentation button, .probe-choice button { min-height: 40px; }
+.probe-choice { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink); }
+.probe-choice h3 { font-size: 15px; margin: 0 0 10px; }
+.probe-choice fieldset { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; margin: 14px 0; }
+.probe-choice legend { padding: 0 5px; font-size: 12px; }
+.probe-radio { display: flex; align-items: center; gap: 9px; font-size: 13px; line-height: 1.7; min-height: 36px; }
+.probe-radio input { accent-color: var(--accent); }
+.probe-scope { display: grid; gap: 7px; font-size: 12px; margin: 16px 0 10px; }
+.probe-scope select { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: inherit; font: inherit; }
+.probe-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 16px; }
+.probe-notice { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); font-size: 12px; line-height: 1.7; }
+.probe-choice :is(button,input,select):focus-visible, .probe-presentation button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 720px) { .probe-presentations { grid-template-columns: minmax(0, 1fr); } .probe-presentation button, .probe-choice button, .probe-radio { min-height: 44px; } .probe-scope select { font-size: 16px; } }
+.drawer:has(> .drawer-content > .live-probe) { width: min(1100px, 100%); }
+.live-probe { display: grid; gap: 18px; }
+.live-probe > button { justify-self: start; min-height: 40px; }
+.live-probe h3 { margin: 0 0 10px; font-size: 15px; }
+.live-probe code { display: block; font-size: 11px; line-height: 1.7; overflow-wrap: anywhere; }
+.live-probe pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; }
+.probe-introduction, .probe-recorded, .probe-candidate { padding: 16px; border: 1px solid var(--line); border-radius: 10px; line-height: 1.7; font-size: 13px; }
+.probe-reasons { margin-top: 18px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; }
+.probe-reasons legend { font-size: 12px; }

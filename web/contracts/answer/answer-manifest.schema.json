@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/answer-manifest.v1.json",
+  "title": "DocAtlas evidence-mapped answer manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "manifestId",
+    "sessionId",
+    "workspaceId",
+    "investigationId",
+    "messageId",
+    "turn",
+    "sourceScopeVersionId",
+    "mode",
+    "manifestStatus",
+    "answerTextHash",
+    "blocks",
+    "citations",
+    "verificationSummary",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "manifestId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "messageId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "turn": { "type": "integer", "minimum": 1 },
+    "sourceScopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "mode": { "type": "string", "enum": ["explore", "verify", "publish"] },
+    "manifestStatus": { "type": "string", "enum": ["mapped", "partial", "unmapped"] },
+    "answerTextHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/block" }
+    },
+    "citations": {
+      "type": "array",
+      "maxItems": 128,
+      "items": { "$ref": "#/$defs/citation" }
+    },
+    "verificationSummary": { "$ref": "#/$defs/verificationSummary" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "$defs": {
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blockId", "sourceBlockIndex", "kind", "segments"],
+      "properties": {
+        "blockId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "sourceBlockIndex": { "type": "integer", "minimum": 0 },
+        "kind": { "const": "prose" },
+        "segments": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/segment" }
+        }
+      }
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segmentId",
+        "text",
+        "kind",
+        "status",
+        "claimVersionIds",
+        "visibleCitationIds"
+      ],
+      "properties": {
+        "segmentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "text": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "kind": {
+          "type": "string",
+          "enum": ["factual", "derived", "interpretive", "procedural", "social", "unclassified"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["supported", "qualified", "contested", "unresolved", "not-applicable"]
+        },
+        "claimVersionIds": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "visibleCitationIds": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "citationId",
+        "ordinal",
+        "relation",
+        "relationAssertedBy",
+        "focusId",
+        "locator",
+        "verificationStatus"
+      ],
+      "properties": {
+        "citationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "ordinal": { "type": "integer", "minimum": 1, "maximum": 128 },
+        "relation": { "type": "string", "enum": ["support", "refute", "qualify"] },
+        "relationAssertedBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+        "focusId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "locator": { "$ref": "https://docatlas.dev/schemas/document-locator.v1.json" },
+        "verificationStatus": { "type": "string", "enum": ["read-verified", "locator-only"] },
+        "evidence": { "$ref": "https://docatlas.dev/schemas/evidence-atom.v1.json" }
+      }
+    },
+    "verificationSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factualSegments",
+        "mappedFactualSegments",
+        "supportedSegments",
+        "qualifiedSegments",
+        "contestedSegments",
+        "unresolvedSegments",
+        "unclassifiedSegments",
+        "citationCount",
+        "complete",
+        "warnings"
+      ],
+      "properties": {
+        "factualSegments": { "type": "integer", "minimum": 0 },
+        "mappedFactualSegments": { "type": "integer", "minimum": 0 },
+        "supportedSegments": { "type": "integer", "minimum": 0 },
+        "qualifiedSegments": { "type": "integer", "minimum": 0 },
+        "contestedSegments": { "type": "integer", "minimum": 0 },
+        "unresolvedSegments": { "type": "integer", "minimum": 0 },
+        "unclassifiedSegments": { "type": "integer", "minimum": 0 },
+        "citationCount": { "type": "integer", "minimum": 0, "maximum": 128 },
+        "complete": { "type": "boolean" },
+        "warnings": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "unclassified-text",
+              "unknown-locator",
+              "malformed-marker",
+              "scope-conflict",
+              "locator-without-text",
+              "limit-exceeded"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

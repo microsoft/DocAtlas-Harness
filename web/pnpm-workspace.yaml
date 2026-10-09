@@ -1,0 +1,13 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  '@google/genai': false
+  esbuild: true
+  koffi: true
+  node-pty: true
+  protobufjs: false
+
+patchedDependencies:
+  '@earendil-works/pi-coding-agent@0.85.1': patches/@earendil-works__pi-coding-agent@0.85.1.patch

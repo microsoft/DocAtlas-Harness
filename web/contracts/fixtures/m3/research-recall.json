@@ -1,0 +1,68 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "requestType": "research-recall",
+    "sessionId": "session:recall:current",
+    "workspaceId": "workspace:recall",
+    "investigationId": "investigation:current",
+    "scopeVersionId": "scope:current:1",
+    "query": "margin audit",
+    "recordTypes": ["research-note", "open-question"],
+    "limits": { "maxItems": 10, "maxChars": 1000 }
+  },
+  "result": {
+    "schemaVersion": 1,
+    "resultType": "research-recall",
+    "workspaceId": "workspace:recall",
+    "investigationId": "investigation:current",
+    "scopeVersionId": "scope:current:1",
+    "queryHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "leads": [
+      {
+        "leadId": "lead:recall:note:1",
+        "recordId": "note:prior:1",
+        "recordType": "research-note",
+        "recordStatus": "active",
+        "sourceInvestigationId": "investigation:prior",
+        "sourceSessionId": "session:recall:prior",
+        "sourceScopeVersionId": "scope:prior:1",
+        "preview": "Prior margin hypothesis.",
+        "sourceIdentities": [
+          {
+            "documentId": "doc:margin",
+            "revisionId": "rev:margin:1",
+            "representationId": "rep:margin:text",
+            "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ],
+        "sourceState": "current-scope",
+        "verificationStatus": "unverified-lead",
+        "reason": "Lexical match in prior research record; re-read source before factual use.",
+        "createdAt": "2026-08-30T10:00:00Z"
+      },
+      {
+        "leadId": "lead:recall:question:1",
+        "recordId": "question:prior:1",
+        "recordType": "open-question",
+        "recordStatus": "open",
+        "sourceInvestigationId": "investigation:prior",
+        "sourceSessionId": "session:recall:prior",
+        "preview": "Which definition was audited?",
+        "sourceIdentities": [],
+        "sourceState": "none",
+        "verificationStatus": "unverified-lead",
+        "reason": "Lexical match in prior research record; this is a lead, not evidence.",
+        "createdAt": "2026-08-30T10:05:00Z"
+      }
+    ],
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 10,
+      "returned": 2,
+      "total": 2,
+      "usedChars": 53,
+      "truncated": false,
+      "completeness": "candidate"
+    }
+  }
+}

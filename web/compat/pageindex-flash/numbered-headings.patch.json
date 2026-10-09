@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "id": "docatlas-numbered-headings-v1",
+  "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+  "reason": "Preserve cross-page source-backed numbered heading cohorts and narrowly admit printed numbered bookmarks without relaxing page/file counter rejection.",
+  "files": [
+    {
+      "path": "flash/main.py",
+      "upstreamSha256": "d37a014d4a9aa01fe08b775e335cae0a9fa42a047645a81558d52f22649504fb",
+      "outputSha256": "bbb2af18b0f581954d03eb6ec77323f31b37d8bbe9ebd409cef44a25c3fea151",
+      "replacements": [
+        {
+          "before": [
+            "    title_winner = detect_title(doc)"
+          ],
+          "after": [
+            "    from ._docatlas_numbered import title_is_numbered_section",
+            "    title_winner = detect_title(doc)",
+            "    if title_winner is not None and len(title_winner.output_slot) == 1:",
+            "        title_block = title_winner.output_slot[0]",
+            "        if title_block.line_count() == 1 and title_is_numbered_section(",
+            "            title_winner.to_string(), title_winner.page.page_index,",
+            "            span_style_hash(title_block), title_block.avg_font_size(),",
+            "            doc.secondary_slot.primary_slot,",
+            "            (",
+            "                (block_text(candidate), page.page_index,",
+            "                 span_style_hash(candidate), candidate.avg_font_size())",
+            "                for page in doc.primary_slot",
+            "                for candidate in (page.secondary_slot or [])",
+            "                if candidate.type == 0 and not candidate.is_body_paragraph",
+            "                and candidate.line_count() == 1",
+            "                and candidate.top_edge() >= 0.5 * page.bounds.bbox_height()",
+            "            ),",
+            "        ):",
+            "            title_winner = None"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "flash/embedded_toc.py",
+      "upstreamSha256": "c7ba47c09efb7c54ff91cf6c5e8631ed9fcd9b48dbfa8a7ebb56cd05351359b4",
+      "outputSha256": "658bc22eac4df11648f04dc6f201ac333bed247e1338e7210d0084eee858dc6a",
+      "replacements": [
+        {
+          "before": [
+            "    entries = validate_bookmarks(read_bookmarks(doc_handle), n_pages)",
+            "    tier = classify_bookmarks(entries, n_pages)"
+          ],
+          "after": [
+            "    raw_entries = read_bookmarks(doc_handle)",
+            "    entries = validate_bookmarks(raw_entries, n_pages)",
+            "    tier = classify_bookmarks(entries, n_pages)",
+            "    if tier == IGNORE and entries == raw_entries:",
+            "        from ._docatlas_numbered import source_supported_numbered_bookmarks",
+            "        if source_supported_numbered_bookmarks(entries, n_pages, page_texts):",
+            "            tier = SKELETON"
+          ]
+        }
+      ]
+    }
+  ],
+  "addition": {
+    "path": "flash/_docatlas_numbered.py",
+    "source": "compat/pageindex-flash/numbered_headings.py",
+    "sha256": "285f5f8238b2672231a8c37ff8a362cee6b92f70c5d6833878755465cba45c90"
+  }
+}

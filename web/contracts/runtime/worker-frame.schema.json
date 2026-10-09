@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/worker-frame.v1.json",
+  "title": "Directional internal worker transport, not browser authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "kind",
+    "id"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "kind": {
+      "enum": [
+        "call",
+        "yield",
+        "return",
+        "error",
+        "cancel"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}:[1-9][0-9]{0,12}$"
+    },
+    "method": {
+      "type": "string",
+      "pattern": "^[a-z][a-zA-Z0-9.]{0,95}$"
+    },
+    "value": {},
+    "sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "code": {
+      "enum": [
+        "denied",
+        "invalid",
+        "cancelled",
+        "unavailable",
+        "limit",
+        "failed"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "kind": {
+          "const": "call"
+        },
+        "method": {},
+        "value": {},
+        "sequence": false,
+        "code": false
+      },
+      "required": [
+        "method",
+        "value"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "yield"
+        },
+        "method": false,
+        "value": {},
+        "sequence": {},
+        "code": false
+      },
+      "required": [
+        "sequence",
+        "value"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "return"
+        },
+        "method": false,
+        "value": {},
+        "sequence": false,
+        "code": false
+      },
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "error"
+        },
+        "method": false,
+        "value": false,
+        "sequence": false,
+        "code": {}
+      },
+      "required": [
+        "code"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "cancel"
+        },
+        "method": false,
+        "value": false,
+        "sequence": false,
+        "code": false
+      }
+    }
+  ]
+}

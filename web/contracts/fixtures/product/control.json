@@ -1,0 +1,542 @@
+{
+  "valid": [
+    {
+      "schemaVersion": 1,
+      "kind": "binding",
+      "bindingId": "binding:one",
+      "conversationId": "conversation:one",
+      "workspaceId": "workspace:one",
+      "ownerActorId": "user:one",
+      "investigationId": null,
+      "runtimeSessionId": "pi-session:one",
+      "branchEntryId": null,
+      "generation": 1,
+      "version": 1,
+      "createdAt": "2026-09-08T12:00:00Z",
+      "updatedAt": "2026-09-08T12:00:00Z"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "submission",
+      "conversationId": "conversation:one",
+      "idempotencyKey": "request:0123456789",
+      "expectedGeneration": 1,
+      "mode": "prompt",
+      "text": "Summarize this document.",
+      "sourceRefs": [
+        {
+          "documentId": "document:one",
+          "revisionId": "revision:one"
+        }
+      ],
+      "selectionContextIds": []
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "prepared",
+      "submissionId": "submission:one",
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bindingGeneration": 1,
+      "scopeVersionId": "scope:one",
+      "sourceRefs": [
+        {
+          "documentId": "document:one",
+          "revisionId": "revision:one"
+        }
+      ],
+      "selectionContextIds": []
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "pi-checkpoint",
+      "submissionId": "submission:one",
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "runtimeSessionId": "pi-session:one",
+      "userEntryId": "entry:user",
+      "leafEntryId": "entry:answer",
+      "transcriptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "byteLength": 1024,
+      "entryCount": 4,
+      "settledAt": "2026-09-08T12:00:00Z"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "run-receipt",
+      "submissionId": "submission:one",
+      "runId": "run:one",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "mode": "prompt",
+      "state": "accepted",
+      "version": 1,
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "createdAt": "2026-09-08T12:00:00Z",
+      "updatedAt": "2026-09-08T12:00:00Z",
+      "payloadRetained": true
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "run-receipt",
+      "submissionId": "submission:one",
+      "runId": "run:one",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "mode": "prompt",
+      "state": "completed",
+      "version": 5,
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "createdAt": "2026-09-08T12:00:00Z",
+      "updatedAt": "2026-09-08T12:00:00Z",
+      "payloadRetained": true,
+      "checkpoint": {
+        "schemaVersion": 1,
+        "kind": "pi-checkpoint",
+        "submissionId": "submission:one",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runtimeSessionId": "pi-session:one",
+        "userEntryId": "entry:user",
+        "leafEntryId": "entry:answer",
+        "transcriptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "byteLength": 1024,
+        "entryCount": 4,
+        "settledAt": "2026-09-08T12:00:00Z"
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "run-receipt",
+      "submissionId": "submission:one",
+      "runId": "run:one",
+      "conversationId": "conversation:one",
+      "generation": 1,
+      "mode": "prompt",
+      "state": "outcome-unknown",
+      "version": 1,
+      "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "createdAt": "2026-09-08T12:00:00Z",
+      "updatedAt": "2026-09-08T12:00:00Z",
+      "payloadRetained": true,
+      "errorCode": "execution-interrupted"
+    }
+  ],
+  "invalidShape": [
+    {
+      "name": "unknown version",
+      "value": {
+        "schemaVersion": 2,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "request:0123456789",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": "Summarize this document.",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": []
+      }
+    },
+    {
+      "name": "client actor forgery",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "request:0123456789",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": "Summarize this document.",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": [],
+        "actorId": "user:admin"
+      }
+    },
+    {
+      "name": "arbitrary file path",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "request:0123456789",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": "Summarize this document.",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": [],
+        "filePath": "/etc/passwd"
+      }
+    },
+    {
+      "name": "short idempotency key",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "x",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": "Summarize this document.",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": []
+      }
+    },
+    {
+      "name": "success without checkpoint",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "completed",
+        "version": 1,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-08T12:00:00Z",
+        "payloadRetained": true
+      }
+    },
+    {
+      "name": "unknown without reason",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "outcome-unknown",
+        "version": 1,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-08T12:00:00Z",
+        "payloadRetained": true
+      }
+    },
+    {
+      "name": "lost pending recovery input",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "accepted",
+        "version": 1,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-08T12:00:00Z",
+        "payloadRetained": false
+      }
+    },
+    {
+      "name": "running with completion proof",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "running",
+        "version": 5,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-08T12:00:00Z",
+        "payloadRetained": true,
+        "checkpoint": {
+          "schemaVersion": 1,
+          "kind": "pi-checkpoint",
+          "submissionId": "submission:one",
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "runtimeSessionId": "pi-session:one",
+          "userEntryId": "entry:user",
+          "leafEntryId": "entry:answer",
+          "transcriptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "byteLength": 1024,
+          "entryCount": 4,
+          "settledAt": "2026-09-08T12:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "duplicate selection",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "request:0123456789",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": "Summarize this document.",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": [
+          "selection:a",
+          "selection:a"
+        ]
+      }
+    },
+    {
+      "name": "terminal replay",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-transition",
+        "from": "completed",
+        "to": "dispatching"
+      }
+    },
+    {
+      "name": "unknown blind replay",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-transition",
+        "from": "outcome-unknown",
+        "to": "ready"
+      }
+    }
+  ],
+  "invalidSemantic": [
+    {
+      "name": "blank text",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "request:0123456789",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": " \n\t",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": []
+      },
+      "codes": [
+        "empty-text"
+      ]
+    },
+    {
+      "name": "receipt time reversed",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "accepted",
+        "version": 1,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-07T12:00:00Z",
+        "payloadRetained": true
+      },
+      "codes": [
+        "time-order"
+      ]
+    },
+    {
+      "name": "checkpoint wrong submission",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "completed",
+        "version": 5,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-08T12:00:00Z",
+        "payloadRetained": true,
+        "checkpoint": {
+          "schemaVersion": 1,
+          "kind": "pi-checkpoint",
+          "submissionId": "submission:other",
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "runtimeSessionId": "pi-session:one",
+          "userEntryId": "entry:user",
+          "leafEntryId": "entry:answer",
+          "transcriptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "byteLength": 1024,
+          "entryCount": 4,
+          "settledAt": "2026-09-08T12:00:00Z"
+        }
+      },
+      "codes": [
+        "checkpoint-binding"
+      ]
+    },
+    {
+      "name": "checkpoint wrong request",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "run-receipt",
+        "submissionId": "submission:one",
+        "runId": "run:one",
+        "conversationId": "conversation:one",
+        "generation": 1,
+        "mode": "prompt",
+        "state": "completed",
+        "version": 5,
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": "2026-09-08T12:00:00Z",
+        "updatedAt": "2026-09-08T12:00:00Z",
+        "payloadRetained": true,
+        "checkpoint": {
+          "schemaVersion": 1,
+          "kind": "pi-checkpoint",
+          "submissionId": "submission:one",
+          "requestHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "runtimeSessionId": "pi-session:one",
+          "userEntryId": "entry:user",
+          "leafEntryId": "entry:answer",
+          "transcriptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "byteLength": 1024,
+          "entryCount": 4,
+          "settledAt": "2026-09-08T12:00:00Z"
+        }
+      },
+      "codes": [
+        "checkpoint-binding"
+      ]
+    },
+    {
+      "name": "same native entry",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "pi-checkpoint",
+        "submissionId": "submission:one",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "runtimeSessionId": "pi-session:one",
+        "userEntryId": "entry:answer",
+        "leafEntryId": "entry:answer",
+        "transcriptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "byteLength": 1024,
+        "entryCount": 4,
+        "settledAt": "2026-09-08T12:00:00Z"
+      },
+      "codes": [
+        "checkpoint-entries"
+      ]
+    },
+    {
+      "name": "sources without scope",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "prepared",
+        "submissionId": "submission:one",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bindingGeneration": 1,
+        "scopeVersionId": null,
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": []
+      },
+      "codes": [
+        "missing-scope"
+      ]
+    },
+    {
+      "name": "blank BOM text",
+      "value": {
+        "schemaVersion": 1,
+        "kind": "submission",
+        "conversationId": "conversation:one",
+        "idempotencyKey": "request:0123456789",
+        "expectedGeneration": 1,
+        "mode": "prompt",
+        "text": "﻿",
+        "sourceRefs": [
+          {
+            "documentId": "document:one",
+            "revisionId": "revision:one"
+          }
+        ],
+        "selectionContextIds": []
+      },
+      "codes": [
+        "empty-text"
+      ]
+    }
+  ],
+  "transitions": {
+    "accepted": [
+      "preparing",
+      "cancelled"
+    ],
+    "preparing": [
+      "ready",
+      "failed",
+      "cancelled"
+    ],
+    "ready": [
+      "preparing",
+      "dispatching",
+      "failed",
+      "cancelled"
+    ],
+    "dispatching": [
+      "running",
+      "cancelling",
+      "outcome-unknown",
+      "failed"
+    ],
+    "running": [
+      "cancelling",
+      "completed",
+      "failed",
+      "outcome-unknown"
+    ],
+    "cancelling": [
+      "completed",
+      "cancelled",
+      "failed",
+      "outcome-unknown"
+    ],
+    "outcome-unknown": [
+      "completed",
+      "failed",
+      "cancelled"
+    ]
+  }
+}

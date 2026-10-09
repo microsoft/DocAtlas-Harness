@@ -1,0 +1,29 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "requestType": "personalization-inspect",
+    "profileId": "profile:reader",
+    "sessionId": "session:reader:current",
+    "maxItems": 50
+  },
+  "result": {
+    "schemaVersion": 1,
+    "resultType": "personalization-inspection",
+    "profileId": "profile:reader",
+    "sessionId": "session:reader:current",
+    "profileRevision": 0,
+    "memories": [],
+    "decisions": [],
+    "uses": [],
+    "counts": {
+      "memories": 0,
+      "decisions": 0,
+      "uses": 0
+    },
+    "truncated": {
+      "memories": false,
+      "decisions": false,
+      "uses": false
+    }
+  }
+}

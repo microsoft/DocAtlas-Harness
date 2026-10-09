@@ -1,0 +1,226 @@
+{
+  "commitRequest": {
+    "schemaVersion": 1,
+    "requestType": "source-scope-commit",
+    "sessionId": "session:scope:one",
+    "idempotencyKey": "idempotency:scope:one",
+    "scope": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:workspace:1",
+      "workspaceId": "workspace:scope",
+      "investigationId": "investigation:scope",
+      "version": 1,
+      "included": [
+        { "documentId": "doc:scope", "revisionId": "rev:scope:1", "role": "primary" }
+      ],
+      "excluded": [],
+      "locked": true,
+      "createdBy": { "kind": "user", "actorId": "user:scope" },
+      "createdAt": "2026-08-30T17:00:00Z"
+    },
+    "sources": [
+      {
+        "documentId": "doc:scope",
+        "revisionId": "rev:scope:1",
+        "representationId": "rep:scope:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "commitResult": {
+    "schemaVersion": 1,
+    "resultType": "source-scope-committed",
+    "sessionId": "session:scope:one",
+    "status": "created",
+    "scope": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:workspace:1",
+      "workspaceId": "workspace:scope",
+      "investigationId": "investigation:scope",
+      "version": 1,
+      "included": [
+        { "documentId": "doc:scope", "revisionId": "rev:scope:1", "role": "primary" }
+      ],
+      "excluded": [],
+      "locked": true,
+      "createdBy": { "kind": "user", "actorId": "user:scope" },
+      "createdAt": "2026-08-30T17:00:00Z"
+    },
+    "sources": [
+      {
+        "documentId": "doc:scope",
+        "revisionId": "rev:scope:1",
+        "representationId": "rep:scope:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "getRequest": {
+    "schemaVersion": 1,
+    "requestType": "source-scope-get",
+    "sessionId": "session:scope:one"
+  },
+  "activeResult": {
+    "schemaVersion": 1,
+    "resultType": "source-scope",
+    "sessionId": "session:scope:one",
+    "status": "active",
+    "scope": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:workspace:1",
+      "workspaceId": "workspace:scope",
+      "investigationId": "investigation:scope",
+      "version": 1,
+      "included": [
+        { "documentId": "doc:scope", "revisionId": "rev:scope:1", "role": "primary" }
+      ],
+      "excluded": [],
+      "locked": true,
+      "createdBy": { "kind": "user", "actorId": "user:scope" },
+      "createdAt": "2026-08-30T17:00:00Z"
+    },
+    "sources": [
+      {
+        "documentId": "doc:scope",
+        "revisionId": "rev:scope:1",
+        "representationId": "rep:scope:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "bindRequest": {
+    "schemaVersion": 1,
+    "requestType": "source-scope-bind",
+    "sessionId": "session:scope:two",
+    "idempotencyKey": "idempotency:scope:bind:two",
+    "workspaceId": "workspace:scope",
+    "investigationId": "investigation:scope",
+    "expectedScopeVersionId": "scope:workspace:1"
+  },
+  "bindResult": {
+    "schemaVersion": 1,
+    "resultType": "source-scope-bound",
+    "sessionId": "session:scope:two",
+    "status": "bound",
+    "scope": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:workspace:1",
+      "workspaceId": "workspace:scope",
+      "investigationId": "investigation:scope",
+      "version": 1,
+      "included": [
+        { "documentId": "doc:scope", "revisionId": "rev:scope:1", "role": "primary" }
+      ],
+      "excluded": [],
+      "locked": true,
+      "createdBy": { "kind": "user", "actorId": "user:scope" },
+      "createdAt": "2026-08-30T17:00:00Z"
+    },
+    "sources": [
+      {
+        "documentId": "doc:scope",
+        "revisionId": "rev:scope:1",
+        "representationId": "rep:scope:text",
+        "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "unboundResult": {
+    "schemaVersion": 1,
+    "resultType": "source-scope",
+    "sessionId": "session:scope:two",
+    "status": "unbound"
+  },
+  "unbindRequest": {
+    "schemaVersion": 1,
+    "requestType": "source-scope-unbind",
+    "sessionId": "session:scope:one",
+    "idempotencyKey": "idempotency:scope:unbind:one"
+  },
+  "unbindResult": {
+    "schemaVersion": 1,
+    "resultType": "source-scope-unbound",
+    "sessionId": "session:scope:one",
+    "status": "unbound"
+  },
+  "overviewRequest": {
+    "schemaVersion": 1,
+    "requestType": "source-scope-overview",
+    "sessionId": "session:scope:one",
+    "workspaceId": "workspace:scope",
+    "limit": 100
+  },
+  "overviewResult": {
+    "schemaVersion": 1,
+    "resultType": "source-scope-overview",
+    "sessionId": "session:scope:one",
+    "workspaceId": "workspace:scope",
+    "scopeStatus": "active",
+    "scope": {
+      "schemaVersion": 1,
+      "scopeVersionId": "scope:workspace:1",
+      "workspaceId": "workspace:scope",
+      "investigationId": "investigation:scope",
+      "version": 1,
+      "included": [
+        { "documentId": "doc:scope", "revisionId": "rev:scope:1", "role": "primary" }
+      ],
+      "excluded": [],
+      "locked": true,
+      "createdBy": { "kind": "user", "actorId": "user:scope" },
+      "createdAt": "2026-08-30T17:00:00Z"
+    },
+    "mutationState": "ready",
+    "counts": {
+      "eligible": 1,
+      "included": 1,
+      "used": 1,
+      "cited": 1,
+      "excluded": 0,
+      "candidate": 0,
+      "candidateStatus": "unavailable"
+    },
+    "items": [
+      {
+        "itemId": "scope-item:doc-scope:rev-1",
+        "documentId": "doc:scope",
+        "revisionId": "rev:scope:1",
+        "displayName": "Scope report.pdf",
+        "mediaType": "application/pdf",
+        "sourceRole": "primary",
+        "revisionState": "current",
+        "libraryStatus": "ready",
+        "states": ["eligible", "included", "used", "cited"],
+        "canInclude": true,
+        "source": {
+          "representationId": "rep:scope:text",
+          "representationContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "capabilities": ["text", "original"]
+      }
+    ],
+    "pageInfo": {
+      "schemaVersion": 1,
+      "limit": 100,
+      "returned": 1,
+      "total": 1,
+      "usedChars": 0,
+      "truncated": false,
+      "completeness": "complete"
+    }
+  },
+  "patchRequest": {
+    "schemaVersion": 1,
+    "requestType": "source-scope-patch",
+    "sessionId": "session:scope:one",
+    "workspaceId": "workspace:scope",
+    "idempotencyKey": "idempotency:scope:patch:2",
+    "expectedScopeVersionId": "scope:workspace:1",
+    "add": [
+      { "documentId": "doc:scope:two", "revisionId": "rev:scope:two:1", "role": "secondary" }
+    ],
+    "remove": [
+      { "documentId": "doc:scope", "revisionId": "rev:scope:1" }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+.learning-invitation { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 14px; max-width: 960px; margin: 8px auto; padding: 8px 16px; color: var(--text-secondary, #62635d); font-size: 13px; }
+.live-learning { display: grid; gap: 20px; }
+.live-learning > section { display: grid; gap: 10px; }
+.live-learning h3, .live-learning h4, .live-learning p { margin: 0; }
+.learning-muted { color: var(--text-secondary, #62635d); font-size: 13px; line-height: 1.6; }
+.learning-notice, .learning-group { border: 1px solid var(--border, #d7d6cf); border-radius: 12px; padding: 14px; display: grid; gap: 10px; overflow-wrap: anywhere; }
+.learning-check { display: flex; align-items: flex-start; gap: 8px; margin: 7px 0; }
+.live-learning select { max-width: 100%; padding: 8px; border: 1px solid var(--border, #d7d6cf); border-radius: 8px; background: var(--surface, #fffefa); color: inherit; }
+.live-learning button { max-width: 100%; overflow-wrap: anywhere; }
+.live-learning fieldset { border: 1px solid var(--border, #d7d6cf); border-radius: 10px; padding: 12px; }
+@media (max-width: 640px) { .learning-invitation { margin: 6px 12px; justify-content: flex-start; } .live-learning .probe-presentations { grid-template-columns: 1fr; } }

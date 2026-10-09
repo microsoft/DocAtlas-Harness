@@ -1,0 +1,116 @@
+{
+  "manifest": {
+    "schemaVersion": 1,
+    "manifestId": "answer:manifest:revenue",
+    "sessionId": "session:answer",
+    "workspaceId": "workspace:answer",
+    "investigationId": "investigation:answer",
+    "messageId": "message:answer:revenue",
+    "turn": 1,
+    "sourceScopeVersionId": "scope:answer:1",
+    "mode": "explore",
+    "manifestStatus": "mapped",
+    "answerTextHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338",
+    "blocks": [
+      {
+        "blockId": "answer:block:revenue",
+        "sourceBlockIndex": 0,
+        "kind": "prose",
+        "segments": [
+          {
+            "segmentId": "answer:segment:revenue",
+            "text": "Revenue increased by 12%.",
+            "kind": "factual",
+            "status": "supported",
+            "claimVersionIds": [],
+            "visibleCitationIds": ["citation:answer:revenue"]
+          }
+        ]
+      }
+    ],
+    "citations": [
+      {
+        "citationId": "citation:answer:revenue",
+        "ordinal": 1,
+        "relation": "support",
+        "relationAssertedBy": { "kind": "agent", "actorId": "agent:docatlas" },
+        "focusId": "loc:revenue-growth",
+        "locator": {
+          "schemaVersion": 1,
+          "locatorId": "loc:revenue-growth",
+          "documentId": "doc:annual-report",
+          "revisionId": "rev:annual-report:2026-06",
+          "representationId": "rep:annual-report:markdown",
+          "representationContentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "physicalPage": 17,
+          "selectors": [
+            { "type": "block", "blockId": "p00017.b00004.text.abc123" },
+            {
+              "type": "text-quote",
+              "exact": "Revenue increased by 12%.",
+              "prefix": "For the year, ",
+              "suffix": " Cloud services led growth.",
+              "normalizedHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338"
+            },
+            { "type": "text-position", "start": 1024, "end": 1049, "unit": "unicode-scalar" },
+            {
+              "type": "bbox",
+              "unit": "ratio",
+              "x": 0.12,
+              "y": 0.3,
+              "width": 0.5,
+              "height": 0.05,
+              "rotation": 0
+            }
+          ],
+          "createdAt": "2026-08-30T00:03:00Z"
+        },
+        "verificationStatus": "read-verified",
+        "evidence": {
+          "schemaVersion": 1,
+          "evidenceId": "evidence:revenue-growth",
+          "documentId": "doc:annual-report",
+          "revisionId": "rev:annual-report:2026-06",
+          "representationId": "rep:annual-report:markdown",
+          "locatorId": "loc:revenue-growth",
+          "kind": "quote",
+          "content": { "mediaType": "text/plain", "text": "Revenue increased by 12%." },
+          "contentHash": "ed5887a0937653dbe5362f876865c36143586decd51a2d78166a797e64edf338",
+          "sourceRole": "primary",
+          "resolutionStatus": "resolved",
+          "status": "current",
+          "createdBy": { "kind": "agent", "actorId": "agent:docatlas" },
+          "provenanceActivityId": "activity:read:1",
+          "createdAt": "2026-08-30T00:04:00Z"
+        }
+      }
+    ],
+    "verificationSummary": {
+      "factualSegments": 1,
+      "mappedFactualSegments": 1,
+      "supportedSegments": 1,
+      "qualifiedSegments": 0,
+      "contestedSegments": 0,
+      "unresolvedSegments": 0,
+      "unclassifiedSegments": 0,
+      "citationCount": 1,
+      "complete": true,
+      "warnings": []
+    },
+    "createdAt": "2026-08-30T00:05:00Z"
+  },
+  "getRequest": {
+    "schemaVersion": 1,
+    "requestType": "answer-get",
+    "sessionId": "session:answer",
+    "workspaceId": "workspace:answer",
+    "messageId": "message:answer:revenue"
+  },
+  "getResult": {
+    "schemaVersion": 1,
+    "resultType": "answer-manifest",
+    "workspaceId": "workspace:answer",
+    "messageId": "message:answer:revenue",
+    "status": "unavailable"
+  }
+}

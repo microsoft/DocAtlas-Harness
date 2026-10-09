@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/document-locator.v1.json",
+  "title": "DocAtlas immutable document locator v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "locatorId",
+    "documentId",
+    "revisionId",
+    "representationId",
+    "representationContentHash",
+    "physicalPage",
+    "selectors",
+    "createdAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "locatorId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "documentId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "revisionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "representationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "representationContentHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" },
+    "physicalPage": { "type": "integer", "minimum": 1 },
+    "selectors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/blockSelector" },
+          { "$ref": "#/$defs/textQuoteSelector" },
+          { "$ref": "#/$defs/textPositionSelector" },
+          { "$ref": "#/$defs/ratioBBoxSelector" },
+          { "$ref": "#/$defs/pdfPointBBoxSelector" },
+          { "$ref": "#/$defs/tableCellSelector" },
+          { "$ref": "#/$defs/figureSelector" }
+        ]
+      }
+    },
+    "supersedesLocatorId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+    "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+  },
+  "$defs": {
+    "blockSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "blockId"],
+      "properties": {
+        "type": { "const": "block" },
+        "blockId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    },
+    "textQuoteSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "exact", "normalizedHash"],
+      "properties": {
+        "type": { "const": "text-quote" },
+        "exact": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "prefix": { "type": "string", "maxLength": 1000 },
+        "suffix": { "type": "string", "maxLength": 1000 },
+        "normalizedHash": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256" }
+      }
+    },
+    "textPositionSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "start", "end", "unit"],
+      "properties": {
+        "type": { "const": "text-position" },
+        "start": { "type": "integer", "minimum": 0 },
+        "end": { "type": "integer", "minimum": 1 },
+        "unit": { "const": "unicode-scalar" }
+      }
+    },
+    "ratioBBoxSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "unit", "x", "y", "width", "height", "rotation"],
+      "properties": {
+        "type": { "const": "bbox" },
+        "unit": { "const": "ratio" },
+        "x": { "type": "number", "minimum": 0, "maximum": 1, "description": "Left edge as a fraction of rendered page width." },
+        "y": { "type": "number", "minimum": 0, "maximum": 1, "description": "Top edge as a fraction of rendered page height; ratio boxes use a top-left origin." },
+        "width": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "height": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "rotation": { "type": "integer", "enum": [0, 90, 180, 270] }
+      }
+    },
+    "pdfPointBBoxSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "unit", "x", "y", "width", "height", "rotation"],
+      "properties": {
+        "type": { "const": "bbox" },
+        "unit": { "const": "pdf-point" },
+        "x": { "type": "number", "minimum": 0 },
+        "y": { "type": "number", "minimum": 0 },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "rotation": { "type": "integer", "enum": [0, 90, 180, 270] }
+      }
+    },
+    "tableCellSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "tableId"],
+      "properties": {
+        "type": { "const": "table-cell" },
+        "tableId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "row": { "type": "integer", "minimum": 0 },
+        "column": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "figureSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "figureId"],
+      "properties": {
+        "type": { "const": "figure" },
+        "figureId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      }
+    }
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/continuity-rpc.v1.json",
+  "title": "DocAtlas Research Continuity and revision impact RPC v1",
+  "description": "Bounded, identity-preserving contracts for converting prior research leads into reverified continuity links and for classifying the impact of one exact document revision.",
+  "oneOf": [
+    { "$ref": "#/$defs/assessRequest" },
+    { "$ref": "#/$defs/assessResult" },
+    { "$ref": "#/$defs/impactRequest" },
+    { "$ref": "#/$defs/impactResult" }
+  ],
+  "$defs": {
+    "source": {
+      "$ref": "https://docatlas.dev/schemas/research-recall-rpc.v1.json#/$defs/sourceIdentity"
+    },
+    "sourceList": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "evidenceIds": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+    },
+    "comparativeState": {
+      "type": "string",
+      "enum": ["continuing", "changed", "conflicted"]
+    },
+    "assessRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "requestType", "sessionId", "workspaceId", "investigationId",
+        "scopeVersionId", "priorRecordId", "priorSources", "currentSources", "idempotencyKey"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "continuity-assess" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": {
+          "description": "Exact active SourceScopeVersion resolved by the authenticated Host; the request cannot mutate it.",
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "priorRecordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "priorRecordVersion": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "priorSources": {
+          "description": "Exact source identities supporting the prior typed record; empty is allowed only while continuity remains unknown.",
+          "$ref": "#/$defs/sourceList"
+        },
+        "currentSources": {
+          "description": "Exact sources freshly compared in the current Investigation; authenticated scope admission is a semantic Host gate.",
+          "$ref": "#/$defs/sourceList"
+        },
+        "proposedState": {
+          "type": "string",
+          "enum": ["continuing", "changed", "conflicted", "unknown"]
+        },
+        "priorEvidenceIds": { "$ref": "#/$defs/evidenceIds" },
+        "currentEvidenceIds": { "$ref": "#/$defs/evidenceIds" },
+        "rationale": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "idempotencyKey": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["proposedState"],
+            "properties": { "proposedState": { "$ref": "#/$defs/comparativeState" } }
+          },
+          "then": {
+            "required": ["priorEvidenceIds", "currentEvidenceIds", "rationale"],
+            "properties": {
+              "priorSources": { "type": "array", "minItems": 1 },
+              "currentSources": { "type": "array", "minItems": 1 },
+              "priorEvidenceIds": { "type": "array", "minItems": 1 },
+              "currentEvidenceIds": { "type": "array", "minItems": 1 },
+              "rationale": { "type": "string" }
+            }
+          }
+        }
+      ]
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion", "continuityLinkId", "workspaceId", "investigationId", "scopeVersionId",
+        "priorRecordId", "priorSources", "currentSources", "state", "verificationStatus",
+        "priorEvidenceIds", "currentEvidenceIds", "rationale", "createdBy", "createdAt"
+      ],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "continuityLinkId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "priorRecordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "priorRecordVersion": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "priorSources": { "$ref": "#/$defs/sourceList" },
+        "currentSources": { "$ref": "#/$defs/sourceList" },
+        "state": { "type": "string", "enum": ["continuing", "changed", "conflicted", "unknown"] },
+        "verificationStatus": {
+          "type": "string",
+          "enum": ["reverified", "needs-reverify", "missing-source", "outside-scope"]
+        },
+        "priorEvidenceIds": { "$ref": "#/$defs/evidenceIds" },
+        "currentEvidenceIds": { "$ref": "#/$defs/evidenceIds" },
+        "rationale": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "createdBy": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/actorRef" },
+        "createdAt": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/timestamp" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "$ref": "#/$defs/comparativeState" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "verificationStatus": { "const": "reverified" },
+              "priorSources": { "type": "array", "minItems": 1 },
+              "currentSources": { "type": "array", "minItems": 1 },
+              "priorEvidenceIds": { "type": "array", "minItems": 1 },
+              "currentEvidenceIds": { "type": "array", "minItems": 1 }
+            }
+          },
+          "else": {
+            "properties": {
+              "verificationStatus": {
+                "type": "string",
+                "enum": ["needs-reverify", "missing-source", "outside-scope"]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "assessResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "resultType", "status", "link"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "continuity-assessed" },
+        "status": { "type": "string", "enum": ["created", "replayed"] },
+        "link": { "$ref": "#/$defs/link" }
+      }
+    },
+    "impactRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "requestType", "sessionId", "workspaceId", "investigationId", "scopeVersionId", "previousSource", "currentSource", "recordIds", "limits"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "requestType": { "const": "revision-impact" },
+        "sessionId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "investigationId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "scopeVersionId": {
+          "description": "Exact active SourceScopeVersion used by the authenticated Host for this impact query.",
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "previousSource": { "$ref": "#/$defs/source" },
+        "currentSource": { "$ref": "#/$defs/source" },
+        "recordIds": {
+          "description": "Immutable, stable-order record snapshot classified by every page in this cursor chain.",
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxItems"],
+          "properties": { "maxItems": { "type": "integer", "minimum": 1, "maximum": 200 } }
+        },
+        "cursor": {
+          "description": "Opaque cursor bound server-side to workspace, both exact sources, stable record order, and limits.",
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        }
+      }
+    },
+    "impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordId", "status", "reason"],
+      "properties": {
+        "recordId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "status": { "type": "string", "enum": ["needs-reverify", "unaffected", "missing-source"] },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      }
+    },
+    "impactResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "resultType", "workspaceId", "previousSource", "currentSource", "impacts", "pageInfo"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "resultType": { "const": "revision-impact" },
+        "workspaceId": { "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId" },
+        "previousSource": { "$ref": "#/$defs/source" },
+        "currentSource": { "$ref": "#/$defs/source" },
+        "impacts": { "type": "array", "maxItems": 200, "items": { "$ref": "#/$defs/impact" } },
+        "pageInfo": {
+          "allOf": [
+            { "$ref": "https://docatlas.dev/schemas/page-info.v1.json" },
+            {
+              "type": "object",
+              "required": ["total"],
+              "properties": { "total": { "type": "integer", "minimum": 0 } }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

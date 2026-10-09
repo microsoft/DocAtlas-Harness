@@ -1,0 +1,24 @@
+{
+  "base": {
+    "schemaVersion": 1, "kind": "question-context",
+    "binding": { "schemaVersion": 1, "kind": "binding", "bindingId": "binding:one", "conversationId": "conversation:one", "workspaceId": "workspace:one", "ownerActorId": "user:one", "investigationId": null, "runtimeSessionId": "pi-session:one", "branchEntryId": null, "generation": 1, "version": 1, "createdAt": "2026-09-08T12:00:00Z", "updatedAt": "2026-09-08T12:00:00Z" },
+    "target": { "kind": "message", "id": "entry:user" }, "status": "available", "reason": null,
+    "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "nativeTextHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "selectionState": "consumed",
+    "passages": [{ "selectionContextId": "selection:one", "locatorId": "loc:one", "physicalPage": 2, "text": "Exact selected passage.", "original": { "documentId": "doc:one", "revisionId": "rev:one", "name": "Original.pdf", "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "byteLength": 200, "pageCount": 6 } }]
+  },
+  "valid": [
+    { "name": "completed message selection", "set": {} },
+    { "name": "admitted submission selection", "set": { "target": { "kind": "submission", "id": "submission:one" }, "selectionState": "attached", "nativeTextHash": null } },
+    { "name": "ordinary question", "set": { "status": "none", "requestHash": null, "selectionState": null, "passages": [] } },
+    { "name": "source unavailable without content", "set": { "status": "unavailable", "reason": "source", "requestHash": null, "selectionState": null, "passages": [] } },
+    { "name": "purged input cannot be reconstructed", "set": { "status": "unavailable", "reason": "purged", "requestHash": null, "selectionState": null, "passages": [] } }
+  ],
+  "invalid": [
+    { "name": "foreign actor field", "set": { "actorId": "actor:foreign" } },
+    { "name": "client filesystem path", "set": { "filePath": "/private/original.pdf" } },
+    { "name": "path instead of native identity", "set": { "target": { "kind": "message", "id": "../../private" } } },
+    { "name": "unknown target", "set": { "target": { "kind": "note", "id": "note:one" } } },
+    { "name": "missing host binding", "set": {}, "remove": ["binding"] },
+    { "name": "unknown protocol version", "set": { "schemaVersion": 2 } }
+  ]
+}

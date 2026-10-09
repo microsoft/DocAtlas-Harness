@@ -1,0 +1,64 @@
+{
+  "editRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-record-lifecycle",
+    "sessionId": "session:lifecycle",
+    "workspaceId": "workspace:lifecycle",
+    "investigationId": "investigation:lifecycle",
+    "scopeVersionId": "scope:lifecycle:1",
+    "recordId": "note:lifecycle:1",
+    "expectedVersion": 1,
+    "idempotencyKey": "idempotency:lifecycle:edit:1",
+    "action": "edit",
+    "text": "Corrected but still unverified checkpoint."
+  },
+  "editResult": {
+    "schemaVersion": 1,
+    "resultType": "research-record-lifecycle",
+    "status": "updated",
+    "state": {
+      "schemaVersion": 1,
+      "recordId": "note:lifecycle:1",
+      "workspaceId": "workspace:lifecycle",
+      "investigationId": "investigation:lifecycle",
+      "recordType": "research-note",
+      "version": 2,
+      "previousVersion": 1,
+      "status": "active",
+      "epistemicStatus": "unverified",
+      "text": "Corrected but still unverified checkpoint.",
+      "updatedBy": { "kind": "user", "actorId": "session:lifecycle" },
+      "updatedAt": "2026-08-31T12:10:00Z"
+    }
+  },
+  "deleteRequest": {
+    "schemaVersion": 1,
+    "requestType": "research-record-lifecycle",
+    "sessionId": "session:lifecycle",
+    "workspaceId": "workspace:lifecycle",
+    "investigationId": "investigation:lifecycle",
+    "scopeVersionId": "scope:lifecycle:1",
+    "recordId": "note:lifecycle:1",
+    "expectedVersion": 2,
+    "idempotencyKey": "idempotency:lifecycle:delete:1",
+    "action": "delete"
+  },
+  "deleteResult": {
+    "schemaVersion": 1,
+    "resultType": "research-record-lifecycle",
+    "status": "updated",
+    "state": {
+      "schemaVersion": 1,
+      "recordId": "note:lifecycle:1",
+      "workspaceId": "workspace:lifecycle",
+      "investigationId": "investigation:lifecycle",
+      "recordType": "research-note",
+      "version": 3,
+      "previousVersion": 2,
+      "status": "deleted",
+      "epistemicStatus": "unverified",
+      "updatedBy": { "kind": "user", "actorId": "session:lifecycle" },
+      "updatedAt": "2026-08-31T12:11:00Z"
+    }
+  }
+}

@@ -40,21 +40,22 @@ jobs:
         with:
           python-version: "3.12"
           enable-cache: true
-      - run: uvx ruff==0.16.5 format --check .
-      - run: uvx ruff==0.16.5 check .
+      # The independent Web sidecar has its own Python target, config and CI.
+      - run: uvx ruff==0.16.5 format --check --extend-exclude web .
+      - run: uvx ruff==0.16.5 check --extend-exclude web .
       - run: uv run --locked --with mypy==2.3.1 mypy docatlas
       - run: uvx bandit==1.9.4 -q -r docatlas -x docatlas/_vendor
       - run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/*.sh
       - run: uvx cffconvert==2.0.0 --validate -i CITATION.cff
-      - run: uvx check-jsonschema==0.38.0 --builtin-schema vendor.github-workflows .github/workflows/ci.yml
+      - run: uvx check-jsonschema==0.38.0 --builtin-schema vendor.github-workflows .github/workflows/*.yml
       - name: Audit locked dependencies
         run: |
           uv export --locked --no-dev --no-emit-project --format requirements-txt --output-file /tmp/docatlas-requirements.txt
           uvx pip-audit==2.10.1 --progress-spinner off -r /tmp/docatlas-requirements.txt
       - name: Scan tracked files
         run: | # pragma: allowlist secret
-          uvx detect-secrets==1.5.0 scan --exclude-files '(^docatlas/_vendor/|\.(png|pdf)$)' $(git ls-files) > /tmp/detect-results.json
-          jq -e '.results == {}' /tmp/detect-results.json
+          jq -e '.version == "1.5.0" and ([.results[][] | .is_secret == false] | all)' .secrets.baseline
+          git ls-files -z | xargs -0 uvx --from detect-secrets==1.5.0 detect-secrets-hook --baseline .secrets.baseline
       - run: >-
           uv run --locked --with pytest-cov==7.0.0 pytest -q
           --cov=docatlas

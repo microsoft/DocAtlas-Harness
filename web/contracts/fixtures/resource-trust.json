@@ -1,0 +1,157 @@
+{
+  "valid": [
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 0,
+      "files": []
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 4,
+      "files": [
+        {
+          "path": "skills/example/SKILL.md",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 4,
+          "executable": false
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-approval",
+      "approvalId": "approval:00000000-0000-4000-8000-000000000000",
+      "actorId": "actor:one",
+      "workspaceId": "workspace:one",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "state": "approved",
+      "version": 1,
+      "updatedAt": "2026-09-08T00:00:00Z"
+    }
+  ],
+  "invalid": [
+    {
+      "schemaVersion": 2,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 0,
+      "files": []
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-approval",
+      "approvalId": "approval:00000000-0000-4000-8000-000000000000",
+      "actorId": "actor:one",
+      "workspaceId": "workspace:one",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "state": "implicit",
+      "version": 1,
+      "updatedAt": "2026-09-08T00:00:00Z"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 4,
+      "files": [
+        {
+          "path": "/private/file",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 4,
+          "executable": false
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 4,
+      "files": [
+        {
+          "path": "../outside",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 4,
+          "executable": false
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 4,
+      "files": [
+        {
+          "path": "extensions/../../outside",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 4,
+          "executable": false
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 4,
+      "files": [
+        {
+          "path": "extensions\\outside",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 4,
+          "executable": false
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 4,
+      "files": [
+        {
+          "path": "file\u0000",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 4,
+          "executable": false
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-approval",
+      "approvalId": "approval:00000000-0000-4000-8000-000000000000",
+      "actorId": "",
+      "workspaceId": "workspace:one",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "state": "approved",
+      "version": 1,
+      "updatedAt": "2026-09-08T00:00:00Z"
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "resource-snapshot",
+      "snapshotId": "resources:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 0,
+      "files": [],
+      "sourcePath": "/private"
+    }
+  ]
+}

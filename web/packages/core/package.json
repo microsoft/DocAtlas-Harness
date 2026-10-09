@@ -1,0 +1,20 @@
+{
+  "name": "@docatlas/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": { "types": "./lib/index.d.ts", "default": "./lib/index.js" },
+    "./storage/*": { "types": "./lib/storage/*.d.ts", "default": "./lib/storage/*.js" },
+    "./document/*": { "types": "./lib/document/*.d.ts", "default": "./lib/document/*.js" }
+  },
+  "files": ["lib"],
+  "scripts": {
+    "prebuild": "pnpm --filter @docatlas/contracts build",
+    "build": "tsc --project tsconfig.build.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": { "@docatlas/contracts": "workspace:*" }
+}

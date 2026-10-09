@@ -1,0 +1,584 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docatlas.dev/schemas/product-research.v1.json",
+  "title": "DocAtlas product research commands, notebook projections and host-only Pi provenance v1",
+  "$defs": {
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "expectedGeneration",
+        "view",
+        "maxItems",
+        "maxChars"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "notebook-query"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "view": {
+          "enum": [
+            "working",
+            "workspace"
+          ]
+        },
+        "maxItems": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "maxChars": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "cursor": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "notebook-response"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/research-notebook-rpc.v1.json#/$defs/result"
+        }
+      }
+    },
+    "save": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "expectedGeneration",
+        "idempotencyKey",
+        "selectionContextId",
+        "noteKind",
+        "body"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "note-save"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "idempotencyKey": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "selectionContextId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "noteKind": {
+          "enum": [
+            "commentary",
+            "hypothesis",
+            "scratch"
+          ]
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "saved": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "note-saved"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/selection-rpc.v1.json#/$defs/actionResult"
+        }
+      }
+    },
+    "mutate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "expectedGeneration",
+        "idempotencyKey",
+        "recordId",
+        "expectedVersion",
+        "action"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "notebook-mutate"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "idempotencyKey": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "recordId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "action": {
+          "enum": [
+            "edit",
+            "archive",
+            "delete",
+            "resolve"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "action": {
+                "const": "edit"
+              }
+            },
+            "required": [
+              "action"
+            ]
+          },
+          "then": {
+            "properties": { "text": { "type": "string" } },
+            "required": [
+              "text"
+            ]
+          },
+          "else": {
+            "properties": { "text": false }
+          }
+        }
+      ]
+    },
+    "updated": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "result"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "notebook-updated"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "result": {
+          "$ref": "https://docatlas.dev/schemas/research-lifecycle-rpc.v1.json#/$defs/result"
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "recordId",
+        "recordType",
+        "investigationId",
+        "sourceSessionId",
+        "scopeVersionId",
+        "version",
+        "status",
+        "text",
+        "locators",
+        "evidence",
+        "authoredBy",
+        "verificationStatus"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "notebook-entry"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "recordId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "recordType": {
+          "enum": [
+            "research-note",
+            "open-question"
+          ]
+        },
+        "investigationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "sourceSessionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "scopeVersionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "active",
+            "open",
+            "resolved",
+            "archived",
+            "deleted"
+          ]
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "locators": {
+          "type": "array",
+          "items": {
+            "$ref": "https://docatlas.dev/schemas/document-locator.v1.json"
+          },
+          "maxItems": 16,
+          "minItems": 0
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "https://docatlas.dev/schemas/evidence-atom.v1.json"
+          },
+          "maxItems": 16,
+          "minItems": 0
+        },
+        "authoredBy": {
+          "enum": [
+            "user",
+            "agent"
+          ]
+        },
+        "verificationStatus": {
+          "const": "unverified-lead"
+        }
+      }
+    },
+    "focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "recordId",
+        "status",
+        "locator",
+        "physicalPage",
+        "exactText",
+        "original"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "research-focus"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "recordId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "status": {
+          "enum": [
+            "resolved",
+            "page-only",
+            "ambiguous"
+          ]
+        },
+        "locator": {
+          "$ref": "https://docatlas.dev/schemas/document-locator.v1.json"
+        },
+        "physicalPage": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "exactText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "original": {
+          "$ref": "https://docatlas.dev/schemas/product-answer.v1.json#/$defs/focus/properties/original"
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "conversationId",
+        "version",
+        "recallPriorResearch",
+        "contributeResearchState"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "research-session-policy"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recallPriorResearch": {
+          "type": "boolean"
+        },
+        "contributeResearchState": {
+          "type": "boolean"
+        }
+      }
+    },
+    "policySet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "expectedGeneration",
+        "idempotencyKey",
+        "expectedVersion",
+        "recallPriorResearch",
+        "contributeResearchState"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "research-policy-set"
+        },
+        "expectedGeneration": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "idempotencyKey": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recallPriorResearch": {
+          "type": "boolean"
+        },
+        "contributeResearchState": {
+          "type": "boolean"
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "kind",
+        "workspaceId",
+        "actorId",
+        "conversationId",
+        "runtimeSessionId",
+        "submissionId",
+        "bindingId",
+        "generation",
+        "investigationId",
+        "scopeVersionId",
+        "nativeToolCallId",
+        "wireCallId",
+        "idempotencyKey",
+        "requestHash",
+        "recordId"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "kind": {
+          "const": "research-call-provenance"
+        },
+        "workspaceId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "actorId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "conversationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "runtimeSessionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "submissionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "bindingId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "investigationId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "scopeVersionId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "nativeToolCallId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "wireCallId": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "idempotencyKey": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+        },
+        "requestHash": {
+          "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/sha256"
+        },
+        "recordId": {
+          "anyOf": [
+            {
+              "$ref": "https://docatlas.dev/schemas/common.v1.json#/$defs/opaqueId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/query"
+    },
+    {
+      "$ref": "#/$defs/response"
+    },
+    {
+      "$ref": "#/$defs/save"
+    },
+    {
+      "$ref": "#/$defs/saved"
+    },
+    {
+      "$ref": "#/$defs/mutate"
+    },
+    {
+      "$ref": "#/$defs/updated"
+    },
+    {
+      "$ref": "#/$defs/entry"
+    },
+    {
+      "$ref": "#/$defs/focus"
+    },
+    {
+      "$ref": "#/$defs/policy"
+    },
+    {
+      "$ref": "#/$defs/policySet"
+    },
+    {
+      "$ref": "#/$defs/lineage"
+    }
+  ]
+}
