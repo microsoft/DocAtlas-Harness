@@ -1,8 +1,9 @@
 import { randomUUID } from 'node:crypto'
-import type { ProductSearchExecution, ProductSearchRequest, ScopedSourceIdentity, SearchCandidate, SearchResult, TreeNode, TreePage } from '@docatlas/contracts'
+import type { ProductSearchExecution, ProductSearchRequest, ProductSearchValue, ScopedSourceIdentity, SearchCandidate, SearchResult, TreeNode, TreePage } from '@docatlas/contracts'
 import { parseContract } from '@docatlas/contracts/node'
 import { DocumentAccessError, type DocumentInvocation } from './session.js'
 import { enrichmentHash, type EnrichmentModelPort } from './enrichment.js'
+import { fitsDocumentPresentation } from './presentation-budget.js'
 
 export interface ProductSearchPorts {
   invocation(): DocumentInvocation
@@ -14,7 +15,7 @@ export interface ProductSearchPorts {
 export interface SearchSummary { jobId: string, resultHash: string, baseGenerationId: string, baseTreeHash: string, nodes: Array<{ nodeId: string, summary: string }> }
 export interface ProductSearchOutput { scopeVersionId: string, result: SearchResult, searchExecution: ProductSearchExecution }
 interface CatalogNode { key: string, source: Readonly<ScopedSourceIdentity>, sourceHash: string, node: TreeNode, generationId: string, treeHash: string, summary?: string }
-interface Snapshot { hash: string, expires: number, active: DocumentInvocation, candidates: SearchCandidate[], queryHash: string, execution: ProductSearchExecution, more: boolean }
+interface Snapshot { hash: string, expires: number, active: DocumentInvocation, candidates: SearchCandidate[], queryHash: string, execution: ProductSearchExecution, partial: boolean }
 function fail(code: 'invalid-request' | 'invalid-output' | 'stale' | 'unavailable', message: string): never { throw new DocumentAccessError(code, message) }
 const characters = (text: string) => [...text].length
 const clip = (text: string, length: number) => [...text].slice(0, length).join('')
@@ -47,7 +48,10 @@ export class ProductSearch {
     if (request.strategy !== 'fts' && (!model || sources.length > 16)) fail('unavailable', 'Tree search needs a host model and at most 16 explicitly selected source revisions')
     const controller = new AbortController(), lifetime = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal
     const timer = setTimeout(() => controller.abort(new Error('Search operation budget exhausted')), 60000)
-    const check = () => { lifetime.throwIfAborted(); active.assertCurrent() }
+    const check = () => {
+      lifetime.throwIfAborted(); active.assertCurrent()
+      if (sources.some(source => active.originalHash(source) !== source.sourceHash)) fail('stale', 'Original PDF changed during search')
+    }
     try {
       const execution: ProductSearchExecution = { schemaVersion: 1, kind: 'product-search-execution', recipe: request.recipe, requestHash: hash,
         strategies: request.strategy === 'combined' ? ['fts', 'tree'] : [request.strategy], catalogTruncated: false,
@@ -105,11 +109,13 @@ export class ProductSearch {
         if (prompt.length > 350000) fail('invalid-request', 'Tree catalogue exceeds the whole-query input budget; select fewer sources')
         const response = await model!.complete(prompt, { maxTokens: 4096, maxChars: 12000 }, lifetime); check()
         if (typeof response.text !== 'string' || response.text.length > 24000 || characters(response.text) > 12000) fail('invalid-output', 'Tree planner exceeded its output budget')
-        const selection = parseContract('product-search', JSON.parse(response.text))
+        let selection: ProductSearchValue
+        try { selection = parseContract('product-search', JSON.parse(response.text)) }
+        catch { fail('invalid-output', 'Tree planner returned invalid selection JSON') }
         if (selection.kind !== 'tree-search-selection') fail('invalid-output', 'Tree planner returned another operation')
-        const selected = new Set<string>()
+        const selected = new Set<string>(), byKey = new Map(catalog.map(node => [node.key, node]))
         tree = selection.nodes.map(choice => {
-          const item = catalog.find(node => node.key === choice.key)
+          const item = byKey.get(choice.key)
           if (!item || selected.has(choice.key)) fail('invalid-output', 'Tree planner selected an unknown or duplicate node')
           selected.add(choice.key)
           const candidateId = `candidate:${enrichmentHash([hash, item.generationId, item.treeHash, item.source.documentId, item.source.revisionId, item.source.representationId, item.node.nodeId]).slice(0, 40)}`
@@ -123,32 +129,47 @@ export class ProductSearch {
       const candidates = request.strategy === 'combined' ? mergeSearchCandidates(lexical!.candidates, tree) : request.strategy === 'tree' ? tree : lexical!.candidates
       parseContract('product-search', execution)
       const snapshot: Snapshot = { hash, expires: this.now() + 120000, active, candidates: structuredClone(candidates), queryHash: enrichmentHash(query), execution,
-        more: execution.catalogTruncated || Boolean(lexical?.pageInfo.truncated) }
+        partial: execution.catalogTruncated || Boolean(lexical?.pageInfo.truncated) || lexical?.pageInfo.completeness === 'partial' }
       const id = randomUUID()
+      const output = this.page(id, snapshot, 0, request)
       while (this.snapshots.size >= 16) this.snapshots.delete(this.snapshots.keys().next().value!)
       check(); this.snapshots.set(id, snapshot)
-      return this.page(id, snapshot, 0, request)
+      return output
     } finally { clearTimeout(timer); controller.abort() }
   }
 
   private page(id: string, snapshot: Snapshot, offset: number, request: ProductSearchRequest): ProductSearchOutput {
     snapshot.active.assertCurrent()
     if (!Number.isSafeInteger(offset) || offset < 0 || offset > snapshot.candidates.length) fail('invalid-request', 'Invalid search page')
-    const candidates: SearchCandidate[] = []; let usedChars = 0
+    const candidates: SearchCandidate[] = []; let usedChars = 0, previewClipped = false
+    const present = (): ProductSearchOutput => {
+      const end = offset + candidates.length, more = end < snapshot.candidates.length
+      const result: SearchResult = { schemaVersion: 1, resultType: 'search', scopeVersionId: snapshot.active.scope.scope.scopeVersionId, queryHash: snapshot.queryHash, candidates,
+        // v1 truncated promises a usable continuation cursor. A bounded catalogue
+        // or clipped preview is partial, not a made-up page or a model replay.
+        pageInfo: { schemaVersion: 1, limit: request.limits.maxItems, returned: candidates.length, usedChars, truncated: more, completeness: snapshot.partial || previewClipped ? 'partial' : 'candidate',
+          ...(more ? { nextCursor: `ps:${id}:${end}` } : {}) } }
+      const searchExecution = structuredClone(snapshot.execution)
+      searchExecution.treeRefs = searchExecution.treeRefs.filter(ref => candidates.some(item => item.candidateId === ref.candidateId))
+      return { scopeVersionId: result.scopeVersionId, result, searchExecution }
+    }
     for (const item of snapshot.candidates.slice(offset)) {
       if (candidates.length >= Math.min(request.limits.maxItems, 30) || usedChars >= request.limits.maxChars) break
       const preview = clip(item.preview, request.limits.maxChars - usedChars)
-      if (!preview) break
-      candidates.push({ ...structuredClone(item), preview }); usedChars += characters(preview)
+      // Empty previews are valid navigation candidates and still advance the cursor.
+      const previousClipped = previewClipped, size = characters(preview)
+      candidates.push({ ...structuredClone(item), preview }); usedChars += size
+      previewClipped ||= preview !== item.preview
+      const output = present()
+      if (!fitsDocumentPresentation(JSON.stringify({ ...output.result, searchExecution: output.searchExecution }))) {
+        candidates.pop(); usedChars -= size; previewClipped = previousClipped
+        if (!candidates.length) fail('invalid-output', 'A search candidate exceeds the whole tool response budget')
+        break
+      }
     }
-    const end = offset + candidates.length, more = end < snapshot.candidates.length
-    const result: SearchResult = { schemaVersion: 1, resultType: 'search', scopeVersionId: snapshot.active.scope.scope.scopeVersionId, queryHash: snapshot.queryHash, candidates,
-      pageInfo: { schemaVersion: 1, limit: request.limits.maxItems, returned: candidates.length, usedChars, truncated: more || snapshot.more, completeness: 'candidate',
-        ...(more ? { nextCursor: `ps:${id}:${end}` } : {}) } }
-    const searchExecution = structuredClone(snapshot.execution)
-    searchExecution.treeRefs = searchExecution.treeRefs.filter(ref => candidates.some(item => item.candidateId === ref.candidateId))
-    parseContract('sidecar-document-rpc', result); parseContract('product-search', searchExecution)
-    return { scopeVersionId: result.scopeVersionId, result, searchExecution }
+    const output = present()
+    parseContract('sidecar-document-rpc', output.result); parseContract('product-search', output.searchExecution)
+    return output
   }
 }
 

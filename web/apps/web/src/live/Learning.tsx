@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import type { CitationPresentation, ProductLearningCommand, ProductLearningGroup, ProductLearningOperation, ProductLearningView } from '@docatlas/contracts'
 import { Drawer } from '../Drawer'
 import type { LiveClient, LiveState } from './client'
-import { ProbePresentations } from './Probe'
+import { ProbePresentations } from './ProbePresentations'
+import { chooseProbeDraft, probeDraftReady, type ProbeChoiceDraft } from './probe-state'
 import { acknowledgeLearning, activeLearningOffer, checkedLearningView, learningFrame, learningMaterialPin, learningOperationId, learningOwner,
   learningOwnerKey, learningReceiptMatches, learningStorageKey, readLearningPending, saveLearningPending,
   type LearningOutbox, type LearningOwner, type LearningPending } from './learning-state'
@@ -122,9 +123,10 @@ export function LiveLearning({ client, state, openRequest, onCitation }: {
   }
   function choose() {
     const comparison = view?.comparison
-    if (blocked || !view?.contributionAllowed || !comparison?.material || !comparison.probe || !selected || comparison.choiceReceipt) return
+    if (blocked || !view?.contributionAllowed || !comparison?.material || !comparison.probe || comparison.choiceReceipt
+      || !probeDraftReady({ selected, scopeIntent: scope }, comparison.probe.presentationOrder, 'enabled')) return
     void commit({ ...base(), action: 'choose', expectedPolicyVersion: view.policyVersion, messageId: view.messageId!, materialHash: comparison.material.materialHash,
-      probeId: comparison.probe.probeId, selected, scopeIntent: scope, reasonTags: [] })
+      probeId: comparison.probe.probeId, selected: selected!, scopeIntent: scope, reasonTags: [] })
   }
   function review(group: ProductLearningGroup, decision: 'accept' | 'reject') {
     if (blocked || group.status !== 'candidate' || !group.candidate || !group.digest) return
@@ -173,12 +175,9 @@ export function LiveLearning({ client, state, openRequest, onCitation }: {
           {comparison?.material && comparison.probe && <>
             <ProbePresentations manifest={comparison.material.manifest} variants={comparison.probe.variants} presentationOrder={comparison.probe.presentationOrder} busy={blocked} onCitation={citation => void focus(citation)} />
             {comparison.choiceReceipt ? <section aria-label="已记录的学习信号"><p>本次选择已记录，不会自动生效。</p><p>{comparison.choiceReceipt.candidateId ? '本次原回执关联一个待确认候选。' : '本次原回执没有候选；之后的积累不会改写它。'}</p></section>
-              : <section aria-label="明确的未来学习选择"><fieldset disabled={blocked || !view.contributionAllowed}><legend>只选择真正更便于理解与核验的顺序</legend>
-                {[...comparison.probe.presentationOrder.map((key, index) => [key, `学习呈现 ${index === 0 ? 'A' : 'B'} 更合适`]), ['both', '两种都可以'], ['neither', '两种都不适合'], ['dismissed', '明确记录本次跳过']].map(([key, label]) => <label className="learning-check" key={key}><input type="radio" name="learning-choice" checked={selected === key} onChange={() => { setSelected(key!); if (!comparison.probe!.presentationOrder.includes(key!)) setScope('turn') }} />{label}</label>)}
-              </fieldset><label>积累范围<select aria-label="学习选择作用范围" disabled={blocked || !selected || !comparison.probe.presentationOrder.includes(selected)} value={scope} onChange={event => setScope(event.target.value as typeof scope)}><option value="turn">仅本次比较</option><option value="workspace">明确允许用于未来工作区偏好学习</option></select></label>
-                <p className="learning-muted">至少三个独立研究选择相同顺序、且没有相反选择，才形成候选；这不是统计置信度，仍须单独确认。</p>
-                <button disabled={blocked || !view.contributionAllowed || !selected} onClick={choose}>{scope === 'workspace' ? '记录为未来学习信号' : '仅记录本次选择'}</button>
-              </section>}
+              : <LearningChoiceControls draft={{ selected, scopeIntent: scope }} presentationOrder={comparison.probe.presentationOrder}
+                  contribution={view.contributionAllowed ? 'enabled' : 'disabled'} busy={blocked}
+                  onChange={draft => { setSelected(draft.selected); setScope(draft.scopeIntent) }} onConfirm={choose} />}
           </>}
         </section>
         <section aria-label="跨研究学习积累"><h3>按任务模式分别积累</h3>{view.groups.map(group => <article className="learning-group" key={group.groupId} data-learning-group={group.groupId} data-learning-status={group.status}>
@@ -194,4 +193,30 @@ export function LiveLearning({ client, state, openRequest, onCitation }: {
       <button className="text-action" onClick={() => setOpen(false)}>关闭且不记录新选择</button>
     </div></Drawer>}
   </>
+}
+
+/** Pure controls over the currently verified comparison. Rendering or selecting
+ * never commits; a human confirmation is still required by the parent outbox. */
+export function LearningChoiceControls({ draft, presentationOrder, contribution, busy, onChange, onConfirm }: {
+  draft: ProbeChoiceDraft, presentationOrder: readonly string[], contribution: 'enabled' | 'disabled' | 'unavailable', busy: boolean,
+  onChange(draft: ProbeChoiceDraft): void, onConfirm(): void,
+}) {
+  const choices = [...presentationOrder.map((key, index) => [key, `学习呈现 ${index === 0 ? 'A' : 'B'} 更合适`] as const),
+    ['both', '两种都可以'], ['neither', '两种都不适合'], ['dismissed', '明确记录本次跳过']] as const
+  const disabled = busy || contribution !== 'enabled'
+  return <section aria-label="明确的未来学习选择">
+    <fieldset disabled={disabled}><legend>只选择真正更便于理解与核验的顺序</legend>
+      {choices.map(([key, label]) => <label className="learning-check" key={key}>
+        <input type="radio" name="learning-choice" checked={draft.selected === key} onChange={() => onChange(chooseProbeDraft(draft, key, presentationOrder))} />{label}
+      </label>)}
+    </fieldset>
+    <label>积累范围<select aria-label="学习选择作用范围" disabled={disabled || !draft.selected || !presentationOrder.includes(draft.selected)} value={draft.scopeIntent}
+      onChange={event => onChange({ ...draft, scopeIntent: event.target.value as ProbeChoiceDraft['scopeIntent'] })}>
+      <option value="turn">仅本次比较</option><option value="workspace">明确允许用于未来工作区偏好学习</option>
+    </select></label>
+    <p className="learning-muted">至少三个独立研究选择相同顺序、且没有相反选择，才形成候选；这不是统计置信度，仍须单独确认。</p>
+    <button type="button" disabled={disabled || !probeDraftReady(draft, presentationOrder, contribution)} onClick={onConfirm}>
+      {draft.scopeIntent === 'workspace' ? '记录为未来学习信号' : '仅记录本次选择'}
+    </button>
+  </section>
 }

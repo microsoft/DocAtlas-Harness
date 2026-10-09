@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "docatlas-pypdf-backend-v1",
+  "sourceCommit": "ae169566b3148792776531d987f543edcad92321",
+  "reason": "Replace unmaintained PyPDF2 with pinned maintained pypdf using only reviewed imports, retaining upstream aliases and every function/class AST.",
+  "files": [
+    {
+      "path": "flash/parser_pdfium_parallel.py",
+      "upstreamSha256": "19c0b22d3abcf0a24d5401478d5ad83062d2cd1e9f9326d307bca038a5a23eff",
+      "outputSha256": "c408b208f952ac0c01657333dd40a7eb0cdcf154cf91c30f897dcd4957823afd"
+    },
+    {
+      "path": "flash/parser_pdfium_charlevel/__init__.py",
+      "upstreamSha256": "af39d9100123e65b68520fc23fb9911d7138d28e1abd27e1bdb579e5b2053f96",
+      "outputSha256": "e66b220109811a7f9c617075f038adbe7b3dfe3374af11e5a1124c09fa6e12c7"
+    },
+    {
+      "path": "flash/parser_pdfium_charlevel/pdf_objects.py",
+      "upstreamSha256": "375d6f6be2dfbf376e5695fb7c75488a02087977886e563e9efc9b84dc57275d",
+      "outputSha256": "895e2325ec18d072552466cc2ebc18ff2954218e13176b8c8ccff7e4085eff16"
+    },
+    {
+      "path": "flash/parser_pdfium_charlevel/pipeline.py",
+      "upstreamSha256": "fa87f719191f0d8ce0dd6aca13a8cc2c93b26f0453600eb0c4c293ff3c2ec84d",
+      "outputSha256": "8b0c874a3396d7704cc6ae03c2dae5787c4e0e1d15da7d701ca0cf42c1324f2d"
+    },
+    {
+      "path": "flash/parser_pdfium_charlevel/code_walk.py",
+      "upstreamSha256": "65be60447fab72cf81bafbbeb70ab944c26549d5f5480c0259eff348a9915ae8",
+      "outputSha256": "0cdb9b238c10fc1809e0a828524231edd77adb0820819d241d173757ae671293"
+    }
+  ]
+}

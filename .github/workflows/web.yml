@@ -33,7 +33,23 @@ jobs:
         run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/check.sh scripts/prepare-test-source.sh scripts/run-docatlas-web.sh scripts/bootstrap-node.sh scripts/pnpmw scripts/tool-bin/pnpm
       - run: bash scripts/pnpmw install --frozen-lockfile
       - run: uv sync --locked --all-packages --all-groups
+      - name: Audit locked Web runtime dependencies
+        run: |
+          bash scripts/pnpmw audit --prod
+          uv export --locked --package docatlas-dsh-sidecar --no-dev --no-emit-workspace --format requirements-txt --output-file "$RUNNER_TEMP/docatlas-sidecar-requirements.txt"
+          uvx --python 3.12.12 pip-audit==2.10.1 --progress-spinner off --disable-pip --require-hashes --strict -r "$RUNNER_TEMP/docatlas-sidecar-requirements.txt"
       - run: bash scripts/prepare-test-source.sh
       - run: bash scripts/check.sh
       - run: bash scripts/pnpmw exec playwright install --with-deps chromium
       - run: bash scripts/pnpmw run test:live
+      - name: Retain owned-code coverage reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: grounded-web-coverage
+          path: |
+            web/.cache/coverage/js/
+            web/.cache/coverage/python/coverage.json
+            web/.cache/coverage/python/html/
+          retention-days: 7
+          if-no-files-found: warn

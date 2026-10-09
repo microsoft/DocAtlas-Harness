@@ -12,7 +12,7 @@ import pypdfium2 as pdfium
 # that PDFium does not expose, read via PyPDF2 -- already a project dependency and
 # permissively licensed. A thin adapter exposes the small raw-object API the
 # helpers below need, so their calibrated logic stays unchanged.
-import PyPDF2 as _pypdf2  # declared dependency (also imported by pageindex.utils/client)
+import pypdf as _pypdf2  # DocAtlas reviewed parser; retain upstream aliases
 
 from ..model import Span, Rect
 

@@ -126,7 +126,8 @@ export class DocumentOperations {
     const page = await this.backend.readTree(read, signal)
     signal?.throwIfAborted(); active.assertCurrent(); parseContract('tree-index', page)
     if (page.kind !== 'tree-page' || treeIndexIssues(page).length || page.generationId !== manifest.generationId || page.treeHash !== manifest.treeHash
-      || page.total !== manifest.nodeCount || page.offset !== offset || page.nodes.length > limit) throw invalid()
+      || page.total !== manifest.nodeCount || page.offset !== offset || page.nodes.length > limit
+      || page.nodes.some(node => node.endPage > manifest.pageCount)) throw invalid()
     return page
   }
 

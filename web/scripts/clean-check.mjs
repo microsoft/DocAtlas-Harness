@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Node 22.19.0 needs --experimental-transform-types for constructor parameter properties.
 const root = realpathSync(fileURLToPath(new URL('../', import.meta.url)))
 const mode = process.argv[2] ?? 'check'
-if (!['check', 'browser'].includes(mode) || process.platform !== 'linux' || process.versions.node !== '22.19.0') throw new Error('Use pinned Node on Linux; mode must be check or browser')
+if (!['check', 'browser', 'coverage'].includes(mode) || process.platform !== 'linux' || process.versions.node !== '22.19.0') throw new Error('Use pinned Node on Linux; mode must be check, browser or coverage')
 const name = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).name
 if (!['docatlas-dsh-workspace', 'docatlas-grounded-web'].includes(name) || root === homedir() || root === '/') throw new Error('Expected a dedicated DocAtlas project root')
 const { SandboxProcess } = await import(pathToFileURL(join(root, 'packages/runtime-document/src/sandbox-process.ts')).href)
@@ -39,7 +39,9 @@ try {
     args.push('--ro-bind', browsers, browsers)
     mkdirSync(join(root, '.cache'), { recursive: true })
   }
-  const command = mode === 'check' ? ['scripts/check.sh'] : ['scripts/pnpmw', 'exec', 'playwright', 'test', '--config', 'playwright.live.config.ts', '--output', '.cache/playwright-clean-host-results', ...process.argv.slice(3)]
+  const command = mode === 'check' ? ['scripts/check.sh'] : mode === 'coverage'
+    ? ['scripts/pnpmw', 'exec', 'vitest', 'run', '--coverage', ...process.argv.slice(3)]
+    : ['scripts/pnpmw', 'exec', 'playwright', 'test', '--config', 'playwright.live.config.ts', '--output', '.cache/playwright-clean-host-results', ...process.argv.slice(3)]
   args.push('--chdir', root, '--', '/bin/bash', ...command)
   const env = { PATH: `/runtime:${dirname(process.execPath)}:/usr/bin:/bin`, LANG: 'C.UTF-8', HOME: homedir(), UV_CACHE_DIR: cache, GIT_OPTIONAL_LOCKS: '0', DOCATLAS_CLEAN_TEST_HOST: '1',
     ...(process.env.CI ? { CI: process.env.CI } : {}), ...(process.env.PLAYWRIGHT_BROWSERS_PATH ? { PLAYWRIGHT_BROWSERS_PATH: process.env.PLAYWRIGHT_BROWSERS_PATH } : {}) }

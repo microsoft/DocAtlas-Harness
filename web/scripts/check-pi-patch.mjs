@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
-import { readFileSync, realpathSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -17,4 +18,11 @@ if (JSON.stringify(patchedFiles) !== JSON.stringify(Object.keys(baseline.files).
 for (const [path, expected] of Object.entries(baseline.files)) {
   if (hash(readFileSync(join(installed, path))) !== expected) throw new Error(`Installed Pi patch mismatch: ${path}`)
 }
+// Security overrides must preserve the imported provider capability closure.
+// Resolve only: never execute provider/extension factories during this check.
+const modelRequire = createRequire(realpathSync(join(root, 'packages/runtime-pi/node_modules/@earendil-works/pi-ai/package.json')))
+const providerManifest = modelRequire.resolve.paths('@google/genai')?.map(path => join(path, '@google/genai/package.json')).find(existsSync)
+if (!providerManifest) throw new Error('Native Google provider dependency was removed')
+createRequire(realpathSync(providerManifest)).resolve('@modelcontextprotocol/sdk/client/index.js')
 console.log(`Pi ${manifest.version} / ${baseline.revision}: patch and ${patchedFiles.length} installed files verified`)
+console.log('Native provider MCP peer resolution verified without executing factories')

@@ -1,7 +1,7 @@
 import { Type, type TSchema } from 'typebox'
 import type { ToolDefinition } from '@earendil-works/pi-coding-agent'
 import type { DocumentOperations, ResearchOperations } from '@docatlas/core'
-import { DOCATLAS_ANSWER_CITATION_PROMPT, DocumentAccessError } from '@docatlas/core'
+import { DOCATLAS_ANSWER_CITATION_PROMPT, DocumentAccessError, fitsDocumentPresentation } from '@docatlas/core'
 import type { DocAtlasToolMetaV1, ReadResult, SearchResult } from '@docatlas/contracts'
 import { parseContract } from '@docatlas/contracts/node'
 
@@ -97,7 +97,7 @@ export function createPiDocumentTools(source: Operations | (() => Operations)): 
 }
 function bounded(value: unknown): string {
   const text = JSON.stringify(value)
-  if (text.length > 30000 || Buffer.byteLength(text) > 65536) throw new Error('Document presentation exceeds budget; request fewer items or a smaller text budget')
+  if (!fitsDocumentPresentation(text)) throw new Error('Document presentation exceeds budget; request fewer items or a smaller text budget')
   return text
 }
 function meta(scopeVersionId: string, result: ReadResult | SearchResult): DocAtlasToolMetaV1 {

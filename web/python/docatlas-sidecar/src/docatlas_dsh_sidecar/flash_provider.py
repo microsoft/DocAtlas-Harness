@@ -93,7 +93,7 @@ class FlashProvider:
                 raise TreeIndexError("unavailable", "Flash vendor fingerprint mismatch")
         dependencies = {
             name: importlib.metadata.version(name)
-            for name in ("pypdfium2", "PyPDF2", "regex", "sortedcontainers")
+            for name in ("pypdfium2", "pypdf", "regex", "sortedcontainers")
         }
         fingerprint = hashlib.sha256(
             canonical(

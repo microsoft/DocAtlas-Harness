@@ -33,7 +33,7 @@ from pathlib import Path
 from typing import Union
 
 import pypdfium2 as pdfium
-import PyPDF2 as _pypdf2  # declared dependency (also imported by pageindex.utils/client)
+import pypdf as _pypdf2  # DocAtlas reviewed parser; retain upstream aliases
 
 from .model import Span
 from .parser_pdfium_charlevel import (

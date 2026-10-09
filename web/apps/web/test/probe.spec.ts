@@ -4,7 +4,8 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { answerVerificationSummary, type AnswerManifest, type AnswerResponse } from '@docatlas/contracts'
-import { ProbeChoiceControls, ProbeEvidenceCollection, ProbePresentationCard, ProbePresentations } from '../src/live/Probe'
+import { ProbeEvidenceCollection, ProbePresentationCard, ProbePresentations } from '../src/live/ProbePresentations'
+import { LearningChoiceControls } from '../src/live/Learning'
 import { blankProbeChoice, chooseProbeDraft, probeAnswerOwner, probeAnswerOwnerKey, probeDraftReady, probeOwnerKey, probePresentations, probePrefix, probeStorageKey, type ProbeOwner, type ProbeVariantInput } from '../src/live/probe-state'
 import type { LiveState } from '../src/live/client'
 
@@ -135,17 +136,25 @@ describe('explicit local choice controls, no implied durable preference', () => 
     }
     expect(() => chooseProbeDraft(blankProbeChoice(), 'variant:other-probe', order)).toThrow('frozen')
   })
-  it('separates explicit recording, pending workspace intent and closing without recording', () => {
-    const html = renderToStaticMarkup(createElement(ProbeChoiceControls, { draft: { selected: order[0]!, scopeIntent: 'workspace' }, presentationOrder: order, contribution: 'enabled', busy: false, onChange() {}, onConfirm() {}, onClose() {} }))
-    expect(html).toContain('记录为待确认候选'); expect(html).toContain('独立确认才会生效'); expect(html).toContain('关闭且不记录新选择')
-    expect(html.match(/type="radio"/gu)).toHaveLength(5); expect(html).toContain('两种都可以'); expect(html).toContain('两种都不适合'); expect(html).toContain('明确记录：本次跳过')
+  it('separates future contribution from later confirmation and never writes on render', () => {
+    let changes = 0, writes = 0
+    const html = renderToStaticMarkup(createElement(LearningChoiceControls, { draft: { selected: order[0]!, scopeIntent: 'workspace' }, presentationOrder: order, contribution: 'enabled', busy: false, onChange() { changes++ }, onConfirm() { writes++ } }))
+    expect(html).toContain('记录为未来学习信号'); expect(html).toContain('仍须单独确认'); expect(html).toContain('至少三个独立研究')
+    expect(html.match(/type="radio"/gu)).toHaveLength(5); expect(html).toContain('两种都可以'); expect(html).toContain('两种都不适合'); expect(html).toContain('明确记录本次跳过')
     expect(html).not.toContain('value="global"'); expect(html).not.toContain('value="task-family"')
+    expect(changes).toBe(0); expect(writes).toBe(0)
   })
-  it('displays unavailable contribution truthfully and disables confirmation without disabling the ability to exit', () => {
+  it('disables both scope editing and confirmation while contribution is unavailable', () => {
     for (const contribution of ['disabled', 'unavailable'] as const) {
-      const html = renderToStaticMarkup(createElement(ProbeChoiceControls, { draft: blankProbeChoice(), presentationOrder: order, contribution, busy: false, onChange() {}, onConfirm() {}, onClose() {} }))
-      expect(html).toContain('<fieldset disabled="">'); expect(html).toContain('<button type="button" class="primary-button" disabled="">记录本次选择</button>')
-      expect(html).toContain('<button type="button" class="text-action">关闭且不记录新选择</button>')
+      const html = renderToStaticMarkup(createElement(LearningChoiceControls, { draft: { selected: order[0]!, scopeIntent: 'workspace' }, presentationOrder: order, contribution, busy: false, onChange() {}, onConfirm() {} }))
+      expect(html).toContain('<fieldset disabled="">'); expect(html).toContain('<button type="button" disabled="">记录为未来学习信号</button>')
+      expect(html).toContain('aria-label="学习选择作用范围" disabled=""')
+    }
+  })
+  it('never enables a foreign choice, a reserved choice promoted to workspace, or a busy submission', () => {
+    for (const [selected, scopeIntent, busy] of [['variant:foreign', 'turn', false], ['both', 'workspace', false], [order[0]!, 'turn', true]] as const) {
+      const html = renderToStaticMarkup(createElement(LearningChoiceControls, { draft: { selected, scopeIntent }, presentationOrder: order, contribution: 'enabled', busy, onChange() {}, onConfirm() {} }))
+      expect(html).toMatch(/<button type="button" disabled="">/u)
     }
   })
 })

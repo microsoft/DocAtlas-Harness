@@ -15,14 +15,12 @@ const hash = (value: Buffer) => createHash('sha256').update(value).digest('hex')
 const normalizedQuote = (value: string) => value.replace(/\s+/gu, ' ').trim()
 
 async function pair(page: Page, fixture: Fixture) {
-  // Observe this navigation's response, not an initial response cancelled by
-  // an immediate reload (whose response.finished can remain pending).
-  const snapshot = page.waitForResponse(response => response.request().method() === 'GET'
-    && response.url() === `${fixture.origin}${conversationPath(fixture.parent.conversationId)}/snapshot`, { timeout: 30000 })
-  await page.goto(`${fixture.origin}/live.html`)
-  const response = await snapshot
-  expect(response.status()).toBe(200)
-  expect(parseContract('conversation-observation', await response.json())).toMatchObject({ kind: 'conversation-snapshot', binding: fixture.parent })
+  // Capture and forward the actual bytes before the bounded browser reader
+  // cancels/releases its response; CDP may no longer retain response.json().
+  const response = await observeJsonAction(page, `${fixture.origin}${conversationPath(fixture.parent.conversationId)}/snapshot`,
+    () => page.goto(`${fixture.origin}/live.html`), 'GET')
+  expect(response.status).toBe(200)
+  expect(parseContract('conversation-observation', response.value)).toMatchObject({ kind: 'conversation-snapshot', binding: fixture.parent })
   await expect(page.getByLabel('向 DocAtlas 提问')).toBeEnabled()
 }
 

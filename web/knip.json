@@ -1,0 +1,34 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": ["scripts/*.mjs", "e2e/live/*.pw.ts"],
+      "project": ["scripts/**/*.mjs", "e2e/live/**/*.ts", "*.ts"],
+      "ignoreDependencies": ["pdfjs-dist", "@fontsource-variable/noto-sans-sc"]
+    },
+    "apps/server": {
+      "entry": ["src/index.ts", "src/cli.ts", "test/**/*.spec.ts", "test/fixtures/*.mjs"],
+      "project": ["src/**/*.ts", "test/**/*.{ts,mjs}"]
+    },
+    "apps/web": {
+      "entry": ["index.html", "live.html", "test/**/*.spec.ts"],
+      "project": ["src/**/*.{ts,tsx}", "test/**/*.ts"]
+    },
+    "packages/contracts": {
+      "entry": ["src/index.ts", "src/node.ts", "src/browser.ts", "test/**/*.spec.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "packages/core": {
+      "entry": ["src/index.ts", "test/**/*.spec.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "packages/runtime-document": {
+      "entry": ["src/index.ts", "test/**/*.spec.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "packages/runtime-pi": {
+      "entry": ["src/index.ts", "src/testing.ts", "src/worker/index.ts", "src/worker/entry.ts", "test/**/*.spec.ts", "test/fixtures/*.mjs"],
+      "project": ["src/**/*.ts", "test/**/*.{ts,mjs}"]
+    }
+  }
+}

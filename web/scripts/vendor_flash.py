@@ -22,6 +22,22 @@ PATCH_MANIFEST = ROOT / "compat/pageindex-flash/numbered-headings.patch.json"
 PATCH_TARGETS = {"flash/main.py", "flash/embedded_toc.py"}
 PATCH_ADDITION = "flash/_docatlas_numbered.py"
 PATCH_SOURCE = "compat/pageindex-flash/numbered_headings.py"
+PDF_PARSER_MANIFEST = ROOT / "compat/pageindex-flash/pypdf-backend.patch.json"
+PDF_PARSER_TARGETS = {
+    "flash/parser_pdfium_parallel.py": (1, 0),
+    "flash/parser_pdfium_charlevel/__init__.py": (1, 1),
+    "flash/parser_pdfium_charlevel/pdf_objects.py": (0, 1),
+    "flash/parser_pdfium_charlevel/pipeline.py": (1, 0),
+    "flash/parser_pdfium_charlevel/code_walk.py": (0, 1),
+}
+PDF_PARSER_REPLACEMENTS = (
+    (
+        b"import PyPDF2 as _pypdf2  # declared dependency "
+        b"(also imported by pageindex.utils/client)\n",
+        b"import pypdf as _pypdf2  # DocAtlas reviewed parser; retain upstream aliases\n",
+    ),
+    (b"from PyPDF2.generic import (\n", b"from pypdf.generic import (\n"),
+)
 
 
 def digest(data: bytes) -> str:
@@ -284,6 +300,68 @@ def apply_reviewed_patch(
     }
 
 
+def apply_reviewed_pdf_parser_patch(
+    outputs: dict[str, bytes], manifest_path: Path = PDF_PARSER_MANIFEST
+) -> dict[str, object]:
+    """Change only exact parser imports; retain every original function/class AST."""
+    raw = manifest_path.read_bytes()
+    patch = json.loads(raw)
+    if (
+        not isinstance(patch, dict)
+        or set(patch) != {"schemaVersion", "id", "sourceCommit", "reason", "files"}
+        or patch["schemaVersion"] != 1
+        or patch["id"] != "docatlas-pypdf-backend-v1"
+        or patch["sourceCommit"] != COMMIT
+        or not isinstance(patch["reason"], str)
+    ):
+        raise RuntimeError("Unreviewed PDF parser patch manifest")
+    files = patch["files"]
+    if (
+        not isinstance(files, list)
+        or len(files) != len(PDF_PARSER_TARGETS)
+        or any(
+            not isinstance(item, dict)
+            or set(item) != {"path", "upstreamSha256", "outputSha256"}
+            or not isinstance(item["path"], str)
+            for item in files
+        )
+        or {item["path"] for item in files} != set(PDF_PARSER_TARGETS)
+    ):
+        raise RuntimeError("Unreviewed PDF parser patch targets")
+    transformed = {}
+    for item in files:
+        path = item["path"]
+        content = outputs[path]
+        if digest(content) != item["upstreamSha256"]:
+            raise RuntimeError(f"PDF parser upstream fingerprint changed: {path}")
+        original_ast = ast.parse(content)
+        for (before, after), count in zip(
+            PDF_PARSER_REPLACEMENTS, PDF_PARSER_TARGETS[path], strict=True
+        ):
+            if content.count(before) != count:
+                raise RuntimeError(f"PDF parser import count changed: {path}")
+            content = content.replace(before, after, count)
+        if digest(content) != item["outputSha256"]:
+            raise RuntimeError(f"PDF parser output fingerprint changed: {path}")
+        for node in ast.walk(original_ast):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    if alias.name == "PyPDF2":
+                        alias.name = "pypdf"
+            elif isinstance(node, ast.ImportFrom) and node.module == "PyPDF2.generic":
+                node.module = "pypdf.generic"
+        if ast.dump(original_ast) != ast.dump(ast.parse(content)):
+            raise RuntimeError(f"PDF parser patch changed an algorithm: {path}")
+        transformed[path] = content
+    outputs.update(transformed)
+    return {
+        "id": patch["id"],
+        "manifest": PDF_PARSER_MANIFEST.relative_to(ROOT).as_posix(),
+        "manifestSha256": digest(raw),
+        "files": files,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
@@ -325,7 +403,8 @@ def main() -> None:
     if len(constants) != 2:
         raise RuntimeError("Optimizer constants changed; review required")
     outputs["deterministic.py"] = (
-        b'"""Exact deterministic function closure from pinned PageIndex; generated, do not edit."""\n'
+        b'"""Exact deterministic function closure from pinned PageIndex; '
+        b'generated, do not edit."""\n'
         b"import re\nimport sys\n"
         + "".join(constants).encode()
         + b"\n"
@@ -351,6 +430,7 @@ def main() -> None:
                 )
         tables.extend(table.get_children())
     local_patch = apply_reviewed_patch(outputs)
+    pdf_parser_patch = apply_reviewed_pdf_parser_patch(outputs)
     provenance = {
         "schemaVersion": 1,
         "upstream": "https://github.com/VectifyAI/PageIndex",
@@ -372,8 +452,9 @@ def main() -> None:
             "empty Flash initializer; omit public summary/chat API",
             "exact deterministic function closure with only stdlib imports/constants",
             "reviewed source-backed numbered-heading and bookmark guards; exact local patch",
+            "reviewed import-only pypdf backend; original function/class ASTs retained",
         ],
-        "localPatches": [local_patch],
+        "localPatches": [local_patch, pdf_parser_patch],
         "outputHashes": {name: digest(data) for name, data in outputs.items()},
     }
     outputs["provenance.json"] = (
@@ -395,7 +476,8 @@ def main() -> None:
     if extras:
         raise RuntimeError(f"Unreviewed vendor files: {sorted(extras)}")
     print(
-        f"Flash {COMMIT[:7]}: {len(outputs)} files, {len(names)} deterministic functions {'verified' if args.check else 'generated'}"
+        f"Flash {COMMIT[:7]}: {len(outputs)} files, {len(names)} deterministic functions "
+        f"{'verified' if args.check else 'generated'}"
     )
 
 

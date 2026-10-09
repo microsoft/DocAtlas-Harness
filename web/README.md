@@ -81,3 +81,23 @@ See [ADR-064](docs/adr/064-standalone-web-main.md), the [migration queue](docs/m
 and `migration-source.json` for source identity, accepted scope and implementation
 status. Full public deployment, arbitrary providers, cross-platform parity and
 general crash recovery are not implied by this local entry.
+
+## Code review and coverage
+
+`migration-source.json` is the immutable imported snapshot, not a claim that
+later maintenance still matches every imported byte. This branch's Git history
+records reviewed fixes/removals after `0eff3e6`; see the
+[post-migration audit](docs/review/grounded-web-code-audit.md).
+Reviewed runtime security fixes and the preserved provider/PDF boundaries are
+documented in [ADR-065](docs/adr/065-reviewed-runtime-security-maintenance.md).
+The original CLI dependency warnings remain a separate pre-merge task; the Web
+audit is not repository-wide security sign-off.
+
+The check includes pinned static/dependency checks and owned-code coverage.
+To inspect a JS coverage report after a build, run
+`bash scripts/pnpmw run test:coverage:clean-host`; reports live in
+`.cache/coverage/js/` and Python reports in `.cache/coverage/python/`.
+Generated schemas/vendor code retain separate contract/fingerprint gates.
+Browser behavior and isolated subprocess acceptance are verified by the live
+and namespace suites, not relabelled as instrumented unit coverage or real-model
+quality. Do not turn a selected module's 100% into a whole-product coverage claim.

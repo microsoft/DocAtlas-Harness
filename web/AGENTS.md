@@ -1,11 +1,14 @@
-# DocAtlas product workspace instructions
+# DocAtlas independent Grounded Web workspace instructions
 
-These rules apply to this workspace. `DocAtlas-Harness/` is the writable,
-independently versioned downstream checkout for Python-native DocAtlas experiments;
-the product-level TypeScript Core is extracted into `packages/core/`.
-The sibling `../DocAtlas-Harness` checkout and every checkout under `.sources/`
-are read-only upstream/research inputs unless the user explicitly requests a
-change there.
+These rules apply to the independent `web/` application in the official Harness
+integration checkout. Its TypeScript Core lives in `packages/core/`; Python is
+the local document sidecar. The original repository-root Python CLI/package/lock
+is independent and must not change as a side effect of Web work. Original video
+and sibling research checkouts, and every `.sources/` checkout, are read-only
+inputs unless the user explicitly requests changes there. Historical DSH rules
+below describe compatibility boundaries, not a requirement to import that host.
+`migration-source.json` preserves the original migration provenance; later
+reviewed changes belong in this repository's Git history and audit notes.
 
 ## Environment
 
@@ -56,14 +59,14 @@ change there.
 - Legacy routes remain behind DSH Connection authentication. New DocAtlas routes require product-owned authentication and authorization before exposure; never accept arbitrary browser filesystem paths. Native shell/file tools must respect the actual process/workspace boundary, not only document-tool scope checks.
 - `docs/implementation-plan.md` is the canonical living execution plan. `research/` records evidence and alternatives; implementation must not silently resolve an item that the plan leaves for ADR/contract review.
 - Note, Review, and Memory are orthogonal product capabilities. Canonical trees remain immutable; working, research, and personalized state use typed journals/overlays rather than mutating source structure.
+- ADR-065 limits runtime security maintenance to the independent Web. Preserve Pi's exact release/24-file patch and installed native provider peer capabilities. Flash's separate five-file pypdf import patch must go through the exact-hash generator with otherwise identical ASTs; never hand-edit the vendor or conflate it with the numbered-heading patch. Pin the maintained parser in the provider fingerprint, create new generations and preserve old data. Audit the actual sidecar workspace member, not the empty uv root. Original CLI dependencies require a separate reviewed update.
 
 ## Change discipline
 
-- Make Python-native DocAtlas experiments in `DocAtlas-Harness/`, never through a
-  symlink to the sibling checkout. Preserve its official GitHub `origin`, keep
-  downstream work on an explicit branch, and compare/rebase upstream changes
-  deliberately. The directory is ignored by the outer workspace because it is
-  its own Git repository.
+- Keep independent Web changes on an explicit branch and preserve the official
+  GitHub `origin`. Compare/rebase upstream deliberately. Do not write through a
+  symlink or mutate the original CLI, sibling checkouts or video-source workspace
+  as an incidental maintenance step.
 - Keep the scaffold buildable before adding product behavior.
 - Preserve the DSH plans in `docs/archive/dsh/` and track every reused module in `docs/migration/dsh-to-core.md`. Do not delete, move, or duplicate durable stores as part of a cosmetic folder reorganization. Do not rename this workspace or touch sibling workspaces without explicit direction.
 - Add focused tests for every durable/wire parser and lifecycle transition.

@@ -1,5 +1,26 @@
 # DocAtlas 完整实施主计划
 
+## 当前交付：独立 Web 代码审查与安全收尾（2026-10-09）
+
+在 `0eff3e6` 的独立 Web 集成上继续审查，保留原迁移清单作为不可改写的来源记录；
+后续差异由本分支的 Git 历史与审查记录解释，不反向覆盖原视频源码或既有运行数据。
+已使用 TypeScript/Oxlint、Ruff/mypy、依赖引用分析和覆盖率报告交叉定位问题，补充
+失败/取消/分页/跨会话边界回归，清理确定不可达的退休 UI；兼容 API、存储、
+安全闸门与历史回执保留。最终完整 `scripts/check.sh` 通过：2782 项 JS、1494 项 Python；
+稳定依赖下的 56 项浏览器旅程全部通过、零跳过，曾失败的人类研究旅程另连续三次通过。
+关键 Search 行/语句/函数覆盖率 100%，全 Web JS 行覆盖率 77.80%、Python 综合覆盖率
+78.58%；不声称全仓 100%。原 CLI 的 168 项测试通过且源码/清单/锁文件仍零差异。
+公网部署、任意 provider、真实语料质量及尚需 ADR/权限评审的长期 R1–R7 项不被自动关闭。
+过程与结果见 [代码审查记录](review/grounded-web-code-audit.md)。
+
+补充依赖审计发现运行时安全公告；按 [ADR-065](adr/065-reviewed-runtime-security-maintenance.md)
+做独立 Web 的最小依赖修复，并以原源码/契约/Pi 补丁与完整能力闭包作为对照。
+Flash 从停止维护的 PyPDF2 迁到同源 pypdf，必须通过新增精确 hash 的五文件 import-only
+生成补丁、函数 AST 不变检查及新的 provider fingerprint；旧目录代际与数据不改写。
+Node 与实际侧车依赖安全审计均为零已知告警，Pi 24 文件补丁/原能力闭包、83 文件
+Flash/25 确定函数与109 文件独立 wheel 均已复核。原 CLI 独立审计的6包37条告警
+作为合入前单独任务保留，未经另行确认不升级其 Docling/解析/模型环境；本批不 push。
+
 ## 当前交付：官方 main 的独立 Web 迁移（2026-10-09）
 
 用户已确认 [ADR-064](adr/064-standalone-web-main.md)：保留官方 Python CLI/TUI/评测路径，

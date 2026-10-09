@@ -4,11 +4,11 @@ import type { Locator, Page, Route } from '@playwright/test'
  * Chromium can leave response.finished()/body() pending after reader cancellation.
  * This issues the original request once and forwards its exact bytes; it invents no result.
  */
-export async function observeJsonAction(page: Page, url: string, action: () => Promise<unknown>): Promise<{ status: number, value: unknown }> {
+export async function observeJsonAction(page: Page, url: string, action: () => Promise<unknown>, method: 'GET' | 'POST' = 'POST'): Promise<{ status: number, value: unknown }> {
   let captured: { status: number, body: Buffer } | undefined
   let request: ReturnType<Route['request']> | undefined
   const handler = async (route: Route) => {
-    if (route.request().method() !== 'POST') { await route.fallback(); return }
+    if (route.request().method() !== method || request) { await route.fallback(); return }
     request = route.request()
     const response = await route.fetch(), body = await response.body()
     captured = { status: response.status(), body }

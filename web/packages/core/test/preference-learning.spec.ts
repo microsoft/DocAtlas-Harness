@@ -346,12 +346,14 @@ describe('bounded learning over already-recorded history', () => {
   let f: Awaited<ReturnType<typeof fixture>>
   beforeAll(async () => {
     f = await fixture()
-    // Prepare genuine earlier transactions separately from the boundary action; no fixture rows
-    // are forged, and the test/operation deadline is unchanged.
+    // Prepare genuine history in two bounded batches, outside the boundary action.
+    // Keep both hook/test deadlines and all real transactions/receipts unchanged.
     for (let index = 0; index < 32; index++) f.vote(f.subject(`bounded:${index}`, 'explore', 'investigation:bounded', 'conversation:bounded'))
   })
-  it('returns a wholly unavailable group past 64 eligible members instead of dropping later opposing votes', () => {
+  beforeAll(() => {
     for (let index = 32; index < 64; index++) f.vote(f.subject(`bounded:${index}`, 'explore', 'investigation:bounded', 'conversation:bounded'))
+  })
+  it('returns a wholly unavailable group past 64 eligible members instead of dropping later opposing votes', () => {
     expect(f.state()).toMatchObject({ status: 'collecting', independentCounts: { 'conclusion-first': 1, 'evidence-first': 0 } })
     const last = f.vote(f.subject('bounded:opposing', 'explore', 'investigation:opposing'), 'variant:evidence-first')
     expect(last.candidateId).toBeNull()
