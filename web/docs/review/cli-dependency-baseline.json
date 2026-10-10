@@ -1,0 +1,276 @@
+{
+  "docling_import_seconds": 5.704921064898372,
+  "docling_settings": {
+    "device": "cpu",
+    "images": true,
+    "images_scale": 2,
+    "num_threads": 4,
+    "ocr": false
+  },
+  "fixture_sha256": {
+    "sample_report.pdf": "161ea6a246e2520ec26795013d24a9deb8f60f471acd0cdf7ea273a43a6e8fb4",
+    "sample_report_prior.pdf": "b0af84bb12ac8c0da6b7607edb5c6aeccb38b8e4d756323fe3882cc6743e9789"
+  },
+  "measurements": {
+    "docling:sample_report.pdf": {
+      "median_seconds": 7.640261061489582,
+      "result": {
+        "files_sha256": {
+          "sample_report/sample_report_page0/vlm/sample_report_page0.md": "1f730a2b7a133d4b50729c3d2a091043df8d8e96a6e0be33d21fdf5f78220d76",
+          "sample_report/sample_report_page1/vlm/sample_report_page1.md": "398a6a4416c866d1ff3094f4dc7db595d61d703f05724dbaaf2182ab69cf1e1b",
+          "sample_report/sample_report_page2/vlm/sample_report_page2.md": "181ec9ffef3ba2f298853df7451e6518fd5cb02513557aa248cf716126bf51ff",
+          "sample_report/sample_report_page3/vlm/images/picture-1.png": "8a6d7380f9577f1991f5b77c6270de7117ab47e5990e8c2aaea48fe8d5c48952",
+          "sample_report/sample_report_page3/vlm/sample_report_page3.md": "5aa71990836d1877fbd3f17f25a297efe44857054d281f578bcf4548f417b8c5",
+          "sample_report/sample_report_page4/vlm/sample_report_page4.md": "ff781e5cee40a28dee2f368cfbe94bb632766342fd1ee4e66c4b2f63b89a5889",
+          "sample_report/sample_report_page5/vlm/sample_report_page5.md": "907b8330168efadc0287b9b39a31fc37c7c5f7f43f2b6d2b31f2b8f7a5468631"
+        },
+        "images_written": 1,
+        "pages_written": 6
+      },
+      "seconds": [
+        7.098949141800404,
+        6.387200437486172,
+        8.272457603365183,
+        9.128657460212708,
+        7.640261061489582
+      ],
+      "warm_median_seconds": 7.9563593324273825
+    },
+    "docling:sample_report_prior.pdf": {
+      "median_seconds": 6.555125083774328,
+      "result": {
+        "files_sha256": {
+          "sample_report_prior/sample_report_prior_page0/vlm/sample_report_prior_page0.md": "f4fda06e739987401f9dcf4d05a80d5f505bf3da4b53b9ed894d70732eebe913",
+          "sample_report_prior/sample_report_prior_page1/vlm/sample_report_prior_page1.md": "fa4154ad47b4a6b1c807f4be0f5004d2eb1c009c11ed781028a8833ab8311d1d",
+          "sample_report_prior/sample_report_prior_page2/vlm/sample_report_prior_page2.md": "181ec9ffef3ba2f298853df7451e6518fd5cb02513557aa248cf716126bf51ff",
+          "sample_report_prior/sample_report_prior_page3/vlm/images/picture-1.png": "8a6d7380f9577f1991f5b77c6270de7117ab47e5990e8c2aaea48fe8d5c48952",
+          "sample_report_prior/sample_report_prior_page3/vlm/sample_report_prior_page3.md": "5aa71990836d1877fbd3f17f25a297efe44857054d281f578bcf4548f417b8c5",
+          "sample_report_prior/sample_report_prior_page4/vlm/sample_report_prior_page4.md": "ff781e5cee40a28dee2f368cfbe94bb632766342fd1ee4e66c4b2f63b89a5889",
+          "sample_report_prior/sample_report_prior_page5/vlm/sample_report_prior_page5.md": "907b8330168efadc0287b9b39a31fc37c7c5f7f43f2b6d2b31f2b8f7a5468631"
+        },
+        "images_written": 1,
+        "pages_written": 6
+      },
+      "seconds": [
+        6.2874590791761875,
+        6.104745652526617,
+        7.034855766221881,
+        6.555125083774328,
+        7.153764707967639
+      ],
+      "warm_median_seconds": 6.794990424998105
+    },
+    "help:": {
+      "median_seconds": 0.12005593068897724,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "107065eef75260a0d92cb0a8d500c120ef821e40bd7a50f53f952e1312749f31"
+      },
+      "seconds": [
+        0.12028900161385536,
+        0.11969112791121006,
+        0.12005593068897724,
+        0.1250697821378708,
+        0.1200359184294939,
+        0.12074003741145134,
+        0.11674243211746216,
+        0.11837688274681568,
+        0.12676627933979034
+      ],
+      "warm_median_seconds": 0.12004592455923557
+    },
+    "help:build-md": {
+      "median_seconds": 0.12191777490079403,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "96bf091601c56733141e0d05fb9727529b0c89d5da684eeca265b588c01a777c"
+      },
+      "seconds": [
+        0.11877357587218285,
+        0.12392814084887505,
+        0.12288302183151245,
+        0.11852343566715717,
+        0.12191777490079403,
+        0.1215456910431385,
+        0.12385558523237705,
+        0.1195273119956255,
+        0.12206997349858284
+      ],
+      "warm_median_seconds": 0.12199387419968843
+    },
+    "help:build-tree": {
+      "median_seconds": 0.11957627907395363,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "7e8298c1f39d40845ec18e98237c5cf38c1cd4348832aa41ddc6d49ec8a2821a"
+      },
+      "seconds": [
+        0.12846634350717068,
+        0.11845498532056808,
+        0.1236388273537159,
+        0.11975728906691074,
+        0.12039158307015896,
+        0.1168796643614769,
+        0.11781231872737408,
+        0.11618636175990105,
+        0.11957627907395363
+      ],
+      "warm_median_seconds": 0.11901563219726086
+    },
+    "help:chat": {
+      "median_seconds": 0.1202660333365202,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "230d5de21d3e346ac67984ca40053bbbaaf00fd27c2e10d9451922ed2f5a06a7"
+      },
+      "seconds": [
+        0.11750171706080437,
+        0.11683118157088757,
+        0.11951875127851963,
+        0.12267442978918552,
+        0.12007630430161953,
+        0.12332859635353088,
+        0.1202660333365202,
+        0.12121167220175266,
+        0.12269586324691772
+      ],
+      "warm_median_seconds": 0.12073885276913643
+    },
+    "read:sample_report.pdf": {
+      "median_seconds": 0.01156039722263813,
+      "result": {
+        "missing": [],
+        "pages": 6,
+        "text_chars": {
+          "1": 266,
+          "2": 192,
+          "3": 232,
+          "4": 147,
+          "5": 161,
+          "6": 232
+        },
+        "text_sha256": {
+          "1": "56a65f8ff01245fa4683958d5fd6dc63bc372031abfe4e010aed3a94972b22bc",
+          "2": "043196f2086e4fe820889427da9ea2d2f78adc3bfe85106a5e9f39e87d6c6f90",
+          "3": "6b4e365283101f6964e203a849f73af5f583447d9400614cfa9c4d774efd8f53",
+          "4": "48edd4ebd7bb7931083ef1862602dc39eb3c6dc9fea217bf3267573c87ce45b7",
+          "5": "eddf1514173421495954b71af2915b04f7612e8b8beb12eb3bde45a61f2af1fb",
+          "6": "a018b942912bc32e587759c9394742e1b98e552a5de14df369ef0cdcf631d045"
+        }
+      },
+      "seconds": [
+        0.013373037800192833,
+        0.01167834922671318,
+        0.01156039722263813,
+        0.011538607999682426,
+        0.011604100465774536,
+        0.011437727138400078,
+        0.012227099388837814,
+        0.011353353038430214,
+        0.011475041508674622
+      ],
+      "warm_median_seconds": 0.011549502611160278
+    },
+    "read:sample_report_prior.pdf": {
+      "median_seconds": 0.011286616325378418,
+      "result": {
+        "missing": [],
+        "pages": 6,
+        "text_chars": {
+          "1": 266,
+          "2": 192,
+          "3": 232,
+          "4": 147,
+          "5": 161,
+          "6": 232
+        },
+        "text_sha256": {
+          "1": "4263e01651bf254e58f1e15ca6ec5c809eb8b016b10a99bf8a1cf7826cef6e50",
+          "2": "6668069dc95afaba4d5bf3393e030f9792470b6f3d557c561b508c18c34af68e",
+          "3": "6b4e365283101f6964e203a849f73af5f583447d9400614cfa9c4d774efd8f53",
+          "4": "48edd4ebd7bb7931083ef1862602dc39eb3c6dc9fea217bf3267573c87ce45b7",
+          "5": "eddf1514173421495954b71af2915b04f7612e8b8beb12eb3bde45a61f2af1fb",
+          "6": "a018b942912bc32e587759c9394742e1b98e552a5de14df369ef0cdcf631d045"
+        }
+      },
+      "seconds": [
+        0.012189630419015884,
+        0.011169468984007835,
+        0.01704091764986515,
+        0.011783789843320847,
+        0.012773094698786736,
+        0.011243224143981934,
+        0.011286616325378418,
+        0.011194022372364998,
+        0.011172762140631676
+      ],
+      "warm_median_seconds": 0.011264920234680176
+    },
+    "render:sample_report.pdf": {
+      "median_seconds": 0.17741499841213226,
+      "result": {
+        "1": "2d0da228fb67920e029c4af2d896d8848713b180a886697d4bf72e286aefa812",
+        "2": "f630fdcbd8f83b6f2ca4734c2350f0f25702b22452a8a741b8bfc25e75844983",
+        "4": "8bf4f56567151fefcddecda002ffadd63adc992d7ea6cd65e3694c6b42fe9c8a",
+        "6": "530fee20afdc5b0312accce16b5716f4a0b0e58cf5a454acf529864579ebe85b"
+      },
+      "seconds": [
+        0.19811338558793068,
+        0.18415546044707298,
+        0.18150673247873783,
+        0.1845335979014635,
+        0.17629225179553032,
+        0.17741499841213226,
+        0.1756476853042841,
+        0.1733962930738926,
+        0.1726302970200777
+      ],
+      "warm_median_seconds": 0.1768536251038313
+    },
+    "render:sample_report_prior.pdf": {
+      "median_seconds": 0.18028640374541283,
+      "result": {
+        "1": "683fc27284a502f1cecbf916c341094aa421ed2ce5c5c30c72cb41ba9f797314",
+        "2": "48848f415081722b6936c707920f77033fc1d77b6d48df0d495fa86457774391",
+        "4": "8bf4f56567151fefcddecda002ffadd63adc992d7ea6cd65e3694c6b42fe9c8a",
+        "6": "530fee20afdc5b0312accce16b5716f4a0b0e58cf5a454acf529864579ebe85b"
+      },
+      "seconds": [
+        0.17699124291539192,
+        0.17461223155260086,
+        0.17259187251329422,
+        0.1759258545935154,
+        0.18028640374541283,
+        0.1813550367951393,
+        0.1811276078224182,
+        0.1822479497641325,
+        0.18158432841300964
+      ],
+      "warm_median_seconds": 0.18070700578391552
+    }
+  },
+  "packages": {
+    "anyio": "4.13.0",
+    "azure-identity": "1.25.3",
+    "docling": "2.97.0",
+    "docling-core": "2.78.1",
+    "docling-ibm-models": "3.13.3",
+    "docling-parse": "6.2.0",
+    "docling-slim": "2.97.0",
+    "fsspec": "2026.4.0",
+    "openai": "2.41.0",
+    "opencv-python": "4.13.0.92",
+    "opencv-python-headless": null,
+    "pillow": "12.3.0",
+    "pyjwt": "2.13.0",
+    "pymupdf": "1.27.2.3",
+    "pypdf": "6.16.1",
+    "rapidocr": "3.8.1",
+    "torch": "2.13.0",
+    "transformers": "5.10.1",
+    "urllib3": "2.7.0"
+  },
+  "platform": "Linux-5.15.0-1079-azure-x86_64-with-glibc2.35",
+  "python": "3.12.12",
+  "schema": "docatlas-cli-regression.v1"
+}

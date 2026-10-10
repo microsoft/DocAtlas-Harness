@@ -1,0 +1,276 @@
+{
+  "docling_import_seconds": 3.659275308251381,
+  "docling_settings": {
+    "device": "cpu",
+    "images": true,
+    "images_scale": 2,
+    "num_threads": 4,
+    "ocr": false
+  },
+  "fixture_sha256": {
+    "sample_report.pdf": "161ea6a246e2520ec26795013d24a9deb8f60f471acd0cdf7ea273a43a6e8fb4",
+    "sample_report_prior.pdf": "b0af84bb12ac8c0da6b7607edb5c6aeccb38b8e4d756323fe3882cc6743e9789"
+  },
+  "measurements": {
+    "docling:sample_report.pdf": {
+      "median_seconds": 6.773238483816385,
+      "result": {
+        "files_sha256": {
+          "sample_report/sample_report_page0/vlm/sample_report_page0.md": "3e18b218956fd88de44b9b8ce7f44457f6f090a40613acff9bc03170bd67b9e4",
+          "sample_report/sample_report_page1/vlm/sample_report_page1.md": "398a6a4416c866d1ff3094f4dc7db595d61d703f05724dbaaf2182ab69cf1e1b",
+          "sample_report/sample_report_page2/vlm/sample_report_page2.md": "181ec9ffef3ba2f298853df7451e6518fd5cb02513557aa248cf716126bf51ff",
+          "sample_report/sample_report_page3/vlm/images/picture-1.png": "a43c2676124091fc163d45b0097cfe0db3874a59481cd9f5585a64b4f4459f80",
+          "sample_report/sample_report_page3/vlm/sample_report_page3.md": "5aa71990836d1877fbd3f17f25a297efe44857054d281f578bcf4548f417b8c5",
+          "sample_report/sample_report_page4/vlm/sample_report_page4.md": "cf11841b0e57763c6a8731c2dfc2b24b1b510c96d97546bbd20271b01cb14384",
+          "sample_report/sample_report_page5/vlm/sample_report_page5.md": "907b8330168efadc0287b9b39a31fc37c7c5f7f43f2b6d2b31f2b8f7a5468631"
+        },
+        "images_written": 1,
+        "pages_written": 6
+      },
+      "seconds": [
+        9.13149979710579,
+        6.576142771169543,
+        7.625913256779313,
+        6.738879881799221,
+        6.773238483816385
+      ],
+      "warm_median_seconds": 6.756059182807803
+    },
+    "docling:sample_report_prior.pdf": {
+      "median_seconds": 7.165225848555565,
+      "result": {
+        "files_sha256": {
+          "sample_report_prior/sample_report_prior_page0/vlm/sample_report_prior_page0.md": "1e77d89916390277cd50de3b8b885a1908d3682f22742f5a9a53de07a632f571",
+          "sample_report_prior/sample_report_prior_page1/vlm/sample_report_prior_page1.md": "fa4154ad47b4a6b1c807f4be0f5004d2eb1c009c11ed781028a8833ab8311d1d",
+          "sample_report_prior/sample_report_prior_page2/vlm/sample_report_prior_page2.md": "181ec9ffef3ba2f298853df7451e6518fd5cb02513557aa248cf716126bf51ff",
+          "sample_report_prior/sample_report_prior_page3/vlm/images/picture-1.png": "a43c2676124091fc163d45b0097cfe0db3874a59481cd9f5585a64b4f4459f80",
+          "sample_report_prior/sample_report_prior_page3/vlm/sample_report_prior_page3.md": "5aa71990836d1877fbd3f17f25a297efe44857054d281f578bcf4548f417b8c5",
+          "sample_report_prior/sample_report_prior_page4/vlm/sample_report_prior_page4.md": "cf11841b0e57763c6a8731c2dfc2b24b1b510c96d97546bbd20271b01cb14384",
+          "sample_report_prior/sample_report_prior_page5/vlm/sample_report_prior_page5.md": "907b8330168efadc0287b9b39a31fc37c7c5f7f43f2b6d2b31f2b8f7a5468631"
+        },
+        "images_written": 1,
+        "pages_written": 6
+      },
+      "seconds": [
+        7.134719267487526,
+        7.669955374673009,
+        7.724500223994255,
+        7.165225848555565,
+        7.149524865671992
+      ],
+      "warm_median_seconds": 7.417590611614287
+    },
+    "help:": {
+      "median_seconds": 0.11937887966632843,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "107065eef75260a0d92cb0a8d500c120ef821e40bd7a50f53f952e1312749f31"
+      },
+      "seconds": [
+        0.12382110022008419,
+        0.11920616030693054,
+        0.11536119133234024,
+        0.12047423981130123,
+        0.120694225654006,
+        0.1189075130969286,
+        0.12084272876381874,
+        0.11937887966632843,
+        0.11625958792865276
+      ],
+      "warm_median_seconds": 0.11929251998662949
+    },
+    "help:build-md": {
+      "median_seconds": 0.11801263689994812,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "96bf091601c56733141e0d05fb9727529b0c89d5da684eeca265b588c01a777c"
+      },
+      "seconds": [
+        0.11766979843378067,
+        0.11801263689994812,
+        0.11653268709778786,
+        0.11548711359500885,
+        0.11576288379728794,
+        0.1186508759856224,
+        0.12220808863639832,
+        0.12173927947878838,
+        0.12360630184412003
+      ],
+      "warm_median_seconds": 0.11833175644278526
+    },
+    "help:build-tree": {
+      "median_seconds": 0.11981041729450226,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "7e8298c1f39d40845ec18e98237c5cf38c1cd4348832aa41ddc6d49ec8a2821a"
+      },
+      "seconds": [
+        0.1211449597030878,
+        0.11975964531302452,
+        0.12042096257209778,
+        0.12059552036225796,
+        0.12010850571095943,
+        0.11754638701677322,
+        0.1175870280712843,
+        0.11784017831087112,
+        0.11981041729450226
+      ],
+      "warm_median_seconds": 0.11978503130376339
+    },
+    "help:chat": {
+      "median_seconds": 0.11925125308334827,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "230d5de21d3e346ac67984ca40053bbbaaf00fd27c2e10d9451922ed2f5a06a7"
+      },
+      "seconds": [
+        0.12024880759418011,
+        0.11918879672884941,
+        0.12102904357016087,
+        0.12049659341573715,
+        0.11970977671444416,
+        0.11817789264023304,
+        0.11669689416885376,
+        0.11860194616019726,
+        0.11925125308334827
+      ],
+      "warm_median_seconds": 0.11922002490609884
+    },
+    "read:sample_report.pdf": {
+      "median_seconds": 0.011444883421063423,
+      "result": {
+        "missing": [],
+        "pages": 6,
+        "text_chars": {
+          "1": 266,
+          "2": 192,
+          "3": 232,
+          "4": 147,
+          "5": 161,
+          "6": 232
+        },
+        "text_sha256": {
+          "1": "56a65f8ff01245fa4683958d5fd6dc63bc372031abfe4e010aed3a94972b22bc",
+          "2": "043196f2086e4fe820889427da9ea2d2f78adc3bfe85106a5e9f39e87d6c6f90",
+          "3": "6b4e365283101f6964e203a849f73af5f583447d9400614cfa9c4d774efd8f53",
+          "4": "48edd4ebd7bb7931083ef1862602dc39eb3c6dc9fea217bf3267573c87ce45b7",
+          "5": "eddf1514173421495954b71af2915b04f7612e8b8beb12eb3bde45a61f2af1fb",
+          "6": "a018b942912bc32e587759c9394742e1b98e552a5de14df369ef0cdcf631d045"
+        }
+      },
+      "seconds": [
+        0.013011438772082329,
+        0.011559836566448212,
+        0.011427819728851318,
+        0.011444883421063423,
+        0.012572508305311203,
+        0.011237984523177147,
+        0.011476721614599228,
+        0.011411840096116066,
+        0.011424794793128967
+      ],
+      "warm_median_seconds": 0.01143635157495737
+    },
+    "read:sample_report_prior.pdf": {
+      "median_seconds": 0.011507950723171234,
+      "result": {
+        "missing": [],
+        "pages": 6,
+        "text_chars": {
+          "1": 266,
+          "2": 192,
+          "3": 232,
+          "4": 147,
+          "5": 161,
+          "6": 232
+        },
+        "text_sha256": {
+          "1": "4263e01651bf254e58f1e15ca6ec5c809eb8b016b10a99bf8a1cf7826cef6e50",
+          "2": "6668069dc95afaba4d5bf3393e030f9792470b6f3d557c561b508c18c34af68e",
+          "3": "6b4e365283101f6964e203a849f73af5f583447d9400614cfa9c4d774efd8f53",
+          "4": "48edd4ebd7bb7931083ef1862602dc39eb3c6dc9fea217bf3267573c87ce45b7",
+          "5": "eddf1514173421495954b71af2915b04f7612e8b8beb12eb3bde45a61f2af1fb",
+          "6": "a018b942912bc32e587759c9394742e1b98e552a5de14df369ef0cdcf631d045"
+        }
+      },
+      "seconds": [
+        0.012350529432296753,
+        0.011470647528767586,
+        0.012404581531882286,
+        0.011377714574337006,
+        0.011303246021270752,
+        0.01770830899477005,
+        0.012784484773874283,
+        0.011438518762588501,
+        0.011507950723171234
+      ],
+      "warm_median_seconds": 0.01148929912596941
+    },
+    "render:sample_report.pdf": {
+      "median_seconds": 0.17459598742425442,
+      "result": {
+        "1": "2d0da228fb67920e029c4af2d896d8848713b180a886697d4bf72e286aefa812",
+        "2": "f630fdcbd8f83b6f2ca4734c2350f0f25702b22452a8a741b8bfc25e75844983",
+        "4": "8bf4f56567151fefcddecda002ffadd63adc992d7ea6cd65e3694c6b42fe9c8a",
+        "6": "530fee20afdc5b0312accce16b5716f4a0b0e58cf5a454acf529864579ebe85b"
+      },
+      "seconds": [
+        0.1918808426707983,
+        0.17866720259189606,
+        0.17496884800493717,
+        0.17296834476292133,
+        0.17520491033792496,
+        0.17459598742425442,
+        0.1722627840936184,
+        0.1725415363907814,
+        0.17456938698887825
+      ],
+      "warm_median_seconds": 0.17458268720656633
+    },
+    "render:sample_report_prior.pdf": {
+      "median_seconds": 0.17753802239894867,
+      "result": {
+        "1": "683fc27284a502f1cecbf916c341094aa421ed2ce5c5c30c72cb41ba9f797314",
+        "2": "48848f415081722b6936c707920f77033fc1d77b6d48df0d495fa86457774391",
+        "4": "8bf4f56567151fefcddecda002ffadd63adc992d7ea6cd65e3694c6b42fe9c8a",
+        "6": "530fee20afdc5b0312accce16b5716f4a0b0e58cf5a454acf529864579ebe85b"
+      },
+      "seconds": [
+        0.1841048300266266,
+        0.17886703833937645,
+        0.1803009882569313,
+        0.17753802239894867,
+        0.17528532072901726,
+        0.17698963731527328,
+        0.17824561335146427,
+        0.1762106791138649,
+        0.1747034303843975
+      ],
+      "warm_median_seconds": 0.17726382985711098
+    }
+  },
+  "packages": {
+    "anyio": "4.14.2",
+    "azure-identity": "1.25.3",
+    "docling": "2.132.0",
+    "docling-core": "2.99.0",
+    "docling-ibm-models": "4.0.2",
+    "docling-parse": "7.22.1",
+    "docling-slim": "2.132.0",
+    "fsspec": "2026.6.0",
+    "openai": "2.41.0",
+    "opencv-python": "5.0.0.93",
+    "opencv-python-headless": null,
+    "pillow": "12.3.0",
+    "pyjwt": "2.15.1",
+    "pymupdf": "1.27.2.3",
+    "pypdf": "6.19.0",
+    "rapidocr": "3.9.1",
+    "torch": "2.13.0",
+    "transformers": "5.10.1",
+    "urllib3": "2.8.0"
+  },
+  "platform": "Linux-5.15.0-1079-azure-x86_64-with-glibc2.35",
+  "python": "3.12.12",
+  "schema": "docatlas-cli-regression.v1"
+}

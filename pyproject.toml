@@ -32,17 +32,16 @@ dependencies = [
     "tqdm>=4.66",
 
     # ── PDF I/O (Read skill, build-md, build-tree shared helpers) ──
-    "pypdf>=6.15.0",
+    "pypdf>=6.19.0",
     "pymupdf>=1.23",
     "pillow>=12.3.0",
     "pycryptodome>=3.20",   # optional crypto backend for encrypted PDFs
 
     # ── PDF → markdown / figures (build-md, Docling backend) ──
-    # Heron layout + TableFormer + EasyOCR; CPU-only by default,
-    # uses GPU automatically if torch sees one. ~2 GB of model weights
-    # downloaded from HuggingFace on first run.
-    "docling>=2.50,<3",
-    "docling-core>=2.0",
+    # Heron layout + TableFormer; OCR is opt-in. Uses a GPU automatically
+    # if torch sees one. Model weights are cached from HuggingFace on first use.
+    "docling>=2.132.0,<3",
+    "docling-core>=2.99.0,<3",
 
     # ── Tree construction (build-tree wraps PageIndex) ──
     # PageIndex is vendored under docatlas/_vendor/pageindex; see its
@@ -50,6 +49,14 @@ dependencies = [
     # We list pageindex's only non-trivial dep (tiktoken) here so it lands
     # in our uv.lock.
     "tiktoken>=0.7",
+
+    # ── Security floors for the provider/document dependency closure ──
+    # These already-transitive packages are explicit so built wheel metadata
+    # also rejects vulnerable versions; uv-only constraints would not ship.
+    "anyio>=4.14.2",
+    "fsspec>=2026.6.0",
+    "pyjwt>=2.15.1",
+    "urllib3>=2.8.0",
 ]
 
 [project.optional-dependencies]

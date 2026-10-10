@@ -252,9 +252,10 @@ def _build_single(
             opts.do_ocr = bool(args.ocr)
 
         converter = DocumentConverter(
+            allowed_formats=[InputFormat.PDF],
             format_options={
                 InputFormat.PDF: PdfFormatOption(pipeline_options=opts),
-            }
+            },
         )
 
         conv_res = converter.convert(pdf_path)
