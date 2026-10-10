@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DocAtlas README media stage</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1440px; height: 960px; overflow: hidden; }
+    body { color: #263f4d; font-family: DemoSans, sans-serif; background: #edf2f8; }
+    .desktop { position: absolute; inset: 0; background: radial-gradient(ellipse at 6% 9%, #ddebf6 0, transparent 51%), radial-gradient(ellipse at 93% 7%, #eae3f4 0, transparent 49%), radial-gradient(ellipse at 73% 97%, #e1eee9 0, transparent 49%), #f0f4f8; }
+    .masthead { position: absolute; left: 80px; top: 30px; right: 80px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .identity { display: flex; align-items: center; gap: 18px; }
+    .brand { font-family: DemoSerif, Georgia, serif; font-size: 42px; font-weight: 560; letter-spacing: -1.6px; padding-top: 5px; color: #273f3b; }
+    .edition { padding: 7px 13px; background: #ffffffa8; border: 1px solid #ffffffeb; border-radius: 9px; color: #5c6d7c; font-size: 13px; font-weight: 650; letter-spacing: 1.4px; }
+    .tagline { font-size: 20px; color: #526c7b; letter-spacing: -.2px; }
+    .window { position: absolute; left: 80px; top: 116px; width: 1280px; height: 764px; overflow: hidden; border-radius: 17px; background: #f9fbfc; box-shadow: 0 32px 60px #3452691b, 0 10px 20px #34526913, 0 1px 3px #21354b1a; }
+    .window::after { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; border: 1px solid #ffffffb5; border-radius: 17px; }
+    .chrome { position: relative; height: 44px; background: linear-gradient(#fafbfd, #edf1f5); border-bottom: 1px solid #dce3eb; display: flex; align-items: center; justify-content: center; color: #657685; font-size: 13px; font-weight: 550; }
+    .traffic { position: absolute; left: 19px; top: 16px; display: flex; gap: 8px; }
+    .traffic i { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px #0000000a; background: #ff6058; }
+    .traffic i:nth-child(2) { background: #ffbd2e; }
+    .traffic i:nth-child(3) { background: #28c840; }
+    .chrome-right { position: absolute; right: 18px; font-size: 11px; letter-spacing: 1px; color: #8b98a3; }
+    .screen { position: relative; width: 1280px; height: 720px; overflow: hidden; background: #f9fbfc; }
+    video { display: block; width: 1280px; height: 720px; object-fit: fill; }
+    .caption { position: absolute; top: 907px; left: 83px; right: 83px; display: flex; align-items: center; gap: 12px; }
+    .step { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: #dce8e5; border: 1px solid #cdded8; color: #3e7062; font-size: 12px; font-weight: 700; }
+    .action { font-size: 17px; color: #3e5c6b; }
+    .disclosure { margin-left: auto; color: #768b97; font-size: 12px; }
+    .progress { position: absolute; left: 80px; top: 953px; width: 1280px; height: 2px; border-radius: 2px; background: #c6d4df80; overflow: hidden; }
+    .progress i { display: block; height: 100%; width: 0; background: #71978e; }
+  </style>
+</head>
+<body>
+  <div class="desktop"></div>
+  <header class="masthead">
+    <div class="identity"><span class="brand">DocAtlas</span><span class="edition" id="edition"></span></div>
+    <div class="tagline" id="tagline"></div>
+  </header>
+  <main class="window">
+    <div class="chrome"><div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div><span id="window-title"></span><span class="chrome-right">DOCATLAS PAPER</span></div>
+    <div class="screen"><video id="recording" muted playsinline preload="auto"></video></div>
+  </main>
+  <footer class="caption"><span class="step" id="step"></span><span class="action" id="action"></span><span class="disclosure">Recorded on Linux · edited for clarity</span></footer>
+  <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+</body>
+</html>

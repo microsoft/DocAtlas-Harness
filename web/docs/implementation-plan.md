@@ -1,5 +1,83 @@
 # DocAtlas 完整实施主计划
 
+## 当前交付：DocAtlas 论文 Web / TUI 宣传 GIF（2026-10-10）
+
+按用户反馈替换静态示例图：复用最终 v9 宣传片保存的 DocAtlas 论文真实产品操作
+素材，重新制作独立 Web 与 TUI 循环 GIF。统一 macOS-inspired 窗口、圆角/阴影、
+低饱和背景、阶段说明及结果首帧；软件实际录制在 Linux，不能据包装宣称 macOS
+支持。Web 展示上传/问题/引用原文/文档地图；TUI 展示选择/问题/工具执行/已存发现。
+
+只修改文档、媒体及独立重制脚本，不动产品实现、依赖、原视频、真实会话或论文。
+两个录屏为独立历史演示，不暗示同步、新模型调用或当前速度；保留真实操作画面，
+剪辑与阅读停留在图注和[媒体说明](review/readme-media.md)中披露。输入视频 hash、
+时间映射和输出验证写入[受检媒体报告](../assets/readme-media.json)。主 README
+改为两条 GIF，Web 指南使用同一 Web GIF；两端均保留静态替代图。
+
+最终 Web 为 1440×960、324 帧、27.01 秒、4,003,360 bytes；TUI 为同尺寸、336 帧、
+28.01 秒、7,321,627 bytes。均无限循环，完整解码零错误，原输入视频 hash 未变。
+对 17 个关键帧做浏览器布局/原视频 seek 检查，并查看两套最终 GIF 分镜及 TUI
+结尾；使用专用调色板保留红/黄/绿原色，避开旧片尾淡出。时间经过剪辑，不作速度验收。
+
+本批命令与验证：
+
+- `web/`：`bash scripts/pnpmw exec node scripts/render-readme-gifs.mjs --web-source <v9/public/web-capture.mp4> --tui-source <v8/public/tui-capture.mp4> --stills`，
+  然后以 `--publish` 替代 `--stills` 编码并验证；完整命令参数及重制边界见媒体说明。
+- `web/`：`env -u VIRTUAL_ENV bash scripts/pnpmw run check:clean-host` 实际执行完整
+  `bash scripts/check.sh`，2782 项 JS、1494 项 Python 全部通过，Pi 24 文件补丁、
+  Flash 83 文件/25 函数、109 文件侧车 wheel 均通过。最后的媒体剪辑微调另运行
+  `bash scripts/pnpmw exec oxlint --deny-warnings scripts/render-readme-gifs.mjs`。
+- 渲染器帮助、Node 语法检查及四类拒绝检查通过：缺少输入、互斥选项、未知参数、
+  输入视频 hash 不符。四份文档的 53 个本地链接/锚点通过；`git diff --check` 通过。
+- `uvx --from detect-secrets==1.5.0 detect-secrets scan --all-files` 定向扫描新增媒体
+  文本；仅六项公开视频/论文/GIF 摘要匹配，逐一核验后追加 reviewed non-secret
+  baseline，未关闭 detector、忽略整文件或改动此前审计记录。本批不 commit/push。
+
+## 当前交付：README、录用公告与 Web 入口文档（2026-10-10）
+
+按用户确认，在主 README 标注 DocAtlas 与 XL-DocBench 均已录用 NeurIPS 2026，
+保留原论文结果与可用 arXiv 引用，不编造会议 track、DOI 或正式论文集信息。
+主 README 仅放 Web 简介、截图与独立指南链接；安装、授权模型访问、可选 tree
+检索、使用步骤和本机 beta 边界集中到 `web/README.md`。前端子目录 README
+改为组件开发入口，移除已失效命令和“上传/引用尚未接入”等过期阶段描述。
+
+新增截图只使用仓库公开虚构报告与显式脚本化测试 provider；经过真实上传、Pi
+Read、checkpoint 引用、同版原 PDF 精确定位后截图，图注说明不代表模型质量。
+未调用 Azure、访问私有文档或修改运行时代码/依赖/真实数据；上一批 CLI Docling
+差异仍待独立接受；不据此关闭其他验收 gate，不 push。
+
+本批验证完成（各命令在其所属目录运行）：
+
+- `web/`：`env -u VIRTUAL_ENV bash scripts/pnpmw run check:clean-host` 实际执行完整
+  `bash scripts/check.sh`。188 个 JS 测试文件、2782 项测试全部通过，1494 项 Python
+  测试全部通过；本次 JS 行覆盖率 77.79%、Python 综合覆盖率 78.46%。静态/类型/
+  契约检查、Pi 24 文件补丁、Flash 83 文件/25 函数、109 文件侧车 wheel 均通过。
+- `web/`：`env -u VIRTUAL_ENV ./scripts/pnpmw run test:live:clean-host --config .cache/readme-preview.config.ts --output .cache/readme-preview-results`。
+  本地临时截图旅程 1 项通过，实际 Read 回执生成引用，原件定位为 exact，浏览器
+  无 page error；截图 1440×1000、105543 bytes。本次未重跑常规 56 项浏览器套件。
+- 仓库根：`uvx cffconvert==2.0.0 --validate -i CITATION.cff`、`git diff --check` 通过。
+  只读脚本核验三个 README 的 42 个本地链接/锚点、14 段 shell 语法、16 处脚本
+  路径和实际 pnpm 命令；截图已人工查看。不将测试 provider 当作真实模型评测。
+
+## 当前任务：原 CLI 安全候选，Docling 差异待合入确认（2026-10-10）
+
+用户已单独授权处理上一批留下的原 Python CLI 依赖告警；范围仅为本集成 checkout，
+不改视频源码、兄弟仓库、真实数据或远端。已定向升级有问题的依赖及必要兼容闭包，
+安全下限同时进入 wheel 元数据；Python 3.10–3.13、Azure/OpenAI/Torch/Transformers
+版本、PageIndex vendor、独立 Web 运行时代码与锁文件不变。当前平台 138 包与全部
+条件分支 148 个运行时包版本均无已知公告匹配，没有 ignore；PyJWT 配置复用问题
+有旧版失败、新版通过的实证。CLI 全套 200 项通过，语句覆盖率 54.07%，CI 下限提到
+50%；wheel 改为在源码外验证，确认四个 Skill、元数据和 CLI 入口来自实际安装包。
+
+**不能宣称原 CLI 的 Docling 输出/性能完全不变。** 两份公开合成报告的 CLI 帮助、
+12 页 Read 文本、8 张 Read 渲染图字节相同，但 Docling 的第 1/5 页分组及第 4 页
+裁图改变；两个样本的重复耗时观察分别为 -15.09% / +9.16%。旧 backend 名在新版
+仅为新实现别名，未硬编码还原样本，也未重写旧生成物。这部分是需要明确接受的
+独立合入差异，不随安全审计/单测通过而自动关闭。完整数据与命令见
+[原 CLI 安全复核](review/original-cli-security-maintenance.md)。独立 Web 全检已复验通过：
+2782 项 JS、1494 项 Python，Pi 24 文件/Flash 83 文件与 25 函数、109 文件侧车 wheel
+均通过；运行时代码/锁与上一批零差异。本批未重跑浏览器 56 项旅程，也没有真实
+Azure 调用、真实语料/OCR/GPU 性能或远端 CI 验收；没有 push。
+
 ## 当前交付：独立 Web 代码审查与安全收尾（2026-10-09）
 
 在 `0eff3e6` 的独立 Web 集成上继续审查，保留原迁移清单作为不可改写的来源记录；

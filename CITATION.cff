@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: If you use DocAtlas, please cite the software and associated preprint.
+message: If you use DocAtlas, please cite the software and associated paper (accepted to NeurIPS 2026).
 title: "DocAtlas: Long-Document Understanding as Mutable-State Interaction"
 type: software
 version: 0.3.0
@@ -32,6 +32,8 @@ preferred-citation:
   type: article
   title: "DocAtlas: Long-Document Understanding as Mutable-State Interaction"
   year: 2026
+  notes: Accepted to NeurIPS 2026.
+  url: "https://arxiv.org/abs/2608.07527"
   authors:
     - family-names: Wei
       given-names: Hongchen

@@ -1,10 +1,5 @@
 # DocAtlas: Long-Document Understanding as Mutable-State Interaction
 
-> **New, opt-in local Web application:** [Grounded Web setup](web/README.md)
-> adds original-PDF reading, verified citations and research workspaces alongside
-> the unchanged CLI/TUI below. It has an independent Node/Pi/sidecar environment;
-> it is a local beta, not a claim of benchmark-performance reproduction or public deployment.
-
 <p align="center">
   <strong>An open-source agent harness for evidence-grounded reasoning over long, multimodal documents.</strong>
 </p>
@@ -12,8 +7,9 @@
 <p align="center">
   <a href="https://officeintelligence.github.io/docatlas/"><img src="https://img.shields.io/badge/Project-Website-0b7285?style=flat-square&logo=githubpages&logoColor=white" alt="Project website"></a>
   <a href="https://arxiv.org/abs/2608.07527"><img src="https://img.shields.io/badge/arXiv-2608.07527-b31b1b?style=flat-square&logo=arxiv&logoColor=white" alt="arXiv paper"></a>
+  <img src="https://img.shields.io/badge/NeurIPS%202026-Accepted-2ea44f?style=flat-square" alt="Accepted to NeurIPS 2026">
   <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/CI-tested-2ea44f?style=flat-square&logo=githubactions&logoColor=white" alt="CI tested"></a>
-  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/codeql.yml"><img src="https://img.shields.io/badge/CodeQL-enabled-0969da?style=flat-square&logo=githubactions&logoColor=white" alt="CodeQL enabled"></a>
+  <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/github-code-scanning/codeql"><img src="https://img.shields.io/badge/CodeQL-enabled-0969da?style=flat-square&logo=githubactions&logoColor=white" alt="CodeQL enabled"></a>
   <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/python-3.10--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 through 3.13">
   <a href="https://agentskills.io/"><img src="https://img.shields.io/badge/Agent%20Skills-validated-6f42c1.svg?style=flat-square" alt="Agent Skills compatible"></a>
@@ -23,11 +19,16 @@
 <p align="center">
   <a href="https://officeintelligence.github.io/docatlas/"><b>Project page</b></a>
   · <a href="https://arxiv.org/abs/2608.07527"><b>Paper</b></a>
+  · <a href="#web-ui"><b>Web UI</b></a>
   · <a href="#-interactive-tui"><b>Interactive TUI</b></a>
   · <a href="#-results-and-leaderboard"><b>Leaderboard</b></a>
   · <a href="https://officeintelligence.github.io/xl-docbench/"><b>XL-DocBench</b></a>
   · <a href="ARCHITECTURE.md"><b>Architecture</b></a>
 </p>
+
+> **News — NeurIPS 2026:** [DocAtlas](https://officeintelligence.github.io/docatlas/)
+> and [XL-DocBench](https://officeintelligence.github.io/xl-docbench/) have both
+> been accepted to **NeurIPS 2026**.
 
 DocAtlas turns a PDF collection into a mutable workspace. An agent can search
 the document tree, read selected text and images, record page-grounded
@@ -37,15 +38,36 @@ changes what subsequent steps can retrieve.
 > **The document is not a frozen index. It becomes state the agent can improve
 > while it works.**
 
-## ✨ Interactive TUI
+> **Paper reproduction requires MinerU 2.5.** Use its per-page Markdown and
+> extracted figures to reproduce the reported results. The CLI's Docling
+> preprocessing and the independent Web UI are not paper-reproduction paths.
+> See the [reproduction requirements](#paper-reproduction-mineru-25-required).
+
+## Web UI
+
+Chat with PDFs, follow verified citations to the original page, and keep
+research notes in an optional local browser application. See the
+[Web UI guide](web/README.md) for installation, model access, optional tree
+search, and usage. Web has its own environment and is a local beta; it does
+not claim to reproduce the paper's scores or CLI performance.
 
 <p align="center">
-  <a href="assets/tui-preview.svg">
-    <img src="assets/tui-preview.svg" alt="DocAtlas terminal workbench with a full-width Ask composer, compact tool execution, and a grounded answer" width="88%">
+  <a href="web/assets/web-ui.gif">
+    <img src="web/assets/web-ui.gif" alt="Animated DocAtlas paper walkthrough: upload, ask, inspect citations in the original PDF, and explore the document map" width="100%">
   </a>
 </p>
 
-<p align="center"><sub>Select local or remote PDFs, ask follow-up questions, inspect tool calls, and review the evolving evidence state without leaving the terminal.</sub></p>
+<p align="center"><sub>DocAtlas reading its own paper. Re-edited promotional-demo footage with macOS-style framing; recorded on Linux, not a speed benchmark. <a href="web/docs/review/readme-media.md">Media notes</a> · <a href="web/assets/web-ui.png">Still image</a></sub></p>
+
+## ✨ Interactive TUI
+
+<p align="center">
+  <a href="assets/tui-demo.gif">
+    <img src="assets/tui-demo.gif" alt="Archived development-TUI walkthrough with the DocAtlas paper; experimental Read locate/blocks modes shown here are not part of the current root CLI" width="100%">
+  </a>
+</p>
+
+<p align="center"><sub>Archived development-TUI recording with the DocAtlas paper. Its experimental Read locate/blocks modes are not included in the current root CLI; the commands below use page-based Read. Edited independently from the Web session. <a href="web/docs/review/readme-media.md">Media notes</a> · <a href="assets/tui-preview.png">Still image</a></sub></p>
 
 ### Start locally
 
@@ -243,7 +265,7 @@ carrying that evidence into the final answer.
 
 ## ⚙️ CLI and Skill usage
 
-The dependency versions in `uv.lock` are the tested release environment.
+The Python CLI dependency set is pinned in `uv.lock`; Web is installed separately.
 `harness` remains available as a compatibility alias, but new integrations
 should use the canonical `docatlas` command.
 
@@ -294,9 +316,10 @@ API-provided reasoning summaries, or `--quiet` for the final answer only.
 bash scripts/demo_end_to_end.sh
 ```
 
-This runs the bundled self-authored sample through Markdown extraction,
+This runs the bundled self-authored sample through Docling Markdown extraction,
 PageIndex construction, and the four-Skill chat loop. Completed artifacts are
-cached under `outputs/demo/`.
+cached under `outputs/demo/`. This is a convenience demo, not a reproduction
+of the paper's results.
 
 ```text
 PDF ──► build-md ──► per-page Markdown + figures
@@ -315,7 +338,12 @@ uv run --locked docatlas build-tree \
   --model "$AZURE_OPENAI_DEPLOYMENT"
 ```
 
-Build per-page Markdown and extracted figures with Docling:
+**For paper reproduction, use MinerU 2.5** to generate the per-page Markdown
+and extracted figures, then point `--markdown-dir` at those outputs. See the
+[required setup](#paper-reproduction-mineru-25-required) below.
+
+For local use and demos—not paper reproduction—`build-md` provides a convenient
+**Docling** backend:
 
 ```bash
 uv run --locked docatlas build-md \
@@ -323,10 +351,11 @@ uv run --locked docatlas build-md \
   --output-dir markdown/
 ```
 
-The reported experiments use MinerU 2.5 output. Docling is the convenient
-local preprocessing path and follows the same per-page directory contract, but
-its extraction quality can differ on dense tables, formulas, and complex
-layouts.
+`build-md`, automatic TUI preprocessing, and the sample pipelines do not run
+MinerU. Docling follows the same per-page directory contract, but its text,
+table/formula extraction, and figure crops can differ. Matching the directory
+layout does not establish equivalent benchmark results; do not substitute
+Docling outputs for MinerU outputs when reproducing the paper.
 
 For questions spanning several PDFs, build a merged tree and pass every PDF to
 the harness:
@@ -360,7 +389,8 @@ Use `--manifest` for explicit per-document IDs or Markdown paths.
 | `docatlas/benchmarks/` | MMLongBench-Doc evaluation runner. |
 | `docatlas/scoring/` | Benchmark answer extraction and scoring. |
 | `docatlas/profiles/` | Versioned runtime defaults. |
-| `scripts/` | One-command TUI, demos, and evaluation launchers. |
+| [`web/`](web/README.md) | Independent local Web UI, TypeScript Core/Pi runtime, and Python document sidecar. |
+| `scripts/` | TUI/Web launchers, demos, and evaluation helpers. |
 | `tests/` | Unit, integration, PTY, security, and packaging regressions. |
 
 ## 🧪 Evaluation and reproducibility
@@ -369,21 +399,50 @@ Use `--manifest` for explicit per-document IDs or Markdown paths.
 
 [**XL-DocBench — Evidence at Scale**](https://officeintelligence.github.io/xl-docbench/)
 is our companion, human-verified benchmark for evidence-grounded reasoning
-over extra-long professional documents. It contains 1,519 questions, has a
-median context of 211 pages, reaches 2,303 pages at maximum, and requires
+over extra-long professional documents, also accepted to **NeurIPS 2026**.
+It contains 1,519 questions, has a median context of 211 pages, reaches
+2,303 pages at maximum, and requires
 cross-page evidence for 72.6% of its questions. Visit the
 [project homepage](https://officeintelligence.github.io/xl-docbench/) for the
 paper, benchmark design, diagnostics, and interactive leaderboard.
 
-Run the MMLongBench-Doc harness and scorer:
+### Paper reproduction: MinerU 2.5 required
+
+**Reproducing the paper's reported results requires MinerU 2.5 preprocessing.**
+Prepare per-page Markdown and extracted figures with the MinerU 2.5 VLM
+pipeline for the same benchmark PDFs. MinerU is an external preprocessing
+step; neither `uv sync` nor `docatlas build-md` runs it.
+
+The evaluation runner expects the
+[per-page MinerU directory layout](docatlas/skills/_common/markdown_reader.py):
+each document has a `<doc_id>/` directory containing zero-based
+`<doc_id>_page0/vlm/<doc_id>_page0.md` pages and their `vlm/images/` figures.
+Set `HARNESS_MMLB_MARKDOWN_DIR` to the root containing these document
+directories, not to a single page's `vlm/` directory.
+
+Verify that the required MinerU pages and figure assets are present before
+evaluation. Read can fall back to PDF text when Markdown is missing; such a
+run must not be treated as reproducing the paper's MinerU-based setup.
+
+MinerU is necessary, not sufficient: also match the paper's benchmark data,
+model/checkpoint, tree-building settings, prompts, and evaluation/scoring
+protocol. The Web UI is an independent convenience entry, not the evaluation
+runner; its PDF/Flash pipeline does not replace the paper's preprocessing.
+
+After preparing the benchmark PDFs, samples, trees, and MinerU outputs, run
+the MMLongBench-Doc harness and scorer with the paper's model configuration:
 
 ```bash
-bash scripts/run_eval.sh --limit 20 --n-jobs 4
+export HARNESS_MMLB_MARKDOWN_DIR="/absolute/path/to/mineru-2.5/markdown"
+bash scripts/run_eval.sh --n-jobs 4
 
 uv run --locked python -m docatlas.scoring.score_mmlongbench_hybrid \
   --input outputs/mmlongbench_harness_TIMESTAMP.json \
   --model "$AZURE_OPENAI_DEPLOYMENT"
 ```
+
+For a short pipeline smoke check, add `--limit 20` to `run_eval.sh`; a subset
+smoke run is not a reproduction of the full benchmark score.
 
 Evaluation outputs record the DocAtlas version, Git revision, model deployment,
 API version, and `uv.lock` hash. Benchmark corpora are obtained from their
@@ -395,17 +454,20 @@ small self-authored PDF for smoke tests and demos.
 ```bash
 uv sync --locked --extra dev
 uv run --locked pytest
-uvx ruff==0.16.5 check .
-uvx ruff==0.16.5 format --check .
+uvx ruff==0.16.5 check --extend-exclude web .
+uvx ruff==0.16.5 format --check --extend-exclude web .
 uv run --locked --with mypy==2.3.1 mypy docatlas
 uv build
 ```
 
 Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
+The independent Web environment has its own
+[development and verification commands](web/README.md#development-and-verification).
 
 ## 📌 Citation
 
-If you use DocAtlas in your research, please cite:
+DocAtlas has been accepted to NeurIPS 2026. If you use it in your research,
+please cite the available arXiv version:
 
 ```bibtex
 @article{wei2026docatlas,
@@ -414,7 +476,7 @@ If you use DocAtlas in your research, please cite:
             Dai, Qi and Qiu, Kai and Li, Yunsheng and Chen, Dongdong and
             Luo, Chong and Chen, Zhenzhong and Guo, Baining},
   year   = {2026},
-  note   = {Preprint},
+  note   = {Accepted to NeurIPS 2026},
   url    = {https://arxiv.org/abs/2608.07527}
 }
 ```

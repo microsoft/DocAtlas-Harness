@@ -1,0 +1,160 @@
+{
+  "source": "DocAtlas promotional demo v9 (retained v5 TUI / Web capture)",
+  "paper": {
+    "title": "DocAtlas: Long-Document Understanding as Mutable-State Interaction",
+    "url": "https://arxiv.org/abs/2608.07527",
+    "originalSha256FromVideoProvenance": "69dc16fc994e1fd2118eb11df088d3eaadacdc03da7e6fbf380a52fef4f78fc3"
+  },
+  "styling": "macOS-inspired editorial frame; software recorded on Linux",
+  "timing": "Edited source clips and reading holds, not a performance measurement",
+  "sessions": "Independent recorded Web and TUI sessions; not cross-client synchronization",
+  "productRuntimeChanged": false,
+  "newModelCalls": 0,
+  "reports": [
+    {
+      "kind": "web",
+      "sourceSha256": "74ffc4fe98b38046c659afddd88f1b8873b57197281e05162383519b4cda4502",
+      "sourcePixels": [
+        1280,
+        720
+      ],
+      "sourceSeconds": 50,
+      "width": 1440,
+      "height": 960,
+      "frames": 324,
+      "durationSeconds": 27.01,
+      "bytes": 4003360,
+      "sha256": "de60fc8022f4900beb161c96564c21d601070f7eb3b03633568bd155be42eb92",
+      "loop": "infinite",
+      "decodeErrors": 0,
+      "checkedStills": 9,
+      "shots": [
+        {
+          "duration": 2,
+          "from": 18.3,
+          "to": 18.3,
+          "step": "→",
+          "action": "A question, an answer, and the original source."
+        },
+        {
+          "duration": 3,
+          "from": 0.6,
+          "to": 2.8,
+          "step": "01",
+          "action": "Upload the DocAtlas paper."
+        },
+        {
+          "duration": 5,
+          "from": 7.4,
+          "to": 10.9,
+          "step": "02",
+          "action": "Ask what makes DocAtlas different from static retrieval."
+        },
+        {
+          "duration": 3.5,
+          "from": 12.4,
+          "to": 13.1,
+          "step": "03",
+          "action": "Read a concise answer with source citations."
+        },
+        {
+          "duration": 2,
+          "from": 16.95,
+          "to": 18.3,
+          "step": "04",
+          "action": "Open a citation in the original PDF."
+        },
+        {
+          "duration": 6,
+          "from": 18.3,
+          "to": 19,
+          "step": "04",
+          "action": "Check the highlighted passage on the cited page."
+        },
+        {
+          "duration": 3.5,
+          "from": 32.9,
+          "to": 33.4,
+          "step": "05",
+          "action": "Explore the document map and chapter summaries."
+        },
+        {
+          "duration": 2,
+          "from": 18.3,
+          "to": 18.3,
+          "step": "→",
+          "action": "Return to the evidence. Keep asking."
+        }
+      ]
+    },
+    {
+      "kind": "tui",
+      "sourceSha256": "44f549901dcaabe05d3c48a13ebee6a1f2a56747e90dee252bdae21166a58566",
+      "sourcePixels": [
+        1536,
+        864
+      ],
+      "sourceSeconds": 25,
+      "width": 1440,
+      "height": 960,
+      "frames": 336,
+      "durationSeconds": 28.01,
+      "bytes": 7321627,
+      "sha256": "4c3c5920d07b2c70c446d3b462ce8358ccdf70c0209bba5c21de142c6ed06d0f",
+      "loop": "infinite",
+      "decodeErrors": 0,
+      "checkedStills": 8,
+      "shots": [
+        {
+          "duration": 2,
+          "from": 18.8,
+          "to": 18.8,
+          "step": "→",
+          "action": "From document search to a page-grounded answer."
+        },
+        {
+          "duration": 4,
+          "from": 0.25,
+          "to": 2.8,
+          "step": "01",
+          "action": "Select docatlas-paper.pdf with the keyboard."
+        },
+        {
+          "duration": 4,
+          "from": 6.6,
+          "to": 10.6,
+          "step": "02",
+          "action": "Ask a focused question about the paper."
+        },
+        {
+          "duration": 5,
+          "from": 11.5,
+          "to": 17.9,
+          "step": "03",
+          "action": "Follow Search, Read, and Note as they run."
+        },
+        {
+          "duration": 5,
+          "from": 18.25,
+          "to": 19.2,
+          "step": "04",
+          "action": "Inspect the answer and its page references."
+        },
+        {
+          "duration": 5,
+          "from": 20.25,
+          "to": 24,
+          "step": "05",
+          "action": "Open the saved finding and its recorded evidence."
+        },
+        {
+          "duration": 3,
+          "from": 24,
+          "to": 24,
+          "step": "05",
+          "action": "Keep the research ready for your next question."
+        }
+      ]
+    }
+  ]
+}
