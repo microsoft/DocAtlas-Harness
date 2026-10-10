@@ -18,6 +18,7 @@
 
 <p align="center">
   <a href="https://officeintelligence.github.io/docatlas/"><b>Project page</b></a>
+  · <a href="https://officeintelligence.github.io/"><b>Research homepage</b></a>
   · <a href="https://arxiv.org/abs/2608.07527"><b>Paper</b></a>
   · <a href="#web-ui"><b>Web UI</b></a>
   · <a href="#-interactive-tui"><b>Interactive TUI</b></a>
@@ -57,17 +58,13 @@ not claim to reproduce the paper's scores or CLI performance.
   </a>
 </p>
 
-<p align="center"><sub>DocAtlas reading its own paper. Re-edited promotional-demo footage with macOS-style framing; recorded on Linux, not a speed benchmark. <a href="web/docs/review/readme-media.md">Media notes</a> · <a href="web/assets/web-ui.png">Still image</a></sub></p>
-
 ## ✨ Interactive TUI
 
 <p align="center">
   <a href="assets/tui-demo.gif">
-    <img src="assets/tui-demo.gif" alt="Archived development-TUI walkthrough with the DocAtlas paper; experimental Read locate/blocks modes shown here are not part of the current root CLI" width="100%">
+    <img src="assets/tui-demo.gif" alt="DocAtlas paper walkthrough in the terminal" width="100%">
   </a>
 </p>
-
-<p align="center"><sub>Archived development-TUI recording with the DocAtlas paper. Its experimental Read locate/blocks modes are not included in the current root CLI; the commands below use page-based Read. Edited independently from the Web session. <a href="web/docs/review/readme-media.md">Media notes</a> · <a href="assets/tui-preview.png">Still image</a></sub></p>
 
 ### Start locally
 

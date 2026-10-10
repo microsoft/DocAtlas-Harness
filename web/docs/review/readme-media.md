@@ -23,7 +23,7 @@ recording of the current repository-root CLI.** It shows experimental
 `Read locate` and `Read blocks` calls. The current root
 [Read contract](../../../docatlas/skills/read/tool.json) instead accepts pages
 and optional page/figure images; it does not expose those progressive modes.
-The README labels this distinction next to the GIF. Its CLI commands describe
+This media note records that distinction. The README's CLI commands describe
 the actual root implementation, not the experimental tool calls in the clip.
 The recording must not be used as acceptance evidence for root-CLI features.
 

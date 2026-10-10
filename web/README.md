@@ -14,11 +14,6 @@ replace the CLI environment or its benchmark workflow.
 
 ![DocAtlas Web UI walkthrough with the DocAtlas paper: upload, ask, verify the original, and explore the document map](assets/web-ui.gif)
 
-*DocAtlas reading its own paper. Re-edited promotional-demo footage with
-macOS-style framing, recorded on Linux. Waiting periods and reading holds
-are edited; this is not a speed benchmark or a claim of macOS support.
-[Media notes](docs/review/readme-media.md) · [Still image](assets/web-ui.png).*
-
 ## Quick start
 
 ### Requirements
