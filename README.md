@@ -1,6 +1,10 @@
 # DocAtlas: Long-Document Understanding as Mutable-State Interaction
 
 <p align="center">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
+</p>
+
+<p align="center">
   <strong>An open-source agent harness for evidence-grounded reasoning over long, multimodal documents.</strong>
 </p>
 
