@@ -37,12 +37,15 @@ async function openTree(page: Page) {
 async function pair(page: Page, fixture: Awaited<ReturnType<typeof lineageHarness>>) {
   await page.goto(`${fixture.origin}/live.html`)
 
-  const initialSnapshot = page.waitForResponse(response => response.request().method() === 'GET'
-    && response.url() === `${fixture.origin}${conversationPath(fixture.parent.conversationId)}/snapshot`, { timeout: 30000 })
+  const initialSnapshot = page.waitForEvent('requestfinished', {
+    predicate: request => request.method() === 'GET' && request.url() === `${fixture.origin}${conversationPath(fixture.parent.conversationId)}/snapshot`,
+    timeout: 30000,
+  })
   await page.reload()
-  // Unlike the older prewarmed fixture, this application lazily starts its real
-  // namespace on first use. Await HTTP completion before the ordinary DOM deadline.
-  const response = await initialSnapshot
+  // Reload can cancel an in-flight snapshot after its headers arrive. Observe a
+  // completed request from the lazily started runtime before checking its binding.
+  const response = await (await initialSnapshot).response()
+  if (!response) throw new Error('Completed native snapshot has no response')
   expect(response.status()).toBe(200); expect(await response.finished()).toBeNull()
   expect(parseContract('conversation-observation', await response.json())).toMatchObject({ kind: 'conversation-snapshot', binding: fixture.parent })
   await expect(page.getByLabel('向 DocAtlas 提问')).toBeEnabled()
@@ -347,26 +350,24 @@ test('pins browser Stop to the current binding, joins the actually cancelled pro
     const binding = fixture.binding(conversationId), running = await fixture.manager.get(fixture.actor, conversationId)
     expect(running.worker.busy).toBe(true); expect(providerAborted).toBe(false); expect(providerJoined).toBe(false)
     const stopUrl = `${fixture.origin}${conversationPath(conversationId)}/stop`
-    await page.route(stopUrl, async route => {
-      stops++
-      expect(route.request().method()).toBe('POST')
-      expect(route.request().headers()['if-match']).toBe(JSON.stringify(binding.bindingId))
-      expect(route.request().postData()).toBe('{}')
-      const response = await route.fetch(), body = await response.body()
-      expect(response.status()).toBe(200)
-      expect(parseContract('product-http', JSON.parse(body.toString('utf8')))).toEqual({ schemaVersion: 1, kind: 'runtime-stopped', conversationId, generation: binding.generation })
-      // No response fabrication or injected cancellation: the real host Stop must
-      // have propagated to the actual provider and joined its turn before replying.
-      expect(providerAborted).toBe(true); expect(providerJoined).toBe(true)
-      const stopped = await fixture.manager.get(fixture.actor, conversationId)
-      expect(stopped.worker.busy).toBe(false); expect(stopped.coordinator.busy).toBe(false); expect(stopped.native.activeCount).toBe(0)
-      expect(fixture.control.get(fixture.actor, held.submissionId).state).toBe('cancelled')
-      await route.fulfill({ response, body })
-    })
-    const responseReady = page.waitForResponse(response => response.request().method() === 'POST' && response.url() === stopUrl)
+    page.on('request', request => { if (request.url() === stopUrl) stops++ })
+    // Observe completion of the original browser request so the real Stop receipt
+    // must reach the client before checking cancellation and sending again.
+    const stoppedRequestReady = page.waitForEvent('requestfinished', request => request.method() === 'POST' && request.url() === stopUrl)
     await page.getByRole('button', { name: '停止任务', exact: true }).click()
-    const stoppedResponse = await responseReady
+    const stoppedRequest = await stoppedRequestReady
+    expect(stoppedRequest.method()).toBe('POST')
+    expect(stoppedRequest.headers()['if-match']).toBe(JSON.stringify(binding.bindingId))
+    expect(stoppedRequest.postData()).toBe('{}'); expect(stoppedRequest.failure()).toBeNull()
+    const stoppedResponse = await stoppedRequest.response()
+    if (!stoppedResponse) throw new Error('Completed Stop request has no response')
     expect(stoppedResponse.status()).toBe(200); expect(await stoppedResponse.finished()).toBeNull()
+    expect(parseContract('product-http', await stoppedResponse.json())).toEqual({ schemaVersion: 1, kind: 'runtime-stopped', conversationId, generation: binding.generation })
+    // The real host Stop must propagate to the provider and join its turn before replying.
+    expect(providerAborted).toBe(true); expect(providerJoined).toBe(true)
+    const stopped = await fixture.manager.get(fixture.actor, conversationId)
+    expect(stopped.worker.busy).toBe(false); expect(stopped.coordinator.busy).toBe(false); expect(stopped.native.activeCount).toBe(0)
+    expect(fixture.control.get(fixture.actor, held.submissionId).state).toBe('cancelled')
     await expect(page.getByText('已停止', { exact: true })).toBeVisible()
     expect(stops).toBe(1); expect(fixture.binding(conversationId)).toEqual(binding)
     const receiptResponse = await page.request.get(`${fixture.origin}/api/submissions/${encodeURIComponent(held.submissionId)}`)

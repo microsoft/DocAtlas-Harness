@@ -128,7 +128,22 @@ all caused by `which rg`: the hosted runner lacked the ripgrep executable
 required by native executor and application fixtures. The workflow now
 explicitly installs `ripgrep` alongside Bubblewrap and libseccomp. The existing
 test assertions, isolation boundaries and coverage requirements are preserved.
-The PR records the subsequent CI results, including browser tests.
+
+Subsequent hosted runs passed the full Web check and 55 of 56 browser journeys.
+Both timed out in `Response.finished()` after the Stop journey intercepted and
+replayed the response; the host cancellation and join assertions had already
+passed. The original Stop test passed three focused local repeats and a run of
+the complete lineage test file, so the underlying environment difference was
+not established. A later local trace also captured a reload cancelling an
+initial snapshot after its headers arrived while the subsequent snapshot
+completed successfully. The lineage fixture now waits for a completed snapshot
+request. The Stop journey observes the completed original browser request and
+parses its actual response. It retains the binding header, request body,
+response completion, cancellation, native join, saved-history and fresh
+submission assertions. Timeouts and production cancellation behavior are
+unchanged. The updated file passed two complete local repeats (six tests),
+E2E TypeScript checks, lint and secret scanning. The PR records the final
+hosted verification results.
 
 This report records the changes and local verification. Publishing the fix
 branch does not close alerts on the default branch; closure must be confirmed
