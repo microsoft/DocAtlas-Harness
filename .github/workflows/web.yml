@@ -22,10 +22,10 @@ jobs:
           version: 0.9.21
           python-version: 3.12.12
           enable-cache: true
-      - name: Install actual Linux isolation and browser dependencies
+      - name: Install Linux isolation and test dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y bubblewrap libseccomp2
+          sudo apt-get install --no-install-recommends -y bubblewrap libseccomp2 ripgrep
           if test -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns; then
             sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           fi
@@ -33,15 +33,23 @@ jobs:
         run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/check.sh scripts/prepare-test-source.sh scripts/run-docatlas-web.sh scripts/bootstrap-node.sh scripts/pnpmw scripts/tool-bin/pnpm
       - run: bash scripts/pnpmw install --frozen-lockfile
       - run: uv sync --locked --all-packages --all-groups
-      - name: Audit locked Web runtime dependencies
+      - name: Audit locked Web dependencies
         run: |
-          bash scripts/pnpmw audit --prod
+          bash scripts/pnpmw audit
           uv export --locked --package docatlas-dsh-sidecar --no-dev --no-emit-workspace --format requirements-txt --output-file "$RUNNER_TEMP/docatlas-sidecar-requirements.txt"
           uvx --python 3.12.12 pip-audit==2.10.1 --progress-spinner off --disable-pip --require-hashes --strict -r "$RUNNER_TEMP/docatlas-sidecar-requirements.txt"
       - run: bash scripts/prepare-test-source.sh
       - run: bash scripts/check.sh
       - run: bash scripts/pnpmw exec playwright install --with-deps chromium
       - run: bash scripts/pnpmw run test:live
+      - name: Retain failed browser traces
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: grounded-web-browser-failures
+          path: web/.cache/playwright-live-results/
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Retain owned-code coverage reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

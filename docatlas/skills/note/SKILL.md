@@ -2,7 +2,7 @@
 name: note
 description: Use this skill to record progress, partial findings, hypotheses, and page-anchored evidence while investigating a long document. Call Note aggressively — any time you read a page and confirm, narrow, or update your understanding of the user's question. Triggers include "jot that down", "save this finding", "note that page 7 says X", or (more often) implicit internal signals — you just learned something and want it recoverable later. Notes persist in the session and Review can select among them. Never paraphrase notes back from memory; write them as you go.
 license: MIT
-compatibility: Requires Python 3.10-3.13, the complete DocAtlas Skills bundle, and a DocAtlas session file.
+compatibility: Requires Python 3.11-3.13, the complete DocAtlas Skills bundle, and a DocAtlas session file.
 metadata:
   author: Microsoft Research
   version: "0.3.0"

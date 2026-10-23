@@ -9,6 +9,8 @@ import { createPiTestModel } from '@docatlas/runtime-pi/testing'
 import type { WorkerPeer } from '@docatlas/runtime-pi/worker'
 import { ControlStore, ResourceStore, RuntimeCatalog, RuntimeManager, prepareDocumentFree } from '../src/index.js'
 
+import { javascriptString } from './javascript-literal.js'
+
 const cleanup: Array<() => void | Promise<void>> = []
 afterEach(async () => { vi.restoreAllMocks(); while (cleanup.length) await cleanup.pop()!() })
 const actor = { actorId: 'actor:manual-compact', workspaceId: 'workspace:manual-compact' }
@@ -87,7 +89,7 @@ describe.skipIf(process.platform !== 'linux' || !existsSync('/usr/bin/bwrap'))('
   }, 30000)
 
   it('keeps cancelled compaction behind actual native process join, proves non-application, and permits the next explicit question', async () => {
-    const f = fixture(work => `export default function(pi){pi.on('session_before_compact',async()=>{await pi.exec(process.execPath,['-e','setInterval(()=>{},1000)'],{cwd:${JSON.stringify(work)}});return {cancel:true}})}`)
+    const f = fixture(work => `export default function(pi){pi.on('session_before_compact',async()=>{await pi.exec(process.execPath,['-e','setInterval(()=>{},1000)'],{cwd:${javascriptString(work)}});return {cancel:true}})}`)
     const current = await f.open(f.first), binding = current.manager.create(actor, 'create:compact:cancel').binding, { runtime, view } = await seed(current, binding.conversationId)
     const join = Promise.withResolvers<void>(), originalAbort = runtime.native.abortAll.bind(runtime.native)
     const abort = vi.spyOn(runtime.native, 'abortAll').mockImplementation(async () => { await join.promise; await originalAbort() })
@@ -114,7 +116,7 @@ describe.skipIf(process.platform !== 'linux' || !existsSync('/usr/bin/bwrap'))('
   }, 30000)
 
   it('does not settle a rejected compact until an unawaited approved hook native effect actually joins', async () => {
-    const f = fixture(work => `export default function(pi){pi.on('session_before_compact',()=>{void pi.exec(process.execPath,['-e',${JSON.stringify(`setTimeout(()=>require('node:fs').writeFileSync('joined.txt','yes'),300)`)}],{cwd:${JSON.stringify(work)}}).then(()=>pi.exec(process.execPath,['-e',${JSON.stringify(`require('node:fs').writeFileSync('late-effect.txt','must not execute')`)}],{cwd:${JSON.stringify(work)}})).catch(async()=>{(await import('node:fs')).writeFileSync(${JSON.stringify(join(work, 'late-denied.txt'))},'denied')});return {cancel:true}})}`)
+    const f = fixture(work => `export default function(pi){pi.on('session_before_compact',()=>{void pi.exec(process.execPath,['-e',${javascriptString(`setTimeout(()=>require('node:fs').writeFileSync('joined.txt','yes'),300)`)}],{cwd:${javascriptString(work)}}).then(()=>pi.exec(process.execPath,['-e',${javascriptString(`require('node:fs').writeFileSync('late-effect.txt','must not execute')`)}],{cwd:${javascriptString(work)}})).catch(async()=>{(await import('node:fs')).writeFileSync(${javascriptString(join(work, 'late-denied.txt'))},'denied')});return {cancel:true}})}`)
     const current = await f.open(f.first), binding = current.manager.create(actor, 'create:compact:hook-join').binding, { runtime, view } = await seed(current, binding.conversationId)
     const accepted = await current.manager.nativeCommand(actor, binding.conversationId, command(view), () => {})
     await vi.waitFor(() => expect(runtime.native.activeCount).toBeGreaterThan(0))
@@ -130,7 +132,7 @@ describe.skipIf(process.platform !== 'linux' || !existsSync('/usr/bin/bwrap'))('
   it('recovers a lost non-application reply cold using metadata only, without another worker factory, model or compact execution', async () => {
     const f = fixture(work => {
       const script = `const fs=require('node:fs');const p='factory.txt';let n=0;try{n=Number(fs.readFileSync(p,'utf8'))}catch{}fs.writeFileSync(p,String(n+1));`
-      return `export default async function(pi){await pi.exec(process.execPath,['-e',${JSON.stringify(script)}],{cwd:${JSON.stringify(work)}});pi.on('session_before_compact',()=>({cancel:true}))}`
+      return `export default async function(pi){await pi.exec(process.execPath,['-e',${javascriptString(script)}],{cwd:${javascriptString(work)}});pi.on('session_before_compact',()=>({cancel:true}))}`
     })
     const first = await f.open(f.first), binding = first.manager.create(actor, 'create:compact:cold-failure').binding, { runtime, view } = await seed(first, binding.conversationId)
     const original = runtime.worker.nativeApply.bind(runtime.worker)
@@ -160,7 +162,7 @@ describe.skipIf(process.platform !== 'linux' || !existsSync('/usr/bin/bwrap'))('
   }, 30000)
 
   it('does not publish a lost compact IPC outcome or permit proof recovery before its already-admitted native effect joins', async () => {
-    const f = fixture(work => `export default function(pi){pi.on('session_before_compact',()=>{void pi.exec(process.execPath,['-e',${JSON.stringify(`setTimeout(()=>require('node:fs').writeFileSync('lost-reply-joined.txt','yes'),500)`)}],{cwd:${JSON.stringify(work)}}).catch(()=>{});return {cancel:true}})}`)
+    const f = fixture(work => `export default function(pi){pi.on('session_before_compact',()=>{void pi.exec(process.execPath,['-e',${javascriptString(`setTimeout(()=>require('node:fs').writeFileSync('lost-reply-joined.txt','yes'),500)`)}],{cwd:${javascriptString(work)}}).catch(()=>{});return {cancel:true}})}`)
     const current = await f.open(f.first), binding = current.manager.create(actor, 'create:compact:lost-in-flight').binding, { runtime, view } = await seed(current, binding.conversationId)
     const peer = Reflect.get(runtime.worker, 'peer') as WorkerPeer, original = peer.call.bind(peer), lost = Promise.withResolvers<void>()
     let dispatches = 0

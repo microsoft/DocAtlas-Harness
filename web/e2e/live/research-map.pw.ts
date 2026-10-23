@@ -105,6 +105,12 @@ test('saved PDF notes become added/revised research nodes, open exact originals 
     await map.getByRole('button', { name: '关闭文档地图', exact: true }).click()
     await page.setViewportSize({ width: 390, height: 844 })
     await clickHeaderAction(page, '研究笔记')
+    // Inspect final contrast after both the panel and its backdrop finish fading in.
+    await notes.evaluate(async element => {
+      const backdrop = element.parentElement
+      if (!backdrop) throw new Error('Notebook dialog has no backdrop')
+      await Promise.all([...element.getAnimations(), ...backdrop.getAnimations()].map(animation => animation.finished))
+    })
     expect(await notes.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(false)
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
     await notes.getByRole('button', { name: '关闭研究笔记', exact: true }).click()

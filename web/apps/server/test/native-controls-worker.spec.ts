@@ -9,6 +9,8 @@ import { findNativeControlOutcome, inspectNativeSession } from '@docatlas/runtim
 import { createPiTestModel } from '@docatlas/runtime-pi/testing'
 import { ControlStore, IsolatedPiWorker, LinuxExecutor, ResourceStore, SubmissionCoordinator, prepareDocumentFree } from '../src/index.js'
 
+import { javascriptString } from './javascript-literal.js'
+
 const cleanup: Array<() => void | Promise<void>> = []
 afterEach(async () => { while (cleanup.length) await cleanup.pop()!() })
 const hash = (value: string | Buffer) => createHash('sha256').update(value).digest('hex')
@@ -22,8 +24,8 @@ async function fixture(hook = false) {
   writeFileSync(secret, 'PRIVATE_NATIVE_CONTROL_SENTINEL')
   if (hook) {
     mkdirSync(join(resourceSource, 'extensions'))
-    const program = `const fs=require('node:fs');fs.writeFileSync(${JSON.stringify(ready)},JSON.stringify({privateVisible:fs.existsSync(${JSON.stringify(secret)}),sessionVisible:fs.existsSync(${JSON.stringify(sessionDir)}),pid:process.pid}));setInterval(()=>{},1000)`
-    writeFileSync(join(resourceSource, 'extensions', 'model-control.ts'), `export default function(pi){pi.on('model_select',async()=>{await pi.exec(process.execPath,['-e',${JSON.stringify(program)}],{cwd:${JSON.stringify(work)}})})}`)
+    const program = `const fs=require('node:fs');fs.writeFileSync(${javascriptString(ready)},JSON.stringify({privateVisible:fs.existsSync(${javascriptString(secret)}),sessionVisible:fs.existsSync(${javascriptString(sessionDir)}),pid:process.pid}));setInterval(()=>{},1000)`
+    writeFileSync(join(resourceSource, 'extensions', 'model-control.ts'), `export default function(pi){pi.on('model_select',async()=>{await pi.exec(process.execPath,['-e',${javascriptString(program)}],{cwd:${javascriptString(work)}})})}`)
   }
   const control = ControlStore.open(join(privateRoot, 'control')); cleanup.push(() => control.close())
   const binding = control.createConversation(actor, { conversationId, runtimeSessionId: randomUUID() })

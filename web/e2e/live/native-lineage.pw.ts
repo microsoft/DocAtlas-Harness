@@ -37,12 +37,15 @@ async function openTree(page: Page) {
 async function pair(page: Page, fixture: Awaited<ReturnType<typeof lineageHarness>>) {
   await page.goto(`${fixture.origin}/live.html`)
 
-  const initialSnapshot = page.waitForResponse(response => response.request().method() === 'GET'
-    && response.url() === `${fixture.origin}${conversationPath(fixture.parent.conversationId)}/snapshot`, { timeout: 30000 })
+  const initialSnapshot = page.waitForEvent('requestfinished', {
+    predicate: request => request.method() === 'GET' && request.url() === `${fixture.origin}${conversationPath(fixture.parent.conversationId)}/snapshot`,
+    timeout: 30000,
+  })
   await page.reload()
-  // Unlike the older prewarmed fixture, this application lazily starts its real
-  // namespace on first use. Await HTTP completion before the ordinary DOM deadline.
-  const response = await initialSnapshot
+  // Reload can cancel an in-flight snapshot after its headers arrive. Observe a
+  // completed request from the lazily started runtime before checking its binding.
+  const response = await (await initialSnapshot).response()
+  if (!response) throw new Error('Completed native snapshot has no response')
   expect(response.status()).toBe(200); expect(await response.finished()).toBeNull()
   expect(parseContract('conversation-observation', await response.json())).toMatchObject({ kind: 'conversation-snapshot', binding: fixture.parent })
   await expect(page.getByLabel('向 DocAtlas 提问')).toBeEnabled()
@@ -329,11 +332,15 @@ test('pins browser Stop to the current binding, joins the actually cancelled pro
   } })
   const conversationId = fixture.parent.conversationId, messages = page.getByRole('region', { name: '会话消息', exact: true })
   const send = async (text: string) => {
-    const accepted = page.waitForResponse(response => response.request().method() === 'POST' && response.url() === `${fixture.origin}/api/submissions`)
-    await page.getByLabel('向 DocAtlas 提问').fill(text); await page.getByRole('button', { name: '发送问题', exact: true }).click()
-    const response = await accepted; expect(response.status()).toBe(202); expect(await response.finished()).toBeNull()
-    const value = parseContract('product-control', await response.json())
+    const response = await observeJsonAction(page, `${fixture.origin}/api/submissions`, async () => {
+      await page.getByLabel('向 DocAtlas 提问').fill(text); await page.getByRole('button', { name: '发送问题', exact: true }).click()
+    })
+    expect(response.status).toBe(202)
+    const value = parseContract('product-control', response.value)
     if (value.kind !== 'run-receipt') throw new Error('Expected actual product submission acceptance')
+    // The client must acknowledge the actual receipt and leave its sending state.
+    await expect(page.getByRole('button', { name: '发送问题', exact: true })).toBeVisible()
+    await expect(page.getByRole('alert')).toHaveCount(0)
     return value
   }
   try {
@@ -355,8 +362,8 @@ test('pins browser Stop to the current binding, joins the actually cancelled pro
       const response = await route.fetch(), body = await response.body()
       expect(response.status()).toBe(200)
       expect(parseContract('product-http', JSON.parse(body.toString('utf8')))).toEqual({ schemaVersion: 1, kind: 'runtime-stopped', conversationId, generation: binding.generation })
-      // No response fabrication or injected cancellation: the real host Stop must
-      // have propagated to the actual provider and joined its turn before replying.
+      // Verify the actual provider cancellation and native join before forwarding
+      // the complete server receipt, as observeJsonAction does for submissions.
       expect(providerAborted).toBe(true); expect(providerJoined).toBe(true)
       const stopped = await fixture.manager.get(fixture.actor, conversationId)
       expect(stopped.worker.busy).toBe(false); expect(stopped.coordinator.busy).toBe(false); expect(stopped.native.activeCount).toBe(0)
@@ -365,8 +372,11 @@ test('pins browser Stop to the current binding, joins the actually cancelled pro
     })
     const responseReady = page.waitForResponse(response => response.request().method() === 'POST' && response.url() === stopUrl)
     await page.getByRole('button', { name: '停止任务', exact: true }).click()
-    const stoppedResponse = await responseReady
-    expect(stoppedResponse.status()).toBe(200); expect(await stoppedResponse.finished()).toBeNull()
+    expect((await responseReady).status()).toBe(200)
+    // The bounded JSON reader can release Chromium's response before Playwright
+    // observes completion. Require the client to finish Stop without an error.
+    await expect(page.locator('.stop-button')).toHaveCount(0)
+    await expect(page.getByRole('alert')).toHaveCount(0)
     await expect(page.getByText('已停止', { exact: true })).toBeVisible()
     expect(stops).toBe(1); expect(fixture.binding(conversationId)).toEqual(binding)
     const receiptResponse = await page.request.get(`${fixture.origin}/api/submissions/${encodeURIComponent(held.submissionId)}`)

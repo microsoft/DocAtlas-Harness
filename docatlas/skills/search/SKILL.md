@@ -2,7 +2,7 @@
 name: search
 description: Use this skill FIRST whenever the user's question is about content in a long document that you haven't already located — the tree-search pass maps a natural-language query to a short list of suggested pages, which you then feed into Read. Triggers include "find where the report discusses X", "locate the section on Y", "which pages talk about Z", or any question about the document whose answer pages you don't yet know. Always prefer Search before brute-force Reading a page range you guessed at — Search is cheap, Reading every page is not. Requires a PageIndex tree JSON to have been loaded into the session via `--tree-json` at launch.
 license: MIT
-compatibility: Requires Python 3.10-3.13, the complete DocAtlas Skills bundle, a DocAtlas session file, and Azure OpenAI access.
+compatibility: Requires Python 3.11-3.13, the complete DocAtlas Skills bundle, a DocAtlas session file, and Azure OpenAI access.
 metadata:
   author: Microsoft Research
   version: "0.3.0"

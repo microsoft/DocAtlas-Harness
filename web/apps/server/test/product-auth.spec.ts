@@ -47,6 +47,8 @@ it('does not retain bootstrap/session bearer tokens and isolates concurrent sess
   const first = auth.exchange(code), second = auth.exchange(auth.issueBootstrap(actor).code)
   expect(first.cookie).toContain('__Host-docatlas_session=')
   expect(first.cookie).toContain('; Secure')
+  for (const value of [code, first.csrfToken, actor.actorId, actor.workspaceId]) expect(first.cookie).not.toContain(value)
+  expect(first.cookie.split(';')[0]).not.toBe(second.cookie.split(';')[0])
   expect([...Reflect.get(auth, 'sessions').keys()]).not.toContain(first.cookie.split(';')[0]!.split('=')[1])
   expect(() => auth.authenticate(first.cookie.split(';')[0], second.csrfToken)).toThrow('forbidden')
   first.actor.actorId = 'actor:forged'

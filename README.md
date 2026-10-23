@@ -15,7 +15,7 @@
   <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/CI-tested-2ea44f?style=flat-square&logo=githubactions&logoColor=white" alt="CI tested"></a>
   <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/github-code-scanning/codeql"><img src="https://img.shields.io/badge/CodeQL-enabled-0969da?style=flat-square&logo=githubactions&logoColor=white" alt="CodeQL enabled"></a>
   <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
-  <img src="https://img.shields.io/badge/python-3.10--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 through 3.13">
+  <img src="https://img.shields.io/badge/python-3.11--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.11 through 3.13">
   <a href="https://agentskills.io/"><img src="https://img.shields.io/badge/Agent%20Skills-validated-6f42c1.svg?style=flat-square" alt="Agent Skills compatible"></a>
   <a href="https://officeintelligence.github.io/xl-docbench/"><img src="https://img.shields.io/badge/Benchmark-XL--DocBench-a61e4d?style=flat-square" alt="XL-DocBench"></a>
 </p>
@@ -72,6 +72,7 @@ not claim to reproduce the paper's scores or CLI performance.
 
 ### Start locally
 
+Requires Python 3.11–3.13. The Pillow 13 security fixes require Python 3.11 or newer.
 Install [uv](https://docs.astral.sh/uv/), then:
 
 ```bash
