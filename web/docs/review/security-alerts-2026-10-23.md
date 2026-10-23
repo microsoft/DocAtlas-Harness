@@ -118,8 +118,17 @@ Secret Keyword detection in the same scanner.
 No real model services were called. Real-corpus Docling conversion, OCR, GPU
 conversion and performance were not revalidated; byte-for-byte equivalence of
 old and new Docling output is not established. Browser end-to-end journeys and
-the actual Python 3.11 / 3.13 test matrix were not run. These remain outside the
-local Python 3.12.12 validation described here.
+the Python 3.11 / 3.13 test matrix were outside the local Python 3.12.12 run.
+
+## GitHub CI follow-up
+
+The first run for PR #49 passed Python 3.11, 3.12 and 3.13, the quality job,
+and all CodeQL checks. Web reported 75 test failures and one suite failure,
+all caused by `which rg`: the hosted runner lacked the ripgrep executable
+required by native executor and application fixtures. The workflow now
+explicitly installs `ripgrep` alongside Bubblewrap and libseccomp. The existing
+test assertions, isolation boundaries and coverage requirements are preserved.
+The PR records the subsequent CI results, including browser tests.
 
 This report records the changes and local verification. Publishing the fix
 branch does not close alerts on the default branch; closure must be confirmed
