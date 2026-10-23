@@ -130,20 +130,24 @@ explicitly installs `ripgrep` alongside Bubblewrap and libseccomp. The existing
 test assertions, isolation boundaries and coverage requirements are preserved.
 
 Subsequent hosted runs passed the full Web check and 55 of 56 browser journeys.
-Both timed out in `Response.finished()` after the Stop journey intercepted and
-replayed the response; the host cancellation and join assertions had already
-passed. The original Stop test passed three focused local repeats and a run of
-the complete lineage test file, so the underlying environment difference was
-not established. A later local trace also captured a reload cancelling an
-initial snapshot after its headers arrived while the subsequent snapshot
-completed successfully. The lineage fixture now waits for a completed snapshot
-request. The Stop journey observes the completed original browser request and
-parses its actual response. It retains the binding header, request body,
-response completion, cancellation, native join, saved-history and fresh
-submission assertions. Timeouts and production cancellation behavior are
-unchanged. The updated file passed two complete local repeats (six tests),
-E2E TypeScript checks, lint and secret scanning. The PR records the final
-hosted verification results.
+The Stop journey timed out in `Response.finished()`, first on the Stop receipt
+and later on the second submission receipt before Stop was clicked. Repeated
+local runs passed, so the underlying environment difference was not fully
+established. A separate local trace captured a reload cancelling an initial
+snapshot after its headers arrived while the subsequent snapshot completed
+successfully; the fixture now waits for a completed snapshot request.
+
+Command receipts use the existing finite-response observation pattern: fetch
+the original request once, await and validate the complete server body, then
+forward its exact bytes. The Stop route verifies provider cancellation and
+native joins before forwarding the receipt. The browser must acknowledge each
+submission, leave the stopping state and show no error; receipt contracts,
+binding headers, request bodies, single-Stop behavior, saved history and fresh
+submission checks remain enforced. This avoids waiting on Chromium response
+completion after the client's bounded JSON reader releases the stream. Test
+timeouts and production cancellation behavior are unchanged. Failed browser
+traces are now retained in CI to support investigation if another failure
+occurs. The PR records the final local and hosted verification results.
 
 This report records the changes and local verification. Publishing the fix
 branch does not close alerts on the default branch; closure must be confirmed

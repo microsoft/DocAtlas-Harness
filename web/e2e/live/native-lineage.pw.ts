@@ -332,11 +332,15 @@ test('pins browser Stop to the current binding, joins the actually cancelled pro
   } })
   const conversationId = fixture.parent.conversationId, messages = page.getByRole('region', { name: '会话消息', exact: true })
   const send = async (text: string) => {
-    const accepted = page.waitForResponse(response => response.request().method() === 'POST' && response.url() === `${fixture.origin}/api/submissions`)
-    await page.getByLabel('向 DocAtlas 提问').fill(text); await page.getByRole('button', { name: '发送问题', exact: true }).click()
-    const response = await accepted; expect(response.status()).toBe(202); expect(await response.finished()).toBeNull()
-    const value = parseContract('product-control', await response.json())
+    const response = await observeJsonAction(page, `${fixture.origin}/api/submissions`, async () => {
+      await page.getByLabel('向 DocAtlas 提问').fill(text); await page.getByRole('button', { name: '发送问题', exact: true }).click()
+    })
+    expect(response.status).toBe(202)
+    const value = parseContract('product-control', response.value)
     if (value.kind !== 'run-receipt') throw new Error('Expected actual product submission acceptance')
+    // The client must acknowledge the actual receipt and leave its sending state.
+    await expect(page.getByRole('button', { name: '发送问题', exact: true })).toBeVisible()
+    await expect(page.getByRole('alert')).toHaveCount(0)
     return value
   }
   try {
@@ -350,24 +354,29 @@ test('pins browser Stop to the current binding, joins the actually cancelled pro
     const binding = fixture.binding(conversationId), running = await fixture.manager.get(fixture.actor, conversationId)
     expect(running.worker.busy).toBe(true); expect(providerAborted).toBe(false); expect(providerJoined).toBe(false)
     const stopUrl = `${fixture.origin}${conversationPath(conversationId)}/stop`
-    page.on('request', request => { if (request.url() === stopUrl) stops++ })
-    // Observe completion of the original browser request so the real Stop receipt
-    // must reach the client before checking cancellation and sending again.
-    const stoppedRequestReady = page.waitForEvent('requestfinished', request => request.method() === 'POST' && request.url() === stopUrl)
+    await page.route(stopUrl, async route => {
+      stops++
+      expect(route.request().method()).toBe('POST')
+      expect(route.request().headers()['if-match']).toBe(JSON.stringify(binding.bindingId))
+      expect(route.request().postData()).toBe('{}')
+      const response = await route.fetch(), body = await response.body()
+      expect(response.status()).toBe(200)
+      expect(parseContract('product-http', JSON.parse(body.toString('utf8')))).toEqual({ schemaVersion: 1, kind: 'runtime-stopped', conversationId, generation: binding.generation })
+      // Verify the actual provider cancellation and native join before forwarding
+      // the complete server receipt, as observeJsonAction does for submissions.
+      expect(providerAborted).toBe(true); expect(providerJoined).toBe(true)
+      const stopped = await fixture.manager.get(fixture.actor, conversationId)
+      expect(stopped.worker.busy).toBe(false); expect(stopped.coordinator.busy).toBe(false); expect(stopped.native.activeCount).toBe(0)
+      expect(fixture.control.get(fixture.actor, held.submissionId).state).toBe('cancelled')
+      await route.fulfill({ response, body })
+    })
+    const responseReady = page.waitForResponse(response => response.request().method() === 'POST' && response.url() === stopUrl)
     await page.getByRole('button', { name: '停止任务', exact: true }).click()
-    const stoppedRequest = await stoppedRequestReady
-    expect(stoppedRequest.method()).toBe('POST')
-    expect(stoppedRequest.headers()['if-match']).toBe(JSON.stringify(binding.bindingId))
-    expect(stoppedRequest.postData()).toBe('{}'); expect(stoppedRequest.failure()).toBeNull()
-    const stoppedResponse = await stoppedRequest.response()
-    if (!stoppedResponse) throw new Error('Completed Stop request has no response')
-    expect(stoppedResponse.status()).toBe(200); expect(await stoppedResponse.finished()).toBeNull()
-    expect(parseContract('product-http', await stoppedResponse.json())).toEqual({ schemaVersion: 1, kind: 'runtime-stopped', conversationId, generation: binding.generation })
-    // The real host Stop must propagate to the provider and join its turn before replying.
-    expect(providerAborted).toBe(true); expect(providerJoined).toBe(true)
-    const stopped = await fixture.manager.get(fixture.actor, conversationId)
-    expect(stopped.worker.busy).toBe(false); expect(stopped.coordinator.busy).toBe(false); expect(stopped.native.activeCount).toBe(0)
-    expect(fixture.control.get(fixture.actor, held.submissionId).state).toBe('cancelled')
+    expect((await responseReady).status()).toBe(200)
+    // The bounded JSON reader can release Chromium's response before Playwright
+    // observes completion. Require the client to finish Stop without an error.
+    await expect(page.locator('.stop-button')).toHaveCount(0)
+    await expect(page.getByRole('alert')).toHaveCount(0)
     await expect(page.getByText('已停止', { exact: true })).toBeVisible()
     expect(stops).toBe(1); expect(fixture.binding(conversationId)).toEqual(binding)
     const receiptResponse = await page.request.get(`${fixture.origin}/api/submissions/${encodeURIComponent(held.submissionId)}`)
