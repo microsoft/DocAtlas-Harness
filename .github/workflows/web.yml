@@ -33,9 +33,9 @@ jobs:
         run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/check.sh scripts/prepare-test-source.sh scripts/run-docatlas-web.sh scripts/bootstrap-node.sh scripts/pnpmw scripts/tool-bin/pnpm
       - run: bash scripts/pnpmw install --frozen-lockfile
       - run: uv sync --locked --all-packages --all-groups
-      - name: Audit locked Web runtime dependencies
+      - name: Audit locked Web dependencies
         run: |
-          bash scripts/pnpmw audit --prod
+          bash scripts/pnpmw audit
           uv export --locked --package docatlas-dsh-sidecar --no-dev --no-emit-workspace --format requirements-txt --output-file "$RUNNER_TEMP/docatlas-sidecar-requirements.txt"
           uvx --python 3.12.12 pip-audit==2.10.1 --progress-spinner off --disable-pip --require-hashes --strict -r "$RUNNER_TEMP/docatlas-sidecar-requirements.txt"
       - run: bash scripts/prepare-test-source.sh

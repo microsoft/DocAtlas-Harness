@@ -161,4 +161,4 @@ def test_parser_version_participates_in_new_generation_identity(
 
 def test_unmaintained_parser_is_not_an_installed_runtime_dependency() -> None:
     assert importlib.util.find_spec("PyPDF2") is None
-    assert importlib.metadata.version("pypdf") == "6.19.0"
+    assert importlib.metadata.version("pypdf") == "6.21.1"

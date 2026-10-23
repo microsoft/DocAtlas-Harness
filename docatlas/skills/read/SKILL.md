@@ -2,7 +2,7 @@
 name: read
 description: Read pages from a document. Returns MinerU markdown (preferred) or PyPDF text, with optional page screenshots and sub-image fetching. When markdown is available, a figure_images_meta catalog is included — use the figures parameter to fetch specific sub-image pixels. Triggers include "read page 5", "what does page 12 say", "show me the chart on page 3", "extract pages 3-5".
 license: MIT
-compatibility: Requires Python 3.10-3.13, the complete DocAtlas Skills bundle, and project dependencies installed with uv.
+compatibility: Requires Python 3.11-3.13, the complete DocAtlas Skills bundle, and project dependencies installed with uv.
 metadata:
   author: Microsoft Research
   version: "0.3.0"

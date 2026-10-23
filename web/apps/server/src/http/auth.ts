@@ -4,7 +4,8 @@ import type { ProductActor } from '../storage/control-store.js'
 export type ApiErrorCode = 'unauthenticated' | 'forbidden' | 'invalid-request' | 'not-found' | 'conflict' | 'limit-exceeded' | 'unavailable'
 export class ApiError extends Error { constructor(readonly code: ApiErrorCode) { super(code) } }
 const hash = (value: string) => createHash('sha256').update(value).digest('hex')
-const secret = () => randomBytes(32).toString('base64url')
+// Opaque random lookup tokens, never encoded credentials or user data.
+const randomToken = () => randomBytes(32).toString('base64url')
 interface Session { actor: ProductActor, csrf: string, expiresAt: number }
 
 /** Local pairing authority is supplied by the application, never by a request body. */
@@ -27,7 +28,7 @@ export class ProductAuth {
     if (localActor) {
       if (url.protocol !== 'http:' || url.hostname !== '127.0.0.1'
         || ![localActor.actorId, localActor.workspaceId].every(value => typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9._:~-]{0,127}$/.test(value))) throw new Error('Local access requires a loopback origin and server-owned actor')
-      this.local = { actor: { ...localActor }, csrf: secret() }
+      this.local = { actor: { ...localActor }, csrf: randomToken() }
     }
   }
   get localAccess(): boolean { return this.local !== undefined }
@@ -36,7 +37,7 @@ export class ProductAuth {
     if (![actor.actorId, actor.workspaceId].every(value => /^[A-Za-z0-9][A-Za-z0-9._:~-]{0,127}$/.test(value))) throw new Error('Invalid pairing actor')
     this.prune()
     if (this.codes.size >= 64) throw new ApiError('limit-exceeded')
-    const code = secret(), expiresAt = this.now() + 5 * 60 * 1000
+    const code = randomToken(), expiresAt = this.now() + 5 * 60 * 1000
     this.codes.set(hash(code), { actor: { ...actor }, expiresAt })
     return { code, expiresAt }
   }
@@ -48,7 +49,9 @@ export class ProductAuth {
     if (!paired) throw new ApiError('unauthenticated')
     if (this.sessions.size >= 64) throw new ApiError('limit-exceeded')
     this.codes.delete(key)
-    const token = secret(), csrf = secret()
+    const token = randomToken(), csrf = randomToken()
+    // Only the session lookup token goes in the HttpOnly cookie. The bootstrap
+    // code, CSRF token and actor stay separate; server lookup uses a token hash.
     this.sessions.set(hash(token), { actor: paired.actor, csrf, expiresAt: this.now() + this.sessionMs })
     return { cookie: this.cookie(token, Math.floor(this.sessionMs / 1000)), actor: { ...paired.actor }, csrfToken: csrf }
   }

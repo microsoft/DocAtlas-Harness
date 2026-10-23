@@ -10,14 +10,13 @@ readme = "README.md"
 license = "MIT"
 authors = [{ name = "Microsoft Research" }]
 keywords = ["agents", "document-understanding", "multimodal", "pdf", "retrieval"]
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.14"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -32,16 +31,17 @@ dependencies = [
     "tqdm>=4.66",
 
     # ── PDF I/O (Read skill, build-md, build-tree shared helpers) ──
-    "pypdf>=6.19.0",
+    "pypdf>=6.21.1",
     "pymupdf>=1.23",
-    "pillow>=12.3.0",
+    "pillow>=13.0.0",
     "pycryptodome>=3.20",   # optional crypto backend for encrypted PDFs
 
     # ── PDF → markdown / figures (build-md, Docling backend) ──
     # Heron layout + TableFormer; OCR is opt-in. Uses a GPU automatically
     # if torch sees one. Model weights are cached from HuggingFace on first use.
-    "docling>=2.132.0,<3",
-    "docling-core>=2.99.0,<3",
+    # These Docling versions support Pillow 13 throughout the dependency closure.
+    "docling>=2.142.1,<3",
+    "docling-core>=2.104.0,<3",
 
     # ── Tree construction (build-tree wraps PageIndex) ──
     # PageIndex is vendored under docatlas/_vendor/pageindex; see its
@@ -54,6 +54,7 @@ dependencies = [
     # These already-transitive packages are explicit so built wheel metadata
     # also rejects vulnerable versions; uv-only constraints would not ship.
     "anyio>=4.14.2",
+    "certifi>=2026.10.19",
     "fsspec>=2026.6.0",
     "pyjwt>=2.15.1",
     "urllib3>=2.8.0",

@@ -8,6 +8,8 @@ import type { NativeLineageAction, ProductBinding, ProductLineageCommand, Produc
 import { createPiTestModel } from '@docatlas/runtime-pi/testing'
 import { ControlStore, ResourceStore, RuntimeCatalog, RuntimeManager } from '../src/index.js'
 
+import { javascriptString } from './javascript-literal.js'
+
 const cleanup: Array<() => void | Promise<void>> = []
 afterEach(async () => { vi.restoreAllMocks(); while (cleanup.length) await cleanup.pop()!() })
 const actor = { actorId: 'actor:lineage-manager', workspaceId: 'workspace:lineage-manager' }
@@ -119,7 +121,7 @@ describe.skipIf(process.platform !== 'linux' || !existsSync('/usr/bin/bwrap'))('
   it('leaves a lost fork reply joined and unknown, then reconciles the original key cold without another SDK/factory/model execution', async () => {
     const f = fixture(work => {
       const script = `const fs=require('node:fs');const p='factory-count.txt';let n=0;try{n=Number(fs.readFileSync(p,'utf8'))}catch{}fs.writeFileSync(p,String(n+1));`
-      return `export default async function(pi){await pi.exec(process.execPath,['-e',${JSON.stringify(script)}],{cwd:${JSON.stringify(work)}})}`
+      return `export default async function(pi){await pi.exec(process.execPath,['-e',${javascriptString(script)}],{cwd:${javascriptString(work)}})}`
     })
     const first = await f.open(f.first), { binding, runtime, users, view } = await seed(first, 'create:lineage:lost-fork')
     const original = runtime.worker.lineageApply.bind(runtime.worker)
@@ -159,7 +161,7 @@ describe.skipIf(process.platform !== 'linux' || !existsSync('/usr/bin/bwrap'))('
   }, 30000)
 
   it('waits for the real before-navigation hook on Stop, proves non-application, and admits a fresh question without rebinding', async () => {
-    const f = fixture(work => `export default function(pi){pi.on('session_before_tree',async()=>{const fs=await import('node:fs');fs.writeFileSync(${JSON.stringify(join(work, 'hook-started'))},'yes');while(!fs.existsSync(${JSON.stringify(join(work, 'hook-release'))}))await new Promise(resolve=>setTimeout(resolve,20));return {cancel:true}})}`)
+    const f = fixture(work => `export default function(pi){pi.on('session_before_tree',async()=>{const fs=await import('node:fs');fs.writeFileSync(${javascriptString(join(work, 'hook-started'))},'yes');while(!fs.existsSync(${javascriptString(join(work, 'hook-release'))}))await new Promise(resolve=>setTimeout(resolve,20));return {cancel:true}})}`)
     const current = await f.open(f.first), { binding, runtime, assistants, view } = await seed(current, 'create:lineage:cancel')
     const accepted = await current.manager.lineageCommand(actor, binding.conversationId, command(view, navigate(assistants[0]!.id)), () => {})
     let stopped = false, stopping: Promise<void> | undefined

@@ -2,7 +2,7 @@
 name: review
 description: Use this skill to recall previously saved analysis notes by a natural-language query. An auxiliary LLM looks over all saved notes' cards (note_id, page_refs, found text) and selects only the relevant ones, which Review then returns in full. Triggers include "review the notes on topic X", "do we have evidence about Y in our notes", "pull the partisan-split notes", "summarize what we've found about ethics". Always prefer Review over re-reading pages when the information might already be in a note — it saves an expensive page-read round-trip. Requires at least one Note has been written in this session.
 license: MIT
-compatibility: Requires Python 3.10-3.13, the complete DocAtlas Skills bundle, a DocAtlas session file, and Azure OpenAI access.
+compatibility: Requires Python 3.11-3.13, the complete DocAtlas Skills bundle, a DocAtlas session file, and Azure OpenAI access.
 metadata:
   author: Microsoft Research
   version: "0.3.0"

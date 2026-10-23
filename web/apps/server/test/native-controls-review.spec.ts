@@ -16,6 +16,8 @@ import { ResourceStore } from '../src/storage/resource-store.js'
 import { RuntimeCatalog } from '../src/storage/runtime-catalog.js'
 import { RuntimeManager } from '../src/runs/runtime-manager.js'
 
+import { javascriptString } from './javascript-literal.js'
+
 const cleanup: Array<() => void | Promise<void>> = []
 afterEach(async () => { vi.restoreAllMocks(); while (cleanup.length) await cleanup.pop()!() })
 const actor = { actorId: 'actor:native-review', workspaceId: 'workspace:native-review' }, conversationId = 'conversation:native-review'
@@ -101,8 +103,8 @@ describe('review regressions at the native acceptance, dispatch and actual join 
     const root = mkdtempSync(join(tmpdir(), 'docatlas-native-startup-review-')); cleanup.push(() => rmSync(root, { recursive: true, force: true }))
     const work = join(root, 'work'), agent = join(root, 'agent'), counter = join(work, 'factory-count.txt')
     mkdirSync(work); mkdirSync(join(agent, 'extensions'), { recursive: true })
-    const script = `const fs=require('node:fs');const p=${JSON.stringify(counter)};let n=0;try{n=Number(fs.readFileSync(p,'utf8'))}catch{}fs.writeFileSync(p,String(n+1));`
-    writeFileSync(join(agent, 'extensions', 'startup.ts'), `export default async function(pi){const result=await pi.exec(process.execPath,['-e',${JSON.stringify(script)}],{cwd:${JSON.stringify(work)}});if(result.code!==0)throw new Error('Factory counter failed')}`)
+    const script = `const fs=require('node:fs');const p=${javascriptString(counter)};let n=0;try{n=Number(fs.readFileSync(p,'utf8'))}catch{}fs.writeFileSync(p,String(n+1));`
+    writeFileSync(join(agent, 'extensions', 'startup.ts'), `export default async function(pi){const result=await pi.exec(process.execPath,['-e',${javascriptString(script)}],{cwd:${javascriptString(work)}});if(result.code!==0)throw new Error('Factory counter failed')}`)
     const stores = () => ({ control: ControlStore.open(join(root, 'control')), catalog: new RuntimeCatalog(join(root, 'catalog')), resources: new ResourceStore(join(root, 'resources')) })
     const firstStores = stores(), captured = firstStores.resources.capture(agent), approval = firstStores.resources.approve(actor, captured.snapshotId, captured.manifestHash)
     const open = async (values: ReturnType<typeof stores>) => {

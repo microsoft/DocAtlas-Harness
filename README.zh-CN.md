@@ -15,7 +15,7 @@
   <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/CI-tested-2ea44f?style=flat-square&logo=githubactions&logoColor=white" alt="CI 测试"></a>
   <a href="https://github.com/microsoft/DocAtlas-Harness/actions/workflows/github-code-scanning/codeql"><img src="https://img.shields.io/badge/CodeQL-enabled-0969da?style=flat-square&logo=githubactions&logoColor=white" alt="已启用 CodeQL"></a>
   <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT 许可证"></a>
-  <img src="https://img.shields.io/badge/python-3.10--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 至 3.13">
+  <img src="https://img.shields.io/badge/python-3.11--3.13-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python 3.11 至 3.13">
   <a href="https://agentskills.io/"><img src="https://img.shields.io/badge/Agent%20Skills-validated-6f42c1.svg?style=flat-square" alt="兼容 Agent Skills"></a>
   <a href="https://officeintelligence.github.io/xl-docbench/"><img src="https://img.shields.io/badge/Benchmark-XL--DocBench-a61e4d?style=flat-square" alt="XL-DocBench 基准"></a>
 </p>
@@ -67,6 +67,7 @@ Web 使用独立的运行环境，目前是本地测试版，不承诺复现论�
 
 ### 本地启动
 
+需要 Python 3.11–3.13；包含安全修复的 Pillow 13 不再支持 Python 3.10。
 安装 [uv](https://docs.astral.sh/uv/)，然后执行：
 
 ```bash

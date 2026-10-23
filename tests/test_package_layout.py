@@ -30,10 +30,13 @@ def test_all_bundled_skills_load_from_package_resources() -> None:
     ("name", "vulnerable", "fixed"),
     [
         ("anyio", "4.13.0", "4.14.2"),
-        ("docling", "2.97.0", "2.132.0"),
+        ("certifi", "2026.5.20", "2026.10.19"),
+        ("docling", "2.132.0", "2.142.1"),
+        ("docling-core", "2.99.0", "2.104.0"),
         ("fsspec", "2026.4.0", "2026.6.0"),
+        ("pillow", "12.3.0", "13.0.0"),
         ("pyjwt", "2.13.0", "2.15.1"),
-        ("pypdf", "6.16.1", "6.19.0"),
+        ("pypdf", "6.19.0", "6.21.1"),
         ("urllib3", "2.7.0", "2.8.0"),
     ],
 )
@@ -49,6 +52,7 @@ def test_security_floors_ship_in_package_metadata(name: str, vulnerable: str, fi
 
 def test_dependency_maintenance_preserves_supported_python_versions() -> None:
     supported = SpecifierSet(metadata("docatlas")["Requires-Python"])
-    assert all(version in supported for version in ("3.10", "3.11", "3.12", "3.13"))
+    assert all(version in supported for version in ("3.11", "3.12", "3.13"))
     assert "3.9" not in supported
+    assert "3.10" not in supported
     assert "3.14" not in supported
