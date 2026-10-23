@@ -149,6 +149,11 @@ timeouts and production cancellation behavior are unchanged. Failed browser
 traces are now retained in CI to support investigation if another failure
 occurs. The PR records the final local and hosted verification results.
 
+The full local browser run also exposed a timing-sensitive accessibility check
+that sampled the research drawer during its opacity animation. The test now
+awaits the actual panel and backdrop animations before the unchanged layout
+and Axe assertions. Product styles and accessibility thresholds are unchanged.
+
 This report records the changes and local verification. Publishing the fix
 branch does not close alerts on the default branch; closure must be confirmed
 after merge and GitHub rescanning.
